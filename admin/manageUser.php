@@ -1,7 +1,7 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
-include('functions/list_grid.php');
+// include('functions/list_grid.php');
 ?>
 <div class="content-wrapper">
     <div class="row">

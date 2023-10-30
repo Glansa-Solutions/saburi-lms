@@ -48,12 +48,12 @@
                             <ul class="nav flex-column sub-menu">
                                 <!-- <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li> -->
                                 <li class="nav-item"><a class="nav-link"
-                                href="<?= $mainlink;?>topic">Topics</a></li>
-                                <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>subtopic">Sub
+                                href="<?= $mainlink;?>admin/topic">Topics</a></li>
+                                <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/subtopic">Sub
                                         Topic admin</a></li>
-                                <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>manageCourse">Manage
+                                <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/manageCourse">Manage
                                         Courses</a></li>
-                                <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>manageStudents">Manage
+                                <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/manageStudents">Manage
                                         Students</a></li>
                                 <li class="nav-item"><a class="nav-link"
                                         href="<?=$mainlink?>admin/manageSubscriptions">Subscriptions</a></li>
@@ -64,7 +64,7 @@
                                 <li class="nav-item"><a class="nav-link"
                                         href="<?=$mainlink?>admin/managePayments">Payments</a></li>
                                 <li class="nav-item"><a class="nav-link"
-                                href="<?= $mainlink;?>manageUser">Users</a></li>
+                                href="<?= $mainlink;?>admin/manageUser">Users</a></li>
                             </ul>
                         </div>
                     </li>
@@ -83,46 +83,46 @@
                                 <li class="nav-item"> <a class="nav-link" href="#">MIS</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="#">Daily
                                         Payment</a></li>
-                                <li class="nav-item"> <a class="nav-link"  href="<?= $mainlink;?>pandingSubscriptionReport">Pending
+                                <li class="nav-item"> <a class="nav-link"  href="<?= $mainlink;?>admin/pendingsubreport">Pending
                                         Subscriptions</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>coursesListReport">Courses
+                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/courseslistreport">Courses
                                         List</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>studentsListReport">Students
+                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/studentslistreport">Students
                                         List</a></li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                        href="<?= $mainlink;?>blog">
+                        href="<?= $mainlink;?>admin/blog">
                             <i class="menu-icon mdi mdi-file-document"></i>
                             <span class="menu-title">Blog</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                        href="<?= $mainlink;?>freeResources">
+                        href="<?= $mainlink;?>admin/freeResources">
                             <i class="menu-icon mdi mdi-file-document"></i>
                             <span class="menu-title">Free resources</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                        href="<?= $mainlink;?>affiliate">
+                        href="<?= $mainlink;?>admin/affiliate">
                             <i class="menu-icon mdi mdi-file-document"></i>
                             <span class="menu-title">Affiliate</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                        href="<?= $mainlink;?>career">
+                        href="<?= $mainlink;?>admin/career">
                             <i class="menu-icon mdi mdi-file-document"></i>
                             <span class="menu-title">Career</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                        href="<?= $mainlink;?>corporateGovernance">
+                        href="<?= $mainlink;?>admin/corpogov">
                             <i class="menu-icon mdi mdi-file-document"></i>
                             <span class="menu-title">Corporate Governance</span>
                         </a>
@@ -137,11 +137,11 @@
                         </a>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>forgotPassword">Forgot
+                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/forgotPassword">Forgot
                                         Password</a></li>
                             </ul>
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>changePassword">Change
+                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/changePassword">Change
                                         Password</a></li>
                             </ul>
                         </div>
