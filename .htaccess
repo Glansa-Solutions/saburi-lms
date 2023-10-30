@@ -1,0 +1,40 @@
+RewriteEngine On
+RewriteBase /saburi-lms/
+
+# Remove the .php extension for files that exist
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/]+)$ $1.php [NC,L]
+
+# Handle specific paths
+RewriteRule ^$ index.php [L]
+RewriteRule ^about about.php [L]
+RewriteRule ^contact contact.php [L]
+RewriteRule ^login log_reg.php [L]
+RewriteRule ^admin/dashboard admin/dashboard.php [L]
+RewriteRule ^admin/home admin/home.php [L]
+RewriteRule ^admin/about admin/about.php [L]
+RewriteRule ^admin/affiliate admin/affiliate.php [L]
+RewriteRule ^admin/blog admin/blog.php [L]
+RewriteRule ^admin/career admin/career.php [L]
+RewriteRule ^admin/contactdetails admin/contactdetails.php [L]
+RewriteRule ^admin/corporateGovernance admin/corporateGovernance.php [L]
+RewriteRule ^admin/coursesListReort admin/coursesListReort.php [L]
+RewriteRule ^admin/forgotPassword admin/forgotPassword.php [L]
+RewriteRule ^admin/freeResources admin/freeResources.php [L]
+RewriteRule ^admin/manageBulkRegistration admin/manageBulkRegistration.php [L]
+RewriteRule ^admin/manageCourse admin/manageCourse.php [L]
+RewriteRule ^admin/managePayments admin/managePayments.php [L]
+RewriteRule ^admin/manageStudents admin/manageStudents.php [L]
+RewriteRule ^admin/manageStudentSubscription admin/manageStudentSubscription.php [L]
+RewriteRule ^admin/managesubscription admin/managesubscription.php [L]
+RewriteRule ^admin/privacy admin/privacypolicy.php [L]
+RewriteRule ^admin/studentsListReport admin/studentsListReport.php [L]
+RewriteRule ^admin/subtopic admin/subtopic.php [L]
+RewriteRule ^admin/sustainabledev admin/sustainabledev.php [L]
+RewriteRule ^admin/topic admin/topic.php [L]
+RewriteRule ^admin/test admin/test.php [L]
+
+
+
+
+
