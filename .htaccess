@@ -31,6 +31,7 @@ RewriteRule ^admin/privacy admin/privacypolicy.php [L]
 RewriteRule ^admin/studentsListReport admin/studentsListReport.php [L]
 RewriteRule ^admin/subtopic admin/subtopic.php [L]
 RewriteRule ^admin/sustainabledev admin/sustainabledev.php [L]
+RewriteRule ^admin/terms admin/terms.php [L]
 RewriteRule ^admin/topic admin/topic.php [L]
 RewriteRule ^admin/test admin/test.php [L]
 
