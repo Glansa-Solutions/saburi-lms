@@ -1,7 +1,7 @@
 <?php
 include("includes/header.php");
-?>
 
+?>
 
 <div class="search-wrap">
     <div class="overlay">
@@ -25,7 +25,6 @@ include("includes/header.php");
 </div>
 <!--search overlay end-->
 
-
 <section class="page-header">
     <div class="container">
         <div class="row justify-content-center">
@@ -46,111 +45,56 @@ include("includes/header.php");
         </div>
     </div>
 </section>
+
 <section class="blog section-padding">
     <div class="container">
         <div class="row">
+            <?php
+            if ($fetch_list_blog_query) {
+                // Loop through your blog data to display multiple items
+                while ($row = mysqli_fetch_assoc($fetch_list_blog_query)) {
+                    $id = $row['id'];
+                    $title = $row['blogTitle'];
+                    $writer = $row['writer'];
+                    $image = $row['bannerImage'];
+                    $description = $row['description'];
+                    $createdOn = $row['createdOn'];
+
+                    $short_description = $description;
+                    $is_long_description = false;
+            
+                    // Check if description length exceeds 30 words
+                    $words = explode(" ", $short_description);
+                    if (count($words) > 20) {
+                        $short_description = implode(" ", array_slice($words, 0, 20));
+                        $is_long_description = true;
+                    
+                }
+            ?>
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
-                    <img src="assets/images/blog/news-1.jpg" alt="" class="img-fluid">
+                    <img src="assets/images/blog/<?= $row['bannerImage'] ?>" style="width:100%;"alt="" class="img-fluid">
                     <div class="blog-content">
                         <div class="entry-meta">
-                            <span><i class="fa fa-calendar-alt"></i>May 19, 2020</span>
-                            <span><i class="fa fa-comments"></i>1 comment</span>
+                            <span><i class="fa fa-calendar-alt"></i><?php echo $createdOn; ?></span>
+                            <span></i><?php echo $writer; ?></span>
                         </div>
 
-                        <h2><a href="#">Powerful tips to grow business manner</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
-                            labore et dolore.</p>
-                        <a href="<?= $mainlink?>blog_single" class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>
+                        <h2><?php echo $title; ?></h2>
+                        <p><?= $short_description ?></p>
+                        <?php if ($is_long_description) : ?>
+                        <a href="blog_single.php?id=<?php echo $row['id']; ?>"
+                            class="btn btn-main btn-small read-more-link">
+                            <i class="fa fa-plus-circle mr-2"></i>Read More
+                        </a>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="blog-item">
-                    <img src="assets/images/blog/news-2.jpg" alt="" class="img-fluid">
-                    <div class="blog-content">
-                        <div class="entry-meta">
-                            <span><i class="fa fa-calendar-alt"></i>May 19, 2020</span>
-                            <span><i class="fa fa-comments"></i>1 comment</span>
-                        </div>
-
-                        <h2><a href="#">Powerful tips to grow effective manner</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
-                            labore et dolore.</p>
-                            <a href="<?= $mainlink?>blog_single" class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="blog-item">
-                    <img src="assets/images/blog/news-3.jpg" alt="" class="img-fluid">
-                    <div class="blog-content">
-                        <div class="entry-meta">
-                            <span><i class="fa fa-calendar-alt"></i>May 19, 2020</span>
-                            <span><i class="fa fa-comments"></i>1 comment</span>
-                        </div>
-
-                        <h2><a href="#">Python may be you completed online </a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
-                            labore et dolore.</p>
-                            <a href="<?= $mainlink?>blog_single" class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="col-lg-4 col-md-6">
-                <div class="blog-item">
-                    <img src="assets/images/blog/news-1.jpg" alt="" class="img-fluid">
-                    <div class="blog-content">
-                        <div class="entry-meta">
-                            <span><i class="fa fa-calendar-alt"></i>May 19, 2020</span>
-                            <span><i class="fa fa-comments"></i>1 comment</span>
-                        </div>
-
-                        <h2><a href="#">Powerful tips to grow business manner</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
-                            labore et dolore.</p>
-                        <a href="<?= $mainlink?>blog_single" class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="blog-item">
-                    <img src="assets/images/blog/news-2.jpg" alt="" class="img-fluid">
-                    <div class="blog-content">
-                        <div class="entry-meta">
-                            <span><i class="fa fa-calendar-alt"></i>May 19, 2020</span>
-                            <span><i class="fa fa-comments"></i>1 comment</span>
-                        </div>
-
-                        <h2><a href="#">Powerful tips to grow effective manner</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
-                            labore et dolore.</p>
-                            <a href="<?= $mainlink?>blog_single" class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-6">
-                <div class="blog-item">
-                    <img src="assets/images/blog/news-3.jpg" alt="" class="img-fluid">
-                    <div class="blog-content">
-                        <div class="entry-meta">
-                            <span><i class="fa fa-calendar-alt"></i>May 19, 2020</span>
-                            <span><i class="fa fa-comments"></i>1 comment</span>
-                        </div>
-
-                        <h2><a href="#">Python may be you completed online </a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
-                            labore et dolore.</p>
-                            <a href="<?= $mainlink?>blog_single" class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>
-                    </div>
-                </div>
-            </div>
+            <?php
+                }
+            }
+            ?>
         </div>
     </div>
 </section>
