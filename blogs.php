@@ -57,19 +57,9 @@ include("includes/header.php");
                     $title = $row['blogTitle'];
                     $writer = $row['writer'];
                     $image = $row['bannerImage'];
-                    $description = $row['description'];
-                    $createdOn = $row['createdOn'];
+                    $description = substr($row['description'], 0, 100).'...';
+                    $createdOn = date('M j, Y', strtotime($row['createdOn']));
 
-                    $short_description = $description;
-                    $is_long_description = false;
-            
-                    // Check if description length exceeds 30 words
-                    $words = explode(" ", $short_description);
-                    if (count($words) > 20) {
-                        $short_description = implode(" ", array_slice($words, 0, 20));
-                        $is_long_description = true;
-                    
-                }
             ?>
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
@@ -77,12 +67,12 @@ include("includes/header.php");
                     <div class="blog-content">
                         <div class="entry-meta">
                             <span><i class="fa fa-calendar-alt"></i><?php echo $createdOn; ?></span>
-                            <span></i><?php echo $writer; ?></span>
+                            <span><i class="fa fa-user"></i><?php echo $writer; ?></span>
                         </div>
 
                         <h2><?php echo $title; ?></h2>
-                        <p><?= $short_description ?></p>
-                        <?php if ($is_long_description) : ?>
+                        <p><?= $description ?></p>
+                        <?php if ($description) : ?>
                         <a href="blog_single.php?id=<?php echo $row['id']; ?>"
                             class="btn btn-main btn-small read-more-link">
                             <i class="fa fa-plus-circle mr-2"></i>Read More
