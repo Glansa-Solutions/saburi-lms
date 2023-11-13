@@ -61,16 +61,17 @@ include("includes/header.php");
                     $createdOn = date('M j, Y', strtotime($row['createdOn']));
 
             ?>
+            <a href="blog_single.php?id=<?php echo $row['id']; ?>">
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
-                    <img src="assets/images/blog/<?= $row['bannerImage'] ?>" style="width:100%;"alt="" class="img-fluid">
+                    <a href="blog_single.php?id=<?php echo $row['id']; ?>"><img src="assets/images/blog/<?= $row['bannerImage'] ?>" style="width:100%;"alt="" class="img-fluid"></a>
                     <div class="blog-content">
                         <div class="entry-meta">
                             <span><i class="fa fa-calendar-alt"></i><?php echo $createdOn; ?></span>
                             <span><i class="fa fa-user"></i><?php echo $writer; ?></span>
                         </div>
 
-                        <h2><?php echo $title; ?></h2>
+                        <h2><a href="blog_single.php?id=<?php echo $row['id']; ?>"><?php echo $title; ?></a></h2>
                         <p><?= $description ?></p>
                         <?php if ($description) : ?>
                         <a href="blog_single.php?id=<?php echo $row['id']; ?>"
@@ -81,6 +82,7 @@ include("includes/header.php");
                     </div>
                 </div>
             </div>
+            </a>
             <?php
                 }
             }
