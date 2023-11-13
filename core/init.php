@@ -1,7 +1,19 @@
 
 <?php
 session_start();
+<<<<<<< HEAD
+if(isset($_GET["role"]) && $_GET["role"] == 'student') {
+    $_SESSION['role'] = 'student';
+    $role = $_SESSION['role'];
+}
+if(isset($_GET["role"]) && $_GET["role"] == 'company') {
+    $_SESSION['role'] = 'company';
+    $role = $_SESSION['role'];
+}
+
+=======
    
+>>>>>>> 742bfba142e9cef23af2e406ea71504090f57703
 require "db_config.php";
 require "functions.php";
 require "homeFunction.php";

@@ -1,25 +1,6 @@
-<?php include("includes/header.php");  ?>
+<?php include("includes/header.php");?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<style>
-.nav-pills .nav-link.active,
-.nav-pills .show>.nav-link {
-    color: #fff;
-    background-color: #E9770E;
-    border-radius: 0px;
-}
-
-.tab-content {
-    border: 1px solid #ededed;
-    padding: 5%;
-}
-
-.login_button,
-.register_button {
-    border-radius: 0px;
-    background-color: #213975;
-}
-</style>
 <div class="search-wrap">
     <div class="overlay">
         <form action="" class="search-form">
@@ -40,12 +21,15 @@
         </form>
     </div>
 </div>
+
 <section class="page-header">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="page-header-content">
-                    <h1>My Account</h1>
+                    <h1><?= $role ?> Account
+                        
+                    </h1>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
                             <a href="#">Home</a>
@@ -135,18 +119,17 @@
                                         <option value="Choose Country..">Choose Country..</option>
                                         <!-- <option> -->
                                         <?php
-                                // $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");
-                                    if($fetchCountries){
-                                        while($row = mysqli_fetch_assoc($fetchCountries))
-                                        {
-                                            ?>
-                                        <option value="<?= $row['id'] ?>">
-                                            <?= $row['name'] ?>
-                                        </option>
-                                        <?php
+                                        // $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");
+                                        if ($fetchCountries) {
+                                            while ($row = mysqli_fetch_assoc($fetchCountries)) {
+                                                ?>
+                                                <option value="<?= $row['id'] ?>">
+                                                    <?= $row['name'] ?>
+                                                </option>
+                                                <?php
+                                            }
                                         }
-                                    }
-                                ?>
+                                        ?>
                                         <!-- </option> -->
 
 
@@ -203,46 +186,46 @@
 </section>
 
 <script>
-$(document).ready(function() {
-    $('#countryList').on('change', function() {
-        var countryId = $(this).val();
-        // console.log(countryId);
-        if (countryId === "Choose Country..") { // Correct the condition
-            $('#stateList').empty();
-            $('#stateList').append($('<option>', {
-                value: "choose_state",
-                text: "Choose State"
-            }));
-        }
-        $.ajax({
-            method: 'GET', // Use the GET method for the request
-            url: 'core/login_register.php',
-            data: {
-                selectedCountryId: countryId // Pass the selected countryId as a parameter
-            },
-            success: function(response) {
-                // Handle the response from the server if needed
-                var states = JSON.parse(response);
+    $(document).ready(function () {
+        $('#countryList').on('change', function () {
+            var countryId = $(this).val();
+            // console.log(countryId);
+            if (countryId === "Choose Country..") { // Correct the condition
                 $('#stateList').empty();
-                // console.log(states);
-                // var c_id =response;
-                for (var i = 0; i < states.length; i++) {
-                    $('#stateList').append($('<option>', {
-                        value: states[i]
-                            .id, // Assuming there is an 'id' field in your states
-                        text: states[i]
-                            .name // Assuming there is a 'state_name' field in your states
-                    }));
-                }
-
-            },
-            error: function(xhr, status, error) {
-                // Handle errors if the AJAX request fails
-                console.error("AJAX request failed: " + error);
+                $('#stateList').append($('<option>', {
+                    value: "choose_state",
+                    text: "Choose State"
+                }));
             }
+            $.ajax({
+                method: 'GET', // Use the GET method for the request
+                url: 'core/login_register.php',
+                data: {
+                    selectedCountryId: countryId // Pass the selected countryId as a parameter
+                },
+                success: function (response) {
+                    // Handle the response from the server if needed
+                    var states = JSON.parse(response);
+                    $('#stateList').empty();
+                    // console.log(states);
+                    // var c_id =response;
+                    for (var i = 0; i < states.length; i++) {
+                        $('#stateList').append($('<option>', {
+                            value: states[i]
+                                .id, // Assuming there is an 'id' field in your states
+                            text: states[i]
+                                .name // Assuming there is a 'state_name' field in your states
+                        }));
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors if the AJAX request fails
+                    console.error("AJAX request failed: " + error);
+                }
+            });
         });
     });
-});
 </script>
 <!-- Add Bootstrap JS and Popper.js scripts -->
-<?php include("includes/footer.php");  ?>
+<?php include("includes/footer.php"); ?>
