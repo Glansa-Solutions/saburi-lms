@@ -7,7 +7,7 @@
                 <div class="col-md-12 d-flex">
                     <div class="col-md-6 text-center">
                         <div class="student_button">
-                            <a href="<?= $mainlink?>account">
+                            <a href="<?= $mainlink?>account?role=student">
                                 <div class="card student_card">
                                     <div class="card-body">
                                         <h1 name="student" id="student">STUDENT</h1>
@@ -19,7 +19,7 @@
                     </div>
                     <div class="col-md-6 text-center">
                         <div class="company_button">
-                            <a href="<?= $mainlink?>account">
+                            <a href="<?= $mainlink?>account?role=company">
                                 <div class="card company_card">
                                     <div class="card-body">
                                         <h1>COMPANY</h1>

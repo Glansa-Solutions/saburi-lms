@@ -5621,3 +5621,22 @@ Home New 8
     opacity: 1;
 }
 /* Login_reg css End */
+/* account css start */
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #E9770E;
+    border-radius: 0px;
+}
+
+.tab-content {
+    border: 1px solid #ededed;
+    padding: 5%;
+}
+
+.login_button,
+.register_button {
+    border-radius: 0px;
+    background-color: #213975;
+}
+/* account css End */
