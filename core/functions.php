@@ -47,7 +47,7 @@ $query = "SELECT courses.* FROM courses
                 <span class="price">
                     <ins>
                         <span class="woocommerce-Price-amount amount">
-                            <span class="woocommerce-Price-currencySymbol">$</span>' . $courseCost . '
+                            <span class="woocommerce-Price-currencySymbol">₹</span>' . $courseCost . '
                         </span>
                     </ins>
                 </span>

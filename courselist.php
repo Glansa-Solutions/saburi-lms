@@ -29,14 +29,14 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="page-header-content">
-                    <h1>Shop List</h1>
+                    <h1>Course List</h1>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
                             <a href="#">Home</a>
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">
-                            Shop List
+                            Course List
                         </li>
                     </ul>
                 </div>
@@ -48,91 +48,9 @@
 
 <main class="site-main page-wrapper  woocommerce">
     <!--product section start-->
-    <section class="space-3">
+    <section class="space-2">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mb-4 mb-lg-0">
-                    <div class="section-title">
-                        <h2 class="title d-block text-left-sm">Shop</h2>
-                        <p class="woocommerce-result-count"> Showing 1–16 of 17 results</p>
-                        <form class="woocommerce-ordering float-lg-right" method="get">
-                            <select name="orderby" class="orderby form-control" aria-label="Shop order">
-                                <option value="" selected="selected">Default sorting</option>
-                                <option value="">Sort by popularity</option>
-                                <option value="">Sort by average rating</option>
-                                <option value="">Sort by latest</option>
-                                <option value="">Sort by price: low to high</option>
-                                <option value="">Sort by price: high to low</option>
-                            </select>
-                            <input type="hidden" name="paged" value="1">
-                        </form>
-                    </div>
-                    
-                    <ul class="products columns-3">
-                        <?php
-                        foreach ($query as $product) {
-                            $id=$product['id'];
-                            $courseImage = $product['bannerImage'];
-                            $courseName = $product['courseName'];
-                            $courseCost = $product['courseCost'];
-                        ?>
-                        <li class="product" style="margin-right:2%;">
-                            <div class="product-wrap">
-                                <a href="course_single.php?id=<?= $id ?>">
-                                    <img src="uploads/images/<?= $courseImage ?>" alt="">
-                                </a>
-                                <div class="product-btn-wrap">
-                                    <!-- <a href="#" class="button product_type_simple add_to_cart_button ajax_add_to_cart" id="cart-button-<?= $id ?>">
-                <i class="fa fa-shopping-basket"></i>
-            </a> -->
-                                    <a href="course_single.php?id=<?= $id ?>" class="button product_type_simple add_to_cart_button ajax_add_to_cart"
-                                        data-product-id="<?= $id ?>" data-product-name="<?= $courseName ?>"
-                                        data-product-price="<?= $courseCost ?>"
-                                        data-product-image="<?= $courseImage ?>">
-                                        <i class="fa fa-shopping-basket"></i>
-                                    </a>
-                                    <a href="" class="button wish-list"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                            <div class="woocommerce-product-title-wrap">
-                                <h2 class="woocommerce-loop-product__title">
-                                    <a href="#"><?= $courseName ?></a>
-                                </h2>
-                            </div>
-                            <span class="price">
-                                <ins>
-                                    <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">$</span><?= $courseCost ?>
-                                    </span>
-                                </ins>
-                            </span>
-                            <div class="star-rating"></div>
-                        </li>
-
-                        <?php
-    }
-    ?>
-
-                    </ul>
-
-                    <?php if ($totalCourses > 0) : ?>
-                    <!-- Display pagination only if there are courses to show -->
-                    <nav class="woocommerce-pagination">
-                        <ul class="page-numbers">
-                            <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
-                            <li>
-                                <?php if ($page == $currentPage) : ?>
-                                <span aria-current="page" class="page-numbers current"><?= $page ?></span>
-                                <?php else : ?>
-                                <a class="page-numbers" href="?page=<?= $page ?>"><?= $page ?></a>
-                                <?php endif; ?>
-                            </li>
-                            <?php endfor; ?>
-                        </ul>
-                    </nav>
-                    <?php endif; ?>
-                </div>
-
                 <!-- product Sidebar start-->
                 <div class="col-lg-4 widget-area ">
                     <section id="woocommerce_product_search-2" class="widget woocommerce widget_product_search">
@@ -147,33 +65,32 @@
                     </section>
 
                     <section id="woocommerce_product_categories-2" class="widget woocommerce widget_product_categories">
-                        <h3 class="widget-title">Product categories</h3>
+                        <h3 class="widget-title">Course Topics</h3>
                         <div class="edutim-course-topic">
                             <div class="accordion" id="accordionExample">
                                 <?php $index = 0; ?>
-                                <?php foreach ($fetch_list_topic_query as $row) : ?>
+                                <?php foreach ($fetch_list_topic_query as $row): ?>
                                 <div class="card">
                                     <div class="card-header" id="heading<?= $index ?>">
                                         <h2 class="mb-0">
                                             <button class="btn-block text-left curriculmn-title-btn" type="button"
                                                 data-toggle="collapse" data-target="#collapse<?= $row['Id'] ?>">
-                                                <h4 class="curriculmn-title"><?= $row['topicName'] ?></h4>
+                                                <h4 class="curriculmn-title">
+                                                    <?= $row['topicName'] ?>
+                                                </h4>
                                             </button>
                                         </h2>
                                     </div>
                                     <div id="collapse<?= $row['Id'] ?>" class="collapse"
                                         data-parent="#accordionExample">
                                         <div class="course-lessons">
-                                            <?php foreach ($fetch_list_subtopic_query as $subtopic) : ?>
-                                            <?php if ($subtopic['topicId'] == $row['Id']) : ?>
+                                            <?php foreach ($fetch_list_subtopic_query as $subtopic): ?>
+                                            <?php if ($subtopic['topicId'] == $row['Id']): ?>
                                             <div class="single-course-lesson">
                                                 <div class="course-topic-lesson">
-                                                    <!-- <i class="fab fa-youtube"></i> -->
-
-                                                    <!-- <a href="<?= $subtopic['id']; ?>"><?= $subtopic['subTopicName'].$subtopic['id'] ?></a> -->
-                                                    <a
-                                                        href="core/functions.php?subtopicId=<?= $subtopic['id']; ?>"><?= $subtopic['subTopicName'] ?></a>
-
+                                                    <a href="core/functions.php?subtopicId=<?= $subtopic['id']; ?>">
+                                                        <?= $subtopic['subTopicName'] ?>
+                                                    </a>
                                                 </div>
                                             </div>
                                             <?php endif; ?>
@@ -220,6 +137,94 @@
                     </section>
                 </div>
                 <!-- product section end-->
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <div class="section-title">
+                        <h2 class="title d-block text-left-sm">Courses</h2>
+                        <p class="woocommerce-result-count"> Showing 1–16 of 17 results</p>
+                        <form class="woocommerce-ordering float-lg-right" method="get">
+                            <select name="orderby" class="orderby form-control" aria-label="Shop order">
+                                <option value="" selected="selected">Default sorting</option>
+                                <option value="">Sort by popularity</option>
+                                <option value="">Sort by average rating</option>
+                                <option value="">Sort by latest</option>
+                                <option value="">Sort by price: low to high</option>
+                                <option value="">Sort by price: high to low</option>
+                            </select>
+                            <input type="hidden" name="paged" value="1">
+                        </form>
+                    </div>
+
+                    <ul class="products columns-3">
+                        <?php
+                        foreach ($query as $product) {
+                            $id = $product['id'];
+                            $courseImage = $product['bannerImage'];
+                            $courseName = $product['courseName'];
+                            $courseCost = $product['courseCost'];
+                            ?>
+                        <li class="product" style="margin-right:2%;">
+                            <div class="product-wrap">
+                                <a href="course_single.php?id=<?= $id ?>">
+                                    <img src="uploads/images/<?= $courseImage ?>" alt="">
+                                </a>
+                                <div class="product-btn-wrap">
+                                    <a href="course_single.php?id=<?= $id ?>"
+                                        class="button product_type_simple add_to_cart_button ajax_add_to_cart"
+                                        data-product-id="<?= $id ?>" data-product-name="<?= $courseName ?>"
+                                        data-product-price="<?= $courseCost ?>"
+                                        data-product-image="<?= $courseImage ?>">
+                                        <i class="fa fa-shopping-basket"></i>
+                                    </a>
+                                    <a href="" class="button wish-list"><i class="fa fa-heart"></i></a>
+                                </div>
+                            </div>
+                            <div class="woocommerce-product-title-wrap">
+                                <h2 class="woocommerce-loop-product__title">
+                                    <a href="#">
+                                        <?= $courseName ?>
+                                    </a>
+                                </h2>
+                            </div>
+                            <span class="price">
+                                <ins>
+                                    <span class="woocommerce-Price-amount amount">
+                                        <span class="woocommerce-Price-currencySymbol">₹</span>
+                                        <?= $courseCost ?>
+                                    </span>
+                                </ins>
+                            </span>
+                            <div class="star-rating"></div>
+                        </li>
+
+                        <?php
+                        }
+                        ?>
+
+                    </ul>
+
+                    <?php if ($totalCourses > 0): ?>
+                    <!-- Display pagination only if there are courses to show -->
+                    <nav class="woocommerce-pagination">
+                        <ul class="page-numbers">
+                            <?php for ($page = 1; $page <= $totalPages; $page++): ?>
+                            <li>
+                                <?php if ($page == $currentPage): ?>
+                                <span aria-current="page" class="page-numbers current">
+                                    <?= $page ?>
+                                </span>
+                                <?php else: ?>
+                                <a class="page-numbers" href="?page=<?= $page ?>">
+                                    <?= $page ?>
+                                </a>
+                                <?php endif; ?>
+                            </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </nav>
+                    <?php endif; ?>
+                </div>
+
+
             </div>
         </div>
     </section>
@@ -228,26 +233,7 @@
 
 </main>
 
-<section class="cta-2">
-    <div class="container">
-        <div class="row align-items-center subscribe-section ">
-            <div class="col-lg-6">
-                <div class="section-heading white-text">
-                    <span class="subheading">Newsletter</span>
-                    <h3>Join our community of students</h3>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="subscribe-form">
-                    <form action="#">
-                        <input type="text" class="form-control" placeholder="Email Address">
-                        <a href="#" class="btn btn-main">Subscribe<i class="fa fa-angle-right ml-2"></i> </a>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 // Get all subtopic links
@@ -278,9 +264,10 @@ subtopicLinks.forEach(function(link) {
         });
     });
 });
-</script>
 
-<script>
+$("#target").on("click", function() {
+    alert("Handler for `click` called.");
+});
 // AJAX request to add a product to the cart
 $('.add_to_cart_button').click(function(e) {
     e.preventDefault();
