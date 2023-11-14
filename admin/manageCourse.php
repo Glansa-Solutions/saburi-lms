@@ -1,7 +1,6 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
-include('functions/list_grid.php');
 // include('functions/get_subtopics.php');
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

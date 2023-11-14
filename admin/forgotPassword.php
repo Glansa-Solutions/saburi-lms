@@ -1,4 +1,5 @@
-<?php include('config/config.php') ?>
+<?php include("../core/init.php"); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,21 +9,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Star Admin2 </title>
   <!-- plugins:css -->
-  <link rel="stylesheet" href="vendors/feather/feather.css">
-  <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
-  <link rel="stylesheet" href="vendors/ti-icons/css/themify-icons.css">
-  <link rel="stylesheet" href="vendors/typicons/typicons.css">
-  <link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
-  <link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="assets/vendors/feather/feather.css">
+  <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="assets/vendors/typicons/typicons.css">
+  <link rel="stylesheet" href="assets/vendors/simple-line-icons/css/simple-line-icons.css">
+  <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
   <!-- <link rel="stylesheet" href="../fonts/css/"> -->
   <link rel="stylesheet" href="./fonts/css/all.css">
   <!-- endinject -->
   <!-- Plugin css for this page -->
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="css/vertical-layout-light/style.css">
+  <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
+  <link rel="shortcut icon" href="assets/images/favicon.png" />
 </head>
 
 <body>
@@ -46,7 +47,7 @@
                 </div> -->
                 <div class="mt-3">
                   <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" 
-                  href="<?= $mainlink;?>login">Submit</a>
+                  href="<?= $mainlink;?>admin/login">Submit</a>
                 </div>
                 <!-- <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
@@ -63,7 +64,7 @@
                   </button>
                 </div> -->
                 <div class="text-center mt-4 fw-light">
-                <span class="fa-solid fa-angle-left "></span> <a href="<?= $mainlink;?>login" class="text-primary" style="text-decoration: none">Back to Login</a>
+                <span class="fa-solid fa-angle-left "></span> <a href="<?= $mainlink;?>admin/" class="text-primary" style="text-decoration: none">Back to Login</a>
                 </div>
               </form>
             </div>
@@ -76,17 +77,17 @@
   </div>
   <!-- container-scroller -->
   <!-- plugins:js -->
-  <script src="vendors/js/vendor.bundle.base.js"></script>
+  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page -->
-  <script src="vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
   <!-- End plugin js for this page -->
   <!-- inject:js -->
-  <script src="js/off-canvas.js"></script>
-  <script src="js/hoverable-collapse.js"></script>
-  <script src="js/template.js"></script>
-  <script src="js/settings.js"></script>
-  <script src="js/todolist.js"></script>
+  <script src="assets/js/off-canvas.js"></script>
+  <script src="assets/js/hoverable-collapse.js"></script>
+  <script src="assets/js/template.js"></script>
+  <script src="assets/js/settings.js"></script>
+  <script src="assets/js/todolist.js"></script>
   <!-- endinject -->
 </body>
 

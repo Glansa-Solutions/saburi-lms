@@ -1,7 +1,7 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
-include('functions/list_grid.php');
+include('../core/listgrid.php');
 ?>
 <div class="content-wrapper">
     <div class="row">
@@ -9,7 +9,7 @@ include('functions/list_grid.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Topic Details</h4>
-                    <form class="forms-sample row" action="functions/functions" method="POST">
+                    <form class="forms-sample row" action="./core/functions" method="POST">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Topic Name</label>
@@ -32,6 +32,7 @@ include('functions/list_grid.php');
                         <thead>
                             <tr>
                                 <th>S.no</th>
+                                <th hidden></th>
                                 <th>Topic Name</th>
                                 <th>Actions</th>
                             </tr>
@@ -43,16 +44,18 @@ include('functions/list_grid.php');
                                 $i = 1;
                                 while($row=mysqli_fetch_assoc($fetch_list_topic_query))
                                 {
-                                    $topic_name=$row['topicName'];
+                                    $id = $row['Id'];
+                                    $topic_name = $row['topicName'];
                                     ?>
                             <tr>
                                 <td><?= $i;?></td>
+                                <td class="edit_id" hidden><?= $id;?></td>
                                 <td><?= $topic_name; ?></td>
                                 <td>
                                     <button type="submit" class="btn btn-primary me-2 p-2 edit-button"
                                         data-bs-toggle="modal" data-bs-target="#editmodal"
-                                        data-id="<?= $row['Id']; ?>">Edit</button>
-                                    <button class="btn btn-danger p-2 delete_topic" data-id="<?= $row['Id']; ?>">Delete</button>
+                                        data-id="<?= $id; ?>">Edit</button>
+                                        <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal"  data-id="<?= $id; ?>">Delete</button>
                                 </td>
                             </tr>
                             <?php
@@ -65,138 +68,105 @@ include('functions/list_grid.php');
                         </tbody>
                     </table>
                 </div>
-
-                <div class="modal fade" id="editmodal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <form class="forms-sample">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Sub Topics</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <div class="col-md-12 grid-margin stretch-card">
-
-                                        <div class="form col-md-12">
-                                            <div class="form-group">
-                                                <!-- <input type="text" > -->
-
-                                                <label for="name">Topic Name</label>
-                                                <input type="hidden" class="form-control" name="name"
-                                                    placeholder="Enter Name" id="editrow">
-                                                <input type="text" class="form-control" name="subtopic" id="topic_name">
-                                            </div>
-                                        </div>
-
-                                        <!-- </div>
-                                    </div> -->
-                                    </div>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary update_tpc" name="update_tpc" id="update_topic">Update
-                                        Changes</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
             </div>
+         </div>
+                            
+
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBlogModalLabel">Edit Blog</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="../core/functions.php">
+              <div class="modal-body">
+                <!-- Form for editing the blog content -->
+                
+                    <input type ="tect" id="topicId" name="topicId">
+                      <div class="form-group">
+                        <label for="editTitle">Topic Name</label>
+                        <input type="text" class="form-control" id="topic_name" name="topic_name">
+                    </div>
+                    
+                
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="saveChanges" name="update_topic">Save Changes</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
 
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="delete_blog.php" method="POST">
+
+            <div class="modal-body">
+
+                <input type="text" id="delete_id" name="delete_id">
+                Are you sure you want to delete this record?
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-danger" name="delete_topic" id="delete_topic">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+          
 <script>
 $(document).ready(function() {
     $('.edit-button').on('click', function() {
-        var rowid = $(this).data('id');
-        var editRow = $('#editrow').val(rowid);
+        var topicId = $(this).closest('tr').find('.edit_id').text();
+        console.log(topicId);
         $.ajax({
-            url: 'functions/dataget.php',
-            method: 'GET',
-            data: {
-                topic_row_id: rowid
-            },
-            success: function(data) {
-
-                var topic_data =JSON.parse(data);
-                console.log(topic_data);
+        type: 'POST',
+        url: './core/functions.php', // Replace with the URL of your server-side script
+        data: { 
+            'checking_topic_btn' : true,
+             'topicId': topicId, },
+        // dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            $.each(response, function (key, value)
+            {
 
                 // Populate the input elements with data received from the server
-                $('#topic_name').val(topic_data.topic_name);
-                // You can process the data returned from the server here.
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("AJAX Error: " + errorThrown);
-                // Handle the error appropriately, e.g., display an error message.
-            }
-        });
+                $('#topic_name').val(value['topicName']);
+                $('#topicId').val(value['Id']); 
+                $('#editmodal').modal('show'); 
+            });
+           
+        }
     });
-
-    $('#update_topic').on('click',function(){
-        var topic_id = $('#editrow').val();
-        var topic_name = $('#topic_name').val();
-        // alert(topic_id);
-        $.ajax({
-            url:'functions/datapost.php',
-            method: 'POST',
-            data:{
-                topic_name_update : topic_name,
-                topic_row_id: topic_id
-            },
-            success:function(data){
-                console.log(data);
-                window.location.reload();
-            }
-        });
-
     });
-    // $('.delete_topic').on('click',function(){
-    //     var delete_topic_id = $(this).data('id');
-    //     // alert(delete_topic_id);
-    //     $.ajax({
-    //         url:'functions/datapost.php',
-    //         method: 'POST',
-    //         data:{
-    //             delete_topic_id : delete_topic_id
-    //         },
-    //         success:function(data){
-    //             console.log(data);
-    //             // window.location.reload();
-    //         }
-    //     });
+});
 
-    // });
+</script>
+<script>
 
-    // $('.update_tpc').on('click', function() {
-    //     var tp_id = $('#editrow').val();
-    //     var tp_id_name = $('#topic_name').val();
+$(document).ready(function() {
+    $('.delete-button').on('click', function(e) {
+        e.preventDefault();
+        var topicId = $(this).closest('tr').find('.edit_id').text();
 
-    //     console.log("Topic Name: " + tp_id + ", Sub Topic Name: " + tp_id_name);
-    //     $.ajax({
-    //         url: 'functions/modals_data.php',
-    //         data: {
-    //             updated_topic_name: tp_id_name,
-    //             updated_topic_id: tp_id,
-    //         },
-    //         method: 'POST',
-    //         success: function(data) {
-    //             console.log("Response from server:", data);
-
-    //             // Reload the page after a successful update
-    //             if (data.success) {
-    //                 location.href = location.href + '?refresh=' + new Date().getTime();
-    //             }
-    //         }
-    //     });
-    // });
-
+        console.log(topicId);
+        $('#delete_id').val(topicId);
+        $('#deleteModal').modal('show'); 
+    
+    });
 });
 </script>
 <?php
