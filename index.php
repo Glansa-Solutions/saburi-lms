@@ -744,7 +744,7 @@ include("includes/header.php");
             echo '</div>';
             echo '<h2><a href="#">' . $row['blogTitle'] . '</a></h2>';
             echo '<p>' . substr($row['description'], 0, 100) . '...</p>';
-            echo '<a href="#" class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>';
+            echo '<a href="'.$mainlink.'"blog_single/"'.$row['writer'].' class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>';
             echo '</div>';
             echo '</div>';
             echo '</div>';
