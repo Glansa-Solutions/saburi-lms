@@ -92,12 +92,12 @@ if (isset($_GET['id'])) {
                         <h4 class="mt-4"><?= $title?></h4>
                         <p><?= substr($careerData['Description'], 0, 100)?></p>
                     </div>
-
                     <div class="single-tags">
                         <a class="btn" href="#" data-toggle="modal" data-target="#exampleModal">Apply</a>
                     </div>
+
                     <!-- <blockquote> -->
-                    <div class="bg-success p-4 rounded">
+                    <!-- <div class="bg-success p-4 rounded">
                         <h3 class="mt-4 text-white">Requirements:</h3>
                         <p class="text-white">▶ At least 2 years of experience building mobile apps using React
                             Native
@@ -107,10 +107,8 @@ if (isset($_GET['id'])) {
                         <p class="text-white">▶ XCode and Android Studio experience is a must</p>
                         <p class="text-white">▶ Android (Java) and iOS (Swift) background preferred</p>
                         <p class="text-white">▶ Intermediate to advanced level CSS</p>
-                        <div class="single-tags">
-                            <a class="btn text-white m-0" href="#">Apply</a>
-                        </div>
-                    </div>
+                        
+                    </div> -->
                     <!-- </blockquote> -->
 
                 </div>
@@ -170,10 +168,12 @@ if (isset($_GET['id'])) {
                 <div class="container">
                     <form method="POST" class="w-100 rounded-1 p-4 border bg-white" action="../functions/functions.php"
                         enctype="multipart/form-data">
-                        <input required name="CareerId" type="hidden" value="<?= $id ?>"class="form-control" placeholder="Enter Your Name" />
+                        <input required name="CareerId" type="hidden" value="<?= $id ?>" class="form-control"
+                            placeholder="Enter Your Name" />
                         <label class="d-block mb-4">
                             <span class="form-label d-block">Your name</span>
-                            <input required name="name" type="text" class="form-control" placeholder="Enter Your Name" />
+                            <input required name="name" type="text" class="form-control"
+                                placeholder="Enter Your Name" />
                         </label>
 
                         <label class="d-block mb-4">
