@@ -45,6 +45,7 @@ include("includes/header.php");
         </div>
     </div>
 </section>
+
 <section class="section-padding course-grid">
     <div class="container">
         <div class="row align-items-center justify-content-center">
@@ -55,87 +56,56 @@ include("includes/header.php");
                 </div>
             </div>
         </div>
-
         <div class="text-center">
             <ul class="course-filter">
                 <li class="active"><a href="#" data-filter="*"> All</a></li>
-                <li><a href="#" data-filter=".cat1">Classroom Management</a></li>
-                <li><a href="#" data-filter=".cat2">Inclusive Education</a></li>
-                <li><a href="#" data-filter=".cat3">Problem-Solving</a></li>
-                <li><a href="#" data-filter=".cat4">Teamwork</a></li>
-                <li><a href="#" data-filter=".cat5">Teching new tech</a></li>
+                <?php
+                $counter = 0;
+                    if ($categoryQuery->num_rows > 0) {
+                    while ($row = $categoryQuery->fetch_assoc()) {
+                        echo '<li><a href="#" data-filter=".'.$row['id'].'">' . $row['name']. '</a></li>';
+                    }
+                } else {
+                    echo '<p>No Subtopics found.</p>';
+                }
+                ?>
             </ul>
         </div>
-
+        
         <div class="row course-gallery ">
-            <div class="course-item cat1 cat3 col-lg-4 col-md-6">
-                <div class="course-block">
-                    <div class="course-img">
-                        <img src="assets/images/course/course3.jpg" alt="" class="img-fluid">
-                    </div>
+            <?php
+                if ($careerQuery->num_rows > 0) {   
+                              
+                while ($row = $careerQuery->fetch_assoc()) {
+                    $id=$row['Id']; 
+                    echo '<div class="course-item '.$row['categoryId'].' col-lg-4 col-md-6">';
+                    echo '<div class="course-block">';
+                    echo '<div class="course-content">';
+                    echo '<div class="course-price ">'.$row['Title'].'</div>';
+                    echo 'Experience:'.$row['Experience'].'';
+                    echo '<div class="rating">';
+                    echo '</div>';
+                    echo '<p>'. substr($row['Description'], 0, 100) .'</p>';
+                    echo '<div class="course-footer d-lg-flex align-items-center">';
+                    // echo '<div class="course-meta">';
+                    // echo '</div>';
 
-                    <div class="course-content">
-
-                        <h4><a href="#">Creating a Positive Learning Environment</a></h4>
-
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, alias.</p>
-
-                        <div class="course-footer d-lg-flex align-items-center ">
-
-
-                            <div class="buy-btn"><a href="<?= $mainlink ?>careerName"
-                                    class="btn btn-main-2 btn-small">Apply</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="course-item cat2 cat4 col-lg-4 col-md-6">
-                <div class="course-block">
-                    <div class="course-img">
-                        <img src="assets/images/course/course2.jpg" alt="" class="img-fluid">
-                    </div>
-
-                    <div class="course-content">
-
-                        <h4><a href="#">Creating a Positive Learning Environment</a></h4>
-
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, alias.</p>
-
-                        <div class="course-footer d-lg-flex align-items-center ">
-
-                            <div class="buy-btn"><a href="<?= $mainlink ?>careerName"
-                                    class="btn btn-main-2 btn-small">Apply</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="course-item cat5 cat2 col-lg-4 col-md-6">
-                <div class="course-block">
-                    <div class="course-img">
-                        <img src="assets/images/course/course1.jpg" alt="" class="img-fluid">
-                    </div>
-
-                    <div class="course-content">
-
-                        <h4><a href="#">Creating a Positive Learning Environment</a></h4>
-
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, alias.</p>
-
-                        <div class="course-footer d-lg-flex align-items-center ">
-
-
-                            <div class="buy-btn"><a href="<?= $mainlink ?>careerName"
-                                    class="btn btn-main-2 btn-small">Apply</a></div>
-                        </div>
-                    </div>
-                </div>
+                    echo '<div class="buy-btn text-center"><a href="careerName.php?id=' . $id . '" class="btn btn-main-2 btn-small">Apply</a></div>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    
+                }
+            } else {
+                echo '<p>No Courses found.</p>';
+            }
+            ?>
             </div>
         </div>
-    </div>
-    <!--course-->
-</section>
+        </div>
+
+
 <?php
 include("includes/footer.php");
 ?>
