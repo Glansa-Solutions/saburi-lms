@@ -1,6 +1,4 @@
-<?php include("includes/header.php");
-
-?>
+<?php include("includes/header.php"); ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -30,7 +28,8 @@
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="page-header-content">
-                    <h1><?= $role ?> Account
+                    <h1>
+                        <?= $role ?> Account
 
                     </h1>
                     <ul class="list-inline mb-0">
@@ -48,12 +47,10 @@
     </div>
 </section>
 <section>
-    <?php 
-    if($role=="company")
-    {
+    <?php
+    if ($role == "company") {
         include("company.php");
-    }else
-    {
+    } else {
         include("student.php");
     }
     ?>
