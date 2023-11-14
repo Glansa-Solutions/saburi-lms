@@ -17,7 +17,7 @@ require "homeFunction.php";
 require "blogsFunction.php";
 require "data_list_grid.php";
 require "login_register.php";
-require "careerFunction.php";
+// require "careerFunction.php";
 
 
 
