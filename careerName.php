@@ -1,6 +1,10 @@
 <?php
 include("includes/header.php");
+
+
 ?>
+
+<!-- Rest of your HTML code here -->
 
 <div class="search-wrap">
     <div class="overlay">
@@ -61,21 +65,15 @@ include("includes/header.php");
 
                     <div class="single-post-content">
                         <div class="post-meta mt-4">
-                            <span class="post-date"><i class="fa fa-calendar-alt mr-2"></i>Current date</span>
+                            <span class="post-date"><i class="fa fa-calendar-alt mr-2"></i><?= $createdOn?></span>
                             <span><a href="#" class="post-author"><i class="fa fa-user mr-2"></i>Admin</a></span>
                         </div>
-                        <h4 class="mt-4">SEO is a Cost-Effective Advertising Strategy</h4>
-                        <p>Some SEO-related tools such as the Google Keyword Planner and Google Analytics provide
-                            quantitative data to help you understand your market, analyze the trends, and know your
-                            competitors’ standings. It helps you identify popular and valuable keywords so you can
-                            decide how to structure or revise your content. It also gives you insights on your market’s
-                            behavior such as location, times of activity, frequency of searches, technologies used,
-                            product preferences, etc. All these metrics are useful in helping you get to know your
-                            audience.</p>
+                        <h4 class="mt-4"><?= $title?></h4>
+                        <p><?= substr($careerData['Description'], 0, 100)?></p>
                     </div>
 
                     <div class="single-tags">
-                        <a class="btn" href="#">Apply</a>
+                        <a class="btn" href="#" data-toggle="modal" data-target="#exampleModal">Apply</a>
                     </div>
                     <!-- <blockquote> -->
                     <div class="bg-success p-4 rounded">
@@ -105,27 +103,29 @@ include("includes/header.php");
                     <div class="widget widget_news">
                         <h4 class="widget-title">Latest Job Posts</h4>
                         <ul class="recent-posts">
-                            <div class="widget-post-thumb">
-                                <a href="#"><img src="assets/images/blog/post-thumb-2.jpg" alt="" class="img-fluid"></a>
-                            </div>
-                            <div class="widget-post-body">
-                                <span>Latest Job Posts 1</span>
-                                <h6> <a href="#">Organic Food in your door</a></h6>
-                            </div>
-                            </li>
-                            <li>
-                                <div class="widget-post-thumb">
-                                    <a href="#"><img src="assets/images/blog/post-thumb-3.jpg" alt=""
-                                            class="img-fluid"></a>
-                                </div>
-                                <div class="widget-post-body">
-                                    <span>Latest Job Posts 2</span>
-                                    <h6> <a href="#">Get high quality food</a></h6>
-                                </div>
-                            </li>
+                            <?php
+      
+        $latestJobQuery = mysqli_query($con, "SELECT * FROM careers ORDER BY CreatedOn DESC LIMIT 2"); // Adjust the query as needed
 
+       
+        if ($latestJobQuery) {
+            // Loop through the results and display each job post
+            while ($jobPost = mysqli_fetch_assoc($latestJobQuery)) {
+                echo '<li>';
+                
+                echo '<div class="widget-post-body">';
+                echo '<span>' . $jobPost['Title'] . '</span>';
+                echo '</div>';
+                echo '</li>';
+            }
+        } else {
+            // Handle the case where the query fails
+            echo "Error fetching latest job posts: " . mysqli_error($con);
+        }
+        ?>
                         </ul>
                     </div>
+
 
 
 
@@ -134,6 +134,77 @@ include("includes/header.php");
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form method="POST" class="w-100 rounded-1 p-4 border bg-white" action="../functions/functions.php"
+                        enctype="multipart/form-data">
+                        <input required name="CareerId" type="hidden" value="<?= $id ?>"class="form-control" placeholder="Enter Your Name" />
+                        <label class="d-block mb-4">
+                            <span class="form-label d-block">Your name</span>
+                            <input required name="name" type="text" class="form-control" placeholder="Enter Your Name" />
+                        </label>
+
+                        <label class="d-block mb-4">
+                            <span class="form-label d-block">Phone</span>
+                            <input required name="phone" type="phone" class="form-control"
+                                placeholder="Enter Your number" />
+                        </label>
+
+                        <label class="d-block mb-4">
+                            <span class="form-label d-block">Email address</span>
+                            <input required name="email" type="email" class="form-control"
+                                placeholder="Enter Your Email" />
+                        </label>
+
+                        <label class="d-block mb-4">
+                            <span class="form-label d-block">Years of experience</span>
+                            <select required name="experience" class="form-select">
+                                <option>Less than a year</option>
+                                <option>1 - 2 years</option>
+                                <option>2 - 4 years</option>
+                                <option>4 - 7 years</option>
+                                <option>7 - 10 years</option>
+                                <option>10+ years</option>
+                            </select>
+                        </label>
+
+                        <label class="d-block mb-4">
+                            <span class="form-label d-block">Tell us more about yourself</span>
+                            <textarea name="message" class="form-control" rows="3"
+                                placeholder="What motivates you?"></textarea>
+                        </label>
+
+                        <label class="d-block mb-4">
+                            <span class="form-label d-block">Your CV</span>
+                            <input required name="cv" type="file" class="form-control" />
+                        </label>
+
+                </div>
+            </div>
+
+
+
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="apply_job"> Apply</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
 
 <?php
 include("includes/footer.php");

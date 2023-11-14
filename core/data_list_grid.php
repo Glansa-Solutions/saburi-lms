@@ -6,6 +6,8 @@ $fetch_user_contact_query=mysqli_query($con,"SELECT * FROM contact");
 $fetch_user_contact_details_query=mysqli_query($con,"SELECT * FROM contact_details");
 $fetch_user_newsletter_query=mysqli_query($con,"SELECT * FROM newsletter");
 $fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics");
+$categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
+$careerQuery = mysqli_query($con, "SELECT * FROM careers ");
 $fetch_list_query_subscription=mysqli_query($con,"SELECT * FROM subscriptions_1");
 $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
 $fetch_list_join_topics_subtopic_course_query=mysqli_query($con,"SELECT 
