@@ -93,7 +93,7 @@ if (isset($_GET['id'])) {
                     <div class="row align-items-center justify-content-between blog-navigation">
                         <div class="col-lg-6 border-right">
                             <?php if ($previousPost) : ?>
-                                <a href="blog_single.php?id=<?php echo $previousPost['id']; ?>" class="prev-post">
+                                <a href="blog_single.php?b_id=<?php echo $previousPost['id']; ?>" class="prev-post">
                                     <span>- Previous Post</span>
                                     <?php echo $previousPost['blogTitle']; ?>
                                 </a>
@@ -103,7 +103,7 @@ if (isset($_GET['id'])) {
                         </div>
                         <div class="col-lg-6">
                             <?php if ($nextPost) : ?>
-                                <a href="blog_single.php?id=<?php echo $nextPost['id']; ?>" class="next-post">
+                                <a href="blog_single.php?b_id=<?php echo $nextPost['id']; ?>" class="next-post">
                                     <span>- Next Post</span>
                                     <?php echo $nextPost['blogTitle']; ?>
                                 </a>

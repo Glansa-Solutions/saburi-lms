@@ -1,3 +1,5 @@
+
+
 <section class="section-padding">
     <div class="container-fluid">
         <div class="container mt-3">
@@ -63,7 +65,7 @@
 
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Select State&nbsp;<span class="required">*</span></label>
-                                    <select class="form-select" name="state" class='stateList' id="stateList">
+                                    <select class="form-control" name="state" class='stateList' id="stateList">
                                         <option value="-1">Choose States...</option>
 
                                     </select>
@@ -102,7 +104,7 @@
 
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Select Country&nbsp;<span class="required">*</span></label>
-                                    <select class="form-select" name="country" class='countryList' id="countryList">
+                                    <select class="form-control" name="country" class='countryList' id="countryList">
                                         <option>Choose Country..</option>
                                         <!-- <option> -->
                                         <?php
@@ -136,7 +138,7 @@
 
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
-                                    <select class="form-select" name="idProof">
+                                    <select class="form-control" name="idProof">
                                         <option>Aadhar Card</option>
                                         <option>Passport</option>
                                     </select>
@@ -144,8 +146,8 @@
 
 
                                 <p class="woocommerce-FormRow form-row">
-                                    <input type="hidden" id="woocommerce-register-nonce"
-                                        name="woocommerce-register-nonce" value="b1c661ab82"><input type="hidden"
+                                    <input type="text" id="woocommerce-register-nonce"
+                                        name="woocommerce-register-nonce" value="<?= $role?>"><input type="hidden"
                                         name="_wp_http_referer" value="/my-account/">
                                     <button type="submit" class="woocommerce-Button button" name="registerCompany"
                                         value="Register">Register</button>

@@ -1,3 +1,18 @@
+<?php
+if (isset($_GET['id'])) {
+    $s_id = $_GET['id'];
+    
+    $student_auth_query = mysqli_query($con,"SELECT id,email,activationcode FROM students where id='$s_id'");
+
+    $student_auth = mysqli_fetch_assoc($student_auth_query);
+    $st_id = $student_auth['id'];
+    $s_email = $student_auth['email'];
+    $s_pass = $student_auth['activationcode'];
+
+} else {
+    $s_id = '';
+}
+?>
 <section class="section-padding">
     <div class="container-fluid">
         <div class="container mt-3">
@@ -17,7 +32,9 @@
                     <form>
                         <div class="mb-3">
                             <label for="login-email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="login-email" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" id="login-email"
+                                value="<?= isset($_GET['id']) ? $s_email : '' ?>" aria-describedby="emailHelp"
+                                <?= isset($_GET['id']) ? 'disabled' : '' ?>>
                         </div>
                         <div class="mb-3">
                             <label for="login-password" class="form-label">Password</label>
@@ -38,25 +55,25 @@
                                     <label>Full Name&nbsp;<span class="required">*</span></label>
                                     <input type="text"
                                         class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                        name="fullName" id="" autocomplete="user-name" value="">
+                                        name="fullName" id="" autocomplete="user-name" value="" required>
                                 </p>
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Date Of Birth&nbsp;<span class="required">*</span></label>
                                     <input type="date"
                                         class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                        name="dateOfBirth" id="" autocomplete="email" value="">
+                                        name="dateOfBirth" id="" autocomplete="email" value="" required>
                                 </p>
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Phone Number&nbsp;<span class="required">*</span></label>
                                     <input type="text"
                                         class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                        name="phoneNumber" id="" autocomplete="password" value="">
+                                        name="phoneNumber" id="" autocomplete="password" value="" required>
                                 </p>
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Email&nbsp;<span class="required">*</span></label>
                                     <input type="email"
                                         class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                        name="email" id="" autocomplete="password" value="">
+                                        name="email" id="" autocomplete="password" value="" required>
                                 </p>
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Select Gender&nbsp;<span class="required">*</span></label>
@@ -78,10 +95,10 @@
                                         if ($fetchCountries) {
                                             while ($row = mysqli_fetch_assoc($fetchCountries)) {
                                                 ?>
-                                        <option value="<?= $row['id'] ?>">
-                                            <?= $row['name'] ?>
-                                        </option>
-                                        <?php
+                                                <option value="<?= $row['id'] ?>">
+                                                    <?= $row['name'] ?>
+                                                </option>
+                                                <?php
                                             }
                                         }
                                         ?>
@@ -103,13 +120,13 @@
                                     <label>City Name&nbsp;<span class="required">*</span></label>
                                     <input type="text"
                                         class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                        name="city" id="" autocomplete="email" value="">
+                                        name="city" id="" autocomplete="email" value="" required>
                                 </p>
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Area PinCode&nbsp;<span class="required">*</span></label>
                                     <input type="text"
                                         class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                        name="pinCode" id="" autocomplete="password" value="">
+                                        name="pinCode" id="" autocomplete="password" value="" required>
                                 </p>
                                 <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                     <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
@@ -122,12 +139,11 @@
                                     <label>Id Proof Unique Id&nbsp;<span class="required">*</span></label>
                                     <input type="text"
                                         class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                        name="uniqueIdNo" id="" autocomplete="password" value="">
+                                        name="uniqueIdNo" id="" autocomplete="password" value="" required>
                                 </p>
                                 <p class="woocommerce-FormRow form-row">
-                                    <input type="hidden" id="woocommerce-register-nonce"
-                                        name="woocommerce-register-nonce" value="b1c661ab82"><input type="hidden"
-                                        name="_wp_http_referer" value="/my-account/">
+                                    <input type="hidden" id="woocommerce-register-nonce" name="role"
+                                        value="<?= $role ?>">
                                     <button type="submit" class="woocommerce-Button button" name="registerStudent"
                                         value="Register">Register</button>
                                 </p>
@@ -140,44 +156,44 @@
 
 </section>
 <script>
-$(document).ready(function() {
-    $('#countryList').on('change', function() {
-        var countryId = $(this).val();
-        // console.log(countryId);
-        if (countryId === "Choose Country..") { // Correct the condition
-            $('#stateList').empty();
-            $('#stateList').append($('<option>', {
-                value: "choose_state",
-                text: "Choose State"
-            }));
-        }
-        $.ajax({
-            method: 'GET', // Use the GET method for the request
-            url: 'core/login_register.php',
-            data: {
-                selectedCountryId: countryId // Pass the selected countryId as a parameter
-            },
-            success: function(response) {
-                // Handle the response from the server if needed
-                var states = JSON.parse(response);
+    $(document).ready(function () {
+        $('#countryList').on('change', function () {
+            var countryId = $(this).val();
+            // console.log(countryId);
+            if (countryId === "Choose Country..") { // Correct the condition
                 $('#stateList').empty();
-                // console.log(states);
-                // var c_id =response;
-                for (var i = 0; i < states.length; i++) {
-                    $('#stateList').append($('<option>', {
-                        value: states[i]
-                            .id, // Assuming there is an 'id' field in your states
-                        text: states[i]
-                            .name // Assuming there is a 'state_name' field in your states
-                    }));
-                }
-
-            },
-            error: function(xhr, status, error) {
-                // Handle errors if the AJAX request fails
-                console.error("AJAX request failed: " + error);
+                $('#stateList').append($('<option>', {
+                    value: "choose_state",
+                    text: "Choose State"
+                }));
             }
+            $.ajax({
+                method: 'GET', // Use the GET method for the request
+                url: 'core/login_register.php',
+                data: {
+                    selectedCountryId: countryId // Pass the selected countryId as a parameter
+                },
+                success: function (response) {
+                    // Handle the response from the server if needed
+                    var states = JSON.parse(response);
+                    $('#stateList').empty();
+                    // console.log(states);
+                    // var c_id =response;
+                    for (var i = 0; i < states.length; i++) {
+                        $('#stateList').append($('<option>', {
+                            value: states[i]
+                                .id, // Assuming there is an 'id' field in your states
+                            text: states[i]
+                                .name // Assuming there is a 'state_name' field in your states
+                        }));
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors if the AJAX request fails
+                    console.error("AJAX request failed: " + error);
+                }
+            });
         });
     });
-});
 </script>
