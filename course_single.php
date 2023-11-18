@@ -1,7 +1,5 @@
 <?php
-// include("../functions/functions.php");
-include("../functions/list_grid.php");
-include("../functions/database_functions.php");
+include("./core/data_list_grid.php");
 include("includes/header.php");
 
 // $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;

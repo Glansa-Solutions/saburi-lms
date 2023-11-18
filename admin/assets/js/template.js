@@ -7,29 +7,31 @@
     var footer = $('.footer');
     var sidebar = $('.sidebar');
 
-    //Add active class to nav-link based on url dynamically
-    //Active class can be hard coded directly in html file also as required
+    // Add active class to nav-link based on URL dynamically
+    // Active class can also be hardcoded directly in the HTML file as needed
 
     function addActiveClass(element) {
-      if (current === "") {
-        //for root url
-        if (element.attr('href').indexOf("index.html") !== -1) {
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
+      if (element.length) { // Check if the element exists
+        if (current === "") {
+          // for the root URL
+          if (element.attr('href') && element.attr('href').indexOf("index.html") !== -1) {
+            element.parents('.nav-item').last().addClass('active');
+            if (element.parents('.sub-menu').length) {
+              element.closest('.collapse').addClass('show');
+              element.addClass('active');
+            }
           }
-        }
-      } else {
-        //for other url
-        if (element.attr('href').indexOf(current) !== -1) {
-          element.parents('.nav-item').last().addClass('active');
-          if (element.parents('.sub-menu').length) {
-            element.closest('.collapse').addClass('show');
-            element.addClass('active');
-          }
-          if (element.parents('.submenu-item').length) {
-            element.addClass('active');
+        } else {
+          // for other URLs
+          if (element.attr('href') && element.attr('href').indexOf(current) !== -1) {
+            element.parents('.nav-item').last().addClass('active');
+            if (element.parents('.sub-menu').length) {
+              element.closest('.collapse').addClass('show');
+              element.addClass('active');
+            }
+            if (element.parents('.submenu-item').length) {
+              element.addClass('active');
+            }
           }
         }
       }
@@ -39,25 +41,23 @@
     $('.nav li a', sidebar).each(function() {
       var $this = $(this);
       addActiveClass($this);
-    })
+    });
 
     $('.horizontal-menu .nav li a').each(function() {
       var $this = $(this);
       addActiveClass($this);
-    })
+    });
 
-    //Close other submenu in sidebar on opening any
-
+    // Close other submenu in the sidebar when opening any
     sidebar.on('show.bs.collapse', '.collapse', function() {
       sidebar.find('.collapse.show').collapse('hide');
     });
 
-
-    //Change sidebar and content-wrapper height
+    // Change sidebar and content-wrapper height
     applyStyles();
 
     function applyStyles() {
-      //Applying perfect scrollbar
+      // Applying Perfect Scrollbar
       if (!body.hasClass("rtl")) {
         if ($('.settings-panel .tab-content .tab-pane.scroll-wrapper').length) {
           const settingsPanelScroll = new PerfectScrollbar('.settings-panel .tab-content .tab-pane.scroll-wrapper');
@@ -66,7 +66,7 @@
           const chatsScroll = new PerfectScrollbar('.chats');
         }
         if (body.hasClass("sidebar-fixed")) {
-          if($('#sidebar').length) {
+          if ($('#sidebar .nav').length) {
             var fixedSidebarScroll = new PerfectScrollbar('#sidebar .nav');
           }
         }
@@ -81,26 +81,27 @@
       }
     });
 
-    //checkbox and radios
-    $(".form-check label,.form-radio label").append('<i class="input-helper"></i>');
+    // Checkbox and radios
+    $(".form-check label, .form-radio label").append('<i class="input-helper"></i');
 
-    //Horizontal menu in mobile
+    // Horizontal menu in mobile
     $('[data-toggle="horizontal-menu-toggle"]').on("click", function() {
       $(".horizontal-menu .bottom-navbar").toggleClass("header-toggled");
     });
-    // Horizontal menu navigation in mobile menu on click
-    var navItemClicked = $('.horizontal-menu .page-navigation >.nav-item');
+
+    // Horizontal menu navigation in the mobile menu on click
+    var navItemClicked = $('.horizontal-menu .page-navigation > .nav-item');
     navItemClicked.on("click", function(event) {
-      if(window.matchMedia('(max-width: 991px)').matches) {
-        if(!($(this).hasClass('show-submenu'))) {
+      if (window.matchMedia('(max-width: 991px)').matches) {
+        if (!$(this).hasClass('show-submenu')) {
           navItemClicked.removeClass('show-submenu');
         }
         $(this).toggleClass('show-submenu');
-      }        
-    })
+      }
+    });
 
     $(window).scroll(function() {
-      if(window.matchMedia('(min-width: 992px)').matches) {
+      if (window.matchMedia('(min-width: 992px)').matches) {
         var header = $('.horizontal-menu');
         if ($(window).scrollTop() >= 70) {
           $(header).addClass('fixed-on-scroll');
@@ -109,26 +110,25 @@
         }
       }
     });
-    if ($.cookie('staradmin2-free-banner')!="true") {
+
+    if ($.cookie('staradmin2-free-banner') !== "true") {
       document.querySelector('#proBanner').classList.add('d-flex');
       document.querySelector('.navbar').classList.remove('fixed-top');
-    }
-    else {
+    } else {
       document.querySelector('#proBanner').classList.add('d-none');
       document.querySelector('.navbar').classList.add('fixed-top');
     }
-    
-    if ($( ".navbar" ).hasClass( "fixed-top" )) {
+
+    if ($(".navbar").hasClass("fixed-top")) {
       document.querySelector('.page-body-wrapper').classList.remove('pt-0');
       document.querySelector('.navbar').classList.remove('pt-5');
-    }
-    else {
+    } else {
       document.querySelector('.page-body-wrapper').classList.add('pt-0');
       document.querySelector('.navbar').classList.add('pt-5');
       document.querySelector('.navbar').classList.add('mt-3');
-      
     }
-    document.querySelector('#bannerClose').addEventListener('click',function() {
+
+    document.querySelector('#bannerClose').addEventListener('click', function() {
       document.querySelector('#proBanner').classList.add('d-none');
       document.querySelector('#proBanner').classList.remove('d-flex');
       document.querySelector('.navbar').classList.remove('pt-5');
@@ -136,14 +136,13 @@
       document.querySelector('.page-body-wrapper').classList.add('proBanner-padding-top');
       document.querySelector('.navbar').classList.remove('mt-3');
       var date = new Date();
-      date.setTime(date.getTime() + 24 * 60 * 60 * 1000); 
+      date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
       $.cookie('staradmin2-free-banner', "true", { expires: date });
     });
-  });
 
-  // focus input when clicking on search icon
-  $('#navbar-search-icon').click(function() {
-    $("#navbar-search-input").focus();
+    // Focus input when clicking on the search icon
+    $('#navbar-search-icon').click(function() {
+      $("#navbar-search-input").focus();
+    });
   });
-  
 })(jQuery);

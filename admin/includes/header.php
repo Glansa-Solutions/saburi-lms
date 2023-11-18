@@ -15,35 +15,19 @@ include("../core/init.php");
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>LMS2 </title>
     <!-- plugins:css -->
+    <script src="./assets/js/jquery-3.6.0.min.js"></script>
+
     <link rel="stylesheet" href="./assets/vendors/feather/feather.css">
     <link rel="stylesheet" href="./assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="./assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="./assets/vendors/typicons/typicons.css">
     <link rel="stylesheet" href="./assets/vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="./assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="./assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <!-- <link rel="stylesheet" href="js/select.dataTables.min.css"> -->
-    <!-- End plugin css for this page -->
-    <!-- Rich Text Editor -->
-    <script src="https://cdn.tiny.cloud/1/rnq798i697frg8htdej9ur8w0jc59pic7kqe5eysm8mti1ch/tinymce/6/tinymce.min.js">
-    </script>
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <!-- <script src="./outsides/richtexteditor/tinymce.min.js"></script> -->
-    
-    <!-- inject:css -->
+    <link rel="stylesheet" href="./assets/vendors/datatables/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/vertical-layout-light/style.css">
-    <!-- endinject -->
-    <!-- <link rel="shortcut icon" href="./assets/images/favicon.png" /> -->
     <link rel="shortcut icon" href="./assets/images/favicon.png" />
-
-    <!-- Rich Text -->
-    <link rel="stylesheet" href="assets/vendors/richtexteditor/rte_theme_default.css" />
-    
-    <!-- Data table -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"> -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="./assets/vendors/richtexteditor/rte_theme_default.css" />
+    <link rel="stylesheet" href="./assets/vendors/datatables/dataTables.bootstrap4.min.css">
 </head>
 
 <body>
@@ -58,7 +42,7 @@ include("../core/init.php");
                     </button>
                 </div>
                 <div>
-                    <a class="navbar-brand brand-logo" href="index.html">
+                    <a class="navbar-brand brand-logo" href="<?= $mainlink;?>admin/dashboard">
                         <img src="./assets/images/saburi.png" alt="logo" />
                         <!-- <h3 style="color:white;">LMS - SABURI</h3> -->
                     </a>

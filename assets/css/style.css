@@ -5556,3 +5556,87 @@ Home New 8
 .ptb-40{
   padding: 40px 0px;
 }
+/* login_reg css */
+.company_card,
+.student_card {
+    background-color: #ededed;
+    border: none;
+    border-radius: 0;
+    position: relative;
+    transition: transform 0.3s ease;
+    /* Add a smooth transition for the transform property */
+}
+
+.company_card:hover {
+    background-color: #E9770E;
+    border-radius: 5px;
+    color: white;
+    transform: translateY(10px);
+    /* Move the card down by 10px when hovered */
+}
+
+.student_card:hover {
+    background-color: #E9770E;
+    border-radius: 5px;
+    color: white;
+    transform: translateY(10px);
+    /* Move the card down by 10px when hovered */
+}
+
+.student_card h1,
+.company_card h1 {
+    position: relative;
+    z-index: 1;
+}
+
+.student_card .scholar-hat {
+    position: absolute;
+    top: -30px;
+    /* Adjust the position as needed */
+    left: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    /* Add a smooth transition */
+}
+
+.student_card:hover .scholar-hat {
+    top: -60px;
+    /* Adjust the position as needed */
+    opacity: 1;
+}
+
+.company_card .business-icon {
+    position: absolute;
+    top: -30px;
+    /* Adjust the position as needed */
+    left: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    /* Add a smooth transition */
+}
+
+.company_card:hover .business-icon {
+    top: -60px;
+    /* Adjust the position as needed */
+    opacity: 1;
+}
+/* Login_reg css End */
+/* account css start */
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link {
+    color: #fff;
+    background-color: #E9770E;
+    border-radius: 0px;
+}
+
+.tab-content {
+    border: 1px solid #ededed;
+    padding: 5%;
+}
+
+.login_button,
+.register_button {
+    border-radius: 0px;
+    background-color: #213975;
+}
+/* account css End */

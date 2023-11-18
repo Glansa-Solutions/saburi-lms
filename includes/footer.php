@@ -9,7 +9,7 @@
             </div>
             <div class="col-lg-6">
                 <div class="subscribe-form">
-                    <form action="#">
+                    <form action="./core/allmailfun.php">
                         <input type="text" class="form-control" placeholder="Email Address">
                         <a href="#" class="btn btn-main">Subscribe<i class="fa fa-angle-right ml-2"></i> </a>
                     </form>
@@ -113,7 +113,7 @@
 </div>
 
 
-
+<script src="./core/action.js"></script>
     <!-- 
     Essential Scripts
     =====================================-->
@@ -130,6 +130,7 @@
     <!--  Owlk Carousel-->
     <script src="assets/vendors/owl/owl.carousel.min.js"></script>
     <script src="assets/js/script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
   </body>
