@@ -50,6 +50,93 @@
     <section class="space-2">
         <div class="container">
             <div class="row">
+                <!-- product section end-->
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <div class="section-title">
+                        <h2 class="title d-block text-left-sm">Courses</h2>
+                        <p class="woocommerce-result-count"> Showing 1–16 of 17 results</p>
+                        <form class="woocommerce-ordering float-lg-right" method="get">
+                            <select name="orderby" class="orderby form-control" aria-label="Shop order">
+                                <option value="" selected="selected">Default sorting</option>
+                                <option value="">Sort by popularity</option>
+                                <option value="">Sort by average rating</option>
+                                <option value="">Sort by latest</option>
+                                <option value="">Sort by price: low to high</option>
+                                <option value="">Sort by price: high to low</option>
+                            </select>
+                            <input type="hidden" name="paged" value="1">
+                        </form>
+                    </div>
+
+                    <ul class="products columns-3">
+                        <?php
+                        foreach ($query as $product) {
+                            $id = $product['id'];
+                            $courseImage = $product['bannerImage'];
+                            $courseName = $product['courseName'];
+                            $courseCost = $product['courseCost'];
+                            ?>
+                            <li class="product" style="margin-right:2%;">
+                                <div class="product-wrap">
+                                    <a href="course_single.php?id=<?= $id ?>">
+                                        <img src="uploads/images/<?= $courseImage ?>" alt="">
+                                    </a>
+                                    <div class="product-btn-wrap">
+                                        <a href="course_single.php?id=<?= $id ?>"
+                                            class="button product_type_simple add_to_cart_button ajax_add_to_cart"
+                                            data-product-id="<?= $id ?>" data-product-name="<?= $courseName ?>"
+                                            data-product-price="<?= $courseCost ?>"
+                                            data-product-image="<?= $courseImage ?>">
+                                            <i class="fa fa-shopping-basket"></i>
+                                        </a>
+                                        <a href="" class="button wish-list"><i class="fa fa-heart"></i></a>
+                                    </div>
+                                </div>
+                                <div class="woocommerce-product-title-wrap">
+                                    <h2 class="woocommerce-loop-product__title">
+                                        <a href="#">
+                                            <?= $courseName ?>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <span class="price">
+                                    <ins>
+                                        <span class="woocommerce-Price-amount amount">
+                                            <span class="woocommerce-Price-currencySymbol">₹</span>
+                                            <?= $courseCost ?>
+                                        </span>
+                                    </ins>
+                                </span>
+                                <div class="star-rating"></div>
+                            </li>
+
+                            <?php
+                        }
+                        ?>
+
+                    </ul>
+
+                    <?php if ($totalCourses > 0): ?>
+                        <!-- Display pagination only if there are courses to show -->
+                        <nav class="woocommerce-pagination">
+                            <ul class="page-numbers">
+                                <?php for ($page = 1; $page <= $totalPages; $page++): ?>
+                                    <li>
+                                        <?php if ($page == $currentPage): ?>
+                                            <span aria-current="page" class="page-numbers current">
+                                                <?= $page ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <a class="page-numbers" href="?page=<?= $page ?>">
+                                                <?= $page ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                        </nav>
+                    <?php endif; ?>
+                </div>
                 <!-- product Sidebar start-->
                 <div class="col-lg-4 widget-area ">
                     <section id="woocommerce_product_search-2" class="widget woocommerce widget_product_search">
@@ -69,35 +156,35 @@
                             <div class="accordion" id="accordionExample">
                                 <?php $index = 0; ?>
                                 <?php foreach ($fetch_list_topic_query as $row): ?>
-                                <div class="card">
-                                    <div class="card-header" id="heading<?= $index ?>">
-                                        <h2 class="mb-0">
-                                            <button class="btn-block text-left curriculmn-title-btn" type="button"
-                                                data-toggle="collapse" data-target="#collapse<?= $row['Id'] ?>">
-                                                <h4 class="curriculmn-title">
-                                                    <?= $row['topicName'] ?>
-                                                </h4>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse<?= $row['Id'] ?>" class="collapse"
-                                        data-parent="#accordionExample">
-                                        <div class="course-lessons">
-                                            <?php foreach ($fetch_list_subtopic_query as $subtopic): ?>
-                                            <?php if ($subtopic['topicId'] == $row['Id']): ?>
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <a href="core/functions.php?subtopicId=<?= $subtopic['id']; ?>">
-                                                        <?= $subtopic['subTopicName'] ?>
-                                                    </a>
-                                                </div>
+                                    <div class="card">
+                                        <div class="card-header" id="heading<?= $index ?>">
+                                            <h2 class="mb-0">
+                                                <button class="btn-block text-left curriculmn-title-btn" type="button"
+                                                    data-toggle="collapse" data-target="#collapse<?= $row['Id'] ?>">
+                                                    <h4 class="curriculmn-title">
+                                                        <?= $row['topicName'] ?>
+                                                    </h4>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapse<?= $row['Id'] ?>" class="collapse"
+                                            data-parent="#accordionExample">
+                                            <div class="course-lessons">
+                                                <?php foreach ($fetch_list_subtopic_query as $subtopic): ?>
+                                                    <?php if ($subtopic['topicId'] == $row['Id']): ?>
+                                                        <div class="single-course-lesson">
+                                                            <div class="course-topic-lesson">
+                                                                <a href="core/functions.php?subtopicId=<?= $subtopic['id']; ?>">
+                                                                    <?= $subtopic['subTopicName'] ?>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
                                             </div>
-                                            <?php endif; ?>
-                                            <?php endforeach; ?>
                                         </div>
                                     </div>
-                                </div>
-                                <?php $index++; ?>
+                                    <?php $index++; ?>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -136,93 +223,7 @@
                         </ul>
                     </section>
                 </div>
-                <!-- product section end-->
-                <div class="col-lg-8 mb-4 mb-lg-0">
-                    <div class="section-title">
-                        <h2 class="title d-block text-left-sm">Courses</h2>
-                        <p class="woocommerce-result-count"> Showing 1–16 of 17 results</p>
-                        <form class="woocommerce-ordering float-lg-right" method="get">
-                            <select name="orderby" class="orderby form-control" aria-label="Shop order">
-                                <option value="" selected="selected">Default sorting</option>
-                                <option value="">Sort by popularity</option>
-                                <option value="">Sort by average rating</option>
-                                <option value="">Sort by latest</option>
-                                <option value="">Sort by price: low to high</option>
-                                <option value="">Sort by price: high to low</option>
-                            </select>
-                            <input type="hidden" name="paged" value="1">
-                        </form>
-                    </div>
 
-                    <ul class="products columns-3">
-                        <?php
-                        foreach ($query as $product) {
-                            $id = $product['id'];
-                            $courseImage = $product['bannerImage'];
-                            $courseName = $product['courseName'];
-                            $courseCost = $product['courseCost'];
-                            ?>
-                        <li class="product" style="margin-right:2%;">
-                            <div class="product-wrap">
-                                <a href="course_single.php?id=<?= $id ?>">
-                                    <img src="uploads/images/<?= $courseImage ?>" alt="">
-                                </a>
-                                <div class="product-btn-wrap">
-                                    <a href="course_single.php?id=<?= $id ?>"
-                                        class="button product_type_simple add_to_cart_button ajax_add_to_cart"
-                                        data-product-id="<?= $id ?>" data-product-name="<?= $courseName ?>"
-                                        data-product-price="<?= $courseCost ?>"
-                                        data-product-image="<?= $courseImage ?>">
-                                        <i class="fa fa-shopping-basket"></i>
-                                    </a>
-                                    <a href="" class="button wish-list"><i class="fa fa-heart"></i></a>
-                                </div>
-                            </div>
-                            <div class="woocommerce-product-title-wrap">
-                                <h2 class="woocommerce-loop-product__title">
-                                    <a href="#">
-                                        <?= $courseName ?>
-                                    </a>
-                                </h2>
-                            </div>
-                            <span class="price">
-                                <ins>
-                                    <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">₹</span>
-                                        <?= $courseCost ?>
-                                    </span>
-                                </ins>
-                            </span>
-                            <div class="star-rating"></div>
-                        </li>
-
-                        <?php
-                        }
-                        ?>
-
-                    </ul>
-
-                    <?php if ($totalCourses > 0): ?>
-                    <!-- Display pagination only if there are courses to show -->
-                    <nav class="woocommerce-pagination">
-                        <ul class="page-numbers">
-                            <?php for ($page = 1; $page <= $totalPages; $page++): ?>
-                            <li>
-                                <?php if ($page == $currentPage): ?>
-                                <span aria-current="page" class="page-numbers current">
-                                    <?= $page ?>
-                                </span>
-                                <?php else: ?>
-                                <a class="page-numbers" href="?page=<?= $page ?>">
-                                    <?= $page ?>
-                                </a>
-                                <?php endif; ?>
-                            </li>
-                            <?php endfor; ?>
-                        </ul>
-                    </nav>
-                    <?php endif; ?>
-                </div>
 
 
             </div>
@@ -236,88 +237,88 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// Get all subtopic links
-// Get all subtopic links
-var subtopicLinks = document.querySelectorAll('.course-topic-lesson a');
+    // Get all subtopic links
+    // Get all subtopic links
+    var subtopicLinks = document.querySelectorAll('.course-topic-lesson a');
 
-// Attach a click event handler to each subtopic link
-subtopicLinks.forEach(function(link) {
-    link.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default link behavior
+    // Attach a click event handler to each subtopic link
+    subtopicLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
 
-        // Get the target subtopic ID from the link's href
-        var href = this.getAttribute('href');
-        var targetId = href.split('=')[1]; // Extract the subtopic ID from the query parameter
-        console.log(targetId);
+            // Get the target subtopic ID from the link's href
+            var href = this.getAttribute('href');
+            var targetId = href.split('=')[1]; // Extract the subtopic ID from the query parameter
+            console.log(targetId);
 
-        // Make an AJAX request to the server to fetch courses based on the selected subtopic
-        $.ajax({
-            type: 'GET',
-            url: 'core/functions.php',
-            data: {
-                subtopicId: targetId
-            }, // Pass the subtopic ID as a parameter
-            success: function(response) {
-                // Handle the response and update the course list
-                $('.products').html(response);
-            }
+            // Make an AJAX request to the server to fetch courses based on the selected subtopic
+            $.ajax({
+                type: 'GET',
+                url: 'core/functions.php',
+                data: {
+                    subtopicId: targetId
+                }, // Pass the subtopic ID as a parameter
+                success: function (response) {
+                    // Handle the response and update the course list
+                    $('.products').html(response);
+                }
+            });
         });
     });
-});
 
-$("#target").on("click", function() {
-    alert("Handler for `click` called.");
-});
-// AJAX request to add a product to the cart
-$('.add_to_cart_button').click(function(e) {
-    e.preventDefault();
+    $("#target").on("click", function () {
+        alert("Handler for `click` called.");
+    });
+    // AJAX request to add a product to the cart
+    $('.add_to_cart_button').click(function (e) {
+        e.preventDefault();
 
-    var product_id = $(this).data('product-id');
-    var product_name = $(this).data('product-name');
-    var product_price = $(this).data('product-price');
-    var product_image = $(this).data('product-image');
+        var product_id = $(this).data('product-id');
+        var product_name = $(this).data('product-name');
+        var product_price = $(this).data('product-price');
+        var product_image = $(this).data('product-image');
 
-    // Check if there is an existing cart in local storage
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        // Check if there is an existing cart in local storage
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Create a new cart item
-    var cartItem = {
-        id: product_id,
-        name: product_name,
-        price: product_price,
-        image: product_image
-    };
+        // Create a new cart item
+        var cartItem = {
+            id: product_id,
+            name: product_name,
+            price: product_price,
+            image: product_image
+        };
 
-    // Add the new item to the cart
-    cart.push(cartItem);
+        // Add the new item to the cart
+        cart.push(cartItem);
 
-    // Save the updated cart back to local storage
-    localStorage.setItem('cart', JSON.stringify(cart));
+        // Save the updated cart back to local storage
+        localStorage.setItem('cart', JSON.stringify(cart));
 
-    // Update the cart count in the header
-    updateCartCount();
-});
+        // Update the cart count in the header
+        updateCartCount();
+    });
 
-function updateCartCount() {
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
-    var cartCount = cart.length;
-    $('#cart-count-container').text(' (' + cartCount + ')');
-}
+    function updateCartCount() {
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        var cartCount = cart.length;
+        $('#cart-count-container').text(' (' + cartCount + ')');
+    }
 
-$(document).ready(function() {
-    updateCartCount(); // Call this on page load to set the initial cart count
-});
+    $(document).ready(function () {
+        updateCartCount(); // Call this on page load to set the initial cart count
+    });
 
-function getCartItems() {
-    return JSON.parse(localStorage.getItem('cart')) || [];
-}
+    function getCartItems() {
+        return JSON.parse(localStorage.getItem('cart')) || [];
+    }
 
-// Example: Get the cart items and do something with them
-var cartItems = getCartItems();
-cartItems.forEach(function(item) {
-    // Do something with each item, e.g., display in a cart summary
-});
+    // Example: Get the cart items and do something with them
+    var cartItems = getCartItems();
+    cartItems.forEach(function (item) {
+        // Do something with each item, e.g., display in a cart summary
+    });
 
-// ...
+    // ...
 </script>
 <?php include("includes/footer.php"); ?>

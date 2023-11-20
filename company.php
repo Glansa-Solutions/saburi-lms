@@ -147,7 +147,7 @@
 
                                 <p class="woocommerce-FormRow form-row">
                                     <input type="text" id="woocommerce-register-nonce"
-                                        name="woocommerce-register-nonce" value="<?= $role?>"><input type="hidden"
+                                        name="woocommerce-register-nonce" value="<?= $userRole?>"><input type="hidden"
                                         name="_wp_http_referer" value="/my-account/">
                                     <button type="submit" class="woocommerce-Button button" name="registerCompany"
                                         value="Register">Register</button>

@@ -1,7 +1,9 @@
 <?php
-// include("./functions/config.php");
+// include("./functions/db_config.php");
 // include('./functions/list_grid.php');
-include("../core/init.php");
+include("../core/db_config.php");
+include("../core/data_list_grid.php");
+
 
 // include('./functions/modals_data.php');
 // $mainlink="http://localhost:8080/LMS/lms2/";

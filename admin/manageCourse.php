@@ -12,7 +12,7 @@ $(document).ready(function() {
         if (topicId) {
             // Make an AJAX request to fetch subtopics for the selected topic
             $.ajax({
-                url: 'functions/get_subtopics.php', // Replace with the actual server-side script
+                url: '../core/functions.php', // Replace with the actual server-side script
                 data: {topicId: topicId},
                 method: 'GET',
                 success: function(data) {
@@ -46,6 +46,7 @@ $(document).ready(function() {
                                 <select class="form-control" name="topic" id="topic">
                                 <option value=""> Select Topic Name</option>
                                 <?php
+                                
                                     if($fetch_list_topic_query)
                                     {
                                         // $i = 1;

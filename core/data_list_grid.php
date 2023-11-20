@@ -1,12 +1,15 @@
 <?php
 
 include("db_config.php");
+
+
 $fetch_list_order_query=mysqli_query($con,"SELECT od.id,o.paymentstatus, o.orderdate, c.courseDesc,c.courseName
 FROM orderdetails AS od
 JOIN `orders` AS o ON od.orderId = o.id
 JOIN courses AS c ON od.courseId = c.id;");
 $fetch_list_query=mysqli_query($con,"SELECT * FROM users");
 $fetch_user_contact_query=mysqli_query($con,"SELECT * FROM contact");
+$fetch_list_blog_query=mysqli_query($con,"SELECT * FROM blogs where isActive = 1");
 $fetch_user_contact_details_query=mysqli_query($con,"SELECT * FROM contact_details");
 $fetch_user_newsletter_query=mysqli_query($con,"SELECT * FROM newsletter");
 $fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics");
@@ -37,14 +40,7 @@ JOIN
 courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC");
 $fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics");
 
-if ($fetch_list_topic_query) {
-    $i = 1;
-    while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
-        $id = $row['Id'];
-        $topic_name = $row['topicName'];
-        
-    }
-}
+
 
 $query = mysqli_query($con, "select * from courses ");
 

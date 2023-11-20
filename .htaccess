@@ -9,6 +9,7 @@ RewriteRule ^([^/]+)$ $1.php [NC,L]
 RewriteRule ^$ index.php [L]
 RewriteRule ^about about.php [L]
 RewriteRule ^contact contact.php [L]
+RewriteRule ^core/sessions core/sessions.php [L]
 RewriteRule ^login log_reg.php [L]
 RewriteRule ^admin/dashboard admin/dashboard.php [L]
 RewriteRule ^admin/home admin/home.php [L]
@@ -37,6 +38,7 @@ RewriteRule ^admin/topic admin/topic.php [L]
 RewriteRule ^admin/terms admin/terms.php [L]
 RewriteRule ^admin/test admin/test.php [L]
 RewriteRule ^admin/manageQnA admin/manageQnA.php [L]
+
 
 
 

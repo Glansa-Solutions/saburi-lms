@@ -1,8 +1,13 @@
 <?php
 if (isset($_GET['id'])) {
     $s_id = $_GET['id'];
+<<<<<<< HEAD
     
     $student_auth_query = mysqli_query($con,"SELECT id,email,password FROM students where id='$s_id'");
+=======
+
+    $student_auth_query = mysqli_query($con, "SELECT id,email,password FROM students where id='$s_id'");
+>>>>>>> 25801a4976c079f57edfd21cf3b548ecaa82368e
 
     $student_auth = mysqli_fetch_assoc($student_auth_query);
     $st_id = $student_auth['id'];
@@ -29,18 +34,25 @@ if (isset($_GET['id'])) {
             <div class="tab-content mt-3 " id="myTabContent">
                 <div class="tab-pane fade show active w-100" id="login" role="tabpanel" aria-labelledby="login-tab">
                     <!-- Login Form -->
-                    <form>
+                    <form method="post" action="core/login_register.php">
                         <div class="mb-3">
                             <label for="login-email" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="login-email"
+                            <input type="email" name="email" class="form-control" id="login-email"
                                 value="<?= isset($_GET['id']) ? $s_email : '' ?>" aria-describedby="emailHelp"
                                 <?= isset($_GET['id']) ? 'disabled' : '' ?>>
                         </div>
                         <div class="mb-3">
                             <label for="login-password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="login-password">
+                            <input type="password" name="password" class="form-control" id="login-password">
+                            <p>
+                                <?php 
+                                echo $_SESSION['message'];
+                                ?>
+                            </p>
+                            <input type="hidden" name="role" value="<?= $userRole ?>" class="form-control"
+                                id="login-password">
                         </div>
-                        <button type="submit" class="btn btn-primary login_button">Login</button>
+                        <button type="submit" name="student_login" class="btn btn-primary login_button">Login</button>
                     </form>
                 </div>
 
@@ -143,7 +155,7 @@ if (isset($_GET['id'])) {
                                 </p>
                                 <p class="woocommerce-FormRow form-row">
                                     <input type="hidden" id="woocommerce-register-nonce" name="role"
-                                        value="<?= $role ?>">
+                                        value="<?= $userRole ?>">
                                     <button type="submit" class="woocommerce-Button button" name="registerStudent"
                                         value="Register">Register</button>
                                 </p>

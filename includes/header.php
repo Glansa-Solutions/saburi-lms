@@ -3,6 +3,21 @@ include("./core/init.php");
 // $mainlink="http://localhost/LMS/lms2/";
 // $mainlink="http://localhost:8080/LMS/lms2/";
 $cartCount = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
+// session_start();
+include("./core/login_register.php");
+include("./core/authFunctions.php");
+include("./core/blogsFunction.php");
+include("./core/homeFunction.php");
+include("./core/functions.php");
+include("./core/data_list_grid.php");
+
+
+
+
+// include("./core/login_register.php");
+// include("./core/login_register.php");
+
+
 
 ?>
 
@@ -41,7 +56,7 @@ $cartCount = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <!-- <script src="./js/jquery-3.6.0.min.js"></script> -->
-    
+
 </head>
 
 <body id="top-header">
@@ -76,7 +91,7 @@ $cartCount = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
                                 </ul>
                             </div>
                             <div class="header-btn">
-                                <a href="<?= $mainlink?>log_reg.php" class="btn btn-main btn-small"><i
+                                <a href="<?= $mainlink?>log_reg" class="btn btn-main btn-small"><i
                                         class="fa fa-user mr-2"></i>Login / Register</a>
                             </div>
                         </div>
@@ -171,6 +186,42 @@ $cartCount = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
                         </a>
                     </li>
                             <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="nav-item dropdown d-none d-lg-block user-dropdown">
+                                <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <img class="img-xs rounded-circle" src="assets/images/profile_img/student.png" height="50px"
+                                        width="50px" alt="Profile image"> </a>
+                                <!-- <img src="assets/images/saburi.png" alt="Edutim" class="img-fluid w-50" > -->
+
+                                <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                                    aria-labelledby="UserDropdown">
+                                    <div class="dropdown-header text-center">
+                                        <!-- <img src="assets/images/saburi.png" alt="Edutim" class="img-fluid w-50" height="50px" width="50px"> -->
+                                        <img class="img-md rounded-circle" src="assets/images/profile_img/student.png"
+                                            height="50px" width="50px" alt="Profile image">
+                                        <p class="mb-1 mt-3 font-weight-semibold">Hi<span>&nbsp</span><?= $s_name;?></p>
+                                        <p class="fw-light text-muted mb-0"><?= $s_email;?></p>
+                                    </div>
+                                    <a class="dropdown-item" href="<?= $mainlink?>profile"><i
+                                            class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
+                                        Profile
+                                        <!-- <span class="badge badge-pill badge-danger">1</span></a> -->
+                                        <a href="<?= $mainlink?>myOrders" class="dropdown-item"><i
+                                                class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
+                                            My Orders</a>
+                                        <a class="dropdown-item"><i
+                                                class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
+                                            My Active Courses</a>
+                                        <a class="dropdown-item"><i
+                                                class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
+                                            Change Password</a>
+                                        <a class="dropdown-item" href="<?= $mainlink ?>"><i
+                                                class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
+                                            Out</a>
+                                </div>
                             </li>
                         </ul>
 

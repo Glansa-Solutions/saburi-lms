@@ -1,3 +1,6 @@
+<?php
+include("../core/db_config.php");
+?>
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">

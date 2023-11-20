@@ -1,6 +1,8 @@
 <?php include("includes/header.php"); 
-$srole = "student";
-$crole = "company";
+$_SESSION['student']='student';
+$srole = $_SESSION['student'];
+$_SESSION['company']='company';
+$crole = $_SESSION['company'];
 
 ?>
 
