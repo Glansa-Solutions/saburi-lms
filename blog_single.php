@@ -1,7 +1,26 @@
 <?php
 include("includes/header.php");
 
+if (isset($_GET['id'])) {
+    $blogId = $_GET['id'];
+    $fetch_list_blog_query = mysqli_query($con, "SELECT * FROM blogs WHERE id = $blogId");
+    $latestBlogs = mysqli_query($con, "SELECT * FROM blogs ORDER BY createdOn DESC");
+    $previousPostQuery = mysqli_query($con, "SELECT * FROM blogs WHERE id < $blogId AND isActive = 1 ORDER BY id DESC LIMIT 1");
+    $nextPostQuery = mysqli_query($con, "SELECT * FROM blogs WHERE id > $blogId AND isActive = 1 ORDER BY id ASC LIMIT 1");
 
+    $previousPost = mysqli_fetch_assoc($previousPostQuery);
+    $nextPost = mysqli_fetch_assoc($nextPostQuery);
+
+    $n=mysqli_fetch_array($fetch_list_blog_query);
+    $id = $n['id'];
+    $title=$n['blogTitle'];
+    $writer=$n['writer'];
+    $image=$n['bannerImage'];
+    $description=$n['description'];
+    // $tag=$n['name'];
+    $createdOn=date('M j, Y', strtotime($n['createdOn']));  
+
+}
 ?>
 
 
@@ -74,7 +93,7 @@ include("includes/header.php");
                     <div class="row align-items-center justify-content-between blog-navigation">
                         <div class="col-lg-6 border-right">
                             <?php if ($previousPost) : ?>
-                                <a href="blog_single.php?id=<?php echo $previousPost['id']; ?>" class="prev-post">
+                                <a href="blog_single.php?b_id=<?php echo $previousPost['id']; ?>" class="prev-post">
                                     <span>- Previous Post</span>
                                     <?php echo $previousPost['blogTitle']; ?>
                                 </a>
@@ -84,7 +103,7 @@ include("includes/header.php");
                         </div>
                         <div class="col-lg-6">
                             <?php if ($nextPost) : ?>
-                                <a href="blog_single.php?id=<?php echo $nextPost['id']; ?>" class="next-post">
+                                <a href="blog_single.php?b_id=<?php echo $nextPost['id']; ?>" class="next-post">
                                     <span>- Next Post</span>
                                     <?php echo $nextPost['blogTitle']; ?>
                                 </a>

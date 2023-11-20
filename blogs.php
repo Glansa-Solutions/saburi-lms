@@ -50,9 +50,9 @@ include("includes/header.php");
     <div class="container">
         <div class="row">
             <?php
-            if ($fetch_list_blog_query) {
+            if ($fetch_all_blog_query) {
                 // Loop through your blog data to display multiple items
-                while ($row = mysqli_fetch_assoc($fetch_list_blog_query)) {
+                while ($row = mysqli_fetch_assoc($fetch_all_blog_query)) {
                     $id = $row['id'];
                     $title = $row['blogTitle'];
                     $writer = $row['writer'];
@@ -64,17 +64,17 @@ include("includes/header.php");
             <a href="blog_single.php?id=<?php echo $row['id']; ?>">
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
-                    <a href="blog_single.php?id=<?php echo $row['id']; ?>"><img src="assets/images/blog/<?= $row['bannerImage'] ?>" style="width:100%;"alt="" class="img-fluid"></a>
+                    <a href="blog_single.php?b_id=<?php echo $row['id']; ?>"><img src="assets/images/blog/<?= $row['bannerImage'] ?>" style="width:100%;"alt="" class="img-fluid"></a>
                     <div class="blog-content">
                         <div class="entry-meta">
                             <span><i class="fa fa-calendar-alt"></i><?php echo $createdOn; ?></span>
                             <span><i class="fa fa-user"></i><?php echo $writer; ?></span>
                         </div>
 
-                        <h2><a href="blog_single.php?id=<?php echo $row['id']; ?>"><?php echo $title; ?></a></h2>
+                        <h2><a href="blog_single.php?b_id=<?php echo $row['id']; ?>"><?php echo $title; ?></a></h2>
                         <p><?= $description ?></p>
                         <?php if ($description) : ?>
-                        <a href="blog_single.php?id=<?php echo $row['id']; ?>"
+                        <a href="blog_single.php?b_id=<?php echo $row['id']; ?>"
                             class="btn btn-main btn-small read-more-link">
                             <i class="fa fa-plus-circle mr-2"></i>Read More
                         </a>

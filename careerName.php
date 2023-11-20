@@ -1,7 +1,28 @@
 <?php
 include("includes/header.php");
+// include('../functions/list_grid.php');
 
+if (isset($_GET['id'])) {
+    $careerId = $_GET['id'];
+    $fetch_list_career_query = mysqli_query($con, "SELECT * FROM careers WHERE Id = $careerId");
 
+    if ($fetch_list_career_query) {
+        $careerData = mysqli_fetch_assoc($fetch_list_career_query);
+        $id = $careerData['Id'];
+        $title = $careerData['Title'];
+        $exp = $careerData['Experience'];
+        $desc = $careerData['Description'];
+        $createdOn = $careerData['CreatedOn'];
+    } else {
+        // Handle the case where the query fails
+        echo "Error fetching career data: " . mysqli_error($con);
+        // exit();
+    }
+} else {
+    // Handle the case where 'id' is not set in the URL
+    echo "No career ID specified.";
+    // exit();
+}
 ?>
 
 <!-- Rest of your HTML code here -->

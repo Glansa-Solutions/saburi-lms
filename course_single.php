@@ -1,6 +1,62 @@
 <?php
-include("./core/data_list_grid.php");
+// include("../functions/functions.php");
+// include("../functions/list_grid.php");
+// include("../functions/database_functions.php");
 include("includes/header.php");
+
+// $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
+// $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
+
+if (isset($_GET['course_id'])) {
+    $co_id = $_GET['course_id'];
+    $fetch_data = mysqli_query($con, "SELECT * FROM courses WHERE id = $co_id");
+    if ($fetch_data && mysqli_num_rows($fetch_data) > 0) {
+        $n = mysqli_fetch_array($fetch_data);
+        $courseName = $n['courseName'];
+        
+        $courseCost = $n['courseCost'];
+        $bannerImage = $n['bannerImage'];
+        $courseDesc = $n['courseDesc'];
+        $createdOn=$n['createdOn'];
+        $CourseSummary = $n['summary'];
+        $Coursewyl=$n['learn'];
+        $tag = $n['tag'];
+        $requirement = $n['requirements'];
+        $createdOn = $n['createdOn'];
+            // echo $courseName;
+        } else {
+            echo "Course not found.";
+        }
+} else {
+    $o_id = $_GET['order_id'];
+    $payment_data = mysqli_query($con, "SELECT od.id, o.paymentstatus, o.orderdate, c.*, od.orderId, od.courseId
+    FROM orderdetails AS od
+    JOIN `orders` AS o ON od.orderId = o.id
+    JOIN courses AS c ON od.courseId = c.id
+    WHERE od.id = $o_id");
+    if ($payment_data && mysqli_num_rows($payment_data) > 0) {
+        $n = mysqli_fetch_array($payment_data);
+        $courseName = $n['courseName'];
+        $paymentstatus = $n['paymentstatus'];
+        $courseCost = $n['courseCost'];
+        $bannerImage = $n['bannerImage'];
+        $courseDesc = $n['courseDesc'];
+        $createdOn=$n['createdOn'];
+        $Coursewyl=$n['learn'];
+        $CourseSummary = $n['summary'];
+        $tag = $n['tag'];
+        $requirement = $n['requirements'];
+        $createdOn = $n['createdOn'];
+            // echo $courseName;
+        } else {
+            echo "Order not found.";
+        }
+}    
+
+    
+?>
+
+<!-- The rest of your HTML code for displaying the course details -->
 
 // $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
 // $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
