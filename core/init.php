@@ -1,23 +1,22 @@
-
 <?php
-session_start();
 
-if(isset($_GET["role"]) && $_GET["role"] == 'student') {
-    $_SESSION['role'] = 'student';
-    $role = $_SESSION['role'];
-}
-if(isset($_GET["role"]) && $_GET["role"] == 'company') {
-    $_SESSION['role'] = 'company';
-    $role = $_SESSION['role'];
-}
-   
-require "db_config.php";
-require "functions.php";
-require "homeFunction.php";
-require "blogsFunction.php";
-require "data_list_grid.php";
-require "login_register.php";
-require "careerFunction.php";
+// if (isset($_GET["role"])) {
+//     if ($_GET["role"] == 'student' || $_GET["role"] == 'company') {
+//         $_SESSION['user_role'] = $_GET["role"];
+//         $userRole = $_SESSION['user_role'];
+//     } else {
+//         // Handle invalid role value (optional)
+//         // You may want to redirect or show an error message
+//         echo "Invalid role value!";
+//     }
+// }
+// require "db_config.php";
+// require "functions.php";
+// require "homeFunction.php";
+// require "blogsFunction.php";
+// require "data_list_grid.php";
+// require "login_register.php";
+// require "careerFunction.php";
 
 
 
@@ -60,7 +59,3 @@ if (isset($_GET['c_id'])) {
 } else {
     // echo "No career ID specified.";
 }
-
-
-
-

@@ -110,7 +110,7 @@ include("includes/header.php");
             </ul>
         </div>
 
- 
+
 
         <div class="row course-gallery ">
             <?php
@@ -717,7 +717,7 @@ include("includes/header.php");
             <div class="col-lg-6">
                 <div class="section-heading center-heading">
                     <span class="subheading">Blog News</span>
-                    <h3>Latest Blog News</h3>   
+                    <h3>Latest Blog News</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
                 </div>
@@ -728,8 +728,8 @@ include("includes/header.php");
         </div> -->
 
 
-         <div class="row">
-         <?php
+        <div class="row">
+            <?php
         if ($blogs->num_rows > 0) {
             // echo $result;
         // Output data of each row
@@ -753,10 +753,10 @@ include("includes/header.php");
         echo '<p>No blog posts found.</p>';
     }
     ?>
-            </div>
-
-            
         </div>
+
+
+    </div>
     </div>
 </section>
 

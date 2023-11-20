@@ -1,11 +1,12 @@
-<?php 
+<?php
 include("db_config.php");
+
 
 //Course List functions start
 
-if (isset($_GET['subtopicId'])) {   
-$targetId = $_GET['subtopicId'];
-$query = "SELECT courses.* FROM courses
+if (isset($_GET['subtopicId'])) {
+    $targetId = $_GET['subtopicId'];
+    $query = "SELECT courses.* FROM courses
               WHERE courses.subTopicId = $targetId";
 
     $result = mysqli_query($con, $query);
@@ -21,7 +22,7 @@ $query = "SELECT courses.* FROM courses
             $courseImage = $row['bannerImage'];
             $courseName = $row['courseName'];
             $courseCost = $row['courseCost'];
-        
+
             // Output each course as HTML
             echo '<li class="product" style="margin-right:2%;">
                 <div class="product-wrap">
@@ -54,7 +55,7 @@ $query = "SELECT courses.* FROM courses
                 <div class="star-rating"></div>
             </li>';
         }
-        
+
 
         // Close the HTML block
         echo '</ul>';
@@ -64,5 +65,25 @@ $query = "SELECT courses.* FROM courses
 }
 
 
+// Get the selected topic ID from the AJAX request
+if (isset($_GET['topicId'])) {
+    $topicId = $_GET['topicId'];
 
-//Course List functions end
+    // Query the database to get subtopics for the selected topic
+    $query = "SELECT Id, subtopicName FROM subtopics WHERE topicId = $topicId";
+    $result = mysqli_query($con, $query);
+
+    if ($result) {
+        $options = '<option>select subtopic name</option>';
+        while ($row = mysqli_fetch_assoc($result)) {
+            $options .= "<option value='{$row['Id']}'>{$row['subtopicName']}</option>";
+        }
+        echo $options;
+
+    } else {
+        echo '<option>Failed to fetch subtopics</option>';
+    }
+
+    // Close the database connection
+    mysqli_close($con);
+}

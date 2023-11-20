@@ -11,21 +11,12 @@
                     <span class="subheading">Thank you</span>
                     <h3>The Username and Password Sent To Your Registered Email</h3>
                 </div>
-                <?php
-                if (isset($_GET['id'])) {
-                    $student_id = $_GET['id'];
-                ?>
-                <a href="account?role=<?= $role ?>&id=<?= $student_id?>" class="btn btn-main"><i class="fa fa-check mr-2"></i>Login</a>
-                <?php
-                } else {
-                    $role = '';
-                ?>
-                 <a href="log_reg" class="btn btn-main"><i class="fa fa-check mr-2"></i>Login</a>
-                <?php
-                    
-                }
-                ?>
                 
+                <a href="<?= isset($_GET['id']) ? 'account?role=' . $userRole . '&id=' . $_GET['id'] : 'log_reg' ?>"
+                    class="btn btn-main"><i class="fa fa-check mr-2"></i>Login</a>
+
+                
+
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="about-img2">
