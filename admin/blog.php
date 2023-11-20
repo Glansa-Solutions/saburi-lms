@@ -52,7 +52,7 @@ include('../core/listgrid.php');
                         You can Write the content for about page.
                     </p> -->
 
-                    <form class="forms-sample" action="../core/functions" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" action="../core/functions.php" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" name="title" placeholder="Enter Blog Title">
@@ -124,7 +124,7 @@ include('../core/listgrid.php');
                                     <td class="blogId" hidden><?= $id;?>
                                     <td><?= $title; ?></td>
                                     <td><?= $writer; ?></td>
-                                    <td><img src="./functions/upload/image/<?= $image; ?>" width="80" height="80"></td>
+                                    <td><img src="../assets/images/blog<?= $image; ?>" width="80" height="80"></td>
                                     <td class="truncate-text"><?= $description; ?></td>                          
                                         <td>
                                             <button type="button" class="btn btn-primary p-2 edit-button" data-bs-toggle="modal"
@@ -213,7 +213,7 @@ include('../core/listgrid.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-                    <form action="delete_blog.php" method="POST">
+                    <form action="../core/functions.php" method="POST">
                         <div class="modal-body">
 
                             <input type="hidden" id="delete_id" name="delete_id">
@@ -309,7 +309,7 @@ include('../core/listgrid.php');
                             $.each(response, function (key, value) {
                                 $('#editTitle').val(value['blogTitle']);
                                 $('#editWriter').val(value['writer']);
-                                $('#output').attr('src', './functions/upload/image/' + value['bannerImage']);
+                                $('#output').attr('src', '../assets/images/blog' + value['bannerImage']);
                                 // You can handle image display or updating as needed
                                 $('#editDescription').val(value['description']);
                                 $('#blog_id').val(value['id']);

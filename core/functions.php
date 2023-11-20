@@ -305,7 +305,7 @@ elseif (isset($_POST['blog_manage'])) {
         $imageFile = $_FILES['image'];
         $imageFileName = $imageFile['name'];
         // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], 'upload/image/' . $imageFileName);
+        move_uploaded_file($imageFile['tmp_name'], '../assets/images/blog' . $imageFileName);
     }
     $writer = $_POST['writer'];
     $desc = $_POST['desc'];
@@ -355,35 +355,63 @@ elseif (isset($_POST['blog_manage'])) {
         echo $return = "<h5>No Record Found</h5>";
     }
 }
-elseif(isset($_POST['update']))
-{
+elseif(isset($_POST['update'])) {
     $id = $_POST['blog_id'];
-    $title = $_POST['editTitle'];
-    $writer = $_POST['editWriter'];
-    $image = $_POST['editImage'];
-    $description = $_POST['editDescription'];
+    $title = mysqli_real_escape_string($con, $_POST['editTitle']);
+    $writer = mysqli_real_escape_string($con, $_POST['editWriter']);
+    $description = mysqli_real_escape_string($con, $_POST['editDescription']);
 
     if(isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
         // Handle the new image upload
-        $newImage = $_FILES['editImage']['name'];
+        $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
         $imagePath = "upload/image/" . $newImage; // Update with your actual image upload path
         move_uploaded_file($_FILES['editImage']['tmp_name'], $imagePath);
     } else {
         // No new image uploaded, keep the old image
-        $imagePath = $_POST['oldImage']; // This should be the path to the old image
+        $newImage = mysqli_real_escape_string($con, $_POST['oldImage']); // This should be the filename of the old image
     }
 
-    $update = "UPDATE blogs set blogTitle='$title', writer ='$writer', bannerImage='$image', description='$description' WHERE id='$id'";
+    $update = "UPDATE blogs SET blogTitle='$title', writer ='$writer', description='$description'";
+
+    if (!empty($newImage)) {
+        // If a new image is provided, include it in the update statement
+        $update .= ", bannerImage='$newImage'";
+    }
+
+    $update .= " WHERE id='$id'";
+
     $query = mysqli_query($con, $update);
 
-    if($query)
-    {
-        header("location: $mainlink" . "blog");
-    }
-    else{
+    if($query) {
+        header("location: $mainlink" . "admin/blog");
+    } else {
         echo "not working";
     }
 }
+
+if (isset($_POST['delete_blog'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+
+    // Create a database connection (adjust these settings according to your database)
+   
+    // Check the database connection
+    // UPDATE orderdetails SET status = 1 WHERE id = $co_id
+    // Perform the delete operation using the ID (replace "your_table" with your table name)
+    $sql = "UPDATE blogs SET isActive = 0 WHERE id = $id";
+    $query=mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "admin/blog");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+}
+
 elseif (isset($_POST['freeResources_manage'])){
     $heading = $_POST['heading'];
     $title = $_POST['title'];
@@ -572,10 +600,57 @@ elseif(isset($_POST['update_affiliate']))
 
     if($query)
     {
-        header("location: $mainlink" . "career");
+        header("location: $mainlink" . "admin/career");
     }
     else{
         echo "not working";
+    }
+}
+if (isset($_POST['delete_career'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "UPDATE careers SET isActive = 0  WHERE Id = $id";
+    $query=mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "admin/career");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+}
+
+elseif(isset($_POST['apply_job']))
+{
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $exp = $_POST['experience'];
+    $careerId = $_POST['CareerId'];
+    
+    // Process file upload
+    $cvpath = '';
+    if (isset($_FILES['cv'])) {
+        $imageFile = $_FILES['cv'];
+        $cvpath = '../assets/upload/' . $imageFile['name'];
+        // Process and move the image file to your desired location
+        move_uploaded_file($imageFile['tmp_name'], $cvpath);
+    }
+
+    // Insert data into the database
+    $insertQuery = "INSERT INTO careersapplications (Name, Phone, Email, Experience, Attachment, CareerId,CreatedOn) 
+                    VALUES ('$name', '$phone', '$email', '$exp', '$cvpath', '$careerId',NOW())";
+
+    if(mysqli_query($con, $insertQuery))
+    {
+        header("location: $mainlink" . "career");
+
+    }
+    else{
+        echo "failed";
     }
 }
 elseif (isset($_POST['corporateGovernance_manage'])){

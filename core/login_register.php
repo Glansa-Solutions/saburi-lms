@@ -62,7 +62,7 @@ if (isset($_POST['registerStudent'])) {
     $activationcode = getRandom(16);
 
 
-    $insertQuery = mysqli_query($con, "INSERT INTO students(name, DOB, country, district, state, pincode, gender, phoneNumber, email, idProof, idProofDetails, createdOn, isActive, activationcode) 
+    $insertQuery = mysqli_query($con, "INSERT INTO students(name, DOB, country, district, state, pincode, gender, phoneNumber, email, idProof, idProofDetails, createdOn, isActive, password) 
     VALUES('$fullName', '$dob', '$country', '$city', '$state', '$pin', '$gender', '$phone', '$email', '$idProof', '$uniqueIdNo', '$currentDate', 0, '$activationcode')");
     $insertedId = mysqli_insert_id($con);
     // print_r($insertedId);

@@ -2,12 +2,12 @@
 if (isset($_GET['id'])) {
     $s_id = $_GET['id'];
     
-    $student_auth_query = mysqli_query($con,"SELECT id,email,activationcode FROM students where id='$s_id'");
+    $student_auth_query = mysqli_query($con,"SELECT id,email,password FROM students where id='$s_id'");
 
     $student_auth = mysqli_fetch_assoc($student_auth_query);
     $st_id = $student_auth['id'];
     $s_email = $student_auth['email'];
-    $s_pass = $student_auth['activationcode'];
+    $s_pass = $student_auth['password'];
 
 } else {
     $s_id = '';

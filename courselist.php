@@ -45,7 +45,6 @@
     </div>
 </section>
 
-
 <main class="site-main page-wrapper  woocommerce">
     <!--product section start-->
     <section class="space-2">
@@ -103,6 +102,7 @@
                             </div>
                         </div>
                     </section>
+                    
                     <section id="woocommerce_top_rated_products-2" class="widget woocommerce widget_top_rated_products">
                         <h3 class="widget-title">Top rated products</h3>
                         <ul class="product_list_widget">

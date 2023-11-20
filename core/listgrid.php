@@ -46,17 +46,18 @@ $fetch_list_query_subscription=mysqli_query($con,"SELECT * FROM subscriptions_1"
 
 $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
 
-$fetch_list_blog_query=mysqli_query($con,"SELECT * FROM blogs");
+$fetch_list_blog_query=mysqli_query($con,"SELECT * FROM blogs where isActive = 1");
 
-$fetch_list_freeResources_query=mysqli_query($con,"SELECT * FROM freeresources");
+$fetch_list_freeResources_query=mysqli_query($con,"SELECT * FROM freeresources where isActive = 1");
 
-$fetch_list_affiliate_query=mysqli_query($con,"SELECT * FROM affiliates");
+$fetch_list_affiliate_query=mysqli_query($con,"SELECT * FROM affiliates where isActive = 1");
 
-$fetch_list_careers_query=mysqli_query($con,"SELECT * FROM careers");
+$fetch_list_careers_query=mysqli_query($con,"SELECT * FROM careers where IsActive = 1");
 
-$fetch_list_company_query=mysqli_query($con,"SELECT * FROM company");
+$fetch_list_company_query=mysqli_query($con,"SELECT * FROM company Where isActive = 1");
 
-$fetch_list_corporategovernance_query=mysqli_query($con,"SELECT * FROM corporategovernance");
+$fetch_list_corporategovernance_query=mysqli_query($con,"SELECT * FROM corporategovernance where isActive = 1");
+
 // $fetch_list=mysqli_fetch_assoc($fetch_list_query);
 // $users_name=$fetch_list['Name'];
 // echo $users_name;
