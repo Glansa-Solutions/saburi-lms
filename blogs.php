@@ -50,9 +50,9 @@ include("includes/header.php");
     <div class="container">
         <div class="row">
             <?php
-            if ($fetch_list_blog_query) {
+            if ($fetch_all_blog_query) {
                 // Loop through your blog data to display multiple items
-                while ($row = mysqli_fetch_assoc($fetch_list_blog_query)) {
+                while ($row = mysqli_fetch_assoc($fetch_all_blog_query)) {
                     $id = $row['id'];
                     $title = $row['blogTitle'];
                     $writer = $row['writer'];

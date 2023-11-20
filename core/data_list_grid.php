@@ -56,9 +56,9 @@ $totalCourses = mysqli_fetch_assoc($totalCoursesQuery)['total'];
 
 // Number of products to display per page
 $productsPerPage = 6;
-
 // Calculate the total number of pages
 $totalPages = ceil($totalCourses / $productsPerPage);
+
 
 // Determine the current page
 $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;

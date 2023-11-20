@@ -37,6 +37,7 @@ RewriteRule ^admin/development admin/sustainabledev.php [L]
 RewriteRule ^admin/topic admin/topic.php [L]
 RewriteRule ^admin/terms admin/terms.php [L]
 RewriteRule ^admin/test admin/test.php [L]
+RewriteRule ^admin/manageQnA admin/manageQnA.php [L]
 
 
 
