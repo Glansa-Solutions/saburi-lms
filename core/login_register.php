@@ -4,22 +4,7 @@ include("db_config.php");
 
 
 // function for generating randome password
-function getRandom($length)
-{
 
-    $str = 'abcdefghijklmnopqrstuvwzyz';
-    $str1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $str2 = '0123456789';
-    $shuffled = str_shuffle($str);
-    $shuffled1 = str_shuffle($str1);
-    $shuffled2 = str_shuffle($str2);
-    $total = $shuffled . $shuffled1 . $shuffled2;
-    $shuffled3 = str_shuffle($total);
-    $result = substr($shuffled3, 0, $length);
-
-    return $result;
-
-}
 
 // Fetch CountryList
 $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");
@@ -62,6 +47,22 @@ if (isset($_POST['registerStudent'])) {
     // echo $userRole;
     // exit() ;
     $currentDate = date("Y-m-d H:i:s");
+    function getRandom($length)
+{
+
+    $str = 'abcdefghijklmnopqrstuvwzyz';
+    $str1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $str2 = '0123456789';
+    $shuffled = str_shuffle($str);
+    $shuffled1 = str_shuffle($str1);
+    $shuffled2 = str_shuffle($str2);
+    $total = $shuffled . $shuffled1 . $shuffled2;
+    $shuffled3 = str_shuffle($total);
+    $result = substr($shuffled3, 0, $length);
+
+    return $result;
+
+}
     $password = getRandom(16);
 
 

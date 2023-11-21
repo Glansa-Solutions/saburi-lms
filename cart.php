@@ -1,9 +1,6 @@
 <?php
 include("includes/header.php");
 ?>
-
-
-
 <!--search overlay start-->
 <div class="search-wrap">
     <div class="overlay">
@@ -97,7 +94,7 @@ include("includes/header.php");
                                                 column1.className = 'product-name';
                                                 var productNameLink = document.createElement('a');
                                                 productNameLink.href = '#';
-                                                productNameLink.textContent = course.name;
+                                                productNameLink.textContent = course.name ? course.name : '';
                                                 column1.appendChild(productNameLink);
                                                 row.appendChild(column1);
 
@@ -111,18 +108,19 @@ include("includes/header.php");
                                                     'woocommerce-Price-currencySymbol';
                                                 priceCurrencySymbol.innerHTML = '&#8377;';
                                                 var priceAmount = document.createElement('span');
-                                                priceAmount.textContent = course.price;
+                                                priceAmount.textContent = course.price ? course.price : '';
                                                 priceSpan.appendChild(priceCurrencySymbol);
                                                 priceSpan.appendChild(priceAmount);
                                                 column2.appendChild(priceSpan);
                                                 row.appendChild(column2);
 
+                                                
                                                 // Column 3: Quantity
                                                 var column3 = document.createElement('td');
                                                 column3.className = 'product-quantity';
                                                 var quantityInput = document.createElement('input');
                                                 quantityInput.type = 'number';
-                                                quantityInput.value = 1; // Set the quantity input to 1
+                                                quantityInput.value = course.quantity ? course.quantity : 0; // Set the quantity input to 1
                                                 quantityInput.addEventListener('input', function() {
                                                     // Update the quantity when the input changes
                                                     course.quantity = parseInt(quantityInput.value, 10);
@@ -132,9 +130,12 @@ include("includes/header.php");
                                                     var updatedItemTotal = course.price * course.quantity;
 
                                                     // Update the totalAmount span to display the new itemTotal
-                                                    totalAmount.textContent = updatedItemTotal.toFixed(2);
+                                                    totalAmount.textContent = updatedItemTotal ? updatedItemTotal.toFixed(2) : 0;
 
+                                                    // totalPrice = calculateTotal();
                                                     updateTotals(cart);
+                                                    updateGrandTotal(cart);
+
                                                 });
                                                 column3.appendChild(quantityInput);
                                                 row.appendChild(column3);
@@ -150,7 +151,7 @@ include("includes/header.php");
                                                 priceCurrencySymbol.innerHTML = '&#8377;';
                                                 var totalAmount = document.createElement('span');
                                                 var itemTotal = course.price * course.quantity;
-                                                totalAmount.textContent = itemTotal.toFixed(2);
+                                                totalAmount.textContent = itemTotal ?  itemTotal.toFixed(2) :0;
                                                 totalSpan.appendChild(totalCurrencySymbol);
                                                 totalSpan.appendChild(totalAmount);
                                                 column4.appendChild(totalSpan);
@@ -172,13 +173,15 @@ include("includes/header.php");
                                                 // Add a click event listener to the remove link
                                                 removeLink.addEventListener('click', function() {
                                                     // Remove the item from the cart
-                                                    var index = cart.findIndex(function(cartItem) {
+                                                    var index = cart.findIndex(function (cartItem) {
                                                         return cartItem.id === course.id;
                                                     });
+
                                                     if (index !== -1) {
                                                         cart.splice(index, 1);
                                                         updateCart(cart);
                                                         updateTotals(cart);
+                                                        updateGrandTotal(cart);
                                                         // Remove the row from the table
                                                         tableBody.removeChild(row);
                                                     }
@@ -211,16 +214,12 @@ include("includes/header.php");
                                                 var totalQuantity = cartData.reduce(function(total, course) {
                                                     return total + course.quantity;
                                                 }, 0);
-
                                                 // Update the DOM with the new totals
-                                                document.getElementById('total-quantity').textContent = totalQuantity;
-                                                document.getElementById('total-price').textContent = totalPrice.toFixed(
-                                                    2);
-                                                // document.getElementById('total-price-subtotal').textContent = totalPrice.toFixed(2);
-                                                document.getElementById('total-count').textContent = totalItemCount
-                                                    .toFixed(2); // Update Total Count
+                                                // document.getElementById('total-quantity').textContent = totalQuantity ? totalQuantity : 1;
+                                                // document.getElementById('total-price').textContent = totalPrice ? totalPrice.toFixed(2) : 0;
+                                                // document.getElementById('total-count').textContent = totalItemCount ? totalItemCount.toFixed(2) : 0;
+                                                // Update Total Count
                                             }
-
                                             // Initialize the cart totals when the page loads
                                             updateTotals(cart);
                                             </script>
@@ -277,54 +276,42 @@ include("includes/header.php");
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// Update the DOM with the new totals
-// document.getElementById('total-quantity').textContent = totalQuantity; // Update total quantity
+// function calculateTotal() {
+//     var total = 0;
 
-// Function to update the cart totals
-// Function to update the cart totals
-// Function to update the cart totals
-// function updateTotals(cartData) {
-//     // Calculate the total quantity and price
-//     var totalQuantity = 0;
-//     var totalPrice = 0;
-
-//     cartData.forEach(function(course) {
-//         totalQuantity += course.quantity;
-//         totalPrice += course.price * course.quantity;
+//     cart.forEach(function(course) {
+//         var itemTotal = course.price * course.quantity;
+//         total += itemTotal;
 //     });
-
-//     var totalPriceFormatted = totalPrice.toFixed(2);
-
-//     // Update the DOM with the new totals
-//     document.getElementById('total-quantity').textContent = totalQuantity; // Update total quantity
-//     document.getElementById('total-price').textContent = totalPriceFormatted; // Update total price
-//     document.getElementById('total-price-subtotal').textContent = totalPriceFormatted; // Update subtotal as well
+//     console.log(total);
+//     return total;
 // }
 
-// // Initialize the cart totals when the page loads
-// updateTotals(cart);
-function calculateTotal() {
-    var total = 0;
-
-    cart.forEach(function(course) {
-        var itemTotal = course.price * course.quantity;
-        total += itemTotal;
-    });
-
-    return total;
-}
-
 // Call the calculateTotal function to get the total
-function updateGrandTotal() {
-    var grandTotal = calculateTotal();
-    document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
+function updateGrandTotal(cartData) {
+    var grandTotal = calculateTotal(cartData).toFixed(2);
+    document.getElementById('grand-total').textContent = grandTotal ? grandTotal :0;
 }
 
-// Call the updateGrandTotal function to initially set the grand total
-updateGrandTotal();
+// Function to calculate the total of all items in the cart
+function calculateTotal(cartData) {
+    return cartData.reduce(function (total, course) {
+        return total + course.price * course.quantity;
+    }, 0);
+    console.log(cartData);
+}
+
+// Initialize the grand total when the page loads
+updateGrandTotal(cart);
 </script>
 
-<!--shop category end-->
+<script>
+    $(document).ready(function(){
+        $('.remove').on('click', function(){
+            window.location.reload();
+        })
+    })
+</script>
 
 <?php
 include("includes/footer.php");

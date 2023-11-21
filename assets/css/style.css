@@ -1026,7 +1026,7 @@ Clientns Partners
   margin-bottom: 40px;
 }
 
-.contact__form .form-control {
+.form-row .form-control {
   height: 55px;
   border-radius: 46px;
   padding-left: 20px;
@@ -1034,21 +1034,21 @@ Clientns Partners
   background: #eee;
 }
 
-.contact__form .form-control:hover {
+.form-row .form-control:hover {
   border-color: #e9770e;
 }
 
-.contact__form .form-group {
+.form-row .form-group {
   margin-bottom: 25px;
 }
 
-.contact__form textarea.form-control {
+.form-row textarea.form-control {
   height: auto;
   border-radius: 15px;
   padding-top: 15px;
 }
 
-.contact__form label {
+.form-row label {
   text-transform: uppercase;
   font-size: 14px;
   font-weight: 700;

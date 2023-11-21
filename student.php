@@ -1,13 +1,8 @@
 <?php
 if (isset($_GET['id'])) {
     $s_id = $_GET['id'];
-<<<<<<< HEAD
     
     $student_auth_query = mysqli_query($con,"SELECT id,email,password FROM students where id='$s_id'");
-=======
-
-    $student_auth_query = mysqli_query($con, "SELECT id,email,password FROM students where id='$s_id'");
->>>>>>> 25801a4976c079f57edfd21cf3b548ecaa82368e
 
     $student_auth = mysqli_fetch_assoc($student_auth_query);
     $st_id = $student_auth['id'];

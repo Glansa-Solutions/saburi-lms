@@ -1,4 +1,5 @@
 <?php
+include("db_config.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
@@ -42,9 +43,9 @@ if (isset($_POST['registerCompany'])) {
 
     if ($insertCompany) {
         // Send an email
-        require("../PHPMailer/PHPMailer.php");
-        require("../PHPMailer/SMTP.php");
-        require("../PHPMailer/Exception.php");
+        require("../assets/vendors/PHPMailer/PHPMailer.php");
+        require("../assets/vendors/PHPMailer/SMTP.php");
+        require("../assets/vendors/PHPMailer/Exception.php");
         $mail = new PHPMailer(true);
 
         try {
@@ -86,9 +87,9 @@ if (isset($_POST['registerCompany'])) {
 
     if ($insert_query1) {
         // Send an email
-        require("../PHPMailer/PHPMailer.php");
-        require("../PHPMailer/SMTP.php");
-        require("../PHPMailer/Exception.php");
+        require("../assets/vendors/PHPMailer/PHPMailer.php");
+        require("../assets/vendors/PHPMailer/SMTP.php");
+        require("../assets/vendors/PHPMailer/Exception.php");
         $mail = new PHPMailer(true);
 
         try {
@@ -110,7 +111,7 @@ if (isset($_POST['registerCompany'])) {
             $mail->Body = 'Name: ' . $name . '<br>Email: ' . $email;
 
             $mail->send();
-            header("location: ../web/contact.php");
+            header("location: ../contact");
 
             echo "Inserted successfully, and an email has been sent.";
         } catch (Exception $e) {
@@ -126,7 +127,7 @@ if (isset($_POST['registerCompany'])) {
     $insert_query = mysqli_query($con, "INSERT INTO newsletter(email,created_on) VALUES('$email','$currentDate')");
 
     if ($insert_query) {
-        header("location: ../web/contact.php");
+        header("location: ../contact");
     } else {
         echo "Failed to insert data.";
     }
