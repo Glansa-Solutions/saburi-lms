@@ -383,7 +383,7 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                                 <h4>Quantity</h4>
                                 <div class="input-group mb-3 quantity">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text btn btn_incr" id="decrease">-</span>
+                                        <span class="input-group-text btn btn_incr"  id="decrease">-</span>
                                     </div>
                                     <input type="number" class="form-control text-center" id="quantity" name="quantity"
                                         min="1" value="1">
@@ -392,30 +392,10 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                                     </div>
                                 </div>
                                 <!-- </div> -->
-
-                                <script>
-                                $(document).ready(function() {
-                                    // Get the quantity input element
-                                    var quantityInput = $('#quantity');
-
-                                    // Increase quantity
-                                    $('#increase').click(function() {
-                                        quantityInput.val(parseInt(quantityInput.val()) + 1);
-                                    });
-
-                                    // Decrease quantity
-                                    $('#decrease').click(function() {
-                                        var currentVal = parseInt(quantityInput.val());
-                                        if (currentVal > 1) {
-                                            quantityInput.val(currentVal - 1);
-                                        }
-                                    });
-                                });
-                                </script>
                                 <?php } ?>
 
                             </h4>
-                            <h4>Price: <span>₹
+                            <h4>Price: <span>&#8377;
                                     <?= $courseCost ?>
                                 </span></h4>
                             <div class="buy-btn">
@@ -641,6 +621,27 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
 </section>
 
 <script>
+
+var quantityInput;
+
+$(document).ready(function() {
+    // Get the quantity input element
+    quantityInput = $('#quantity');
+
+    // Increase quantity
+    $('#increase').click(function() {
+        quantityInput.val(parseInt(quantityInput.val()) + 1);
+    });
+
+    // Decrease quantity
+    $('#decrease').click(function() {
+        var currentVal = parseInt(quantityInput.val());
+        if (currentVal > 1) {
+            quantityInput.val(currentVal - 1);
+        }
+    });
+});
+
 $('.add_to_cart_button').click(function(e) {
     e.preventDefault();
 
@@ -648,6 +649,9 @@ $('.add_to_cart_button').click(function(e) {
     var product_name = $(this).data('product-name');
     var product_price = $(this).data('product-price');
     var product_image = $(this).data('product-image');
+
+    var selectedQuantity = quantityInput.val();
+    // console.log('Selected Quantity:', selectedQuantity);
 
     // Check if there is an existing cart in local storage
     var cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -657,7 +661,8 @@ $('.add_to_cart_button').click(function(e) {
         id: product_id,
         name: product_name,
         price: product_price,
-        image: product_image
+        image: product_image,
+        quantity: selectedQuantity 
     };
 
     // Add the new item to the cart
