@@ -64,9 +64,9 @@ include("includes/header.php");
                                                 <div class="conainter">
                                                     <div class="col-lg-12 d-flex">
                                                         <div class="col-md-4 justify-content-center align-items-center">
-                                                            <h2>React</h2>
+                                                            <!-- <h2>React</h2>
                                                             <h6 class="font-weight-normal mt-2">₹9999</h6>
-                                                            <!-- <span class="btn p-0"><i class="fa fa-trash"></i></span> -->
+                                                            <span class="btn p-0"><i class="fa fa-trash"></i></span>
                                                             <hr style="color:white;">
                                                         </div>
 
@@ -84,13 +84,13 @@ include("includes/header.php");
                                                                         id="increase">+</span>
                                                                 </div>
                                                                 <h6 class="font-weight-normal mt-2">₹9999</h6>
-                                                            </div>
+                                                            </div> -->
                                                             
 
-                                                        </div>
+                                                        <!-- </div>
                                                         <div class="col-md-2 d-flex justify-content-center align-items-center">
                                                             <span class="btn p-0"><i class="fa fa-trash"></i></span>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -108,6 +108,7 @@ include("includes/header.php");
                                                         <th class="product-subtotal">Total</th>
                                                         <th class="product-subtotal">Action</th>
                                                     </tr>
+                                                    
                                                 </thead>
                                                 <tbody>
                                                     <!-- Place this script within your HTML file -->
@@ -134,6 +135,9 @@ include("includes/header.php");
                                                         column1.className = 'product-name';
                                                         var productNameLink = document.createElement('a');
                                                         productNameLink.href = '#';
+                                                        productNameLink.className="course-size";
+                                                        productNameLink.className="course_name";
+
                                                         productNameLink.textContent = course.name ? course
                                                             .name :
                                                             '';
@@ -144,7 +148,7 @@ include("includes/header.php");
                                                         var column2 = document.createElement('td');
                                                         column2.className = 'product-price';
                                                         var priceSpan = document.createElement('span');
-                                                        priceSpan.className = 'woocommerce-Price-amount amount';
+                                                        priceSpan.className = 'woocommerce-Price-amount amount course-size';
                                                         var priceCurrencySymbol = document.createElement(
                                                             'span');
                                                         priceCurrencySymbol.className =
@@ -162,53 +166,71 @@ include("includes/header.php");
                                                         // Column 3: Quantity
                                                         var column3 = document.createElement('td');
                                                         column3.className = 'product-quantity';
+
+                                                        // Create decrease button
+                                                        var decreaseButton = document.createElement('button');
+                                                        decreaseButton.textContent = '-';
+                                                        decreaseButton.className = 'quantity-button';
+                                                        decreaseButton.addEventListener('click', function () {
+                                                            var currentVal = parseInt(quantityInput.value);
+                                                            if (currentVal > 1) {
+                                                                quantityInput.value = currentVal - 1;
+                                                                updateQuantity();
+                                                            }
+                                                        });
+                                                        column3.appendChild(decreaseButton);
+
+                                                        // Create quantity input
                                                         var quantityInput = document.createElement('input');
                                                         quantityInput.type = 'number';
-                                                        quantityInput.value = course.quantity ? course
-                                                            .quantity :
-                                                            0; // Set the quantity input to 1
-                                                        quantityInput.addEventListener('input', function() {
-                                                            // Update the quantity when the input changes
-                                                            course.quantity = parseInt(quantityInput
-                                                                .value,
-                                                                10);
+                                                        quantityInput.className = 'quantity-input course-size';
+                                                        quantityInput.value = course.quantity ? course.quantity : 0;
+                                                        quantityInput.addEventListener('input', function () {
+                                                            updateQuantity();
+                                                        });
+
+                                                        column3.appendChild(quantityInput);
+
+                                                        // Create increase button
+                                                        var increaseButton = document.createElement('button');
+                                                        increaseButton.textContent = '+';
+                                                        increaseButton.className = 'quantity-button';
+                                                        increaseButton.addEventListener('click', function () {
+                                                            quantityInput.value = parseInt(quantityInput.value) + 1;
+                                                            updateQuantity();
+                                                        });
+
+                                                        column3.appendChild(increaseButton);
+
+                                                        row.appendChild(column3);
+
+                                                        function updateQuantity() {
+                                                            course.quantity = parseInt(quantityInput.value, 10);
                                                             updateCart(cart);
 
-                                                            // Calculate the updated itemTotal based on the updated quantity
-                                                            var updatedItemTotal = course.price * course
-                                                                .quantity;
+                                                            var updatedItemTotal = course.price * course.quantity;
+                                                            totalAmount.textContent = updatedItemTotal ? updatedItemTotal.toFixed(2) : 0;
 
-                                                            // Update the totalAmount span to display the new itemTotal
-                                                            totalAmount.textContent = updatedItemTotal ?
-                                                                updatedItemTotal.toFixed(2) : 0;
-
-                                                            // totalPrice = calculateTotal();
                                                             updateTotals(cart);
                                                             updateGrandTotal(cart);
-
-                                                        });
-                                                        column3.appendChild(quantityInput);
-                                                        row.appendChild(column3);
+                                                        }
 
                                                         // Column 4: Total
                                                         var column4 = document.createElement('td');
                                                         column4.className = 'product-subtotal';
                                                         var totalSpan = document.createElement('span');
-                                                        totalSpan.className = 'woocommerce-Price-amount amount';
-                                                        var totalCurrencySymbol = document.createElement(
-                                                            'span');
-                                                        totalCurrencySymbol.className =
-                                                            'woocommerce-Price-currencySymbol';
-                                                        priceCurrencySymbol.innerHTML = '&#8377;';
+                                                        totalSpan.className = 'woocommerce-Price-amount amount course-size';
+                                                        var totalCurrencySymbol = document.createElement('span');  // Corrected variable name
+                                                        totalCurrencySymbol.className = 'woocommerce-Price-currencySymbol';
+                                                        totalCurrencySymbol.innerHTML = '&#8377;';  // Use the correct variable name
                                                         var totalAmount = document.createElement('span');
                                                         var itemTotal = course.price * course.quantity;
-                                                        totalAmount.textContent = itemTotal ? itemTotal.toFixed(
-                                                                2) :
-                                                            0;
+                                                        totalAmount.textContent = itemTotal ? itemTotal.toFixed(2) : 0;
                                                         totalSpan.appendChild(totalCurrencySymbol);
                                                         totalSpan.appendChild(totalAmount);
                                                         column4.appendChild(totalSpan);
                                                         row.appendChild(column4);
+
 
                                                         // 
 
@@ -218,19 +240,21 @@ include("includes/header.php");
                                                         var removeLink = document.createElement('a');
                                                         removeLink.href = '#';
                                                         removeLink.className = 'remove';
-                                                        removeLink.setAttribute('aria-label',
-                                                            'Remove this item');
+                                                        removeLink.setAttribute('aria-label', 'Remove this item');
                                                         removeLink.setAttribute('data-product_id', course.id);
                                                         removeLink.setAttribute('data-product_sku', '');
-                                                        removeLink.textContent = '×';
+
+                                                        // Create an <i> element for the trash icon
+                                                        var trashIcon = document.createElement('i');
+                                                        trashIcon.className = 'fas fa-trash-alt'; // Use the Font Awesome trash icon class
+
+                                                        removeLink.appendChild(trashIcon);
 
                                                         // Add a click event listener to the remove link
-                                                        removeLink.addEventListener('click', function() {
+                                                        removeLink.addEventListener('click', function () {
                                                             // Remove the item from the cart
-                                                            var index = cart.findIndex(function(
-                                                                cartItem) {
-                                                                return cartItem.id === course
-                                                                    .id;
+                                                            var index = cart.findIndex(function (cartItem) {
+                                                                return cartItem.id === course.id;
                                                             });
 
                                                             if (index !== -1) {
@@ -279,6 +303,8 @@ include("includes/header.php");
                                                     // Initialize the cart totals when the page loads
                                                     updateTotals(cart);
                                                     </script>
+                                                    
+
 
                                                 </tbody>
 

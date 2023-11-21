@@ -86,6 +86,43 @@ input[type=number] {
 .quantity {
     width: 50%;
 }
+
+.product-quantity {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-input {
+    width: 50px;
+    /* Adjust the width as needed */
+    text-align: center;
+    border: 1px solid #ccc;
+    /* Adjust the border color as needed */
+    /* margin-right: -1px; Adjust the negative margin as needed */
+}
+
+.quantity-button {
+    padding: 5px;
+    width: 45px;
+    height: 30px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #E9770E;
+    margin: 0px;
+    color: #fff;
+    /* Add text color to make it visible */
+}
+.course-size{
+    font-size: 20px;
+
+}
+.course_name{
+    font-size: 30px;
+}
+
+.fas {
+    color: #E9770E;
+}
 </style>
 
 <body id="top-header">
@@ -260,19 +297,18 @@ input[type=number] {
     </header>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    // <!-- This is your HTML for displaying the cart count -->
 
-        // <!-- This is your HTML for displaying the cart count -->
 
+    document.addEventListener('DOMContentLoaded', function() {
+        function updateCartCount() {
+            const cartJSON = localStorage.getItem('cart');
+            const cartItems = JSON.parse(cartJSON) || [];
+            const cartCount = cartItems.length;
+            const cartCountContainer = document.getElementById('cart-count');
+            cartCountContainer.textContent = cartCount;
+        }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            function updateCartCount() {
-                const cartJSON = localStorage.getItem('cart');
-                const cartItems = JSON.parse(cartJSON) || [];
-                const cartCount = cartItems.length;
-                const cartCountContainer = document.getElementById('cart-count');
-                cartCountContainer.textContent = cartCount;
-            }
-
-            updateCartCount();
-        });
+        updateCartCount();
+    });
     </script>

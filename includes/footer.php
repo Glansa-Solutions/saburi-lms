@@ -1,3 +1,17 @@
+<?php
+// Start the session
+session_start();
+
+// Assume you have set $_SESSION['role_id'] somewhere in your PHP code
+
+// Access the role_id from the session
+if (isset($_SESSION['role_id'])) {
+    $role_id = $_SESSION['role_id'];
+} else {
+    // Default value or error handling
+    $role_id = 0;
+}
+?>
 <section class="cta-2">
     <div class="container">
         <div class="row align-items-center subscribe-section ">
@@ -113,10 +127,14 @@
 </div>
 <script>
 var quantityInput;
+var roleId = <?php echo json_encode($role_id); ?>;
 
+console.log(roleId);
 $(document).ready(function() {
     // Get the quantity input element
     quantityInput = $('#quantity');
+	userId = sessionStorage.getItem("roleId");
+	// console.log(userId);
 
     // Increase quantity
     $('#increase').click(function() {
@@ -141,13 +159,13 @@ $('.add_to_cart_button').click(function(e) {
     var product_image = $(this).data('product-image');
 
     var selectedQuantity = quantityInput.val();
-    // console.log('Selected Quantity:', selectedQuantity);
 
     // Check if there is an existing cart in local storage
     var cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Create a new cart item
+    // Create a new cart item with user_id
     var cartItem = {
+        user_id: roleId,
         id: product_id,
         name: product_name,
         price: product_price,
@@ -164,6 +182,7 @@ $('.add_to_cart_button').click(function(e) {
     // Update the cart count in the header
     updateCartCount();
 });
+
 
 function updateCartCount() {
     var cart = JSON.parse(localStorage.getItem('cart')) || [];
