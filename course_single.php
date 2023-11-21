@@ -13,20 +13,20 @@ if (isset($_GET['course_id'])) {
     if ($fetch_data && mysqli_num_rows($fetch_data) > 0) {
         $n = mysqli_fetch_array($fetch_data);
         $courseName = $n['courseName'];
-        
+
         $courseCost = $n['courseCost'];
         $bannerImage = $n['bannerImage'];
         $courseDesc = $n['courseDesc'];
-        $createdOn=$n['createdOn'];
+        $createdOn = $n['createdOn'];
         $CourseSummary = $n['summary'];
-        $Coursewyl=$n['learn'];
+        $Coursewyl = $n['learn'];
         $tag = $n['tag'];
         $requirement = $n['requirements'];
         $createdOn = $n['createdOn'];
-            // echo $courseName;
-        } else {
-            echo "Course not found.";
-        }
+        // echo $courseName;
+    } else {
+        echo "Course not found.";
+    }
 } else {
     $o_id = $_GET['order_id'];
     $payment_data = mysqli_query($con, "SELECT od.id, o.paymentstatus, o.orderdate, c.*, od.orderId, od.courseId
@@ -41,22 +41,21 @@ if (isset($_GET['course_id'])) {
         $courseCost = $n['courseCost'];
         $bannerImage = $n['bannerImage'];
         $courseDesc = $n['courseDesc'];
-        $createdOn=$n['createdOn'];
-        $Coursewyl=$n['learn'];
+        $createdOn = $n['createdOn'];
+        $Coursewyl = $n['learn'];
         $CourseSummary = $n['summary'];
         $tag = $n['tag'];
         $requirement = $n['requirements'];
         $createdOn = $n['createdOn'];
-            // echo $courseName;
-        } else {
-            echo "Order not found.";
-        }
-}    
+        // echo $courseName;
+    } else {
+        echo "Order not found.";
+    }
+}
 
-    
-?>
 
-<!-- The rest of your HTML code for displaying the course details -->
+
+//The rest of your HTML code for displaying the course details -->
 
 // $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
 // $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
@@ -67,20 +66,20 @@ if (isset($_GET['course_id'])) {
     if ($fetch_data && mysqli_num_rows($fetch_data) > 0) {
         $n = mysqli_fetch_array($fetch_data);
         $courseName = $n['courseName'];
-        
+
         $courseCost = $n['courseCost'];
         $bannerImage = $n['bannerImage'];
         $courseDesc = $n['courseDesc'];
-        $createdOn=$n['createdOn'];
+        $createdOn = $n['createdOn'];
         $CourseSummary = $n['summary'];
-        $Coursewyl=$n['learn'];
+        $Coursewyl = $n['learn'];
         $tag = $n['tag'];
         $requirement = $n['requirements'];
         $createdOn = $n['createdOn'];
-            // echo $courseName;
-        } else {
-            echo "Course not found.";
-        }
+        // echo $courseName;
+    } else {
+        echo "Course not found.";
+    }
 } else {
     $o_id = $_GET['order_id'];
     $payment_data = mysqli_query($con, "SELECT od.id, o.paymentstatus, o.orderdate, c.*, od.orderId, od.courseId
@@ -95,19 +94,19 @@ if (isset($_GET['course_id'])) {
         $courseCost = $n['courseCost'];
         $bannerImage = $n['bannerImage'];
         $courseDesc = $n['courseDesc'];
-        $createdOn=$n['createdOn'];
-        $Coursewyl=$n['learn'];
+        $createdOn = $n['createdOn'];
+        $Coursewyl = $n['learn'];
         $CourseSummary = $n['summary'];
         $tag = $n['tag'];
         $requirement = $n['requirements'];
         $createdOn = $n['createdOn'];
-            // echo $courseName;
-        } else {
-            echo "Order not found.";
-        }
-}    
+        // echo $courseName;
+    } else {
+        echo "Order not found.";
+    }
+}
 
-    
+
 ?>
 
 <!-- The rest of your HTML code for displaying the course details -->
@@ -140,7 +139,9 @@ if (isset($_GET['course_id'])) {
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="page-header-content">
-                    <h1><?= $courseName; ?></h1>
+                    <h1>
+                        <?= $courseName; ?>
+                    </h1>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
                             <a href="#">Home</a>
@@ -170,19 +171,25 @@ if (isset($_GET['course_id'])) {
                         <span>(5.00)</span>
                     </div>
 
-                    <h3 class="single-course-title"><?= $courseName; ?></h3>
+                    <h3 class="single-course-title">
+                        <?= $courseName; ?>
+                    </h3>
                     <?= $CourseSummary ?>
 
                     <div class="single-course-meta ">
                         <ul>
                             <li>
                                 <span><i class="fa fa-calendar"></i>Last Update :</span>
-                                <a href="#" class="d-inline-block"><?= $createdOn; ?></a>
+                                <a href="#" class="d-inline-block">
+                                    <?= $createdOn; ?>
+                                </a>
                             </li>
 
                             <li>
                                 <span><i class="fa fa-bookmark"></i>Tag :</span>
-                                <a href="#" class="d-inline-block"><?= $tag ?></a>
+                                <a href="#" class="d-inline-block">
+                                    <?= $tag ?>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -191,13 +198,13 @@ if (isset($_GET['course_id'])) {
                 <div class="single-course-details ">
                     <h4 class="course-title">Description</h4>
                     <?=
-                    $courseDesc;
+                        $courseDesc;
                     ?>
 
 
                     <div class="course-widget course-info">
                         <h4 class="course-title">What You will Learn?</h4>
-                        <?= $Coursewyl?>
+                        <?= $Coursewyl ?>
                     </div>
                 </div>
                 <!--  Course Topics -->
@@ -405,45 +412,52 @@ if (isset($_GET['course_id'])) {
             <div class="col-lg-4">
                 <div class="course-sidebar">
                     <div class="course-single-thumb">
-                        <img src="../functions/upload/image/<?= $bannerImage ?>" alt="" class="img-fluid w-100">
+                        <img src="uploads/images/<?= $bannerImage ?>" alt="" class="img-fluid w-100">
                         <div class="course-price-wrapper">
-    <?php
-    if (isset($_GET['order_id'])) {
-        $co_id=$_GET['order_id'];
-        // If an order ID is present, hide the course price and quantity input
-        ?>
-        <div class="buy-btn">
-        <a href="MyActiveCourse.php?start_id=<?= $co_id ?>" class="btn btn-main btn-block">
-           
-            Start Course
-        </a>
+                            <?php
+                            if (isset($_GET['order_id'])) {
+                                $co_id = $_GET['order_id'];
+                                // If an order ID is present, hide the course price and quantity input
+                                ?>
+                                <div class="buy-btn">
+                                    <a href="MyActiveCourse.php?start_id=<?= $co_id ?>" class="btn btn-main btn-block">
 
-        </div>
-        <?php
-    } else {
-        // If not, show the course price and quantity input
-        ?>
-        <h4>Price: <span>&#8377; <?= $courseCost ?></span></h4>
-        <input type="number" id="quantity" name="quantity" min="1" value="1"
-            style="font-size: 20px; width: 50px; height: 30px;">
-        <div class="buy-btn">
-            <?php
-            if (isset($_GET['course_id'])) {
-                // If a course ID is present, display the "Start Course" button
-                ?>
-                <a href="start_course_url.php" class="btn btn-main btn-block add_to_cart_button"
-                   data-product-id="<?= $co_id ?>" data-product-name="<?= $courseName ?>"
-                   data-product-price="<?= $courseCost ?>" data-product-image="<?= $bannerImage ?>">
-                    Add To Cart
-                </a>
-                <?php
-            }
-            ?>
-        </div>
-        <?php
-    }
-    ?>
-</div>
+                                        <?= $_SESSION['role']; ?>Start Course
+                                    </a>
+
+                                </div>
+                                <?php
+                            } else {
+                                // If not, show the course price and quantity input
+                                ?>
+                                <h4>
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "company") { ?>
+                                        <input type="number" id="quantity" name="quantity" min="1" value="1"
+                                        style="font-size: 20px; width: 50px; height: 30px;">
+                                    <?php }?>
+
+                                </h4>
+                                <h4>Price: <span>₹
+                                        <?= $courseCost ?>
+                                    </span></h4>
+                                <div class="buy-btn">
+                                    <?php
+                                    if (isset($_GET['course_id'])) {
+                                        // If a course ID is present, display the "Start Course" button
+                                        ?>
+                                        <a href="start_course_url.php" class="btn btn-main btn-block add_to_cart_button"
+                                            data-product-id="<?= $co_id ?>" data-product-name="<?= $courseName ?>"
+                                            data-product-price="<?= $courseCost ?>" data-product-image="<?= $bannerImage ?>">
+                                            Add To Cart
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
 
 
                     </div>
@@ -517,14 +531,14 @@ if (isset($_GET['course_id'])) {
                         <h4 class="course-title">Tags</h4>
                         <div class="single-course-tags">
                             <?php
-                        // Assuming $tags is an array of tags
-                        $tags = ["Web Design", "Development", "Html", "Css"];
+                            // Assuming $tags is an array of tags
+                            $tags = ["Web Design", "Development", "Html", "Css"];
 
-                        // Loop through the tags and generate HTML elements
-                        foreach ($tags as $tag) {
-                            echo '<a href="#">' . $tag . '</a>';
-                        }
-                        ?>
+                            // Loop through the tags and generate HTML elements
+                            foreach ($tags as $tag) {
+                                echo '<a href="#">' . $tag . '</a>';
+                            }
+                            ?>
                         </div>
                     </div>
 
@@ -649,56 +663,56 @@ if (isset($_GET['course_id'])) {
 </section>
 
 <script>
-$('.add_to_cart_button').click(function(e) {
-    e.preventDefault();
+    $('.add_to_cart_button').click(function (e) {
+        e.preventDefault();
 
-    var product_id = $(this).data('product-id');
-    var product_name = $(this).data('product-name');
-    var product_price = $(this).data('product-price');
-    var product_image = $(this).data('product-image');
+        var product_id = $(this).data('product-id');
+        var product_name = $(this).data('product-name');
+        var product_price = $(this).data('product-price');
+        var product_image = $(this).data('product-image');
 
-    // Check if there is an existing cart in local storage
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        // Check if there is an existing cart in local storage
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Create a new cart item
-    var cartItem = {
-        id: product_id,
-        name: product_name,
-        price: product_price,
-        image: product_image
-    };
+        // Create a new cart item
+        var cartItem = {
+            id: product_id,
+            name: product_name,
+            price: product_price,
+            image: product_image
+        };
 
-    // Add the new item to the cart
-    cart.push(cartItem);
+        // Add the new item to the cart
+        cart.push(cartItem);
 
-    // Save the updated cart back to local storage
-    localStorage.setItem('cart', JSON.stringify(cart));
+        // Save the updated cart back to local storage
+        localStorage.setItem('cart', JSON.stringify(cart));
 
-    // Update the cart count in the header
-    updateCartCount();
-});
+        // Update the cart count in the header
+        updateCartCount();
+    });
 
-function updateCartCount() {
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
-    var cartCount = cart.length;
-    $('#cart-count-container').text(' (' + cartCount + ')');
-}
+    function updateCartCount() {
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        var cartCount = cart.length;
+        $('#cart-count-container').text(' (' + cartCount + ')');
+    }
 
-$(document).ready(function() {
-    updateCartCount(); // Call this on page load to set the initial cart count
-});
+    $(document).ready(function () {
+        updateCartCount(); // Call this on page load to set the initial cart count
+    });
 
-function getCartItems() {
-    return JSON.parse(localStorage.getItem('cart')) || [];
-}
+    function getCartItems() {
+        return JSON.parse(localStorage.getItem('cart')) || [];
+    }
 
-// Example: Get the cart items and do something with them
-var cartItems = getCartItems();
-cartItems.forEach(function(item) {
-    // Do something with each item, e.g., display in a cart summary
-});
+    // Example: Get the cart items and do something with them
+    var cartItems = getCartItems();
+    cartItems.forEach(function (item) {
+        // Do something with each item, e.g., display in a cart summary
+    });
 
-// ...
+    // ...
 </script>
 <?php
 include("includes/footer.php");

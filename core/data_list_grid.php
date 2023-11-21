@@ -2,7 +2,7 @@
 
 include("db_config.php");
 
-
+$fetch_list_students_query=mysqli_query($con,"SELECT * FROM students");
 $fetch_list_order_query=mysqli_query($con,"SELECT od.id,o.paymentstatus, o.orderdate, c.courseDesc,c.courseName
 FROM orderdetails AS od
 JOIN `orders` AS o ON od.orderId = o.id

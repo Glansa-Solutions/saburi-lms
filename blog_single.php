@@ -1,8 +1,8 @@
 <?php
 include("includes/header.php");
 
-if (isset($_GET['id'])) {
-    $blogId = $_GET['id'];
+if (isset($_GET['b_id'])) {
+    $blogId = $_GET['b_id'];
     $fetch_list_blog_query = mysqli_query($con, "SELECT * FROM blogs WHERE id = $blogId");
     $latestBlogs = mysqli_query($con, "SELECT * FROM blogs ORDER BY createdOn DESC");
     $previousPostQuery = mysqli_query($con, "SELECT * FROM blogs WHERE id < $blogId AND isActive = 1 ORDER BY id DESC LIMIT 1");

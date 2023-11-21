@@ -1,4 +1,76 @@
-<?php include("includes/header.php"); ?>
+<?php include("includes/header.php"); 
+$query = "SELECT * FROM courses"; // Adjust the table name as needed
+
+$conditions = []; // Array to store conditions
+
+// Subtopic ID
+if (isset($_GET['subtopicId'])) {
+    $subtopicId = mysqli_real_escape_string($con, $_GET['subtopicId']);
+    $conditions[] = "subTopicId = $subtopicId";
+}
+
+// Search term
+if (isset($_GET['s']) && !empty($_GET['s'])) {
+    $searchTerm = mysqli_real_escape_string($con, $_GET['s']);
+    $conditions[] = "(courseName LIKE '%$searchTerm%' OR courseDesc LIKE '%$searchTerm%')";
+}
+
+// Combine conditions if any
+if (!empty($conditions)) {
+    $query .= " WHERE " . implode(" AND ", $conditions);
+}
+
+if (isset($_GET['orderby'])) {
+    $orderby = $_GET['orderby'];
+    switch ($orderby) {
+        case 'popularity':
+            $query .= " ORDER BY popularity_column ASC";
+            break;
+        case 'average_rating':
+            $query .= " ORDER BY rating_column ASC";
+            break;
+        case 'latest':
+            $query .= " ORDER BY date_column DESC";
+            break;
+        case 'price_low_to_high':
+            $query .= " ORDER BY courseCost ASC";
+            break;
+        case 'price_high_to_low':
+            $query .= " ORDER BY courseCost DESC";
+            break;
+        // Add more cases as needed
+        default:
+            // Default case
+            break;
+    }
+}
+
+// echo $query;
+$allcourse = mysqli_query($con, $query);
+
+// Fetch topics
+if ($fetch_list_topic_query) {
+    while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
+        $id = $row['Id'];
+        $topic_name = $row['topicName'];
+    }
+}
+
+$recordsPerPage = 5; // Adjust this value based on your preference
+$totalRecords = mysqli_num_rows($allcourse);
+$totalPages = ceil($totalRecords / $recordsPerPage);
+
+// Make sure the current page is within a valid range
+$currentPage = max(1, min($totalPages, isset($_GET['page']) ? (int) $_GET['page'] : 1));
+$offset = ($currentPage - 1) * $recordsPerPage;
+
+// Modify the query to include LIMIT and OFFSET
+$query .= " LIMIT $recordsPerPage OFFSET $offset";
+
+// Execute the modified query
+$allcourse = mysqli_query($con, $query);
+
+?>
 
 <!--search overlay start-->
 <div class="search-wrap">
@@ -56,46 +128,54 @@
                         <h2 class="title d-block text-left-sm">Courses</h2>
                         <p class="woocommerce-result-count"> Showing 1–16 of 17 results</p>
                         <form class="woocommerce-ordering float-lg-right" method="get">
-                            <select name="orderby" class="orderby form-control" aria-label="Shop order">
+                            <select name="orderby" class="orderby form-control" aria-label="Shop order"
+                                onchange="handleSortChange(this)">
                                 <option value="" selected="selected">Default sorting</option>
-                                <option value="">Sort by popularity</option>
-                                <option value="">Sort by average rating</option>
-                                <option value="">Sort by latest</option>
-                                <option value="">Sort by price: low to high</option>
-                                <option value="">Sort by price: high to low</option>
+                                <option value="popularity">Sort by popularity</option>
+                                <option value="average_rating">Sort by average rating</option>
+                                <option value="latest">Sort by latest</option>
+                                <option value="price_low_to_high">Sort by price: low to high</option>
+                                <option value="price_high_to_low">Sort by price: high to low</option>
                             </select>
-                            <input type="hidden" name="paged" value="1">
                         </form>
+                        <p class="woocommerce-result-count"> Showing 1–
+                            <?php echo mysqli_num_rows($allcourse); ?> of
+                            <?php echo mysqli_num_rows($allcourse); ?> results
+                        </p>
                     </div>
 
                     <ul class="products columns-3">
-                        <?php
-                        foreach ($query as $product) {
-                            $id = $product['id'];
-                            $courseImage = $product['bannerImage'];
-                            $courseName = $product['courseName'];
-                            $courseCost = $product['courseCost'];
-                            ?>
+                    <?php
+                        if (isset($_GET['subtopicId']) && isset($_GET['orderby'])) {
+                            $subtopicId = $_GET['subtopicId'];
+
+                            // Use $subtopicId in your query to fetch filtered courses
+                            $filteredCourses = mysqli_query($con, "SELECT * FROM courses WHERE subtopicId = $subtopicId ORDER BY courseCost ASC");
+
+                            // Loop through and display filtered courses
+                            while ($row = mysqli_fetch_array($filteredCourses)) {
+                                $coursename = $row["courseName"];
+                                $coursePrice = $row["courseCost"];
+                                $courseDes = $row["courseDesc"];
+                                $bannerImage = $row["bannerImage"];
+                                ?>
                             <li class="product" style="margin-right:2%;">
                                 <div class="product-wrap">
-                                    <a href="course_single.php?id=<?= $id ?>">
-                                        <img src="uploads/images/<?= $courseImage ?>" alt="">
-                                    </a>
-                                    <div class="product-btn-wrap">
-                                        <a href="course_single.php?id=<?= $id ?>"
-                                            class="button product_type_simple add_to_cart_button ajax_add_to_cart"
-                                            data-product-id="<?= $id ?>" data-product-name="<?= $courseName ?>"
-                                            data-product-price="<?= $courseCost ?>"
-                                            data-product-image="<?= $courseImage ?>">
-                                            <i class="fa fa-shopping-basket"></i>
+                                <a href="course_single.php?course_id=<?= $id ?>">
+                                            <img src="uploads/images/<?= $bannerImage ?>"
+                                                alt="">
                                         </a>
-                                        <a href="" class="button wish-list"><i class="fa fa-heart"></i></a>
+                                    <div class="product-btn-wrap">
+                                    <!-- <a href="#" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
+                                                <i class="fa fa-shopping-basket"></i>
+                                            </a>
+                                            <a href="#" class="button wish-list"><i class="fa fa-heart"></i></a> -->
                                     </div>
                                 </div>
                                 <div class="woocommerce-product-title-wrap">
                                     <h2 class="woocommerce-loop-product__title">
                                         <a href="#">
-                                            <?= $courseName ?>
+                                            <?= $coursename ?>
                                         </a>
                                     </h2>
                                 </div>
@@ -103,55 +183,97 @@
                                     <ins>
                                         <span class="woocommerce-Price-amount amount">
                                             <span class="woocommerce-Price-currencySymbol">₹</span>
-                                            <?= $courseCost ?>
+                                            <?= $coursePrice ?>
                                         </span>
                                     </ins>
                                 </span>
                                 <div class="star-rating"></div>
                             </li>
-
                             <?php
+                            }
+                        } else {
+                            while ($row = mysqli_fetch_array($allcourse)) {
+                                $id = $row['id'];
+                                $coursename = $row["courseName"];
+                                $coursePrice = $row["courseCost"];
+                                $courseDes = $row["courseDesc"];
+                                $bannerImage = $row["bannerImage"];
+                                ?>
+                                      <li class="product" style="margin-right:2%;">
+                                <div class="product-wrap">
+                                <a href="course_single.php?course_id=<?= $id ?>">
+                                            <img src="uploads/images/<?= $bannerImage ?>"
+                                                alt="">
+                                        </a>
+                                    <div class="product-btn-wrap">
+                                    <!-- <a href="#" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
+                                                <i class="fa fa-shopping-basket"></i>
+                                            </a>
+                                            <a href="#" class="button wish-list"><i class="fa fa-heart"></i></a> -->
+                                    </div>
+                                </div>
+                                <div class="woocommerce-product-title-wrap">
+                                    <h2 class="woocommerce-loop-product__title">
+                                        <a href="#">
+                                            <?= $coursename ?>
+                                        </a>
+                                    </h2>
+                                </div>
+                                <span class="price">
+                                    <ins>
+                                        <span class="woocommerce-Price-amount amount">
+                                            <span class="woocommerce-Price-currencySymbol">₹</span>
+                                            <?= $coursePrice ?>
+                                        </span>
+                                    </ins>
+                                </span>
+                                <div class="star-rating"></div>
+                            </li>
+                            <?php
+                            }
                         }
                         ?>
-
                     </ul>
 
-                    <?php if ($totalCourses > 0): ?>
-                        <!-- Display pagination only if there are courses to show -->
-                        <nav class="woocommerce-pagination">
-                            <ul class="page-numbers">
-                                <?php for ($page = 1; $page <= $totalPages; $page++): ?>
-                                    <li>
-                                        <?php if ($page == $currentPage): ?>
-                                            <span aria-current="page" class="page-numbers current">
-                                                <?= $page ?>
-                                            </span>
-                                        <?php else: ?>
-                                            <a class="page-numbers" href="?page=<?= $page ?>">
-                                                <?= $page ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    </li>
-                                <?php endfor; ?>
-                            </ul>
-                        </nav>
-                    <?php endif; ?>
+                    <nav class="woocommerce-pagination">
+                        <ul class="page-numbers">
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <li>
+                                    <a class="page-numbers"
+                                        href="?page=<?php echo $i; ?><?php echo isset($_GET['subtopicId']) ? '&subtopicId=' . $_GET['subtopicId'] : ''; ?><?php echo isset($_GET['s']) ? '&s=' . $_GET['s'] : ''; ?><?php echo isset($_GET['orderby']) ? '&orderby=' . $_GET['orderby'] : ''; ?>">
+                                        <?php echo $i; ?>
+                                    </a>
+                                </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </nav>
                 </div>
                 <!-- product Sidebar start-->
-                <div class="col-lg-4 widget-area ">
+                <div class="col-lg-4 widget-area">
                     <section id="woocommerce_product_search-2" class="widget woocommerce widget_product_search">
                         <form role="search" method="get" class="woocommerce-product-search" action="#">
-                            <label class="screen-reader-text" for="woocommerce-product-search-field-0">
-                                Search for:</label>
+                            <label class="screen-reader-text" for="woocommerce-product-search-field-0">Search
+                                for:</label>
                             <input type="search" id="woocommerce-product-search-field-0" class="search-field"
                                 placeholder="Search products…" value="" name="s">
+
+                            <!-- Include hidden fields for existing query parameters -->
+                            <?php
+                            if (isset($_GET['subtopicId'])) {
+                                echo '<input type="hidden" name="subtopicId" value="' . htmlspecialchars($_GET['subtopicId']) . '">';
+                            }
+                            if (isset($_GET['orderby'])) {
+                                echo '<input type="hidden" name="orderby" value="' . htmlspecialchars($_GET['orderby']) . '">';
+                            }
+                            ?>
+
                             <button type="submit" value="Search">Search</button>
                             <input type="hidden" name="post_type" value="product">
                         </form>
                     </section>
 
                     <section id="woocommerce_product_categories-2" class="widget woocommerce widget_product_categories">
-                        <h3 class="widget-title">Course Topics</h3>
+                        <h3 class="widget-title">Product categories</h3>
                         <div class="edutim-course-topic">
                             <div class="accordion" id="accordionExample">
                                 <?php $index = 0; ?>
@@ -174,9 +296,16 @@
                                                     <?php if ($subtopic['topicId'] == $row['Id']): ?>
                                                         <div class="single-course-lesson">
                                                             <div class="course-topic-lesson">
-                                                                <a href="core/functions.php?subtopicId=<?= $subtopic['id']; ?>">
+                                                                <!-- <i class="fab fa-youtube"></i> -->
+
+                                                                <!-- <a href="<?= $subtopic['id']; ?>"><?= $subtopic['subTopicName'] . $subtopic['id'] ?></a> -->
+                                                                <!-- Change the subtopic link in your PHP code -->
+                                                                <a href="#" class="subtopic-link"
+                                                                    data-subtopic-id="<?= $subtopic['id']; ?>">
                                                                     <?= $subtopic['subTopicName'] ?>
                                                                 </a>
+
+
                                                             </div>
                                                         </div>
                                                     <?php endif; ?>
@@ -189,6 +318,7 @@
                             </div>
                         </div>
                     </section>
+
                     
                     <section id="woocommerce_top_rated_products-2" class="widget woocommerce widget_top_rated_products">
                         <h3 class="widget-title">Top rated products</h3>
@@ -237,38 +367,94 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // Get all subtopic links
-    // Get all subtopic links
-    var subtopicLinks = document.querySelectorAll('.course-topic-lesson a');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add a click event to all elements with the class 'subtopic-link'
+        var subtopicLinks = document.querySelectorAll('.subtopic-link');
 
-    // Attach a click event handler to each subtopic link
-    subtopicLinks.forEach(function (link) {
-        link.addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent the default link behavior
+        subtopicLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
 
-            // Get the target subtopic ID from the link's href
-            var href = this.getAttribute('href');
-            var targetId = href.split('=')[1]; // Extract the subtopic ID from the query parameter
-            console.log(targetId);
+                // Get the subtopic ID from the data attribute
+                var subtopicId = link.dataset.subtopicId;
 
-            // Make an AJAX request to the server to fetch courses based on the selected subtopic
-            $.ajax({
-                type: 'GET',
-                url: 'core/functions.php',
-                data: {
-                    subtopicId: targetId
-                }, // Pass the subtopic ID as a parameter
-                success: function (response) {
-                    // Handle the response and update the course list
-                    $('.products').html(response);
-                }
+                // Get the current URL
+                var url = new URL(window.location.href);
+
+                // Update the URL with the new subtopic ID
+                url.searchParams.set("subtopicId", subtopicId);
+
+                // Log the URL for debugging
+                console.log("Updated URL after clicking subtopic:", url.toString());
+
+                // Update the URL
+                window.location.href = url.toString();
             });
         });
+
+        // Add a change event to the search input
+        var searchInput = document.querySelector('.search-field');
+        searchInput.addEventListener('input', function () {
+            updateUrlWithSearchTerm();
+        });
+
+        // Add a change event to the sorting select
+        var sortingSelect = document.querySelector('.orderby');
+        sortingSelect.addEventListener('change', function () {
+            updateUrlWithSorting();
+        });
+
+        function updateUrlWithSearchTerm() {
+            // Get the search term from the input
+            var searchTerm = searchInput.value.trim();
+
+            // Get the current URL
+            var url = new URL(window.location.href);
+
+            // Update the URL with the new search term
+            if (searchTerm !== "") {
+                url.searchParams.set("s", searchTerm);
+            } else {
+                // Remove the s parameter if the search term is empty
+                url.searchParams.delete("s");
+            }
+
+            // Remove subtopicId when updating search term
+            url.searchParams.delete("subtopicId");
+
+            // Log the URL for debugging
+            console.log("Updated URL after search term change:", url.toString());
+
+            // Update the URL
+            window.location.href = url.toString();
+        }
+
+        function updateUrlWithSorting() {
+            // Get the selected value from the sorting select
+            var selectedValue = sortingSelect.value;
+
+            // Get the current URL
+            var url = new URL(window.location.href);
+
+            // Update the URL with the new sorting parameter
+            if (selectedValue !== "") {
+                url.searchParams.set("orderby", selectedValue);
+            } else {
+                // Remove the orderby parameter if it's empty
+                url.searchParams.delete("orderby");
+            }
+
+            // Log the URL for debugging
+            console.log("Updated URL after sorting change:", url.toString());
+
+            // Update the URL
+            window.location.href = url.toString();
+        }
     });
 
-    $("#target").on("click", function () {
-        alert("Handler for `click` called.");
-    });
+</script>
+<script>
+
     // AJAX request to add a product to the cart
     $('.add_to_cart_button').click(function (e) {
         e.preventDefault();
@@ -298,7 +484,6 @@
         // Update the cart count in the header
         updateCartCount();
     });
-
     function updateCartCount() {
         var cart = JSON.parse(localStorage.getItem('cart')) || [];
         var cartCount = cart.length;
@@ -308,7 +493,6 @@
     $(document).ready(function () {
         updateCartCount(); // Call this on page load to set the initial cart count
     });
-
     function getCartItems() {
         return JSON.parse(localStorage.getItem('cart')) || [];
     }
@@ -318,7 +502,6 @@
     cartItems.forEach(function (item) {
         // Do something with each item, e.g., display in a cart summary
     });
-
-    // ...
 </script>
+
 <?php include("includes/footer.php"); ?>

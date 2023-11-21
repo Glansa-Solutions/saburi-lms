@@ -1,5 +1,15 @@
 <?php
 include("includes/header.php");
+
+if ($fetch_user_contact_details_query) {
+    while ($row = mysqli_fetch_assoc($fetch_user_contact_details_query)) {
+        $id = $row['id'];
+        $email = $row['email'];
+        $phone_no = $row['phone_no'];
+        $address = $row['address'];
+
+    }
+}
 ?>
 
 <div class="search-wrap">
@@ -65,35 +75,32 @@ include("includes/header.php");
                     <div class="col-lg-12 col-md-6">
                         <div class="contact-item">
                             <p>Email Us</p>
-                            <h4>support@email.com</h4>
+                            <h4>
+                                <?= $email; ?>
+                            </h4>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-6">
                         <div class="contact-item">
                             <p>Make a Call</p>
-                            <h4>+45 234 345467</h4>
+                            <h4>
+                                <?= $phone_no; ?>
+                            </h4>
                         </div>
                     </div>
                     <div class="col-lg-12 col-md-6">
                         <div class="contact-item">
                             <p>Corporate Office</p>
-                            <h4>Moon Street Light Avenue, 14/05
-                                Jupiter, JP 80630 </h4>
+                            <h4>
+                                <?= $address; ?>
+                            </h4>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="col-lg-8">
-                <form class="contact__form form-row " method="POST" action="mail.php" id="contactForm">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="alert alert-success contact__msg" style="display: none" role="alert">
-                                Your message was sent successfully.
-                            </div>
-                        </div>
-                    </div>
-
+                <form class="form-row" method="POST" action="core/allmailfun.php">
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -105,6 +112,8 @@ include("includes/header.php");
                             <div class="form-group">
                                 <input type="text" name="email" id="email" class="form-control"
                                     placeholder="Email Address">
+                                <input type="hidden" id="email" name="admin_email" placeholder="Enter Your Email"
+                                    class="form-control" value="<?= $email; ?>">
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -124,12 +133,16 @@ include("includes/header.php");
 
                     <div class="col-lg-12">
                         <div class="mt-4 text-right">
-                            <button class="btn btn-main" type="submit">Send Message <i
+                            <button class="btn btn-main" type="submit" name="add">Send Message <i
                                     class="fa fa-angle-right ml-2"></i></button>
                         </div>
                     </div>
                 </form>
             </div>
+        </div>
+
+        <div class="row justify-content-center">
+
         </div>
     </div>
 </section>

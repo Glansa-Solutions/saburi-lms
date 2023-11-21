@@ -1,15 +1,15 @@
 <?php 
-include("./core/init.php");
-// $mainlink="http://localhost/LMS/lms2/";
-// $mainlink="http://localhost:8080/LMS/lms2/";
-$cartCount = isset($_SESSION['cart_count']) ? $_SESSION['cart_count'] : 0;
-// session_start();
+session_start();
+// include("./core/init.php");
 include("./core/login_register.php");
 include("./core/authFunctions.php");
 include("./core/blogsFunction.php");
 include("./core/homeFunction.php");
 include("./core/functions.php");
 include("./core/data_list_grid.php");
+include("./core/checkoutFunction.php");
+include("./core/allmailfun.php");
+
 
 
 
