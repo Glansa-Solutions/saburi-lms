@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 // include("./core/init.php");
 include("./core/login_register.php");
@@ -28,6 +28,8 @@ include("./core/allmailfun.php");
 
     <!-- Mobile Specific Meta-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- bootstrap.min css -->
     <link rel="stylesheet" href="assets/vendors/bootstrap/bootstrap.css">
     <!-- Iconfont Css -->
@@ -83,7 +85,7 @@ include("./core/allmailfun.php");
                                 </ul>
                             </div>
                             <div class="header-btn">
-                                <a href="<?= $mainlink?>log_reg" class="btn btn-main btn-small"><i
+                                <a href="<?= $mainlink ?>log_reg" class="btn btn-main btn-small"><i
                                         class="fa fa-user mr-2"></i>Login / Register</a>
                             </div>
                         </div>
@@ -112,7 +114,7 @@ include("./core/allmailfun.php");
                     <div class="collapse navbar-collapse" id="navbarMenu">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
-                                <a class="nav-link js-scroll-trigger" href="<?=$mainlink?>">
+                                <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>">
                                     Home
                                 </a>
                             </li>
@@ -121,25 +123,25 @@ include("./core/allmailfun.php");
                                     Company
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbar3">
-                                    <a class="dropdown-item " href="<?=$mainlink?>about">
+                                    <a class="dropdown-item " href="<?= $mainlink ?>about">
                                         About
                                     </a>
-                                    <a class="dropdown-item " href="<?= $mainlink?>corporateGovernance">
+                                    <a class="dropdown-item " href="<?= $mainlink ?>corporateGovernance">
                                         Governance
                                     </a>
 
-                                    <a class="dropdown-item " href="<?=$mainlink?>career">
+                                    <a class="dropdown-item " href="<?= $mainlink ?>career">
                                         Careers
                                     </a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link js-scroll-trigger" href="<?=$mainlink?>courselist">
+                                <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>courselist">
                                     Courses
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link js-scroll-trigger" href="<?=$mainlink?>blogs">
+                                <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>blogs">
                                     Blogs
                                 </a>
                             </li>
@@ -155,7 +157,7 @@ include("./core/allmailfun.php");
                                 </a>
                             </li> -->
                             <li class="nav-item ">
-                                <a href="<?= $mainlink?>contact" class="nav-link">
+                                <a href="<?= $mainlink ?>contact" class="nav-link">
                                     Contact Us
                                 </a>
                             </li>
@@ -163,15 +165,15 @@ include("./core/allmailfun.php");
                         </ul>
 
                         <ul class="header-contact-right d-none d-lg-block">
-                        <li>
-                     <a href="<?= $mainlink?>cart" id="cart-link" class="header-cart">
-                            <i class="fa fa-shopping-cart"></i>
-                            <!-- Inside your header.php -->
-                            <span id="cart-count-container">
-                            <span id="cart-count">0</span>
-                            </span>
-                        </a>
-                    </li>
+                            <li>
+                                <a href="<?= $mainlink ?>cart" id="cart-link" class="header-cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <!-- Inside your header.php -->
+                                    <span id="cart-count-container">
+                                        <span id="cart-count">0</span>
+                                    </span>
+                                </a>
+                            </li>
                             <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
                             </li>
                         </ul>
@@ -179,8 +181,8 @@ include("./core/allmailfun.php");
                             <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                                 <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <img class="img-xs rounded-circle" src="assets/images/profile_img/student.png" height="50px"
-                                        width="50px" alt="Profile image"> </a>
+                                    <img class="img-xs rounded-circle" src="assets/images/profile_img/student.png"
+                                        height="50px" width="50px" alt="Profile image"> </a>
                                 <!-- <img src="assets/images/saburi.png" alt="Edutim" class="img-fluid w-50" > -->
 
                                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
@@ -189,14 +191,18 @@ include("./core/allmailfun.php");
                                         <!-- <img src="assets/images/saburi.png" alt="Edutim" class="img-fluid w-50" height="50px" width="50px"> -->
                                         <img class="img-md rounded-circle" src="assets/images/profile_img/student.png"
                                             height="50px" width="50px" alt="Profile image">
-                                        <p class="mb-1 mt-3 font-weight-semibold">Hi<span>&nbsp</span><?= $s_name;?></p>
-                                        <p class="fw-light text-muted mb-0"><?= $s_email;?></p>
+                                        <p class="mb-1 mt-3 font-weight-semibold">Hi<span>&nbsp</span>
+                                            <?= $s_name; ?>
+                                        </p>
+                                        <p class="fw-light text-muted mb-0">
+                                            <?= $s_email; ?>
+                                        </p>
                                     </div>
-                                    <a class="dropdown-item" href="<?= $mainlink?>profile"><i
+                                    <a class="dropdown-item" href="<?= $mainlink ?>profile"><i
                                             class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
                                         Profile
                                         <!-- <span class="badge badge-pill badge-danger">1</span></a> -->
-                                        <a href="<?= $mainlink?>myOrders" class="dropdown-item"><i
+                                        <a href="<?= $mainlink ?>myOrders" class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
                                             My Orders</a>
                                         <a class="dropdown-item"><i
@@ -218,20 +224,20 @@ include("./core/allmailfun.php");
         </div>
     </header>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+    <script>
 
-// <!-- This is your HTML for displaying the cart count -->
+        // <!-- This is your HTML for displaying the cart count -->
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    function updateCartCount() {
-        const cartJSON = localStorage.getItem('cart');
-        const cartItems = JSON.parse(cartJSON) || [];
-        const cartCount = cartItems.length;
-        const cartCountContainer = document.getElementById('cart-count');
-        cartCountContainer.textContent = cartCount;
-    }
+        document.addEventListener('DOMContentLoaded', function () {
+            function updateCartCount() {
+                const cartJSON = localStorage.getItem('cart');
+                const cartItems = JSON.parse(cartJSON) || [];
+                const cartCount = cartItems.length;
+                const cartCountContainer = document.getElementById('cart-count');
+                cartCountContainer.textContent = cartCount;
+            }
 
-    updateCartCount();
-});
-</script>
+            updateCartCount();
+        });
+    </script>
