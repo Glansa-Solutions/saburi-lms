@@ -124,11 +124,6 @@ include("./core/allmailfun.php");
                                     Home
                                 </a>
                             </li>
-                            <!-- <li class="nav-item ">
-                                <a href="<?=$mainlink?>about" class="nav-link js-scroll-trigger">
-                                    Company
-                                </a>
-                            </li> -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link js-scroll-trigger" href="#">
                                     Company
@@ -177,7 +172,7 @@ include("./core/allmailfun.php");
 
                         <ul class="header-contact-right d-none d-lg-block">
                         <li>
-                     <a href="cart.php" id="cart-link" class="header-cart">
+                     <a href="<?= $mainlink?>cart" id="cart-link" class="header-cart">
                             <i class="fa fa-shopping-cart"></i>
                             <!-- Inside your header.php -->
                             <span id="cart-count-container">
