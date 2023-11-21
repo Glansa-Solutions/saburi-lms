@@ -219,8 +219,8 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                         <div class="edutim-course-topics-header-left">
                             <h4 class="course-title">Topics for this course</h4>
                         </div>
-                     </div>
-                        <div class="edutim-course-topics-contents">
+                    </div>
+                    <div class="edutim-course-topics-contents">
                         <div class="accordion" id="accordionExample">
                             <?php if ((isset($_GET['order_id']) || isset($_GET['course_id'])) && $fetch_chaepter_list && $fetch_chaepter_list->num_rows > 0): ?>
                             <?php while ($row = $fetch_chaepter_list->fetch_assoc()): ?>
@@ -347,43 +347,12 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "company") { ?>
                                 <!-- <input type="number" id="quantity" name="quantity" min="1" value="1"
                                             style="font-size: 20px; width: 50px; height: 30px;"> -->
-                                <style>
-                                /* Hide the default number input arrows in Chrome, Safari, and Edge */
-                                input[type=number]::-webkit-inner-spin-button,
-                                input[type=number]::-webkit-outer-spin-button {
-                                    -webkit-appearance: none;
-                                    margin: 0;
-                                }
 
-                                /* Hide the default number input arrows in Firefox */
-                                input[type=number] {
-                                    -moz-appearance: textfield;
-                                }
-
-                                #quantity {
-                                    border: 1px solid #E9770E;
-                                }
-                                .btn_incr:hover,
-                                .btn_decr:hover {
-                                    padding: 0px 20px;
-                                    background-color: #213975;
-                                    color: #ffff;
-                                }
-                                .btn_incr,
-                                .btn_decr {
-                                    padding: 0px 20px;
-                                    background-color: #E9770E;
-                                    color: #ffff;
-                                }
-                                .quantity{
-                                    width: 50%;
-                                }
-                                </style>
                                 <!-- <div class="container"> -->
                                 <h4>Quantity</h4>
                                 <div class="input-group mb-3 quantity">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text btn btn_incr"  id="decrease">-</span>
+                                        <span class="input-group-text btn btn_incr" id="decrease">-</span>
                                     </div>
                                     <input type="number" class="form-control text-center" id="quantity" name="quantity"
                                         min="1" value="1">
@@ -403,9 +372,10 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                                     if (isset($_GET['course_id'])) {
                                         // If a course ID is present, display the "Start Course" button
                                         ?>
-                                <a href="<?= $mainlink?>start_course_url" class="btn btn-main btn-block add_to_cart_button"
-                                    data-product-id="<?= $co_id ?>" data-product-name="<?= $courseName ?>"
-                                    data-product-price="<?= $courseCost ?>" data-product-image="<?= $bannerImage ?>">
+                                <a href="<?= $mainlink?>start_course_url"
+                                    class="btn btn-main btn-block add_to_cart_button" data-product-id="<?= $co_id ?>"
+                                    data-product-name="<?= $courseName ?>" data-product-price="<?= $courseCost ?>"
+                                    data-product-image="<?= $bannerImage ?>">
                                     Add To Cart
                                 </a>
                                 <?php
@@ -620,8 +590,7 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
     </div>
 </section>
 
-<script>
-
+<!-- <script>
 var quantityInput;
 
 $(document).ready(function() {
@@ -662,7 +631,7 @@ $('.add_to_cart_button').click(function(e) {
         name: product_name,
         price: product_price,
         image: product_image,
-        quantity: selectedQuantity 
+        quantity: selectedQuantity
     };
 
     // Add the new item to the cart
@@ -696,7 +665,7 @@ cartItems.forEach(function(item) {
 });
 
 // ...
-</script>
+</script> -->
 <?php
 include("includes/footer.php");
 ?>

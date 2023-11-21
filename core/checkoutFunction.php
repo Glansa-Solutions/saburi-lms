@@ -12,7 +12,7 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
     $couponcode = $_POST['couponcode']; // Get the coupon code from the form
     $discount = 0;
     $subscribedby = $_SESSION['role'];
-    $subscriberid = $_SESSION['user_id'];
+    $subscriberid = $_SESSION['role_id'];
      // Get the user role from the session
 // echo $subscribedby; // For debugging purposes
 // exit();
