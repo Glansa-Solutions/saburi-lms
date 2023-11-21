@@ -7,18 +7,10 @@ include("./core/blogsFunction.php");
 include("./core/homeFunction.php");
 include("./core/functions.php");
 include("./core/data_list_grid.php");
-include("./core/checkoutFunction.php");
+// include("./core/checkoutFunction.php");
 include("./core/allmailfun.php");
-
-
-
-
-
 // include("./core/login_register.php");
 // include("./core/login_register.php");
-
-
-
 ?>
 
 

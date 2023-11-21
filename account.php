@@ -1,6 +1,43 @@
 <?php
 include("includes/header.php");
+
+// session_start();
+// include("db_connection.php"); // Include your database connection file
+
+// ... (other includes and configurations)
+
+if (isset($_POST['student_login'])) {
+    // Student login logic
+    // ...
+
+    // Assuming you have retrieved the student ID from the database
+    $studentId = $row['student_id']; // Adjust this according to your actual column name
+    
+    // Set the student ID and other relevant information in the session
+    $_SESSION['user_id'] = $studentId;
+    $_SESSION['role'] = 'student'; // Assuming you have a 'role' column
+    $_SESSION['student_email'] = $row['email']; // Assuming you have an 'email' column
+
+    // ... (other code)
+
+} elseif (isset($_POST['company_login'])) {
+    // Company login logic
+    // ...
+
+    // Assuming you have retrieved the company ID from the database
+    $companyId = $row['company_id']; // Adjust this according to your actual column name
+
+    // Set the company ID and other relevant information in the session
+    $_SESSION['user_id'] = $companyId;
+    $_SESSION['role'] = 'company'; // Assuming you have a 'role' column
+    $_SESSION['company_email'] = $row['email']; // Assuming you have an 'email' column
+
+    // ... (other code)
+}
+
+// ... (other code)
 ?>
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

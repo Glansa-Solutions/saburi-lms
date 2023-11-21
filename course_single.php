@@ -1,19 +1,63 @@
 <?php
-// include("../functions/functions.php");
-// include("../functions/list_grid.php");
+// include("../core/functions.php");
+// include("../core/data_list_grid.php");
 // include("../functions/database_functions.php");
 include("includes/header.php");
 
 // $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
 // $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
 
+function getFormattedDuration($videoFilePath)
+{
+    // Initialize getID3
+    $getID3 = new getID3();
+    // Analyze the video file
+    $fileInfo = $getID3->analyze($videoFilePath);
+
+    // Get video duration
+    if (isset($fileInfo['playtime_seconds'])) {
+        $duration = $fileInfo['playtime_seconds'];
+
+        // Format the duration as HH:MM:SS
+        $formattedDuration = gmdate('H:i:s', $duration);
+    } else {
+        $formattedDuration = "Unknown";
+    }
+
+    return $formattedDuration;
+}
+
+// Variable to store the total duration
+$totalDurationInSeconds = 0;
+$fetch_chaepter_list = null;
 if (isset($_GET['course_id'])) {
     $co_id = $_GET['course_id'];
     $fetch_data = mysqli_query($con, "SELECT * FROM courses WHERE id = $co_id");
+    $fetch_chaepter_list = mysqli_query($con, "SELECT 
+        topics.Id AS topic_id,
+        topics.topicName,
+        subtopics.Id AS subtopic_id,
+        subtopics.subtopicName,
+        courses.id AS course_id,
+        courses.courseName,
+        chapters.id AS chapter_id,
+        chapters.chapterName,
+        chapters.uploadFile,
+        chapters.video
+        FROM
+        topics
+        JOIN
+        subtopics ON topics.Id = subtopics.topicId
+        JOIN
+        courses ON subtopics.Id = courses.subTopicId
+        JOIN
+        chapters ON courses.id = chapters.courseId
+        WHERE
+        chapters.courseId = $co_id AND
+        chapters.isActive = 1");
     if ($fetch_data && mysqli_num_rows($fetch_data) > 0) {
         $n = mysqli_fetch_array($fetch_data);
         $courseName = $n['courseName'];
-
         $courseCost = $n['courseCost'];
         $bannerImage = $n['bannerImage'];
         $courseDesc = $n['courseDesc'];
@@ -33,78 +77,40 @@ if (isset($_GET['course_id'])) {
     FROM orderdetails AS od
     JOIN `orders` AS o ON od.orderId = o.id
     JOIN courses AS c ON od.courseId = c.id
-    WHERE od.id = $o_id");
-    if ($payment_data && mysqli_num_rows($payment_data) > 0) {
-        $n = mysqli_fetch_array($payment_data);
-        $courseName = $n['courseName'];
-        $paymentstatus = $n['paymentstatus'];
-        $courseCost = $n['courseCost'];
-        $bannerImage = $n['bannerImage'];
-        $courseDesc = $n['courseDesc'];
-        $createdOn = $n['createdOn'];
-        $Coursewyl = $n['learn'];
-        $CourseSummary = $n['summary'];
-        $tag = $n['tag'];
-        $requirement = $n['requirements'];
-        $createdOn = $n['createdOn'];
-        // echo $courseName;
+    WHERE od.id = $o_id;
+    ");
+if ($payment_data && mysqli_num_rows($payment_data) > 0) {
+    $n = mysqli_fetch_array($payment_data);
+    $courseName = $n['courseName'];
+    $paymentstatus = $n['paymentstatus'];
+    $courseCost = $n['courseCost'];
+    $bannerImage = $n['bannerImage'];
+    $courseDesc = $n['courseDesc'];
+    $createdOn = $n['createdOn'];
+    $Coursewyl = $n['learn'];
+    $CourseSummary = $n['summary'];
+    $tag = $n['tag'];
+    $requirement = $n['requirements'];
+    $createdOn = $n['createdOn'];
+    $course_id = $n['courseId'];
+
+    // Fetch chapters for the course using course_id
+    $fetch_chaepter_list = mysqli_query($con, "SELECT 
+        chapters.id AS chapter_id,
+        chapters.chapterName
+        FROM
+        chapters
+        WHERE
+        chapters.courseId = $course_id AND
+        chapters.isActive = 1");
+    // You can now use $fetch_chaepter_list to display chapter information in your HTML
+    // echo $courseName;
     } else {
         echo "Order not found.";
     }
 }
 
 
-
-//The rest of your HTML code for displaying the course details -->
-
-// $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
-// $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
-
-if (isset($_GET['course_id'])) {
-    $co_id = $_GET['course_id'];
-    $fetch_data = mysqli_query($con, "SELECT * FROM courses WHERE id = $co_id");
-    if ($fetch_data && mysqli_num_rows($fetch_data) > 0) {
-        $n = mysqli_fetch_array($fetch_data);
-        $courseName = $n['courseName'];
-
-        $courseCost = $n['courseCost'];
-        $bannerImage = $n['bannerImage'];
-        $courseDesc = $n['courseDesc'];
-        $createdOn = $n['createdOn'];
-        $CourseSummary = $n['summary'];
-        $Coursewyl = $n['learn'];
-        $tag = $n['tag'];
-        $requirement = $n['requirements'];
-        $createdOn = $n['createdOn'];
-        // echo $courseName;
-    } else {
-        echo "Course not found.";
-    }
-} else {
-    $o_id = $_GET['order_id'];
-    $payment_data = mysqli_query($con, "SELECT od.id, o.paymentstatus, o.orderdate, c.*, od.orderId, od.courseId
-    FROM orderdetails AS od
-    JOIN `orders` AS o ON od.orderId = o.id
-    JOIN courses AS c ON od.courseId = c.id
-    WHERE od.id = $o_id");
-    if ($payment_data && mysqli_num_rows($payment_data) > 0) {
-        $n = mysqli_fetch_array($payment_data);
-        $courseName = $n['courseName'];
-        $paymentstatus = $n['paymentstatus'];
-        $courseCost = $n['courseCost'];
-        $bannerImage = $n['bannerImage'];
-        $courseDesc = $n['courseDesc'];
-        $createdOn = $n['createdOn'];
-        $Coursewyl = $n['learn'];
-        $CourseSummary = $n['summary'];
-        $tag = $n['tag'];
-        $requirement = $n['requirements'];
-        $createdOn = $n['createdOn'];
-        // echo $courseName;
-    } else {
-        echo "Order not found.";
-    }
-}
 
 
 ?>
@@ -213,123 +219,30 @@ if (isset($_GET['course_id'])) {
                         <div class="edutim-course-topics-header-left">
                             <h4 class="course-title">Topics for this course</h4>
                         </div>
-                        <div class="edutim-course-topics-header-right">
-                            <span> Total learning: <strong>14 Lessons</strong></span>
-                            <span> Time: <strong>13h 20m 20s</strong> </span>
-                        </div>
-                    </div>
-
-                    <div class="edutim-course-topics-contents">
-                        <div class="edutim-course-topic ">
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                        <h2 class="mb-0">
-                                            <button class="btn-block text-left curriculmn-title-btn" type="button"
-                                                data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                                                aria-controls="collapseOne">
-                                                <h4 class="curriculmn-title">Introduction & Get Started</h4>
-                                            </button>
-                                        </h2>
-                                    </div>
-
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                        data-parent="#accordionExample">
-                                        <div class="course-lessons">
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <i class="fab fa-youtube"></i>
-                                                    <span> Work with Smart Objects</span>
-                                                </div>
-                                                <div class="course-lesson-duration">
-                                                    00:05:20
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header" id="headingTwo">
-                                        <h2 class="mb-0">
-                                            <button class="btn-block text-left collapsed curriculmn-title-btn"
-                                                type="button" data-toggle="collapse" data-target="#collapseTwo"
-                                                aria-expanded="false" aria-controls="collapseTwo">
-                                                <h4 class="curriculmn-title"> Artboards & Raster Layers</h4>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                        data-parent="#accordionExample">
-                                        <div class="course-lessons">
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <i class="fab fa-youtube"></i>
-                                                    <span>Use Photoshop’s Interface Efficiently</span>
-                                                </div>
-                                                <div class="course-lesson-duration">
-                                                    00:05:20
-                                                </div>
-                                            </div>
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <i class="fab fa-youtube"></i>
-                                                    <span>Use the Eye Dropper & Swatches</span>
-                                                </div>
-                                                <div class="course-lesson-duration">
-                                                    00:05:20
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header" id="headingThree">
-                                        <h2 class="mb-0">
-                                            <button class="btn-block text-left collapsed curriculmn-title-btn"
-                                                type="button" data-toggle="collapse" data-target="#collapseThree"
-                                                aria-expanded="false" aria-controls="collapseThree">
-                                                <h4 class="curriculmn-title">Work with Smart Objects</h4>
-                                            </button>
-                                        </h2>
-                                    </div>
-
-                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
-                                        data-parent="#accordionExample">
-                                        <div class="course-lessons">
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <i class="fab fa-youtube"></i>
-                                                    <span>Smart Objects Explained</span>
-                                                </div>
-                                                <div class="course-lesson-duration">
-                                                    00:05:20
-                                                </div>
-                                            </div>
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <i class="fab fa-youtube"></i>
-                                                    <span>Filters with Smart Objects</span>
-                                                </div>
-                                                <div class="course-lesson-duration">
-                                                    00:05:20
-                                                </div>
-                                            </div>
-
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <i class="fab fa-youtube"></i>
-                                                    <span>Clean Up Face Imperfections</span>
-                                                </div>
-                                                <div class="course-lesson-duration">
-                                                    00:05:20
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                     </div>
+                        <div class="edutim-course-topics-contents">
+                        <div class="accordion" id="accordionExample">
+                            <?php if ((isset($_GET['order_id']) || isset($_GET['course_id'])) && $fetch_chaepter_list && $fetch_chaepter_list->num_rows > 0): ?>
+                            <?php while ($row = $fetch_chaepter_list->fetch_assoc()): ?>
+                            <div class="card">
+                                <div class="card-header" id="heading<?= $row['chapter_id'] ?>">
+                                    <h2 class="mb-0">
+                                        <h4 class="curriculum-title">
+                                            <?= $row['chapterName'] ?>
+                                        </h4>
+                                    </h2>
                                 </div>
                             </div>
+                            <?php endwhile; ?>
+                            <?php else: ?>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 class="mb-0">
+                                        <h4 class="curriculum-title">No chapters available for this course.</h4>
+                                    </h2>
+                                </div>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
