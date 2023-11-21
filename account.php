@@ -1,46 +1,30 @@
 <?php
 include("includes/header.php");
-
-// session_start();
-// include("db_connection.php"); // Include your database connection file
-
-// ... (other includes and configurations)
-
-if (isset($_POST['student_login'])) {
-    // Student login logic
-    // ...
-
-    // Assuming you have retrieved the student ID from the database
-    $studentId = $row['student_id']; // Adjust this according to your actual column name
+// session_destroy();
+// if (isset($_POST['student_login'])) {
+//     // Assuming you have retrieved the student ID from the database
+//     $studentId = $row['student_id']; // Adjust this according to your actual column name
     
-    // Set the student ID and other relevant information in the session
-    $_SESSION['user_id'] = $studentId;
-    $_SESSION['role'] = 'student'; // Assuming you have a 'role' column
-    $_SESSION['student_email'] = $row['email']; // Assuming you have an 'email' column
+//     // Set the student ID and other relevant information in the session
+//     $_SESSION['user_id'] = $studentId;
+//     $_SESSION['role'] = 'student'; // Assuming you have a 'role' column
+//     $_SESSION['student_email'] = $row['email']; // Assuming you have an 'email' column
 
-    // ... (other code)
+// } elseif (isset($_POST['company_login'])) {
+//     // Assuming you have retrieved the company ID from the database
+//     $companyId = $row['company_id']; // Adjust this according to your actual column name
 
-} elseif (isset($_POST['company_login'])) {
-    // Company login logic
-    // ...
+//     // Set the company ID and other relevant information in the session
+//     $_SESSION['user_id'] = $companyId;
+//     $_SESSION['role'] = 'company'; // Assuming you have a 'role' column
+//     $_SESSION['company_email'] = $row['email']; // Assuming you have an 'email' column
+//     // ... (other code)
+// }
 
-    // Assuming you have retrieved the company ID from the database
-    $companyId = $row['company_id']; // Adjust this according to your actual column name
-
-    // Set the company ID and other relevant information in the session
-    $_SESSION['user_id'] = $companyId;
-    $_SESSION['role'] = 'company'; // Assuming you have a 'role' column
-    $_SESSION['company_email'] = $row['email']; // Assuming you have an 'email' column
-
-    // ... (other code)
-}
-
-// ... (other code)
 ?>
 
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <div class="search-wrap">
     <div class="overlay">
@@ -113,7 +97,13 @@ if (isset($_POST['student_login'])) {
                                 <div class="mb-3">
                                     <label for="login-password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="login-password">
+                                    <input type="text" name="role"
+                                        value="<?= isset($_SESSION['role']) ? $_SESSION['role'] : '' ?>"
+                                        class="form-control">
+                                    <input type="hidden" name="stud_id" value="<?= isset($st_id) ? $st_id : '' ?>"
+                                        class="form-control">
                                 </div>
+                                
                                 <button type="submit" class="btn btn-primary login_button">Login</button>
                             </form>
                         </div>
@@ -236,7 +226,7 @@ if (isset($_POST['student_login'])) {
 
 
                                         <p class="woocommerce-FormRow form-row">
-                                            <input type="hidden" id="woocommerce-register-nonce"
+                                            <input type="text" id="woocommerce-register-nonce"
                                                 name="woocommerce-register-nonce" value="<?= $_SESSION['role'] ?>"><input
                                                 type="hidden" name="_wp_http_referer" value="/my-account/">
                                             <button type="submit" class="woocommerce-Button button" name="registerCompany"
@@ -286,10 +276,10 @@ if (isset($_POST['student_login'])) {
                                         }
                                         ?>
                                     </p>
-                                    <input type="hidden" name="role"
+                                    <input type="text" name="role"
                                         value="<?= isset($_SESSION['role']) ? $_SESSION['role'] : '' ?>"
                                         class="form-control">
-                                    <input type="hidden" name="stud_id" value="<?= isset($st_id) ? $st_id : '' ?>"
+                                    <input type="text" name="stud_id" value="<?= isset($st_id) ? $st_id : '' ?>"
                                         class="form-control">
 
                                 </div>

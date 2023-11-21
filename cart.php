@@ -64,7 +64,7 @@ include("includes/header.php");
                                                 <div class="conainter">
                                                     <!-- <div class="col-lg-12"> -->
                                                         <div class="col-md-4">
-                                                            <h4>React</h4>
+                                                            <h4>React<?= $_SESSION['id']?></h4>
                                                             <h6>₹9999</h6>
                                                             <i class="fa fa-trash"></i>
                                                         </div>

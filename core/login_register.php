@@ -48,21 +48,21 @@ if (isset($_POST['registerStudent'])) {
     // exit() ;
     $currentDate = date("Y-m-d H:i:s");
     function getRandom($length)
-{
+    {
 
-    $str = 'abcdefghijklmnopqrstuvwzyz';
-    $str1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $str2 = '0123456789';
-    $shuffled = str_shuffle($str);
-    $shuffled1 = str_shuffle($str1);
-    $shuffled2 = str_shuffle($str2);
-    $total = $shuffled . $shuffled1 . $shuffled2;
-    $shuffled3 = str_shuffle($total);
-    $result = substr($shuffled3, 0, $length);
+        $str = 'abcdefghijklmnopqrstuvwzyz';
+        $str1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $str2 = '0123456789';
+        $shuffled = str_shuffle($str);
+        $shuffled1 = str_shuffle($str1);
+        $shuffled2 = str_shuffle($str2);
+        $total = $shuffled . $shuffled1 . $shuffled2;
+        $shuffled3 = str_shuffle($total);
+        $result = substr($shuffled3, 0, $length);
 
-    return $result;
+        return $result;
 
-}
+    }
     $password = getRandom(16);
 
 
@@ -309,7 +309,8 @@ if (isset($_POST["student_login"])) {
     $student_mail = $_POST["email"];
     $student_pass = $_POST["password"];
     $student_id = $_POST['stud_id'];
-    
+    $role = $_POST['role'];
+
     $match_auth_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$student_mail'");
     $checking = mysqli_num_rows($match_auth_query) > 0;
 
@@ -318,10 +319,16 @@ if (isset($_POST["student_login"])) {
         $stored_password = $row['password'];
 
         // Check if the entered password matches the stored password
-        if ($student_pass==$stored_password) {
+        if ($student_pass == $stored_password) {
             $student_id = $row['id'];
+            
             $_SESSION['user_name'] = $row['name'];
-            header("location: ../?role=$userRole&id=$student_id");
+            $_SESSION['role'] = $role;
+            $_SESSION['id'] = $student_id;
+            // echo $_SESSION['role'].$_SESSION['id'];
+            // exit();
+            // header("location: ../?id=$student_id");
+            header("location: sessions.php?id=$student_id");
             exit();
         } else {
             // Password is incorrect
