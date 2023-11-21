@@ -15,6 +15,16 @@ if(isset($_GET['id'])){
     exit();
     // echo $role_id;
 }
+// login Sessions
+if(isset($_GET['login_id'])){
+    $_SESSION['role_id']=$_GET['login_id'];
+    $role_id = $_SESSION['role_id'];
+    // echo $role_id;
+    // exit();
+    header("Location: http://localhost/saburi-lms/account");
+    exit();
+    // echo $role_id;
+}
 // Redirect to the account page
 exit;
 ?>

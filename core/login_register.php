@@ -5,7 +5,7 @@ include("db_config.php");
 
 // function for generating randome password
 
-
+$userRole = isset($_POST["role"]) ? $_POST["role"] : '';
 // Fetch CountryList
 $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");
 if (isset($_GET['selectedCountryId'])) {
@@ -31,7 +31,6 @@ use PHPMailer\PHPMailer\Exception;
 if (isset($_POST['registerStudent'])) {
     $verificationToken = md5(uniqid(rand(), true));
     // Store $verificationToken in your database along with the user's ID and expiration time
-
     $fullName = $_POST['fullName'];
     $dob = $_POST['dateOfBirth'];
     $phone = $_POST['phoneNumber'];
@@ -165,7 +164,7 @@ if (isset($_POST['registerStudent'])) {
                 </html>";
             $mail->send();
             header("location: ../message?role=$userRole&id=$insertedId");
-            echo 'Message has been sent';
+            // echo 'Message has been sent';
             echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
@@ -182,6 +181,9 @@ if (isset($_POST['registerStudent'])) {
 }
 // mail functionality of Company registration start
 elseif (isset($_POST['registerCompany'])) {
+    $role = $_POST['role'];
+    // echo $role;
+    // exit();
     $companyName = $_POST['company_name'];
     $contactName = $_POST['contact_name'];
     $phoneNumber = $_POST['phoneNumber'];
@@ -197,7 +199,9 @@ elseif (isset($_POST['registerCompany'])) {
 
     $insertCompany = mysqli_query($con, "INSERT INTO company(companyName, contactName, companyPhone, email, address, district, country_name, state, pincode, idProof, idProofDetails, createdOn, isActive) 
     VALUES('$companyName', '$contactName', '$phoneNumber', '$email', '$address', '$dist', '$country', '$state', '$pin', '$idProof', '$idDetails', '$currentDate', 0)");
-
+    $insertedId = mysqli_insert_id($con);
+    // echo $insertedId;
+    // exit();
     if ($insertCompany) {
         // Send an email
         require("../assets/vendors/PHPMailer/PHPMailer.php");
@@ -264,7 +268,7 @@ elseif (isset($_POST['registerCompany'])) {
                     </div>
 
                     <div class='content'>
-                        <p>Dear '$fullName',</p>
+                        <p>Dear '$companyName',</p>
 
                         <p>Thank you for registering with our platform. Below are your account details:</p>
 
@@ -292,6 +296,7 @@ elseif (isset($_POST['registerCompany'])) {
             </html>";
             $mail->send();
             // header('location: ');
+            header("location: sessions.php?login_id=$insertedId");
             echo 'Message has been sent';
             echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
         } catch (Exception $e) {
@@ -304,7 +309,7 @@ elseif (isset($_POST['registerCompany'])) {
 // mail functionality of Company registration end
 
 // Login Authentication starts
-$userRole = isset($_POST["role"]) ? $_POST["role"] : '';
+
 if (isset($_POST["student_login"])) {
     $student_mail = $_POST["email"];
     $student_pass = $_POST["password"];
@@ -348,6 +353,56 @@ if (isset($_POST["student_login"])) {
         exit();
     }
 }
+if (isset($_POST["company_login"])) {
+    $student_mail = $_POST["email"];
+    $student_pass = $_POST["password"];
+    $student_id = $_POST['company_id'];
+    $role = $_POST['role'];
+    echo $role;
+    exit();
+
+    $match_auth_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$student_mail'");
+    $checking = mysqli_num_rows($match_auth_query) > 0;
+
+    if ($checking) {
+        $row = mysqli_fetch_assoc($match_auth_query);
+        $stored_password = $row['password'];
+
+        // Check if the entered password matches the stored password
+        if ($student_pass == $stored_password) {
+            $student_id = $row['id'];
+            
+            $_SESSION['user_name'] = $row['name'];
+            $_SESSION['role'] = $role;
+            $_SESSION['id'] = $student_id;
+            // echo $_SESSION['role'].$_SESSION['id'];
+            // exit();
+            // header("location: ../?id=$student_id");
+            header("location: sessions.php?id=$student_id");
+            exit();
+        } else {
+            // Password is incorrect
+            $_SESSION['message'] = "Password is incorrect";
+            header("location: ../account?role=$userRole&id=$student_id");
+            exit();
+        }
+    } else {
+        // Email is incorrect
+        $_SESSION['message'] = "Username or Password are incorrect";
+
+        // Debugging output
+        echo "Role value received: " . htmlspecialchars($userRole);
+
+        // Redirect after setting the session message
+        header("location: ../account?role=$userRole");
+        exit();
+    }
+}
+// company login
+// if(isset($_POST['registerCompany'])){
+//     echo "here";
+//     exit();
+// }
 
 
 // Login Authentication end
