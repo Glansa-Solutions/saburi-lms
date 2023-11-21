@@ -161,7 +161,7 @@ $allcourse = mysqli_query($con, $query);
                                 ?>
                             <li class="product" style="margin-right:2%;">
                                 <div class="product-wrap">
-                                <a href="course_single.php?course_id=<?= $id ?>">
+                                <a href="course_single?course_id=<?= $id ?>">
                                             <img src="uploads/images/<?= $bannerImage ?>"
                                                 alt="">
                                         </a>
@@ -201,7 +201,7 @@ $allcourse = mysqli_query($con, $query);
                                 ?>
                                       <li class="product" style="margin-right:2%;">
                                 <div class="product-wrap">
-                                <a href="course_single.php?course_id=<?= $id ?>">
+                                <a href="course_single?course_id=<?= $id ?>">
                                             <img src="uploads/images/<?= $bannerImage ?>"
                                                 alt="">
                                         </a>

@@ -52,6 +52,41 @@ include("./core/allmailfun.php");
     <!-- <script src="./js/jquery-3.6.0.min.js"></script> -->
 
 </head>
+<style>
+/* Hide the default number input arrows in Chrome, Safari, and Edge */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Hide the default number input arrows in Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#quantity {
+    border: 1px solid #E9770E;
+}
+
+.btn_incr:hover,
+.btn_decr:hover {
+    padding: 0px 20px;
+    background-color: #213975;
+    color: #ffff;
+}
+
+.btn_incr,
+.btn_decr {
+    padding: 0px 20px;
+    background-color: #E9770E;
+    color: #ffff;
+}
+
+.quantity {
+    width: 50%;
+}
+</style>
 
 <body id="top-header">
 

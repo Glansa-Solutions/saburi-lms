@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
     $role_id = $_SESSION['role_id'];
     header("Location: http://localhost/saburi-lms/");
     exit();
-    echo $role_id;
+    // echo $role_id;
 }
 // Redirect to the account page
 exit;

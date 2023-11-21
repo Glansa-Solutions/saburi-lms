@@ -276,10 +276,10 @@ include("includes/header.php");
                                         }
                                         ?>
                                     </p>
-                                    <input type="text" name="role"
+                                    <input type="hidden" name="role"
                                         value="<?= isset($_SESSION['role']) ? $_SESSION['role'] : '' ?>"
                                         class="form-control">
-                                    <input type="text" name="stud_id" value="<?= isset($st_id) ? $st_id : '' ?>"
+                                    <input type="hidden" name="stud_id" value="<?= isset($st_id) ? $st_id : '' ?>"
                                         class="form-control">
 
                                 </div>
