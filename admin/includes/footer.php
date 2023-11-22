@@ -93,6 +93,11 @@ new DataTable('#example');
 <script>
 (function() {
     new FroalaEditor("#edit")
+<<<<<<< HEAD
+=======
+    new FroalaEditor("#edt")
+    
+>>>>>>> 0bfbfa1380380bf2c6f14c2dca3c0cb2cba9c22e
 })()
 </script>
 

@@ -37,70 +37,14 @@ if (isset($_POST['login_admin'])) {
     // if($password = )
 
     // header('location: ../dashboard');
-} elseif (isset($_POST['user_manage'])) {
-    $name = $_POST['name'];
-    $phoneNumber = $_POST['phoneNumber'];
-    $userType = $_POST['userType'];
-    $email = $_POST['email'];
-    $uid = $_POST['user_id'];
-    $pwd = $_POST['pwd'];
-    $address = $_POST['address'];
-
-    $insert_query = mysqli_query($con, "INSERT INTO users(Name,Email,Phone,Address,UserType,UserId,Password) VALUES('$name','$email','$phoneNumber','$address','$userType','$uid','$pwd')");
-
-    if ($insert_query) {
-        header("location: $mainlink" . "manageUser");
-    } else {
-        echo "not done";
-    }
-}
-elseif (isset($_POST['checking_user_btn'])) {
-    $userId = $_POST['user_id'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `users` WHERE Id = $userId";
-    $query_run = mysqli_query($con, $query);
-    if(mysqli_num_rows($query_run) > 0)
-    {
-        foreach($query_run as $row)
-        {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    }
-    else{
-        echo $return = "<h5>No Record Found</h5>";
-    }
-}
-
-elseif(isset($_POST['update_user']))
-{
-    $id = $_POST['user_id'];
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-
-    $update_topic = "UPDATE users set Name = '$name',Email = '$email',Phone = '$phone',Address = '$address' WHERE id='$id'";
-    $query = mysqli_query($con, $update_topic);
-
-    if($query)
-    {
-        header("location: $mainlink" . "manageUser");
-    }
-    else{
-        echo "not working";
-    }
-}
+} 
 elseif(isset($_POST['topic_manage'])){
     $topic = $_POST['topic'];
     $currentDate = date("Y-m-d H:i:s"); 
     $insert_query = mysqli_query($con, "INSERT INTO topics(topicName,createdOn) VALUES('$topic','$currentDate')");
 
     if ($insert_query) {
-        header("location: $mainlink" . "topic");
+        header("location: $mainlink" . "./admin/topic");
     } else {
         echo "not done";
     }
@@ -138,11 +82,27 @@ elseif(isset($_POST['update_topic']))
 
     if($query)
     {
-        header("location: $mainlink" . "topic");
+        header("location: $mainlink" . "./admin/topic");
     }
     else{
         echo "not working";
     }
+}
+elseif (isset($_POST['delete_topic'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "DELETE FROM topics WHERE Id = $id";
+    $query=mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "./admin/topic");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
 }
 
 elseif(isset($_POST['subtopic_manage'])){
@@ -152,13 +112,29 @@ elseif(isset($_POST['subtopic_manage'])){
     $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,createdOn) VALUES('$topic','$subtopic','$currentDate')");
 
     if ($insert_query) {
-        header("location: $mainlink" . "subtopic");
+        header("location: $mainlink" . "./admin/subtopic");
         // echo "hii";
     } else {
         echo "not done";
         echo $topic, $subtopic,$currentDate ;
     }
-} elseif (isset($_POST['course_manage'])) {
+} 
+elseif (isset($_POST['delete_subtopic'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "UPDATE subtopics SET isActive = 0 WHERE Id = $id";
+    $query = mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "./admin/subtopic");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+}elseif (isset($_POST['course_manage'])) {
     $topic = $_POST['topic'];
     $subtopic = $_POST['subtopic'];
     $courseName = $_POST['courseName'];
@@ -223,6 +199,8 @@ elseif(isset($_POST['subtopic_manage'])){
         echo "not done";
     }
 }
+
+
 elseif (isset($_POST['checking_course_btn'])) {
     $courseId = $_POST['course_id'];
     $result_array = [];
@@ -562,7 +540,7 @@ elseif(isset($_POST['update_affiliate']))
     $insert_query = mysqli_query($con, "INSERT INTO careers(Title, Experience, Description) VALUES('$title', '$exp', '$desc')");
 
     if ($insert_query) {
-        header("location: $mainlink" . "career");
+        header("location: $mainlink" . "admin/career");
     } else {
         echo "not done";
     }
@@ -835,6 +813,388 @@ if (isset($_POST['sending_email'])) {
         echo "No file was uploaded or an error occurred during the upload.";
     }
 }
+elseif(isset($_POST['chapter_manage']))
+{
+    $topicName=$_POST['topic'];
+    $subtopicName = $_POST['subtopic'];
+    $courseName = $_POST['courseName'];
+    $chapterName = $_POST['chapter'];
+    if (isset($_FILES['uploadfile'])) {
+        $uploadFile = $_FILES['uploadfile'];
+        $uploadFileName = $uploadFile['name'];
+        // Process and move the upload file to your desired location
+        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+    }
+
+    if (isset($_FILES['video'])) {
+        $videoFile = $_FILES['video'];
+        $videoFileName = $videoFile['name'];
+        // Process and move the video file to your desired location
+        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+    }
+
+    
+    $insert_chapters = mysqli_query($con,"INSERT INTO chapters(topicID,subTopicId,courseId,chapterName,uploadfile,video,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$uploadFileName','$videoFileName',1)");
+
+    if ($insert_chapters) {
+        header("location: $mainlink" . "admin/manageChapter");
+    } else {
+        echo "not done";
+    }
+
+
+}elseif (isset($_POST['checking_chapters_btn'])) {
+    $chapterId = $_POST['chapterId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT 
+    topics.Id AS topic_id,
+    topics.topicName,
+    subtopics.Id AS subtopic_id,
+    subtopics.subtopicName,
+    courses.id AS course_id,
+    courses.courseName,
+    chapters.id AS chapter_id,
+    chapters.chapterName,
+    chapters.uploadFile,
+    chapters.video
+    FROM
+    topics
+    JOIN
+    subtopics ON topics.Id = subtopics.topicId
+    JOIN
+    courses ON subtopics.Id = courses.subTopicId
+    JOIN
+    chapters ON courses.id = chapters.courseId
+    WHERE chapters.id=$chapterId";
+    // $query = "SELECT * FROM `chapters` WHERE id = $chapterId";
+    $query_run = mysqli_query($con, $query);
+    if(mysqli_num_rows($query_run) > 0)
+    {
+        foreach($query_run as $row)
+        {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    }
+    else{
+        echo $return = "<h5>No Record Found</h5>";
+    }
+// }elseif(isset($_POST['update_chapter'])){
+//     $chapterId = $_POST['chapterId'];
+//     $chapterName = $_POST['chapter'];
+//     $date = date("Y-m-d H:i:s");
+//     $maxUploadFileSize = 10 * 1024 * 1024; 
+//     $maxVideoFileSize = 100 * 1024 * 1024; 
+
+// if (isset($_FILES['uploadfile'])) {
+//     $uploadFile = $_FILES['uploadfile'];
+//     $uploadFileName = $uploadFile['name'];
+
+//     // Process and move the upload file to your desired location
+//     move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+// }
+
+// if (isset($_FILES['video'])) {
+//     $videoFile = $_FILES['video'];
+//     $videoFileName = $videoFile['name'];
+
+//     move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+// }
+
+//     $update = "UPDATE chapters SET chapterName='$chapterName', uploadFile='$uploadFileName', video='$videoFileName', modifiedOn='$date' WHERE id='$chapterId'";
+//     $query = mysqli_query($con, $update);
+
+//     if($query) {
+//         header("location: $mainlink" . "manageChapter");
+//     } else {
+//         echo "not working";
+//     }
+// }
+}elseif(isset($_POST['update_chapter'])){
+    $chapterId = $_POST['chapterId'];
+    $chapterName = $_POST['chapter'];
+    $date = date("Y-m-d H:i:s");
+    $maxUploadFileSize = 10 * 1024 * 1024; 
+    $maxVideoFileSize = 100 * 1024 * 1024; 
+
+    // Check if uploadfile is provided in the form
+    if (isset($_FILES['uploadfile'])) {
+        $uploadFile = $_FILES['uploadfile'];
+        $uploadFileName = $uploadFile['name'];
+
+        // Process and move the upload file to your desired location
+        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+    } else {
+        // If not provided, keep the existing value
+        $uploadFileName = ''; // Assuming it's a string field in the database
+    }
+
+    // Check if video is provided in the form
+    if (isset($_FILES['video'])) {
+        $videoFile = $_FILES['video'];
+        $videoFileName = $videoFile['name'];
+
+        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+    } else {
+        // If not provided, keep the existing value
+        $videoFileName = ''; // Assuming it's a string field in the database
+    }
+
+    // Update the database, considering the file values
+    $update = "UPDATE chapters SET chapterName='$chapterName',";
+
+    if (!empty($uploadFileName)) {
+        $update .= " uploadFile='$uploadFileName',";
+    }
+
+    if (!empty($videoFileName)) {
+        $update .= " video='$videoFileName',";
+    }
+
+    $update .= " modifiedOn='$date' WHERE id='$chapterId'";
+
+    $query = mysqli_query($con, $update);
+
+    if($query) {
+        header("location: $mainlink" . "admin/manageChapter");
+    } else {
+        echo "not working";
+    }
+}
+elseif (isset($_POST['deleteChapter'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "UPDATE chapters SET isActive = 0 WHERE Id = $id";
+    $query=mysqli_query($con, $sql);
+    if ($query) {
+        header("location: $mainlink" . "admin/manageChapter");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    mysqli_close($conn);
+}
+
+elseif(isset($_POST['assessment_manage']))
+{
+    $topicName=$_POST['topic'];
+    $subtopicName = $_POST['subtopic'];
+    $courseName = $_POST['courseName'];
+    $chapterName = $_POST['chapter'];
+    $question = $_POST['question'];
+    $optionA = $_POST['optionA'];
+    $optionB = $_POST['optionB'];
+    $optionC = $_POST['optionC'];
+    $optionD = $_POST['optionD'];
+    $correctAnswer = $_POST['correctAns'];
+
+    
+    $insert_assessment = mysqli_query($con,"INSERT INTO assessment(topicId,subTopicId,courseId,chapterId,questions,a,b,c,d,correctAnswer,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$question','$optionA','$optionB','$optionC','$optionD','$correctAnswer',1)");
+
+    if ($insert_assessment) {
+        header("location: $mainlink" . "admin/manageAssessment");
+    } else {
+        echo "not done";
+    }
+
+
+}
+elseif (isset($_POST['checking_assessment_btn'])) {
+    $assessmentId = $_POST['assessmentId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT 
+    topics.Id AS topic_id,
+    topics.topicName,
+    subtopics.Id AS subtopic_id,
+    subtopics.subtopicName,
+    courses.id AS course_id,
+    courses.courseName,
+    chapters.id AS chapter_id,
+    chapters.chapterName,
+    assessment.id AS assessment_id,
+    assessment.questions,
+    assessment.a,
+    assessment.b,
+    assessment.c,
+    assessment.d,
+    assessment.correctAnswer
+    FROM
+    topics
+    JOIN
+    subtopics ON topics.Id = subtopics.topicId
+    JOIN
+    courses ON subtopics.Id = courses.subTopicId
+    JOIN
+    chapters ON courses.id = chapters.courseId
+    JOIN 
+    assessment ON chapters.id = assessment.chapterId
+    WHERE
+    assessment.id = $assessmentId";
+    // $query = "SELECT * FROM `chapters` WHERE id = $chapterId";
+    $query_run = mysqli_query($con, $query);
+    if(mysqli_num_rows($query_run) > 0)
+    {
+        foreach($query_run as $row)
+        {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    }
+    else{
+        echo $return = "<h5>No Record Found</h5>";
+    }
+}
+elseif(isset($_POST['update_assessment'])){
+    $assessmentId = $_POST['assessmentId'];
+    $questions =$_POST['questions'];
+    $optionA = $_POST['optionA'];
+    $optionB = $_POST['optionB'];
+    $optionC = $_POST['optionC'];
+    $optionD = $_POST['optionD'];
+    $correctAns = $_POST['correctAnswer'];
+
+    $update = "UPDATE assessment SET 
+                questions='$questions',
+                a='$optionA',
+                b='$optionB',
+                c='$optionC',
+                d='$optionD',
+                correctAnswer='$correctAns',
+                modifiedOn=NOW() 
+                WHERE id='$assessmentId'";
+
+    $query = mysqli_query($con, $update);
+
+    if ($query) {
+        header("location: $mainlink" . "admin/manageAssessment");
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+elseif (isset($_POST['deleteAssesment'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql1 = "UPDATE assessment SET isActive = 0 WHERE id = $id";
+    $query1=mysqli_query($con, $sql1);
+    if ($query1) {
+        header("location: $mainlink" . "admin/manageAssessment");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    mysqli_close($con);
+}
+elseif (isset($_POST['deleteStudent'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql2 = "UPDATE students SET isActive = 0 WHERE id = $id";
+    $query2=mysqli_query($con, $sql2);
+    if ($query2) {
+        header("location: $mainlink" . "admin/manageStudents");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    mysqli_close($con);
+}
+elseif (isset($_POST['deletebulk'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql3 = "UPDATE company SET isActive = 0 WHERE id = $id";
+    $query3=mysqli_query($con, $sql3);
+    if ($query3) {
+        header("location: $mainlink" . "admin/manageBulkRegistration");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    mysqli_close($con);
+}
+elseif (isset($_POST['user_manage'])) {
+    $name = $_POST['name'];
+    $phoneNumber = $_POST['phoneNumber'];
+    $userType = $_POST['userType'];
+    $email = $_POST['email'];
+    $uid = $_POST['user_id'];
+    $pwd = $_POST['pwd'];
+    $address = $_POST['address'];
+
+    $insert_query = mysqli_query($con, "INSERT INTO users(Name,Email,Phone,Address,UserType,UserId,Password) VALUES('$name','$email','$phoneNumber','$address','$userType','$uid','$pwd')");
+
+    if ($insert_query) {
+        header("location: $mainlink" . "admin/manageUser");
+    } else {
+        echo "not done";
+    }
+}
+
+// End Inserting User
+
+// Start Fetching User
+
+elseif (isset($_POST['checking_user_btn'])) {
+    $userId = $_POST['userId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `users` WHERE Id = $userId";
+    $query_run = mysqli_query($con, $query);
+    if(mysqli_num_rows($query_run) > 0)
+    {
+        foreach($query_run as $row)
+        {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    }
+    else{
+        echo $return = "<h5>No Record Found</h5>";
+    }
+}
+elseif(isset($_POST['update_user']))
+{
+    $id = $_POST['user_id'];
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+
+    $update_topic = "UPDATE users set Name = '$name',Email = '$email',Phone = '$phone',Address = '$address' WHERE id='$id'";
+    $query = mysqli_query($con, $update_topic);
+
+    if($query)
+    {
+        header("location: $mainlink" . "admin/manageUser");
+    }
+    else{
+        echo "not working";
+    }
+}
+if (isset($_POST['delete_user'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "UPDATE users SET IsActive = 0 WHERE Id = $id";
+    $query=mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "admin/manageUser");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+}
+
+
 ?>
 
 

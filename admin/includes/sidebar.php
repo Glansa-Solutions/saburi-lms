@@ -56,14 +56,18 @@ include("../core/db_config.php");
                                         Topic admin</a></li>
                                 <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/manageCourse">Manage
                                         Courses</a></li>
-                                <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/manageQnA">Manage
-                                        QnA</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/manageChapter">Manage
+                                        Chapters</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/manageAssessment">Manage
+                                        Assessment</a></li>
                                 <li class="nav-item"><a class="nav-link" href="<?= $mainlink;?>admin/manageStudents">Manage
                                         Students</a></li>
                                 <li class="nav-item"><a class="nav-link"
                                         href="<?=$mainlink?>admin/manageSubscriptions">Subscriptions</a></li>
                                 <li class="nav-item"><a class="nav-link" href="<?=$mainlink?>admin/manageStudentSubscription">Student
                                         Subscriptions</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="<?=$mainlink?>admin/newsLetter">Newsletter</a></li>
+
                                 <li class="nav-item"><a class="nav-link" href="<?=$mainlink?>admin/manageBulkRegistration">Bulk
                                         registrations</a></li>
                                 <li class="nav-item"><a class="nav-link"

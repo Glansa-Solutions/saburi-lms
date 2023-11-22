@@ -65,11 +65,12 @@ include('../core/listgrid.php');
                             <label for="writer">Writer</label>
                             <input type="text" class="form-control" name="writer" placeholder="Enter Writer Name">
                         </div>
+                        
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea class="rte" name="desc">
-
-                                    </textarea>
+                            <div id="editor">
+                            <textarea id='edit' name="desc"></textarea>
+</div>
                         </div>
                         <div class="form-group">
                             <div class="container">
@@ -190,8 +191,11 @@ include('../core/listgrid.php');
                             </div>
 
                     <div class="form-group">
+
                         <label for="editDescription">Description</label>
-                        <textarea class="form-control" id="editDescription" name="editDescription"></textarea>
+                        <div id="editor">
+                        <textarea class="form-control" id="edit" name="editDescription"></textarea>
+                        </div>
                     </div>
 
                     </div>
@@ -311,7 +315,7 @@ include('../core/listgrid.php');
                                 $('#editWriter').val(value['writer']);
                                 $('#output').attr('src', '../assets/images/blog' + value['bannerImage']);
                                 // You can handle image display or updating as needed
-                                $('#editDescription').val(value['description']);
+                                $('#edit').val(value['description']);
                                 $('#blog_id').val(value['id']);
                             });
                         }

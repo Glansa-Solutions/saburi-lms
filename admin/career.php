@@ -71,8 +71,10 @@ $result = $con->query($sql);
                         </div>
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea class="rte" name="desc">
+                            <div id="editor">
+                            <textarea id="edit" name="desc">
                             </textarea>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" name="career_manage">Submit</button>
                         <button class="btn btn-light">Cancel</button>
@@ -167,7 +169,11 @@ $result = $con->query($sql);
 
                     <div class="form-group">
                         <label for="editTitle">Description</label>
-                        <input type="text" class="form-control" id="description" name="description">
+                        <div id="editor"> 
+                            <!-- <div type="text" class="editdesc"></div> -->
+                            <textarea class="form-control editdesc" id="edt" name="description"></textarea>
+                            <!-- <input type="textarea" class="form-control editdesc" id="edt" name="description"> -->
+                        </div>
                     </div>
                 </div>
 
@@ -236,8 +242,10 @@ $(document).ready(function() {
                     // Populate the input elements with data received from the server
                     $('#title').val(value['Title']);
                     $('#yoe').val(value['Experience']);
-                    $('#description').val(value['Description']);
-
+                    // $('.editdesc').val(value['Description']);
+                    console.log(value['Description']);
+                    $('.editdesc').text(value['Description']);
+                    
                     $('#careerId').val(value['Id']);
                     $('#editmodal').modal('show');
                 });

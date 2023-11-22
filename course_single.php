@@ -334,7 +334,8 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                                 ?>
                             <div class="buy-btn">
                                 <a href="MyActiveCourse.php?start_id=<?= $co_id ?>" class="btn btn-main btn-block">
-                                Start Course
+
+                                    Start Course
                                 </a>
 
                             </div>
@@ -371,7 +372,7 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                                     if (isset($_GET['course_id'])) {
                                         // If a course ID is present, display the "Start Course" button
                                         ?>
-                                <a href="<?= $mainlink?>start_course_url"
+                                <a href=""
                                     class="btn btn-main btn-block add_to_cart_button" data-product-id="<?= $co_id ?>"
                                     data-product-name="<?= $courseName ?>" data-product-price="<?= $courseCost ?>"
                                     data-product-image="<?= $bannerImage ?>">
