@@ -109,10 +109,6 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
         echo "Order not found.";
     }
 }
-
-
-
-
 ?>
 
 <!-- The rest of your HTML code for displaying the course details -->

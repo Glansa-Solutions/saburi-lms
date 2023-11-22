@@ -1,6 +1,7 @@
 <?php
 include("db_config.php");
-function getUserRole() {
+function getUserRole()
+{
     return isset($_GET['role']) ? $_GET['role'] : '';
 }
 
@@ -13,12 +14,14 @@ $_SESSION['user_role'] = $userRole;
 if (isset($_GET['id']) && !empty($_GET['id'])) {
     // Using prepared statement to prevent SQL injection
     $s_id = mysqli_real_escape_string($con, $_GET['id']);
-    
+    // echo $s_id;
     $student_auth_query = mysqli_query($con, "SELECT id, email, name, password FROM students WHERE id='$s_id'");
+    $row_count = mysqli_num_rows($student_auth_query);
 
-    // Fetch student information
-    $student_auth = mysqli_fetch_assoc($student_auth_query);
-    if ($student_auth) {
+    if ($row_count > 0) {
+        // Fetch student information
+        $student_auth = mysqli_fetch_assoc($student_auth_query);
+
         // Student information found
         $st_id = $student_auth['id'];
         $s_email = $student_auth['email'];
@@ -29,6 +32,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
         echo "Student not found";
         exit; // or redirect to an error page
     }
+
 } else {
     // Set default values if 'id' is not set or empty
     $s_id = '';

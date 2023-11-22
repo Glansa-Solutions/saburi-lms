@@ -1,55 +1,29 @@
-<?php include("includes/header.php"); 
-$_SESSION['student']='student';
-$srole = $_SESSION['student'];
-$_SESSION['company']='company';
-$crole = $_SESSION['company'];
+<?php
+
+function encrypt($data, $key, $iv) {
+    $cipher = "aes-256-cbc";
+    $options = 0;
+    $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
+    return base64_encode($encrypted);
+}
+
+function decrypt($encryptedData, $key, $iv) {
+    $cipher = "aes-256-cbc";
+    $options = 0;
+    $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, $options, $iv);
+    return $decrypted;
+}
+
+// Example usage
+$dataToEncrypt = "company";
+$key = "your_secret_key"; // Change this to your secret key
+$iv = openssl_random_pseudo_bytes(16); // Initialization Vector, should be random and unique
+
+$encryptedData = encrypt($dataToEncrypt, $key, $iv);
+echo "Original: $dataToEncrypt\n";
+echo "Encrypted: $encryptedData\n";
+
+$decryptedData = decrypt($encryptedData, $key, $iv);
+echo "Decrypted: $decryptedData\n";
 
 ?>
-
-<section class="section-padding">
-    <div class="main">
-        <div class="row">
-            <div class="container">
-                <div class="col-md-12 d-flex">
-                    <div class="col-md-6 text-center">
-                        <div class="student_button">
-                            <form id="studentForm" method="post" action="<?= $mainlink ?>core/sessions">
-                                <input type="hidden" name="role" value="<?= $srole ?>">
-                                <a href="javascript:void(0);"
-                                    onclick="document.getElementById('studentForm').submit();">
-                                    <div class="card student_card">
-                                        <div class="card-body">
-                                            <h1 name="student" id="student">STUDENT</h1>
-                                            <img class="scholar-hat img-fluid w-25"
-                                                src="assets/images/scholar-hat-image.png" alt="Scholar Hat">
-                                        </div>
-                                    </div>
-                                </a>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 text-center">
-                        <div class="company_button">
-                            <form id="companyForm" method="post" action="<?= $mainlink ?>core/sessions">
-                                <input type="hidden" name="role" value="<?= $crole ?>">
-                                <a href="javascript:void(0);"
-                                    onclick="document.getElementById('companyForm').submit();">
-                                    <div class="card company_card">
-                                        <div class="card-body">
-                                            <h1>COMPANY</h1>
-                                            <img class="business-icon img-fluid w-25"
-                                                src="assets/images/business-icon.png" alt="Business Icon">
-                                        </div>
-                                    </div>
-                                </a>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<?php include("includes/footer.php"); ?>

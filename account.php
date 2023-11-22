@@ -1,26 +1,5 @@
 <?php
 include("includes/header.php");
-// session_destroy();
-// if (isset($_POST['student_login'])) {
-//     // Assuming you have retrieved the student ID from the database
-//     $studentId = $row['student_id']; // Adjust this according to your actual column name
-    
-//     // Set the student ID and other relevant information in the session
-//     $_SESSION['user_id'] = $studentId;
-//     $_SESSION['role'] = 'student'; // Assuming you have a 'role' column
-//     $_SESSION['student_email'] = $row['email']; // Assuming you have an 'email' column
-
-// } elseif (isset($_POST['company_login'])) {
-//     // Assuming you have retrieved the company ID from the database
-//     $companyId = $row['company_id']; // Adjust this according to your actual column name
-
-//     // Set the company ID and other relevant information in the session
-//     $_SESSION['user_id'] = $companyId;
-//     $_SESSION['role'] = 'company'; // Assuming you have a 'role' column
-//     $_SESSION['company_email'] = $row['email']; // Assuming you have an 'email' column
-//     // ... (other code)
-// }
-
 ?>
 
 
@@ -94,17 +73,56 @@ include("includes/header.php");
                                     <label for="login-email" class="form-label">Email address</label>
                                     <input type="email" class="form-control" id="login-email" aria-describedby="emailHelp">
                                 </div>
+                                <?php
+                                if(isset($_SESSION['role'])&&$_SESSION['role_id']){
+                                    $session_role= $_SESSION['role'];
+                                    $session_role_id = $_SESSION['role_id'];
+                                }else{
+                                    $session_role="";
+                                    $session_role_id="";
+                                }
+                                function encrypt($data, $key, $iv)
+                                {
+                                    $cipher = "aes-256-cbc";
+                                    $options = 0;
+                                    $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
+                                    return base64_encode($encrypted);
+                                }
+
+                                function decrypt($encryptedData, $key, $iv)
+                                {
+                                    $cipher = "aes-256-cbc";
+                                    $options = 0;
+                                    $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, $options, $iv);
+                                    return $decrypted;
+                                }
+
+                                // Example usage
+                                $dataToEncrypt1 = $session_role;
+                                $dataToEncrypt2 = $session_role_id;
+                                $key = "your_secret_key"; // Change this to your secret key
+                                $iv = openssl_random_pseudo_bytes(16); // Initialization Vector, should be random and unique
+                            
+                                $encryptedData1 = encrypt($dataToEncrypt1, $key, $iv);
+                                $encryptedData2 = encrypt($dataToEncrypt2, $key, $iv);
+                                
+                                $decryptedData1 = decrypt($encryptedData1, $key, $iv);
+                                $decryptedData2 = decrypt($encryptedData2, $key, $iv);
+                                ?>
+
                                 <div class="mb-3">
                                     <label for="login-password" class="form-label">Password</label>
                                     <input type="password" class="form-control" id="login-password">
-                                    <input type="text" name="role"
-                                        value="<?= isset($_SESSION['role']) ? $_SESSION['role'] : '' ?>"
+                                    <input type="hidden" name="role"
+                                        value="<?= $encryptedData1; ?>"
                                         class="form-control">
-                                    <input type="hidden" name="stud_id" value="<?= isset($st_id) ? $st_id : '' ?>"
+                                    <input type="hidden" name="company_id"
+                                        value="<?= $encryptedData2 ?>"
                                         class="form-control">
                                 </div>
-                                
-                                <button type="submit" class="btn btn-primary login_button">Login</button>
+
+                                <button type="submit" name="company_login"
+                                    class="btn btn-primary login_button">Login</button>
                             </form>
                         </div>
 
@@ -121,8 +139,18 @@ include("includes/header.php");
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="company_name" id="company_name" autocomplete="user-name" value="">
                                         </p>
-
-
+                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>Company Email&nbsp;<span class="required">*</span></label>
+                                            <input type="email"
+                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
+                                                name="email" id="" autocomplete="password" value="">
+                                        </p>
+                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>Contact Name&nbsp;<span class="required">*</span></label>
+                                            <input type="text"
+                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
+                                                name="contact_name" id="contact_name" autocomplete="password" value="">
+                                        </p>
 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Mobile No&nbsp;<span class="required">*</span></label>
@@ -133,53 +161,7 @@ include("includes/header.php");
 
 
 
-                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                            <label>Address&nbsp;<span class="required">*</span></label>
-                                            <input type="text"
-                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="address" id="address" autocomplete="password" value="">
-                                        </p>
 
-
-
-                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                            <label>Select State&nbsp;<span class="required">*</span></label>
-                                            <select class="form-control" name="state" class='stateList' id="stateList">
-                                                <option value="-1">Choose States...</option>
-
-                                            </select>
-                                        </p>
-
-
-                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                            <label>District&nbsp;<span class="required">*</span></label>
-                                            <input type="text"
-                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="dist" id="dist" autocomplete="email" value="">
-                                        </p>
-
-                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                            <label>Id Details&nbsp;<span class="required">*</span></label>
-                                            <input type="text"
-                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="id_details" id="id_details" autocomplete="password" value="">
-                                        </p>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                            <label>Contact Name&nbsp;<span class="required">*</span></label>
-                                            <input type="text"
-                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="contact_name" id="contact_name" autocomplete="password" value="">
-                                        </p>
-
-                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                            <label>Company Email&nbsp;<span class="required">*</span></label>
-                                            <input type="email"
-                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="email" id="" autocomplete="password" value="">
-                                        </p>
 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Country&nbsp;<span class="required">*</span></label>
@@ -206,13 +188,39 @@ include("includes/header.php");
                                         </p>
 
 
+                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>Select State&nbsp;<span class="required">*</span></label>
+                                            <select class="form-control" name="state" class='stateList' id="stateList">
+                                                <option value="-1">Choose States...</option>
 
+                                            </select>
+                                        </p>
+
+
+
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>District&nbsp;<span class="required">*</span></label>
+                                            <input type="text"
+                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
+                                                name="dist" id="dist" autocomplete="email" value="">
+                                        </p>
+                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>Address&nbsp;<span class="required">*</span></label>
+                                            <input type="text"
+                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
+                                                name="address" id="address" autocomplete="password" value="">
+                                        </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>PinCode&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="pinCode" id="" autocomplete="password" value="">
                                         </p>
+
+
 
 
 
@@ -223,12 +231,18 @@ include("includes/header.php");
                                                 <option>Passport</option>
                                             </select>
                                         </p>
+                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>Id Details&nbsp;<span class="required">*</span></label>
+                                            <input type="text"
+                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
+                                                name="id_details" id="id_details" autocomplete="password" value="">
+                                        </p>
 
 
                                         <p class="woocommerce-FormRow form-row">
-                                            <input type="text" id="woocommerce-register-nonce"
-                                                name="woocommerce-register-nonce" value="<?= $_SESSION['role'] ?>"><input
-                                                type="hidden" name="_wp_http_referer" value="/my-account/">
+                                            <input type="hidden" id="woocommerce-register-nonce" name="role"
+                                                value="<?= $_SESSION['role'] ?>"><input type="hidden"
+                                                name="_wp_http_referer" value="/my-account/">
                                             <button type="submit" class="woocommerce-Button button" name="registerCompany"
                                                 value="Register">Register</button>
                                         </p>
@@ -388,7 +402,7 @@ include("includes/header.php");
                                         <p class="woocommerce-FormRow form-row">
                                             <input type="hidden" id="woocommerce-register-nonce" name="role"
                                                 value="<?= $_SESSION['role'] ?>">
-                                            <button type="submit" class="woocommerce-Button button" name="registerStudent"
+                                            <button type="submit" class="woocommerce-Button button" name="registerCompany"
                                                 value="Register">Register</button>
                                         </p>
                                     </div>
