@@ -453,55 +453,6 @@ $allcourse = mysqli_query($con, $query);
     });
 
 </script>
-<script>
 
-    // AJAX request to add a product to the cart
-    $('.add_to_cart_button').click(function (e) {
-        e.preventDefault();
-
-        var product_id = $(this).data('product-id');
-        var product_name = $(this).data('product-name');
-        var product_price = $(this).data('product-price');
-        var product_image = $(this).data('product-image');
-
-        // Check if there is an existing cart in local storage
-        var cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        // Create a new cart item
-        var cartItem = {
-            id: product_id,
-            name: product_name,
-            price: product_price,
-            image: product_image
-        };
-
-        // Add the new item to the cart
-        cart.push(cartItem);
-
-        // Save the updated cart back to local storage
-        localStorage.setItem('cart', JSON.stringify(cart));
-
-        // Update the cart count in the header
-        updateCartCount();
-    });
-    function updateCartCount() {
-        var cart = JSON.parse(localStorage.getItem('cart')) || [];
-        var cartCount = cart.length;
-        $('#cart-count-container').text(' (' + cartCount + ')');
-    }
-
-    $(document).ready(function () {
-        updateCartCount(); // Call this on page load to set the initial cart count
-    });
-    function getCartItems() {
-        return JSON.parse(localStorage.getItem('cart')) || [];
-    }
-
-    // Example: Get the cart items and do something with them
-    var cartItems = getCartItems();
-    cartItems.forEach(function (item) {
-        // Do something with each item, e.g., display in a cart summary
-    });
-</script>
 
 <?php include("includes/footer.php"); ?>

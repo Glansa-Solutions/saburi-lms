@@ -57,7 +57,7 @@ include("./core/data_list_grid.php");
     <section class="space-3">
         <div class="container sm-center">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <article id="post-6" class="post-6 page type-page status-publish hentry">
                         <!-- .entry-header -->
                         <div class="entry-content">

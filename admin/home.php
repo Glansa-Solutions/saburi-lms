@@ -19,7 +19,9 @@ include('includes/sidebar.php');
                         </div>
                         <div class="form-group">
                             <label for="banner_desc">Description</label>
-                            <textarea class="rte" id="banner_desc"></textarea>
+                            <div id="editor">
+                                <textarea id='edit' style="margin-top: 30px;"></textarea>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="banner_image">Banner Image</label>

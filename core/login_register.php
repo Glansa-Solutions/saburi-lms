@@ -4,6 +4,21 @@ include("db_config.php");
 
 
 // function for generating randome password
+function generateRandomPassword()
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $password = '';
+
+    for ($i = 0; $i < 16; $i++) {
+        $index = rand(0, strlen($characters) - 1);
+        $password .= $characters[$index];
+    }
+
+    return $password;
+}
+
+$generated_password = generateRandomPassword();
+// echo $randomPassword;
 
 $userRole = isset($_POST["role"]) ? $_POST["role"] : '';
 // Fetch CountryList
@@ -182,7 +197,7 @@ if (isset($_POST['registerStudent'])) {
 // mail functionality of Company registration start
 elseif (isset($_POST['registerCompany'])) {
     $role = $_POST['role'];
-    // echo $role;
+    // echo $generated_password;
     // exit();
     $companyName = $_POST['company_name'];
     $contactName = $_POST['contact_name'];
@@ -197,8 +212,9 @@ elseif (isset($_POST['registerCompany'])) {
     $idDetails = $_POST['id_details'];
     $currentDate = date("Y-m-d H:i:s");
 
-    $insertCompany = mysqli_query($con, "INSERT INTO company(companyName, contactName, companyPhone, email, address, district, country_name, state, pincode, idProof, idProofDetails, createdOn, isActive) 
-    VALUES('$companyName', '$contactName', '$phoneNumber', '$email', '$address', '$dist', '$country', '$state', '$pin', '$idProof', '$idDetails', '$currentDate', 0)");
+
+    $insertCompany = mysqli_query($con, "INSERT INTO company(companyName, contactName, companyPhone, email,generated_password, address, district, country_name, state, pincode, idProof, idProofDetails, createdOn, isActive) 
+    VALUES('$companyName', '$contactName', '$phoneNumber', '$email','$generated_password','$address', '$dist', '$country', '$state', '$pin', '$idProof', '$idDetails', '$currentDate', 0)");
     $insertedId = mysqli_insert_id($con);
     // echo $insertedId;
     // exit();
@@ -326,7 +342,7 @@ if (isset($_POST["student_login"])) {
         // Check if the entered password matches the stored password
         if ($student_pass == $stored_password) {
             $student_id = $row['id'];
-            
+
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['role'] = $role;
             $_SESSION['id'] = $student_id;
@@ -354,31 +370,29 @@ if (isset($_POST["student_login"])) {
     }
 }
 if (isset($_POST["company_login"])) {
-    $student_mail = $_POST["email"];
-    $student_pass = $_POST["password"];
-    $student_id = $_POST['company_id'];
-    $role = $_POST['role'];
-    echo $role;
-    exit();
+    $company_mail = $_POST["email"];
+    $company_pass = $_POST["password"];
 
-    $match_auth_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$student_mail'");
+    $company_id = $_POST['company_id'];
+    $role = $_POST['role'];
+    
+    $match_auth_query = mysqli_query($con, "SELECT * FROM company WHERE email = '$company_mail'");
     $checking = mysqli_num_rows($match_auth_query) > 0;
 
     if ($checking) {
+        // echo $checking;
+    // exit();
         $row = mysqli_fetch_assoc($match_auth_query);
-        $stored_password = $row['password'];
-
+        $stored_password = $row['generated_password'];
+       
         // Check if the entered password matches the stored password
-        if ($student_pass == $stored_password) {
-            $student_id = $row['id'];
-            
-            $_SESSION['user_name'] = $row['name'];
+        if ($company_pass == $stored_password) {
+            $company_id = $row['id'];
+           
+            $_SESSION['user_name'] = $row['companyName'];
             $_SESSION['role'] = $role;
-            $_SESSION['id'] = $student_id;
-            // echo $_SESSION['role'].$_SESSION['id'];
-            // exit();
-            // header("location: ../?id=$student_id");
-            header("location: sessions.php?id=$student_id");
+            $_SESSION['id'] = $company_id;
+            header("location: sessions.php?id=$company_id");
             exit();
         } else {
             // Password is incorrect

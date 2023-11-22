@@ -1,8 +1,4 @@
 <?php
-// Start the session
-session_start();
-
-// Assume you have set $_SESSION['role_id'] somewhere in your PHP code
 
 // Access the role_id from the session
 if (isset($_SESSION['role_id'])) {

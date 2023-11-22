@@ -68,56 +68,60 @@ include("includes/header.php");
                     <div class="tab-content mt-3 " id="myTabContent">
                         <div class="tab-pane fade show active w-100" id="login" role="tabpanel" aria-labelledby="login-tab">
                             <!-- Login Form -->
-                            <form>
+                            <form method="post" action="core/login_register.php">
                                 <div class="mb-3">
                                     <label for="login-email" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="login-email" aria-describedby="emailHelp">
+                                    <input type="email" name="email" class="form-control" id="login-email"
+                                        aria-describedby="emailHelp">
                                 </div>
                                 <?php
-                                if(isset($_SESSION['role'])&&$_SESSION['role_id']){
-                                    $session_role= $_SESSION['role'];
+                                if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
+                                    $session_role = $_SESSION['role'];
                                     $session_role_id = $_SESSION['role_id'];
-                                }else{
-                                    $session_role="";
-                                    $session_role_id="";
-                                }
-                                function encrypt($data, $key, $iv)
-                                {
-                                    $cipher = "aes-256-cbc";
-                                    $options = 0;
-                                    $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
-                                    return base64_encode($encrypted);
+                                } else {
+                                    $session_role = "";
+                                    $session_role_id = "";
                                 }
 
-                                function decrypt($encryptedData, $key, $iv)
-                                {
-                                    $cipher = "aes-256-cbc";
-                                    $options = 0;
-                                    $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, $options, $iv);
-                                    return $decrypted;
-                                }
 
-                                // Example usage
-                                $dataToEncrypt1 = $session_role;
-                                $dataToEncrypt2 = $session_role_id;
-                                $key = "your_secret_key"; // Change this to your secret key
-                                $iv = openssl_random_pseudo_bytes(16); // Initialization Vector, should be random and unique
+
+                                // function encrypt($data, $key, $iv)
+                                // {
+                                //     $cipher = "aes-256-cbc";
+                                //     $options = 0;
+                                //     $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
+                                //     return base64_encode($encrypted);
+                                // }
+
+                                // function decrypt($encryptedData, $key, $iv)
+                                // {
+                                //     $cipher = "aes-256-cbc";
+                                //     $options = 0;
+                                //     $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, $options, $iv);
+                                //     return $decrypted;
+                                // }
+
+                                // // Example usage
+                                // $dataToEncrypt = $session_role;
+                                // $key = "20V23e11S19P98"; // Change this to your secret key
+                                // $iv = openssl_random_pseudo_bytes(16); // Initialization Vector, should be random and unique
                             
-                                $encryptedData1 = encrypt($dataToEncrypt1, $key, $iv);
-                                $encryptedData2 = encrypt($dataToEncrypt2, $key, $iv);
-                                
-                                $decryptedData1 = decrypt($encryptedData1, $key, $iv);
-                                $decryptedData2 = decrypt($encryptedData2, $key, $iv);
+                                // $encryptedData = encrypt($dataToEncrypt, $key, $iv);
+                                // echo "Original: $dataToEncrypt\n";
+                                // echo "Encrypted: $encryptedData\n";
+
+                                // $decryptedData = decrypt($encryptedData, $key, $iv);
+                                // echo "Decrypted: $decryptedData\n";
+
                                 ?>
+
 
                                 <div class="mb-3">
                                     <label for="login-password" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="login-password">
-                                    <input type="hidden" name="role"
-                                        value="<?= $encryptedData1; ?>"
-                                        class="form-control">
-                                    <input type="hidden" name="company_id"
-                                        value="<?= $encryptedData2 ?>"
+                                    <input type="password" name="password" class="form-control" id="login-password">
+                                    <input type="hidden" name="role" value="<?= $session_role; ?>" class="form-control">
+                                    <!-- <input type="hidden" name="iv" value="<?= $iv; ?>" class="form-control"> -->
+                                    <input type="hidden" name="company_id" value="<?= $session_role_id ?>"
                                         class="form-control">
                                 </div>
 

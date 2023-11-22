@@ -283,7 +283,7 @@ input[type=number] {
                                         <a class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Change Password</a>
-                                        <a class="dropdown-item" href="<?= $mainlink ?>"><i
+                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session"><i
                                                 class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
                                             Out</a>
                                 </div>

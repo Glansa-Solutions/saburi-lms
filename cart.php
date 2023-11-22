@@ -25,7 +25,7 @@ include("includes/header.php");
 <!--search overlay end-->
 
 
-<!-- <section class="page-header">
+<section class="page-header">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -44,7 +44,7 @@ include("includes/header.php");
             </div>
         </div>
     </div>
-</section> -->
+</section>
 
 <main class="site-main woocommerce single single-product page-wrapper">
     <!--shop category start-->
@@ -64,33 +64,7 @@ include("includes/header.php");
                                                 <div class="conainter">
                                                     <div class="col-lg-12 d-flex">
                                                         <div class="col-md-4 justify-content-center align-items-center">
-                                                            <!-- <h2>React</h2>
-                                                            <h6 class="font-weight-normal mt-2">₹9999</h6>
-                                                            <span class="btn p-0"><i class="fa fa-trash"></i></span>
-                                                            <hr style="color:white;">
-                                                        </div>
-
-                                                        <div
-                                                            class="col-md-6 d-flex justify-content-center align-items-center">
-                                                            <div class="input-group mb-3 quantity">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text btn btn_incr"
-                                                                        id="decrease">-</span>
-                                                                </div>
-                                                                <input type="number" class="form-control text-center"
-                                                                    id="quantity" name="quantity" min="1" value="1">
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text btn btn_decr"
-                                                                        id="increase">+</span>
-                                                                </div>
-                                                                <h6 class="font-weight-normal mt-2">₹9999</h6>
-                                                            </div> -->
                                                             
-
-                                                        <!-- </div>
-                                                        <div class="col-md-2 d-flex justify-content-center align-items-center">
-                                                            <span class="btn p-0"><i class="fa fa-trash"></i></span>
-                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -344,7 +318,7 @@ include("includes/header.php");
                                     </tr>
                                 </tbody>
                             </table>
-                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] != "") { ?>
+                            <?php if (isset($_SESSION['role_id'])) { ?>
                             <div class="wc-proceed-to-checkout">
                                 <a href="<?= $mainlink ?>checkouts" class="checkout-button button alt wc-forward">
                                     Proceed to checkout

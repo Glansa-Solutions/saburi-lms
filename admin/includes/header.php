@@ -30,6 +30,41 @@ include("../core/data_list_grid.php");
     <link rel="shortcut icon" href="./assets/images/favicon.png" />
     <link rel="stylesheet" href="./assets/vendors/richtexteditor/rte_theme_default.css" />
     <link rel="stylesheet" href="./assets/vendors/datatables/dataTables.bootstrap4.min.css">
+    <!-- flora headers -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_editor.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_style.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/code_view.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/draggable.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/colors.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/emoticons.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/image_manager.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/image.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/line_breaker.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/table.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/char_counter.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/video.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/fullscreen.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/file.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/quick_insert.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/help.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/third_party/spell_checker.css">
+    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/special_characters.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
+    <style>
+        div#editor {
+            width: 100%;
+            margin: auto;
+            text-align: left;
+        }
+
+        .ss {
+            background-color: red;
+        }
+        #fr-logo{
+            visibility: hidden;
+        }
+    </style>
 </head>
 
 <body>
@@ -198,10 +233,12 @@ include("../core/data_list_grid.php");
                     </li>
                     <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                         <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="img-xs rounded-circle" src="./assets/images/faces/face8.jpg" alt="Profile image"> </a>
+                            <img class="img-xs rounded-circle" src="./assets/images/faces/face8.jpg"
+                                alt="Profile image"> </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center">
-                                <img class="img-md rounded-circle" src="./assets/images/faces/face8.jpg" alt="Profile image">
+                                <img class="img-md rounded-circle" src="./assets/images/faces/face8.jpg"
+                                    alt="Profile image">
                                 <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
                                 <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
                             </div>

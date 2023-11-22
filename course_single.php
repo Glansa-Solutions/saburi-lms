@@ -109,6 +109,10 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
         echo "Order not found.";
     }
 }
+
+
+
+
 ?>
 
 <!-- The rest of your HTML code for displaying the course details -->
@@ -330,8 +334,7 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                                 ?>
                             <div class="buy-btn">
                                 <a href="MyActiveCourse.php?start_id=<?= $co_id ?>" class="btn btn-main btn-block">
-
-                                    <?= $_SESSION['role']; ?>Start Course
+                                Start Course
                                 </a>
 
                             </div>
@@ -586,82 +589,6 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
     </div>
 </section>
 
-<!-- <script>
-var quantityInput;
-
-$(document).ready(function() {
-    // Get the quantity input element
-    quantityInput = $('#quantity');
-
-    // Increase quantity
-    $('#increase').click(function() {
-        quantityInput.val(parseInt(quantityInput.val()) + 1);
-    });
-
-    // Decrease quantity
-    $('#decrease').click(function() {
-        var currentVal = parseInt(quantityInput.val());
-        if (currentVal > 1) {
-            quantityInput.val(currentVal - 1);
-        }
-    });
-});
-
-$('.add_to_cart_button').click(function(e) {
-    e.preventDefault();
-
-    var product_id = $(this).data('product-id');
-    var product_name = $(this).data('product-name');
-    var product_price = $(this).data('product-price');
-    var product_image = $(this).data('product-image');
-
-    var selectedQuantity = quantityInput.val();
-    // console.log('Selected Quantity:', selectedQuantity);
-
-    // Check if there is an existing cart in local storage
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Create a new cart item
-    var cartItem = {
-        id: product_id,
-        name: product_name,
-        price: product_price,
-        image: product_image,
-        quantity: selectedQuantity
-    };
-
-    // Add the new item to the cart
-    cart.push(cartItem);
-
-    // Save the updated cart back to local storage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Update the cart count in the header
-    updateCartCount();
-});
-
-function updateCartCount() {
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
-    var cartCount = cart.length;
-    $('#cart-count-container').text(' (' + cartCount + ')');
-}
-
-$(document).ready(function() {
-    updateCartCount(); // Call this on page load to set the initial cart count
-});
-
-function getCartItems() {
-    return JSON.parse(localStorage.getItem('cart')) || [];
-}
-
-// Example: Get the cart items and do something with them
-var cartItems = getCartItems();
-cartItems.forEach(function(item) {
-    // Do something with each item, e.g., display in a cart summary
-});
-
-// ...
-</script> -->
 <?php
 include("includes/footer.php");
 ?>
