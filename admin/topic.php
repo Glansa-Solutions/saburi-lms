@@ -9,7 +9,7 @@ include('../core/listgrid.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Topic Details</h4>
-                    <form class="forms-sample row" action="./core/functions" method="POST">
+                    <form class="forms-sample row" action="../core/functions.php" method="POST">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Topic Name</label>
@@ -76,7 +76,7 @@ include('../core/listgrid.php');
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editBlogModalLabel">Edit Blog</h5>
+                <h5 class="modal-title" id="editBlogModalLabel">Edit Topics</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -85,7 +85,7 @@ include('../core/listgrid.php');
               <div class="modal-body">
                 <!-- Form for editing the blog content -->
                 
-                    <input type ="tect" id="topicId" name="topicId">
+                    <input type ="hidden" id="topicId" name="topicId">
                       <div class="form-group">
                         <label for="editTitle">Topic Name</label>
                         <input type="text" class="form-control" id="topic_name" name="topic_name">
@@ -111,11 +111,11 @@ include('../core/listgrid.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="delete_blog.php" method="POST">
+            <form action="../core/functions.php" method="POST">
 
             <div class="modal-body">
 
-                <input type="text" id="delete_id" name="delete_id">
+                <input type="hidden" id="delete_id" name="delete_id">
                 Are you sure you want to delete this record?
             </div>
             <div class="modal-footer">
@@ -133,7 +133,7 @@ $(document).ready(function() {
         console.log(topicId);
         $.ajax({
         type: 'POST',
-        url: './core/functions.php', // Replace with the URL of your server-side script
+        url: '../core/functions.php', // Replace with the URL of your server-side script
         data: { 
             'checking_topic_btn' : true,
              'topicId': topicId, },

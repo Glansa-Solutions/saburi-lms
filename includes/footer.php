@@ -1,6 +1,6 @@
 <?php
 // Start the session
-session_start();
+// session_start();
 
 // Assume you have set $_SESSION['role_id'] somewhere in your PHP code
 
@@ -23,9 +23,10 @@ if (isset($_SESSION['role_id'])) {
             </div>
             <div class="col-lg-6">
                 <div class="subscribe-form">
-                    <form action="./core/allmailfun.php">
-                        <input type="text" class="form-control" placeholder="Email Address">
-                        <a href="#" class="btn btn-main">Subscribe<i class="fa fa-angle-right ml-2"></i> </a>
+                    <form action="./core/allmailfun.php" method="POST">
+                        <input type="email" class="form-control" name="email" placeholder="Email Address">
+						<button type="submit" class="btn btn-main" name="send_email">Send Newsletter<i class="fa fa-angle-right ml-2"></i></button>
+                        <!-- <a href="#" class="btn btn-main" name ="send_email">Subscribe<i class="fa fa-angle-right ml-2"></i> </a> -->
                     </form>
                 </div>
             </div>
@@ -125,6 +126,7 @@ if (isset($_SESSION['role_id'])) {
 <div class="fixed-btm-top">
 	<a href="#top-header" class="js-scroll-trigger scroll-to-top"><i class="fa fa-angle-up"></i></a>
 </div>
+
 <script>
 var quantityInput;
 var roleId = <?php echo json_encode($role_id); ?>;
