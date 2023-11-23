@@ -44,6 +44,7 @@ use PHPMailer\PHPMailer\Exception;
 
 
 if (isset($_POST['registerStudent'])) {
+    $role = $_POST['role'];
     $verificationToken = md5(uniqid(rand(), true));
     // Store $verificationToken in your database along with the user's ID and expiration time
     $fullName = $_POST['fullName'];
@@ -55,6 +56,7 @@ if (isset($_POST['registerStudent'])) {
     $state = $_POST['state'];
     $city = $_POST['city'];
     $pin = $_POST['pinCode'];
+    $address = $_POST['address'];
     $idProof = $_POST['idProof'];
     $uniqueIdNo = $_POST['uniqueIdNo'];
     $userRole = $_POST['role'];
@@ -80,8 +82,8 @@ if (isset($_POST['registerStudent'])) {
     $password = getRandom(16);
 
 
-    $insertQuery = mysqli_query($con, "INSERT INTO students(name, DOB, country, district, state, pincode, gender, phoneNumber, email, idProof, idProofDetails, createdOn, isActive, password) 
-        VALUES('$fullName', '$dob', '$country', '$city', '$state', '$pin', '$gender', '$phone', '$email', '$idProof', '$uniqueIdNo', '$currentDate', 0, '$password')");
+    $insertQuery = mysqli_query($con, "INSERT INTO students(name, DOB, country,address, district, state, pincode, gender, phoneNumber, email, idProof, idProofDetails,password, createdOn, isActive) 
+        VALUES('$fullName', '$dob', '$country','$address', '$city', '$state', '$pin', '$gender', '$phone', '$email', '$idProof', '$uniqueIdNo', '$currentDate', 0,'$password')");
     $insertedId = mysqli_insert_id($con);
     // print_r($insertedId);
     // exit();
@@ -178,7 +180,7 @@ if (isset($_POST['registerStudent'])) {
                 </body>
                 </html>";
             $mail->send();
-            header("location: ../message?role=$userRole&id=$insertedId");
+            header("location: sessions.php?login_id=$insertedId");
             // echo 'Message has been sent';
             echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
         } catch (Exception $e) {
@@ -327,9 +329,10 @@ elseif (isset($_POST['registerCompany'])) {
 // Login Authentication starts
 
 if (isset($_POST["student_login"])) {
+    
     $student_mail = $_POST["email"];
     $student_pass = $_POST["password"];
-    $student_id = $_POST['stud_id'];
+    $student_id = $_POST['student_id'];
     $role = $_POST['role'];
 
     $match_auth_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$student_mail'");

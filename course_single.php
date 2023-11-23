@@ -328,7 +328,7 @@ if (isset($_GET['course_id'])) {
                         <div class="course-price-wrapper">
                             <?php
                             if (isset($_GET['order_id'])) {
-                                $o_id = $_GET['order_id'];
+                                $co_id = $_GET['order_id'];
                                 $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $o_id");
                                 $data = mysqli_fetch_array($chapterData);
                                 $courseId = $data['courseId'];
@@ -337,7 +337,7 @@ if (isset($_GET['course_id'])) {
                                 // If an order ID is present, hide the course price and quantity input
                                 ?>
                             <div class="buy-btn">
-                                <a href="MyActiveCourse.php?start_id=<?= $co_id ?>" class="btn btn-main btn-block">
+                                <a href="core/sessions.php?start_id=<?= $courseId ?>&chapterId=<?= $d['id']?>" class="btn btn-main btn-block">
 
                                     Start Course
                                 </a>

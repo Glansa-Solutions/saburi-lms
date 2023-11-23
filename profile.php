@@ -19,24 +19,7 @@ include("includes/header.php");
                                     <form name="checkout" method="POST" action="../functions/functions.php"
                                         class="checkout woocommerce-checkout row" enctype="multipart/form-data"
                                         novalidate="novalidate">
-                                        <?php if ($fetch_list_students_query) {
-                                            // Fetch student details, assuming it fetches a single row for the currently logged-in student
-                                            $student_data = mysqli_fetch_assoc($fetch_list_students_query);
-
-                                            // Set retrieved values into variables
-                                            $id = $student_data['id'];
-                                            $fullName = $student_data['name'];
-                                            $DOB = $student_data['DOB'];
-                                            $address = $student_data['address'];
-                                            $state = $student_data['state'];
-                                            $pincode = $student_data['pincode'];
-                                            $gender = $student_data['gender'];
-                                            $phoneNumber = $student_data['phoneNumber'];
-                                            $email = $student_data['email'];
-                                            $idProof = $student_data['idProof'];
-                                            $idProofDetails = $student_data['idProofDetails'];
-                                        }
-                                        ?>
+                                        
                                         <div class="col-md-12">
                                             <div class="col2-set" id="customer_details">
                                                 <div class="col-12">

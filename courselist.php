@@ -273,7 +273,7 @@ $allcourse = mysqli_query($con, $query);
                     </section>
 
                     <section id="woocommerce_product_categories-2" class="widget woocommerce widget_product_categories">
-                        <h3 class="widget-title">Product categories</h3>
+                        <h3 class="widget-title">Courses categories</h3>
                         <div class="edutim-course-topic">
                             <div class="accordion" id="accordionExample">
                                 <?php $index = 0; ?>
@@ -321,7 +321,7 @@ $allcourse = mysqli_query($con, $query);
 
                     
                     <section id="woocommerce_top_rated_products-2" class="widget woocommerce widget_top_rated_products">
-                        <h3 class="widget-title">Top rated products</h3>
+                        <h3 class="widget-title">Top rated courses</h3>
                         <ul class="product_list_widget">
                             <li>
                                 <a href="#">
