@@ -79,23 +79,23 @@ if (isset($_GET['course_id'])) {
     JOIN courses AS c ON od.courseId = c.id
     WHERE od.id = $o_id;
     ");
-if ($payment_data && mysqli_num_rows($payment_data) > 0) {
-    $n = mysqli_fetch_array($payment_data);
-    $courseName = $n['courseName'];
-    $paymentstatus = $n['paymentstatus'];
-    $courseCost = $n['courseCost'];
-    $bannerImage = $n['bannerImage'];
-    $courseDesc = $n['courseDesc'];
-    $createdOn = $n['createdOn'];
-    $Coursewyl = $n['learn'];
-    $CourseSummary = $n['summary'];
-    $tag = $n['tag'];
-    $requirement = $n['requirements'];
-    $createdOn = $n['createdOn'];
-    $course_id = $n['courseId'];
+    if ($payment_data && mysqli_num_rows($payment_data) > 0) {
+        $n = mysqli_fetch_array($payment_data);
+        $courseName = $n['courseName'];
+        $paymentstatus = $n['paymentstatus'];
+        $courseCost = $n['courseCost'];
+        $bannerImage = $n['bannerImage'];
+        $courseDesc = $n['courseDesc'];
+        $createdOn = $n['createdOn'];
+        $Coursewyl = $n['learn'];
+        $CourseSummary = $n['summary'];
+        $tag = $n['tag'];
+        $requirement = $n['requirements'];
+        $createdOn = $n['createdOn'];
+        $course_id = $n['courseId'];
 
-    // Fetch chapters for the course using course_id
-    $fetch_chaepter_list = mysqli_query($con, "SELECT 
+        // Fetch chapters for the course using course_id
+        $fetch_chaepter_list = mysqli_query($con, "SELECT 
         chapters.id AS chapter_id,
         chapters.chapterName
         FROM
@@ -103,8 +103,8 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
         WHERE
         chapters.courseId = $course_id AND
         chapters.isActive = 1");
-    // You can now use $fetch_chaepter_list to display chapter information in your HTML
-    // echo $courseName;
+        // You can now use $fetch_chaepter_list to display chapter information in your HTML
+        // echo $courseName;
     } else {
         echo "Order not found.";
     }
@@ -223,25 +223,25 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                     <div class="edutim-course-topics-contents">
                         <div class="accordion" id="accordionExample">
                             <?php if ((isset($_GET['order_id']) || isset($_GET['course_id'])) && $fetch_chaepter_list && $fetch_chaepter_list->num_rows > 0): ?>
-                            <?php while ($row = $fetch_chaepter_list->fetch_assoc()): ?>
-                            <div class="card">
-                                <div class="card-header" id="heading<?= $row['chapter_id'] ?>">
-                                    <h2 class="mb-0">
-                                        <h4 class="curriculum-title">
-                                            <?= $row['chapterName'] ?>
-                                        </h4>
-                                    </h2>
-                                </div>
-                            </div>
-                            <?php endwhile; ?>
+                                <?php while ($row = $fetch_chaepter_list->fetch_assoc()): ?>
+                                    <div class="card">
+                                        <div class="card-header" id="heading<?= $row['chapter_id'] ?>">
+                                            <h2 class="mb-0">
+                                                <h4 class="curriculum-title">
+                                                    <?= $row['chapterName'] ?>
+                                                </h4>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                <?php endwhile; ?>
                             <?php else: ?>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="mb-0">
-                                        <h4 class="curriculum-title">No chapters available for this course.</h4>
-                                    </h2>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="mb-0">
+                                            <h4 class="curriculum-title">No chapters available for this course.</h4>
+                                        </h2>
+                                    </div>
                                 </div>
-                            </div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -329,60 +329,67 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                         <div class="course-price-wrapper">
                             <?php
                             if (isset($_GET['order_id'])) {
-                                $co_id = $_GET['order_id'];
+                                $o_id = $_GET['order_id'];
+                                $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $o_id");
+                                $data = mysqli_fetch_array($chapterData);
+                                $courseId = $data['courseId'];
+                                $chapters = mysqli_query($con, "SELECT * FROM `chapters` WHERE courseId = $courseId ORDER BY id ASC LIMIT 1");
+                                $d = mysqli_fetch_array($chapters);
                                 // If an order ID is present, hide the course price and quantity input
                                 ?>
-                            <div class="buy-btn">
-                                <a href="MyActiveCourse.php?start_id=<?= $co_id ?>" class="btn btn-main btn-block">
+                                <div class="buy-btn">
+                                    <a href="core/sessions.php?start_id=<?= $courseId ?>&chapterId=<?= $d['id'] ?>"
+                                        class="btn btn-main btn-block">
 
-                                    Start Course
-                                </a>
+                                        Start Course
+                                    </a>
+                                </div>
+                                <div class="buy-btn">
+                                    <a href="MyActiveCourse.php?start_id=<?= $o_id ?>" class="btn btn-main btn-block">
 
-                            </div>
-                            <?php
+                                        Start Course
+                                    </a>
+
+                                </div>
+                                <?php
                             } else {
                                 // If not, show the course price and quantity input
                                 ?>
-                            <h4>
-                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "company") { ?>
-                                <!-- <input type="number" id="quantity" name="quantity" min="1" value="1"
-                                            style="font-size: 20px; width: 50px; height: 30px;"> -->
+                                <h4>
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == "company") { ?>
+                                        <h4>Quantity</h4>
+                                        <div class="input-group mb-3 quantity">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text btn btn_incr" id="decrease">-</span>
+                                            </div>
+                                            <input type="number" class="form-control text-center" id="quantity" name="quantity"
+                                                min="1" value="1">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text btn btn_decr" id="increase">+</span>
+                                            </div>
+                                        </div>
+                                        <!-- </div> -->
+                                    <?php } ?>
 
-                                <!-- <div class="container"> -->
-                                <h4>Quantity</h4>
-                                <div class="input-group mb-3 quantity">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text btn btn_incr" id="decrease">-</span>
-                                    </div>
-                                    <input type="number" class="form-control text-center" id="quantity" name="quantity"
-                                        min="1" value="1">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text btn btn_decr" id="increase">+</span>
-                                    </div>
-                                </div>
-                                <!-- </div> -->
-                                <?php } ?>
-
-                            </h4>
-                            <h4>Price: <span>&#8377;
-                                    <?= $courseCost ?>
-                                </span></h4>
-                            <div class="buy-btn">
-                                <?php
+                                </h4>
+                                <h4>Price: <span>&#8377;
+                                        <?= $courseCost ?>
+                                    </span></h4>
+                                <div class="buy-btn">
+                                    <?php
                                     if (isset($_GET['course_id'])) {
                                         // If a course ID is present, display the "Start Course" button
                                         ?>
-                                <a href=""
-                                    class="btn btn-main btn-block add_to_cart_button" data-product-id="<?= $co_id ?>"
-                                    data-product-name="<?= $courseName ?>" data-product-price="<?= $courseCost ?>"
-                                    data-product-image="<?= $bannerImage ?>">
-                                    Add To Cart
-                                </a>
-                                <?php
+                                        <a href="" class="btn btn-main btn-block add_to_cart_button"
+                                            data-product-id="<?= $co_id ?>" data-product-name="<?= $courseName ?>"
+                                            data-product-price="<?= $courseCost ?>" data-product-image="<?= $bannerImage ?>">
+                                            Add To Cart
+                                        </a>
+                                        <?php
                                     }
                                     ?>
-                            </div>
-                            <?php
+                                </div>
+                                <?php
                             }
                             ?>
                         </div>
