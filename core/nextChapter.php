@@ -1,10 +1,5 @@
 <?php
-$host = "localhost";
-$db = "saburi_lms_2023";
-$username = "root";
-$password = "";
-
-$con = mysqli_connect($host, $username, $password, $db);
+include("db_config.php");
 
 if(isset($_GET['start_id']) && isset($_GET['chapterId'])){
     $courseId = $_GET['start_id'];
@@ -36,7 +31,7 @@ if(isset($_GET['start_id']) && isset($_GET['chapterId'])){
     chapters ON courses.id = chapters.courseId WHERE chapters.courseId = $courseId AND chapters.id = $nextChapterId AND chapters.isActive = 1 ORDER BY chapters.id ASC");
 
     $data = mysqli_fetch_assoc($fetchChapter);
-
+    
     if ($data) {
         $fetchNextChapter = mysqli_query($con, "SELECT id FROM chapters WHERE courseId = $courseId AND id > $nextChapterId AND isActive = 1 ORDER BY id ASC LIMIT 1");
         $noOfChaptersFetch = mysqli_query($con, "SELECT COUNT(*) as count FROM chapters WHERE courseId = $courseId");

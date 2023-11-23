@@ -33,7 +33,7 @@ include("includes/header.php");
                     <h1>Cart</h1>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <a href="#">Home <?= $_SESSION['role']; ?></a>
+                            <a href="#">Home</a>
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">

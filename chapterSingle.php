@@ -1,17 +1,9 @@
 <?php
-include("./core/listgrid.php");
 include("includes/header.php");
-// include('../vendors/getid3/getid3/getid3.php'); 
+    $courseId = $_SESSION['course_id'];
+    $chid = $_SESSION['chapter_id'];
 
-    
-// ?>
-<?php
-    if(isset($_GET['start_id']) && isset($_GET['chapterId'])){
-        $courseId = $_GET['start_id'];
-        $chid = $_GET['chapterId'];
-    }
-
-    ?>
+?>
 
 <!-- The rest of your HTML code for displaying the course details -->
 
@@ -46,20 +38,22 @@ include("includes/header.php");
             <div class="col-lg-8">
                 <div class="course-single-header">
 
-                    <span class="single-course-title">Course Name:</span> <span class="single-course-title" id="courseName"></span><br/><br/>
-                    <span class="course-title">Chapter Name:</span> <span style="font-size:20px;" class="chapterName"></span>
+                    <span class="single-course-title">Course Name: </span> <span class="single-course-title"
+                        id="courseName"></span><br /><br />
+                    <span class="course-title">Chapter Name:</span> <span style="font-size:20px;"
+                        class="chapterName"></span>
                 </div>
 
                 <div class="single-course-details ">
                     <h4 class="course-title">Description</h4>
                     <p id="chapterDesc"></p>
                     <h5>Chapter Content</h5>
-                        <div><a href="" target="_blank" id="chpterContent"></a></div>
+                    <div><a href="" target="_blank" id="chpterContent"></a></div>
                     <h5>Video</h5>
-                        <video id="myVideo" width="320" height="240" controls controlsList="nodownload">
-                            <source src="" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
+                    <video id="myVideo" width="320" height="240" controls controlsList="nodownload">
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
                 <button class="btn btn-primary" id="nextButton">Next</button>
             </div>
@@ -106,8 +100,8 @@ include("includes/header.php");
                             </li>
                             <li>
                                 <div class="d-flex justify-content-between align-items-center">
-                                <span><i class="bi bi-bookmark"></i>Tag :</span>
-                                <a href="#" class="d-inline-block tag"></a>
+                                    <span><i class="bi bi-bookmark"></i>Tag :</span>
+                                    <a href="#" class="d-inline-block tag"></a>
                                 </div>
                             </li>
 
@@ -126,59 +120,59 @@ include("includes/header.php");
 </section>
 
 <script>
-$(document).ready(function() {
-    var currentChapterNumber = 1;
-    function fetchChapterData(startId, chapterId,currentChapterNumber) {
-        $.ajax({
-            url: 'core/nextChapter.php', 
-            type: 'GET',
-            data: { start_id: startId, chapterId: chapterId },
-            success: function(data) {
-                if (data) {
-                    console.log(data);
-                    var newData = JSON.parse(data);
-                    $(".chapterName").text(newData.chapterName);
-                    var dateToDisplay = newData.modifiedOn !== "0000-00-00 00:00:00" ? newData.modifiedOn : newData.createdOn;
-                    $(".date").text(dateToDisplay);
-                    $(".tag").text(newData.tag);
-                    $("#chpterContent").attr("href", "../functions/upload/file/" + newData.uploadFile).text(newData.uploadFile);
-                    $("#myVideo source").attr("src", "../functions/upload/video/" + newData.video);
-                    $("#myVideo")[0].load(); 
-                    $('#chapterDesc').text(newData.chapterContent);
-                    $("#noOfChapters").text(newData.noOfChapters.count);
-                    $('#currentNoOfChapter').text(currentChapterNumber);
-                    $('#courseName').text(newData.courseName);
+    $(document).ready(function () {
+        var currentChapterNumber = 1;
+        function fetchChapterData(startId, chapterId, currentChapterNumber) {
+            $.ajax({
+                url: 'core/nextChapter.php',
+                type: 'GET',
+                data: { start_id: startId, chapterId: chapterId },
+                success: function (data) {
+                    if (data) {
+                        console.log(data);
+                        var newData = JSON.parse(data);
+                        $(".chapterName").text(newData.chapterName);
+                        var dateToDisplay = newData.modifiedOn !== "0000-00-00 00:00:00" ? newData.modifiedOn : newData.createdOn;
+                        $(".date").text(dateToDisplay);
+                        $(".tag").text(newData.tag);
+                        $("#chpterContent").attr("href", "../functions/upload/file/" + newData.uploadFile).text(newData.uploadFile);
+                        $("#myVideo source").attr("src", "../functions/upload/video/" + newData.video);
+                        $("#myVideo")[0].load();
+                        $('#chapterDesc').text(newData.chapterContent);
+                        $("#noOfChapters").text(newData.noOfChapters.count);
+                        $('#currentNoOfChapter').text(currentChapterNumber);
+                        $('#courseName').text(newData.courseName);
 
-                    // Check if there are more chapters, if not, change the button text
-                    if (!newData.hasMoreChapters) {
-                        $("#nextButton").text("Finish");
+                        // Check if there are more chapters, if not, change the button text
+                        if (!newData.hasMoreChapters) {
+                            $("#nextButton").text("Finish");
 
-                        alert("Your course is finished!");
-                        $("#nextButton").prop("disabled", true);
+                            alert("Your course is finished!");
+                            $("#nextButton").prop("disabled", true);
+                        }
+                    } else {
+                        console.error("Error fetching chapter data");
                     }
-                } else {
-                    console.error("Error fetching chapter data");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching chapter data: " + error);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching chapter data: " + error);
-            }
+            });
+        }
+
+        var startId = <?php echo isset($_SESSION['course_id']) ? $_SESSION['course_id'] : 0; ?>;
+        var chapterId = <?php echo isset($_SESSION['chapter_id']) ? $_SESSION['chapter_id'] : 0; ?>;
+        fetchChapterData(startId, chapterId, currentChapterNumber);
+
+        $("#nextButton").on("click", function () {
+            chapterId++;
+            currentChapterNumber++;
+
+            history.pushState({}, "", "?start_id=" + startId + "&chapterId=" + chapterId);
+
+            fetchChapterData(startId, chapterId, currentChapterNumber);
         });
-    }
-
-    var startId = <?php echo isset($_GET['start_id']) ? $_GET['start_id'] : 0; ?>;
-    var chapterId = <?php echo isset($_GET['chapterId']) ? $_GET['chapterId'] : 0; ?>;
-    fetchChapterData(startId, chapterId,currentChapterNumber);
-
-    $("#nextButton").on("click", function() {
-        chapterId++;
-        currentChapterNumber++;
-
-        history.pushState({}, "", "?start_id=" + startId + "&chapterId=" + chapterId);
-
-        fetchChapterData(startId, chapterId,currentChapterNumber);
     });
-});
 
 </script>
 
