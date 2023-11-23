@@ -31,7 +31,7 @@ RewriteRule ^admin/manageSubscriptions admin/manageSubscriptions.php [L]
 RewriteRule ^admin/manageUser admin/manageUser.php [L]
 RewriteRule ^admin/pendingsubreport admin/pandingSubscriptionReport.php [L]
 RewriteRule ^admin/privacy admin/privacypolicy.php [L]
-RewriteRule ^admin/studentslistreport admin/studentsListReport.php [L]
+RewriteRule ^admin/studentsListReport admin/studentsListReport.php [L]
 RewriteRule ^admin/subtopic admin/subtopic.php [L]
 RewriteRule ^admin/development admin/sustainabledev.php [L]
 RewriteRule ^admin/topic admin/topic.php [L]
@@ -41,8 +41,8 @@ RewriteRule ^admin/manageQnA admin/manageQnA.php [L]
 RewriteRule ^admin/manageChapter admin/manageChapter.php [L]
 RewriteRule ^admin/manageAssessment admin/manageAssessment.php [L]
 RewriteRule ^admin/newsLetter admin/newsLetter.php [L]
-
-
+RewriteRule ^admin/userListReports admin/userListReports.php [L]
+RewriteRule ^admin/userContactReports admin/userContactReports.php [L]
 
 
 

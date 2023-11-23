@@ -1,6 +1,6 @@
 <?php
 $host="localhost";
-$db="saburi_lms_live";
+$db="saburi_lms_2023";
 $password='';
 $username="root";
 
@@ -17,9 +17,9 @@ $fetch_user_contact_details_query=mysqli_query($con,"SELECT * FROM contact_detai
 $fetch_user_newsletter_query=mysqli_query($con,"SELECT * FROM newsletter");
 $fetch_list_student_query=mysqli_query($con,"SELECT * FROM students where isActive = 1");
 
-$fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics");
-$fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics");
-$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
+$fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics where isActive=1");
+$fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics where isActive=1");
+$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId");
 $fetch_list_join_topics_subtopic_course_query=mysqli_query($con,"SELECT 
 topics.Id AS topic_id,
 topics.topicName,

@@ -1,31 +1,30 @@
 <?php
-// include("../core/functions.php");
-// include("../core/data_list_grid.php");
-// include("../functions/database_functions.php");
+
 include("includes/header.php");
+include("./core/listgrid.php");
 
 // $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
 // $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
 
-function getFormattedDuration($videoFilePath)
-{
-    // Initialize getID3
-    $getID3 = new getID3();
-    // Analyze the video file
-    $fileInfo = $getID3->analyze($videoFilePath);
+// function getFormattedDuration($videoFilePath)
+// {
+//     // Initialize getID3
+//     $getID3 = new getID3();
+//     // Analyze the video file
+//     $fileInfo = $getID3->analyze($videoFilePath);
 
-    // Get video duration
-    if (isset($fileInfo['playtime_seconds'])) {
-        $duration = $fileInfo['playtime_seconds'];
+//     // Get video duration
+//     if (isset($fileInfo['playtime_seconds'])) {
+//         $duration = $fileInfo['playtime_seconds'];
 
-        // Format the duration as HH:MM:SS
-        $formattedDuration = gmdate('H:i:s', $duration);
-    } else {
-        $formattedDuration = "Unknown";
-    }
+//         // Format the duration as HH:MM:SS
+//         $formattedDuration = gmdate('H:i:s', $duration);
+//     } else {
+//         $formattedDuration = "Unknown";
+//     }
 
-    return $formattedDuration;
-}
+//     return $formattedDuration;
+// }
 
 // Variable to store the total duration
 $totalDurationInSeconds = 0;
@@ -330,11 +329,17 @@ if ($payment_data && mysqli_num_rows($payment_data) > 0) {
                             <?php
                             if (isset($_GET['order_id'])) {
                                 $co_id = $_GET['order_id'];
+                            $id = $_GET['oid'];
+
+                                $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $id");
+                                $data = mysqli_fetch_array($chapterData);
+                                $courseId = $data['courseId'];
+                                $chapters = mysqli_query($con, "SELECT * FROM `chapters` WHERE courseId = $courseId ORDER BY id ASC LIMIT 1");
+                                $d = mysqli_fetch_array($chapters);
                                 // If an order ID is present, hide the course price and quantity input
                                 ?>
                             <div class="buy-btn">
-                                <a href="MyActiveCourse.php?start_id=<?= $co_id ?>" class="btn btn-main btn-block">
-
+                                <a href="chapterSingle.php?start_id=<?= $courseId ?>&chapterId=<?=$d['id'] ?>" class="btn btn-main btn-block">
                                     Start Course
                                 </a>
 

@@ -16,7 +16,7 @@ $fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics");
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
 $careerQuery = mysqli_query($con, "SELECT * FROM careers ");
 $fetch_list_query_subscription=mysqli_query($con,"SELECT * FROM subscriptions_1");
-$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
+$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
 $fetch_list_join_topics_subtopic_course_query=mysqli_query($con,"SELECT 
 topics.Id AS topic_id,
 topics.topicName,
