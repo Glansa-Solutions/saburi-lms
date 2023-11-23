@@ -42,7 +42,7 @@ $fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics");
 
 
 
-$query = mysqli_query($con, "select * from courses ");
+$query = mysqli_query($con, "select * from courses");
 
 if($query)
 {

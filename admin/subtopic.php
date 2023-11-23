@@ -16,11 +16,12 @@ include('includes/sidebar.php');
                                 <select class="form-control" name="topic">
                                     <option value=""> Select Topic Name</option>
                                     <?php
+                                    
                                     if ($fetch_list_topic_query) {
                                         // $i = 1;
                                         while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
 
-                                            echo $topic_id;
+                                            // echo $topic_id;
                                     ?>
 
                                             <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>

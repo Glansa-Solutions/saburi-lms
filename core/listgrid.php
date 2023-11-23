@@ -1,10 +1,5 @@
 <?php
-$host="localhost";
-$db="saburi_lms_live";
-$password='';
-$username="root";
-
-$con = mysqli_connect($host,$username,$password,$db);
+include('db_config.php');
 
 // include "database_functions.php";
 // $courseList = fetchCoursesList();
