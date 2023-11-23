@@ -25,6 +25,12 @@ if(isset($_GET['login_id'])){
     exit();
     // echo $role_id;
 }
+if(isset($_GET['start_id'])&&isset($_GET['chapterId'])){
+    $_SESSION['course_id']=$_GET['start_id'];
+    $_SESSION['chapter_id']=$_GET['chapterId'];
+    header("Location: http://localhost/saburi-lms/chapterSingle");
+
+}
 // Redirect to the account page
 exit;
 ?>

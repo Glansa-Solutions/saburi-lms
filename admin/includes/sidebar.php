@@ -96,8 +96,12 @@ include("../core/db_config.php");
                                         Subscriptions</a></li>
                                 <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/courseslistreport">Courses
                                         List</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/studentslistreport">Students
+                                        <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/studentsListReport">Students
                                         List</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/userListReports">User List
+                                        </a></li>
+                                        <li class="nav-item"> <a class="nav-link" href="<?= $mainlink;?>admin/userContacReports">User Contact List
+                                        </a></li>
                             </ul>
                         </div>
                     </li>

@@ -1,6 +1,7 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
+include('../core/listgrid.php');
 
 ?>
 <div class="content-wrapper">
@@ -172,19 +173,19 @@ include('includes/sidebar.php');
             console.log(rowid);
 
             $.ajax({
-                url: 'functions/edit_data.php', // Replace with the actual server-side script
+                url: '../core/edit_subTopic.php', // Replace with the actual server-side script
                 data: {
                     sub_topic_id: rowid
                 },
                 method: 'GET',
                 success: function(data) {
                     // Populate the subtopic select with the retrieved data
-                    $('#topic_name').html(data);
+                    $('#topic').html(data);
                     // $('#subtopic_name').html(data);
                 }
             });
             $.ajax({
-                url: 'functions/modals_data.php', // Replace with the actual server-side script
+                url: '../core/subTopic_modalData.php', // Replace with the actual server-side script
                 data: {
                     sub_topic_name: rowid
                 },
@@ -201,12 +202,12 @@ include('includes/sidebar.php');
         });
         $('.update_sb_tpc').on('click', function() {
             var sb_tp_id = $('#editrow').val();
-            var tp_id = $('#topic_name').val();
+            var tp_id = $('#topic').val();
             var sub_tp_name = $('#subtopic_name').val();
 
             console.log("Topic Name: " + tp_id + ", Sub Topic Name: " + sub_tp_name);
             $.ajax({
-                url: 'functions/modals_data.php',
+                url: '../core/subTopic_modalData.php',
                 data: {
                     updated_subtopic_name: sub_tp_name,
                     updated_topic_id: tp_id,

@@ -53,76 +53,78 @@ include("./core/allmailfun.php");
 
 </head>
 <style>
-/* Hide the default number input arrows in Chrome, Safari, and Edge */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
+    /* Hide the default number input arrows in Chrome, Safari, and Edge */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-/* Hide the default number input arrows in Firefox */
-input[type=number] {
-    -moz-appearance: textfield;
-}
+    /* Hide the default number input arrows in Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 
-#quantity {
-    border: 1px solid #E9770E;
-}
+    #quantity {
+        border: 1px solid #E9770E;
+    }
 
-.btn_incr:hover,
-.btn_decr:hover {
-    padding: 0px 20px;
-    background-color: #213975;
-    color: #ffff;
-}
+    .btn_incr:hover,
+    .btn_decr:hover {
+        padding: 0px 20px;
+        background-color: #213975;
+        color: #ffff;
+    }
 
-.btn_incr,
-.btn_decr {
-    padding: 0px 20px;
-    background-color: #E9770E;
-    color: #ffff;
-}
+    .btn_incr,
+    .btn_decr {
+        padding: 0px 20px;
+        background-color: #E9770E;
+        color: #ffff;
+    }
 
-.quantity {
-    width: 50%;
-}
+    .quantity {
+        width: 50%;
+    }
 
-.product-quantity {
-    display: flex;
-    align-items: center;
-}
+    .product-quantity {
+        display: flex;
+        align-items: center;
+    }
 
-.quantity-input {
-    width: 50px;
-    /* Adjust the width as needed */
-    text-align: center;
-    border: 1px solid #ccc;
-    /* Adjust the border color as needed */
-    /* margin-right: -1px; Adjust the negative margin as needed */
-}
+    .quantity-input {
+        width: 50px;
+        /* Adjust the width as needed */
+        text-align: center;
+        border: 1px solid #ccc;
+        /* Adjust the border color as needed */
+        /* margin-right: -1px; Adjust the negative margin as needed */
+    }
 
-.quantity-button {
-    padding: 5px;
-    width: 45px;
-    height: 30px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #E9770E;
-    margin: 0px;
-    color: #fff;
-    /* Add text color to make it visible */
-}
-.course-size{
-    font-size: 20px;
+    .quantity-button {
+        padding: 5px;
+        width: 45px;
+        height: 30px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        background-color: #E9770E;
+        margin: 0px;
+        color: #fff;
+        /* Add text color to make it visible */
+    }
 
-}
-.course_name{
-    font-size: 30px;
-}
+    .course-size {
+        font-size: 20px;
 
-.fas {
-    color: #E9770E;
-}
+    }
+
+    .course_name {
+        font-size: 30px;
+    }
+
+    .fas {
+        color: #E9770E;
+    }
 </style>
 
 <body id="top-header">
@@ -249,7 +251,12 @@ input[type=number] {
                             <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
                             </li>
                         </ul>
-                        <ul>
+                        <?php if (!empty($_SESSION['role_id'])) {
+                            $visibility = "visible";
+                        } else {
+                            $visibility = "none";
+                        } ?>
+                        <ul style="display:<?= $visibility;?>">
                             <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                                 <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown"
                                     aria-expanded="false">
@@ -265,6 +272,7 @@ input[type=number] {
                                             height="50px" width="50px" alt="Profile image">
                                         <p class="mb-1 mt-3 font-weight-semibold">Hi<span>&nbsp</span>
                                             <?= $s_name; ?>
+
                                         </p>
                                         <p class="fw-light text-muted mb-0">
                                             <?= $s_email; ?>
@@ -297,18 +305,18 @@ input[type=number] {
     </header>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    // <!-- This is your HTML for displaying the cart count -->
+        // <!-- This is your HTML for displaying the cart count -->
 
 
-    document.addEventListener('DOMContentLoaded', function() {
-        function updateCartCount() {
-            const cartJSON = localStorage.getItem('cart');
-            const cartItems = JSON.parse(cartJSON) || [];
-            const cartCount = cartItems.length;
-            const cartCountContainer = document.getElementById('cart-count');
-            cartCountContainer.textContent = cartCount;
-        }
+        document.addEventListener('DOMContentLoaded', function () {
+            function updateCartCount() {
+                const cartJSON = localStorage.getItem('cart');
+                const cartItems = JSON.parse(cartJSON) || [];
+                const cartCount = cartItems.length;
+                const cartCountContainer = document.getElementById('cart-count');
+                cartCountContainer.textContent = cartCount;
+            }
 
-        updateCartCount();
-    });
+            updateCartCount();
+        });
     </script>

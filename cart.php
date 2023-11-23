@@ -33,7 +33,7 @@ include("includes/header.php");
                     <h1>Cart</h1>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            <a href="#">Home <?= $_SESSION['role']; ?></a>
+                            <a href="#">Home</a>
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">
@@ -268,11 +268,7 @@ include("includes/header.php");
                                                         var totalQuantity = cartData.reduce(function(total, course) {
                                                             return total + course.quantity;
                                                         }, 0);
-                                                        // Update the DOM with the new totals
-                                                        // document.getElementById('total-quantity').textContent = totalQuantity ? totalQuantity : 1;
-                                                        // document.getElementById('total-price').textContent = totalPrice ? totalPrice.toFixed(2) : 0;
-                                                        // document.getElementById('total-count').textContent = totalItemCount ? totalItemCount.toFixed(2) : 0;
-                                                        // Update Total Count
+                                                        
                                                     }
                                                     // Initialize the cart totals when the page loads
                                                     updateTotals(cart);
@@ -346,16 +342,7 @@ include("includes/header.php");
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// function calculateTotal() {
-//     var total = 0;
 
-//     cart.forEach(function(course) {
-//         var itemTotal = course.price * course.quantity;
-//         total += itemTotal;
-//     });
-//     console.log(total);
-//     return total;
-// }
 
 // Call the calculateTotal function to get the total
 function updateGrandTotal(cartData) {

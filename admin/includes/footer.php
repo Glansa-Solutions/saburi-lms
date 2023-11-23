@@ -38,11 +38,11 @@
 <!-- End custom js for this page-->
 
 <!-- Rich Text Editor -->
-<!-- <script type="text/javascript" src="assets/vendors/richtexteditor/rte.js"></script>
+<script type="text/javascript" src="assets/vendors/richtexteditor/rte.js"></script>
 <script type="text/javascript" src='assets/vendors/richtexteditor/plugins/all_plugins.js'></script>
 <script>
 var editor1 = new RichTextEditor(".rte");
-</script> -->
+</script>
 <!-- data table -->
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -93,11 +93,8 @@ new DataTable('#example');
 <script>
 (function() {
     new FroalaEditor("#edit")
-<<<<<<< HEAD
-=======
     new FroalaEditor("#edt")
     
->>>>>>> 0bfbfa1380380bf2c6f14c2dca3c0cb2cba9c22e
 })()
 </script>
 

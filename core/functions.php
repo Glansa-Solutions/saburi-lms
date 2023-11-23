@@ -122,7 +122,7 @@ elseif(isset($_POST['subtopic_manage'])){
 elseif (isset($_POST['delete_subtopic'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql = "UPDATE subtopics SET isActive = 0 WHERE Id = $id";
+    $sql = "UPDATE subtopics SET isActive = 0 WHERE id = $id";
     $query = mysqli_query($con, $sql);
     if ($query) {
         // If the delete operation is successful, you can redirect to a success page
