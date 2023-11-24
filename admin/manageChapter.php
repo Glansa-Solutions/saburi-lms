@@ -120,6 +120,12 @@ include('../core/functions.php');
                                     <label for="uploadfile">Upload File</label>
                                     <input type="file" class="form-control-file" name="uploadfile">
                                 </div>
+                                <div class="form-group">
+                                    <label for="chapterContent">Chapter Content</label>
+                                    <textarea class="form-control" name="chapterContent">
+
+                                    </textarea>
+                                </div>
                                 
                             </div>
                             <div class="col-md-6 p-3">
