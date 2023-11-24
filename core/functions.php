@@ -689,6 +689,7 @@ if (isset($_POST['sending_email'])) {
     $subtopicName = $_POST['subtopic'];
     $courseName = $_POST['courseName'];
     $chapterName = $_POST['chapter'];
+    $chapterContent = $_POST['chapterContent'];
     if (isset($_FILES['uploadfile'])) {
         $uploadFile = $_FILES['uploadfile'];
         $uploadFileName = $uploadFile['name'];
@@ -704,7 +705,7 @@ if (isset($_POST['sending_email'])) {
     }
 
 
-    $insert_chapters = mysqli_query($con, "INSERT INTO chapters(topicID,subTopicId,courseId,chapterName,uploadfile,video,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$uploadFileName','$videoFileName',1)");
+    $insert_chapters = mysqli_query($con, "INSERT INTO chapters(topicID,subTopicId,courseId,chapterName,chapterContent,uploadfile,video,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$chapterContent','$uploadFileName','$videoFileName',1)");
 
     if ($insert_chapters) {
         header("location: $mainlink" . "admin/manageChapter");

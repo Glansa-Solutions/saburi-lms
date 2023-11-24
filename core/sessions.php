@@ -29,7 +29,7 @@ if(isset($_GET['login_id'])){
 if(isset($_GET['start_id'])&&isset($_GET['chapterId'])){
     $_SESSION['course_id']=$_GET['start_id'];
     $_SESSION['chapter_id']=$_GET['chapterId'];
-    header("Location: ./chapterSingle");
+    header("Location: ../chapterSingle");
 
 }
 // Redirect to the account page
