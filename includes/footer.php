@@ -2,7 +2,8 @@
 
 // Access the role_id from the session
 if (isset($_SESSION['role_id'])) {
-	$role_id = $_SESSION['role_id'];
+    $role_id = $_SESSION['role_id'];
+	$role = $_SESSION['role'];
 } else {
 	// Default value or error handling
 	$role_id = 0;
@@ -128,14 +129,74 @@ if (isset($_SESSION['role_id'])) {
 </div>
 <script src="./assets/vendors/swal/sweetalert2@10.js"></script>
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-		// Add click event listener to the "Add to Cart" button
-		var addToCartButton = document.querySelector('.add_to_cart_button');
-		if (addToCartButton) {
-			addToCartButton.addEventListener('click', function (event) {
-				showSuccessMessage();
-			});
+var quantityInput;
+var roleId = <?php echo json_encode($role_id); ?>;
+
+// console.log(roleId);
+$(document).ready(function() {
+    // Get the quantity input element
+    quantityInput = $('#quantity');
+	userId = sessionStorage.getItem("roleId");
+	// console.log(userId);
+
+    // Increase quantity
+    $('#increase').click(function() {
+        quantityInput.val(parseInt(quantityInput.val()) + 1);
+    });
+
+    // Decrease quantity
+    $('#decrease').click(function() {
+        var currentVal = parseInt(quantityInput.val());
+        if (currentVal > 1) {
+            quantityInput.val(currentVal - 1);
+        }
+    });
+});
+
+$('.add_to_cart_button').click(function(e) {
+    e.preventDefault();
+	var selectedQuantity;
+    var product_id = $(this).data('product-id');
+    var product_name = $(this).data('product-name');
+    var product_price = $(this).data('product-price');
+    var product_image = $(this).data('product-image');
+
+    selectedQuantity = quantityInput.val() ? quantityInput.val() : 1;
+	var role = <?php echo json_encode($role); ?>;
+	console.log(role);
+
+    // Check if there is an existing cart in local storage
+    var cart = JSON.parse(localStorage.getItem('cart')) || [];
+	var cartItem = {
+        user_id: roleId,
+        id: product_id,
+        name: product_name,
+        price: product_price,
+        image: product_image,
+        quantity: selectedQuantity
+    };
+
+	for(var c of cart){
+		if(c.id == product_id && c.user_id == roleId && role == 'student'){
+			alert("You have already added this item to cart");
+			// cartItem.quantity = selectedQuantity +1;
+			cart.pop();
 		}
+		if(c.id == product_id && c.user_id == roleId && role == 'company'){
+			cartItem.quantity = parseInt(selectedQuantity) +1;
+			cart.pop();
+		}
+	}
+
+ 
+    cart.push(cartItem);
+
+    // Save the updated cart back to local storage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // Update the cart count in the header
+    updateCartCount();
+});
 
 
 		// Function to display the success message using SweetAlert
@@ -161,10 +222,11 @@ if (isset($_SESSION['role_id'])) {
 		userId = sessionStorage.getItem("roleId");
 		// console.log(userId);
 
-		// Increase quantity
-		$('#increase').click(function () {
-			quantityInput.val(parseInt(quantityInput.val()) + 1);
-		});
+// Example: Get the cart items and do something with them
+var cartItems = getCartItems();
+cartItems.forEach(function(item) {
+    
+});
 
 		// Decrease quantity
 		$('#decrease').click(function () {

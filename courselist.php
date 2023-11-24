@@ -4,7 +4,7 @@ $query = "SELECT * FROM courses"; // Adjust the table name as needed
 $conditions = []; // Array to store conditions
 
 // Subtopic ID
-if (isset($_GET['subtopicId'])) {
+if (isset($_GET['subtopicId']) && !empty($_GET['subtopicId'])) {
     $subtopicId = mysqli_real_escape_string($con, $_GET['subtopicId']);
     $conditions[] = "subTopicId = $subtopicId";
 }
@@ -20,7 +20,7 @@ if (!empty($conditions)) {
     $query .= " WHERE " . implode(" AND ", $conditions);
 }
 
-if (isset($_GET['orderby'])) {
+if (isset($_GET['orderby']) && !empty($_GET['orderby'])) {
     $orderby = $_GET['orderby'];
     switch ($orderby) {
         case 'popularity':
@@ -146,7 +146,7 @@ $allcourse = mysqli_query($con, $query);
 
                     <ul class="products columns-3">
                         <?php
-                        if (isset($_GET['subtopicId']) && isset($_GET['orderby'])) {
+                        if (isset($_GET['subtopicId']) && isset($_GET['orderby']) && !empty($_GET['subtopicId']) && !empty($_GET['orderby'])) {
                             $subtopicId = $_GET['subtopicId'];
 
                             // Use $subtopicId in your query to fetch filtered courses
@@ -266,8 +266,8 @@ $allcourse = mysqli_query($con, $query);
                             }
                             ?>
 
-                            <button type="submit" value="Search">Search</button>
-                            <input type="hidden" name="post_type" value="product">
+                            <button type="submit" value="Search" id="searchButton">Search</button>
+                            <!-- <input type="hidden" name="post_type" value="product"> -->
                         </form>
                     </section>
 
@@ -366,90 +366,69 @@ $allcourse = mysqli_query($con, $query);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function () {
     // Add a click event to all elements with the class 'subtopic-link'
-    var subtopicLinks = document.querySelectorAll('.subtopic-link');
+    var subtopicLinks = $('.subtopic-link');
 
-    subtopicLinks.forEach(function(link) {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
+    subtopicLinks.on('click', function (event) {
+        event.preventDefault();
 
-            // Get the subtopic ID from the data attribute
-            var subtopicId = link.dataset.subtopicId;
+        // Get the subtopicId from the clicked element
+        var subtopicId = $(this).data('subtopicId');
 
-            // Get the current URL
-            var url = new URL(window.location.href);
-
-            // Update the URL with the new subtopic ID
-            url.searchParams.set("subtopicId", subtopicId);
-
-            // Log the URL for debugging
-            console.log("Updated URL after clicking subtopic:", url.toString());
-
-            // Update the URL
-            window.location.href = url.toString();
-        });
+        // Update the URL and content
+        updateUrlAndContent(subtopicId);
     });
 
-    // Add a change event to the search input
-    var searchInput = document.querySelector('.search-field');
-    searchInput.addEventListener('input', function() {
-        updateUrlWithSearchTerm();
+    var searchInput = $('.search-field');
+    searchInput.on('input', function () {
+        updateUrlAndContent();
     });
 
-    // Add a change event to the sorting select
-    var sortingSelect = document.querySelector('.orderby');
-    sortingSelect.addEventListener('change', function() {
-        updateUrlWithSorting();
+    var sortingSelect = $('.orderby');
+    sortingSelect.on('change', function () {
+        updateUrlAndContent();
     });
 
-    function updateUrlWithSearchTerm() {
-        // Get the search term from the input
-        var searchTerm = searchInput.value.trim();
+    function updateUrlAndContent(subtopicId) {
+        var searchTerm = searchInput.val().trim();
+        var selectedValue = sortingSelect.val();
 
-        // Get the current URL
-        var url = new URL(window.location.href);
-
-        // Update the URL with the new search term
-        if (searchTerm !== "") {
-            url.searchParams.set("s", searchTerm);
-        } else {
-            // Remove the s parameter if the search term is empty
-            url.searchParams.delete("s");
+        // If subtopicId is provided, include it in the state object
+        var stateObj = { s: searchTerm, orderby: selectedValue };
+        if (subtopicId) {
+            stateObj.subtopicId = subtopicId;
+        }else{
+            stateObj.subtopicId = '';
         }
 
-        // Remove subtopicId when updating search term
-        url.searchParams.delete("subtopicId");
+        // Update the URL with the new state
+        history.pushState(stateObj, '', '?' + $.param(stateObj));
 
-        // Log the URL for debugging
-        console.log("Updated URL after search term change:", url.toString());
-
-        // Update the URL
-        window.location.href = url.toString();
+        // Update the content
+        updateContent();
     }
 
-    function updateUrlWithSorting() {
-        // Get the selected value from the sorting select
-        var selectedValue = sortingSelect.value;
-
-        // Get the current URL
-        var url = new URL(window.location.href);
-
-        // Update the URL with the new sorting parameter
-        if (selectedValue !== "") {
-            url.searchParams.set("orderby", selectedValue);
-        } else {
-            // Remove the orderby parameter if it's empty
-            url.searchParams.delete("orderby");
-        }
-
-        // Log the URL for debugging
-        console.log("Updated URL after sorting change:", url.toString());
-
-        // Update the URL
-        window.location.href = url.toString();
+    // Function to update the content without reloading
+    function updateContent() {
+        // Use AJAX to fetch and update the content based on the current URL
+        $.ajax({
+            url: window.location.href,
+            type: 'GET',
+            success: function (data) {
+                // Update the content of the relevant container (e.g., '.products')
+                $('.products').html($(data).find('.products').html());
+            },
+            error: function () {
+                alert('Error updating content');
+            }
+        });
     }
 });
+
+
+
+
 </script>
 
 
