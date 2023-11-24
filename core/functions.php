@@ -19,7 +19,7 @@ if (isset($_POST['login_admin'])) {
         $user_name = $fetch_user_sql['Email'];
         $pwd = $fetch_user_sql['Password'];
         header("location: $mainlink" . "admin/dashboard");
-            exit();
+        exit();
         // Use password_hash and password_verify for password hashing
         // if (password_verify($password, $pwd)) {
         //     header("location: $mainlink" . "admin/dashboard");
@@ -652,7 +652,7 @@ if (isset($_POST['sending_email'])) {
                     $mail->addAddress($email);
                     $mail->Subject = $subject;
 
-                    $unsubscribe_link = "http://localhost/LMS/lms2/unsubscribe.php?email=" . urlencode($email);
+                    $unsubscribe_link = "$mainlink"."unsubscribe.php?email=" . urlencode($email);
                     $message = "$des<br><br>";
                     $message .= "The content of your newsletter goes here.";
                     $message .= "<br><a href='$unsubscribe_link'>Unsubscribe</a>";
@@ -1036,6 +1036,4 @@ if (isset($_POST['delete_user'])) {
     // Close the database connection
     mysqli_close($conn);
 }
-
-
 ?>
