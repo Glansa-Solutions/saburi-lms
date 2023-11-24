@@ -1,9 +1,38 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
+include('../core/listgrid.php');
 // include('functions/get_subtopics.php');
 ?>
+<<<<<<< HEAD
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Bind a change event to the topic select
+        $('#topic').change(function () {
+            var topicId = $(this).val();
+            if (topicId) {
+                // Make an AJAX request to fetch subtopics for the selected topic
+                $.ajax({
+                    url: '../core/functions.php', // Replace with the actual server-side script
+                    data: { topicId: topicId },
+                    method: 'GET',
+                    success: function (data) {
+                        // Populate the subtopic select with the retrieved data
+                        console.log(data);
+                        $('#subtopic').html(data);
+                    }
+                });
+            } else {
+                // Clear the subtopic select if no topic is selected
+                $('#subtopic').html('<option>select subtopic name</option>');
+            }
+        });
+    });
+</script>
+=======
 
+>>>>>>> 0a8a57d5cd5158620f2ac5f46cc634a932062914
 
 <div class="content-wrapper">
     <div class="row">
@@ -15,7 +44,7 @@ include('includes/sidebar.php');
                         <p class="card-description">
                             Basic form layout
                         </p> -->
-                    <form class="forms-sample row" action="functions/functions" method="POST"
+                    <form class="forms-sample row" action="../core/functions.php" method="POST"
                         enctype="multipart/form-data">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -170,6 +199,11 @@ include('includes/sidebar.php');
         </div>
     </div>
 </div>
+<<<<<<< HEAD
+<!-- Main Content ends -->
+
+
+=======
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -195,6 +229,7 @@ include('includes/sidebar.php');
         });
     });
 </script>
+>>>>>>> 0a8a57d5cd5158620f2ac5f46cc634a932062914
 
 <?php
 

@@ -326,22 +326,21 @@ if (isset($_GET['course_id'])) {
                     <div class="course-single-thumb">
                         <img src="uploads/images/<?= $bannerImage ?>" alt="" class="img-fluid w-100">
                         <div class="course-price-wrapper">
-                            <?php
+                        <?php
                             if (isset($_GET['order_id'])) {
                                 $co_id = $_GET['order_id'];
                                 $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $o_id");
                                 $data = mysqli_fetch_array($chapterData);
                                 $courseId = $data['courseId'];
-                                $chapters = mysqli_query($con, "SELECT * FROM `chapters` WHERE courseId = $courseId ORDER BY id ASC LIMIT 1");
+                                $chapters = mysqli_query($con, "SELECT * FROM chapters WHERE courseId = $courseId ORDER BY id ASC LIMIT 1");
                                 $d = mysqli_fetch_array($chapters);
                                 // If an order ID is present, hide the course price and quantity input
                                 ?>
-                            <div class="buy-btn">
-                                <a href="core/sessions.php?start_id=<?= $courseId ?>&chapterId=<?= $d['id']?>" class="btn btn-main btn-block">
-
-                                    Start Course
-                                </a>
-
+                                <div class="buy-btn">
+                                    <a href="core/sessions.php?start_id=<?= $courseId ?>&chapterId=<?= $d['id'] ?>"
+                                        class="btn btn-main btn-block">
+                                        Start Course
+                                    </a>
                                 </div>
                                 <?php
                             } else {

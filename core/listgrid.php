@@ -16,7 +16,7 @@ $fetch_list_student_query=mysqli_query($con,"SELECT * FROM students where isActi
 
 $fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics where isActive=1");
 $fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics where isActive=1");
-$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId");
+$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId WHERE subtopics.isActive = 1");
 $fetch_list_join_topics_subtopic_course_query=mysqli_query($con,"SELECT 
 topics.Id AS topic_id,
 topics.topicName,
@@ -103,7 +103,7 @@ chapters.id DESC");
 
 $fetch_list_query_subscription=mysqli_query($con,"SELECT * FROM subscriptions_1");
 
-$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
+// $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
 
 $fetch_list_blog_query=mysqli_query($con,"SELECT * FROM blogs where isActive = 1");
 
