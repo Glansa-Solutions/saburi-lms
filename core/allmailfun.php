@@ -181,7 +181,7 @@ elseif (isset($_POST['sending_email'])) {
                     $mail->addAddress($email);
                     $mail->Subject = $subject;
 
-                    $unsubscribe_link = "http://localhost/saburi-lms/admin/unsubscribe.php?email=" . urlencode($email);
+                    $unsubscribe_link = "$mainlink"."admin/unsubscribe.php?email=" . urlencode($email);
                     $message = "$des<br><br>";
                     $message .= "The content of your newsletter goes here.";
                     $message .= "<br><a href='$unsubscribe_link'>Unsubscribe</a>";
