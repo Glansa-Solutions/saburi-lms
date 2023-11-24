@@ -7,7 +7,6 @@ include("./core/blogsFunction.php");
 include("./core/homeFunction.php");
 include("./core/functions.php");
 include("./core/listgrid.php");
-// include("./core/checkoutFunction.php");
 include("./core/allmailfun.php");
 // include("./core/login_register.php");
 // include("./core/login_register.php");
@@ -24,7 +23,7 @@ include("./core/allmailfun.php");
 
     <meta name="author" content="themeturn.com">
 
-    <title>Edutim- Education LMS template</title>
+    <title>Saburi LMS</title>
 
     <!-- Mobile Specific Meta-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,7 +49,8 @@ include("./core/allmailfun.php");
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <!-- <script src="./js/jquery-3.6.0.min.js"></script> -->
-
+    <!-- Swal -->
+    
 </head>
 <style>
     /* Hide the default number input arrows in Chrome, Safari, and Edge */
@@ -288,7 +288,7 @@ include("./core/allmailfun.php");
                                         <a class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
                                             My Active Courses</a>
-                                        <a class="dropdown-item"><i
+                                        <a href="<?= $mainlink ?>changepassword?role_id=<?= $_SESSION['role_id'];?>&role=<?= $_SESSION['role'];?>"class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Change Password</a>
                                         <a class="dropdown-item" href="<?= $mainlink ?>logout_session"><i

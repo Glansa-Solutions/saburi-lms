@@ -1,7 +1,7 @@
 <?php
  
 include("includes/header.php");
-include("./core/data_list_grid.php");
+// include("./core/data_list_grid.php");
 
 ?>
 

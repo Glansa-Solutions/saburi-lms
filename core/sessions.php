@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if(isset($_GET['id'])){
     $_SESSION['role_id']=$_GET['id'];
     $role_id = $_SESSION['role_id'];
-    header("Location: ./");
+    header("Location: ../");
     exit();
     // echo $role_id;
 }
@@ -29,8 +29,14 @@ if(isset($_GET['login_id'])){
 if(isset($_GET['start_id'])&&isset($_GET['chapterId'])){
     $_SESSION['course_id']=$_GET['start_id'];
     $_SESSION['chapter_id']=$_GET['chapterId'];
-    header("Location: ./chapterSingle");
+    header("Location: ../chapterSingle");
 
+}
+if(isset($_GET['ch_id'])){
+    $_SESSION['role_id']=$_GET['ch_id'];
+    $_SESSION['role'];
+    header("Location: ../changepassword");
+    exit();
 }
 // Redirect to the account page
 exit;

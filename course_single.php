@@ -3,28 +3,7 @@
 include("includes/header.php");
 include("./core/listgrid.php");
 
-// $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
-// $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
 
-// function getFormattedDuration($videoFilePath)
-// {
-//     // Initialize getID3
-//     $getID3 = new getID3();
-//     // Analyze the video file
-//     $fileInfo = $getID3->analyze($videoFilePath);
-
-//     // Get video duration
-//     if (isset($fileInfo['playtime_seconds'])) {
-//         $duration = $fileInfo['playtime_seconds'];
-
-//         // Format the duration as HH:MM:SS
-//         $formattedDuration = gmdate('H:i:s', $duration);
-//     } else {
-//         $formattedDuration = "Unknown";
-//     }
-
-//     return $formattedDuration;
-// }
 
 // Variable to store the total duration
 $totalDurationInSeconds = 0;
@@ -329,7 +308,7 @@ if (isset($_GET['course_id'])) {
                         <?php
                             if (isset($_GET['order_id'])) {
                                 $co_id = $_GET['order_id'];
-                                $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $o_id");
+                                $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $co_id");
                                 $data = mysqli_fetch_array($chapterData);
                                 $courseId = $data['courseId'];
                                 $chapters = mysqli_query($con, "SELECT * FROM chapters WHERE courseId = $courseId ORDER BY id ASC LIMIT 1");
