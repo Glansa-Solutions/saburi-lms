@@ -86,7 +86,7 @@ new DataTable('#example');
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/video.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/help.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/print.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/third_party/spell_checker.min.js"></script>
+<!-- <script type="text/javascript" src="./assets/vendors/froala_editor/js/third_party/spell_checker.min.js"></script> -->
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/special_characters.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/word_paste.min.js"></script>
 

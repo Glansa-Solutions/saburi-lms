@@ -328,7 +328,7 @@ if (isset($_GET['course_id'])) {
                         <div class="course-price-wrapper">
                         <?php
                             if (isset($_GET['order_id'])) {
-                                $o_id = $_GET['order_id'];
+                                $co_id = $_GET['order_id'];
                                 $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $o_id");
                                 $data = mysqli_fetch_array($chapterData);
                                 $courseId = $data['courseId'];

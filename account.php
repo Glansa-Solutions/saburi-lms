@@ -276,8 +276,68 @@ include("includes/header.php");
                     </ul>
                     <div class="tab-content mt-3 " id="myTabContent">
                         <div class="tab-pane fade show active w-100" id="login" role="tabpanel" aria-labelledby="login-tab">
+                        <form method="post" action="core/login_register.php">
+                                <div class="mb-3">
+                                    <label for="login-email" class="form-label">Email address</label>
+                                    <input type="email" name="email" class="form-control" id="login-email"
+                                        aria-describedby="emailHelp">
+                                </div>
+                                <?php
+                                if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
+                                    $session_role = $_SESSION['role'];
+                                    $session_role_id = $_SESSION['role_id'];
+                                } else {
+                                    $session_role = "";
+                                    $session_role_id = "";
+                                }
+
+
+
+                                // function encrypt($data, $key, $iv)
+                                // {
+                                //     $cipher = "aes-256-cbc";
+                                //     $options = 0;
+                                //     $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
+                                //     return base64_encode($encrypted);
+                                // }
+
+                                // function decrypt($encryptedData, $key, $iv)
+                                // {
+                                //     $cipher = "aes-256-cbc";
+                                //     $options = 0;
+                                //     $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, $options, $iv);
+                                //     return $decrypted;
+                                // }
+
+                                // // Example usage
+                                // $dataToEncrypt = $session_role;
+                                // $key = "20V23e11S19P98"; // Change this to your secret key
+                                // $iv = openssl_random_pseudo_bytes(16); // Initialization Vector, should be random and unique
+                            
+                                // $encryptedData = encrypt($dataToEncrypt, $key, $iv);
+                                // echo "Original: $dataToEncrypt\n";
+                                // echo "Encrypted: $encryptedData\n";
+
+                                // $decryptedData = decrypt($encryptedData, $key, $iv);
+                                // echo "Decrypted: $decryptedData\n";
+
+                                ?>
+
+
+                                <div class="mb-3">
+                                    <label for="login-password" class="form-label">Password</label>
+                                    <input type="password" name="password" class="form-control" id="login-password">
+                                    <input type="hidden" name="role" value="<?= $session_role; ?>" class="form-control">
+                                    <!-- <input type="hidden" name="iv" value="<?= $iv; ?>" class="form-control"> -->
+                                    <input type="hidden" name="student_id" value="<?= $session_role_id ?>"
+                                        class="form-control">
+                                </div>
+
+                                <button type="submit" name="student_login"
+                                    class="btn btn-primary login_button">Login</button>
+                            </form>
                             <!-- Login Form -->
-                            <form method="post" action="core/login_register.php">
+                            <!-- <form method="post" action="core/login_register.php">
                                 <div class="mb-3">
                                     <label for="login-email" class="form-label">Email address</label>
                                     <input type="email" name="email" class="form-control" id="login-email"
@@ -303,7 +363,7 @@ include("includes/header.php");
                                 </div>
                                 <button type="submit" name="student_login"
                                     class="btn btn-primary login_button">Login</button>
-                            </form>
+                            </form> -->
                         </div>
 
                         <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
@@ -391,6 +451,12 @@ include("includes/header.php");
                                                 name="pinCode" id="" autocomplete="password" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>Address&nbsp;<span class="required">*</span></label>
+                                            <input type="textarea"
+                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
+                                                name="address" id="" value="" required>
+                                        </p>
+                                        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="idProof">
                                                 <option>Aadhar Card</option>
@@ -406,7 +472,7 @@ include("includes/header.php");
                                         <p class="woocommerce-FormRow form-row">
                                             <input type="hidden" id="woocommerce-register-nonce" name="role"
                                                 value="<?= $_SESSION['role'] ?>">
-                                            <button type="submit" class="woocommerce-Button button" name="registerCompany"
+                                            <button type="submit" class="woocommerce-Button button" name="registerStudent"
                                                 value="Register">Register</button>
                                         </p>
                                     </div>

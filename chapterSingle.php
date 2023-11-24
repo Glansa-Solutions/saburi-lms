@@ -55,7 +55,11 @@ include("includes/header.php");
                         Your browser does not support the video tag.
                     </video>
                 </div>
-                <button class="btn btn-primary" id="nextButton">Next</button>
+                <div class="proceed text-right">
+                
+                    <button class="btn btn-saburi rounded-0" id="nextButton">Next</button>
+                </div>
+
             </div>
 
             <div class="col-lg-4">
@@ -120,60 +124,65 @@ include("includes/header.php");
 </section>
 
 <script>
-    $(document).ready(function () {
-        var currentChapterNumber = 1;
-        function fetchChapterData(startId, chapterId, currentChapterNumber) {
-            $.ajax({
-                url: 'core/nextChapter.php',
-                type: 'GET',
-                data: { start_id: startId, chapterId: chapterId },
-                success: function (data) {
-                    if (data) {
-                        console.log(data);
-                        var newData = JSON.parse(data);
-                        $(".chapterName").text(newData.chapterName);
-                        var dateToDisplay = newData.modifiedOn !== "0000-00-00 00:00:00" ? newData.modifiedOn : newData.createdOn;
-                        $(".date").text(dateToDisplay);
-                        $(".tag").text(newData.tag);
-                        $("#chpterContent").attr("href", "./uploads/files/chapterFile/" + newData.uploadFile).text(newData.uploadFile);
-                        $("#myVideo source").attr("src", "./uploads/videos/chapterVideos/" + newData.video);
-                        $("#myVideo")[0].load();
-                        $('#chapterDesc').text(newData.chapterContent);
-                        $("#noOfChapters").text(newData.noOfChapters.count);
-                        $('#currentNoOfChapter').text(currentChapterNumber);
-                        $('#courseName').text(newData.courseName);
+$(document).ready(function() {
+    var currentChapterNumber = 1;
 
-                        // Check if there are more chapters, if not, change the button text
-                        if (!newData.hasMoreChapters) {
-                            $("#nextButton").text("Finish");
+    function fetchChapterData(startId, chapterId, currentChapterNumber) {
+        $.ajax({
+            url: 'core/nextChapter.php',
+            type: 'GET',
+            data: {
+                start_id: startId,
+                chapterId: chapterId
+            },
+            success: function(data) {
+                if (data) {
+                    console.log(data);
+                    var newData = JSON.parse(data);
+                    $(".chapterName").text(newData.chapterName);
+                    var dateToDisplay = newData.modifiedOn !== "0000-00-00 00:00:00" ? newData
+                        .modifiedOn : newData.createdOn;
+                    $(".date").text(dateToDisplay);
+                    $(".tag").text(newData.tag);
+                    $("#chpterContent").attr("href", "../functions/upload/file/" + newData
+                        .uploadFile).text(newData.uploadFile);
+                    $("#myVideo source").attr("src", "../functions/upload/video/" + newData.video);
+                    $("#myVideo")[0].load();
+                    $('#chapterDesc').text(newData.chapterContent);
+                    $("#noOfChapters").text(newData.noOfChapters.count);
+                    $('#currentNoOfChapter').text(currentChapterNumber);
+                    $('#courseName').text(newData.courseName);
 
-                            alert("Your course is finished!");
-                            $("#nextButton").prop("disabled", true);
-                        }
-                    } else {
-                        console.error("Error fetching chapter data");
+                    // Check if there are more chapters, if not, change the button text
+                    if (!newData.hasMoreChapters) {
+                        $("#nextButton").text("Finish");
+
+                        alert("Your course is finished!");
+                        $("#nextButton").prop("disabled", true);
                     }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error fetching chapter data: " + error);
+                } else {
+                    console.error("Error fetching chapter data");
                 }
-            });
-        }
-
-        var startId = <?php echo isset($_SESSION['course_id']) ? $_SESSION['course_id'] : 0; ?>;
-        var chapterId = <?php echo isset($_SESSION['chapter_id']) ? $_SESSION['chapter_id'] : 0; ?>;
-        fetchChapterData(startId, chapterId, currentChapterNumber);
-
-        $("#nextButton").on("click", function () {
-            chapterId++;
-            currentChapterNumber++;
-
-            history.pushState({}, "", "?start_id=" + startId + "&chapterId=" + chapterId);
-
-            fetchChapterData(startId, chapterId, currentChapterNumber);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error fetching chapter data: " + error);
+            }
         });
-    });
+    }
 
+    var startId = <?php echo isset($_SESSION['course_id']) ? $_SESSION['course_id'] : 0; ?>;
+    var chapterId = <?php echo isset($_SESSION['chapter_id']) ? $_SESSION['chapter_id'] : 0; ?>;
+    fetchChapterData(startId, chapterId, currentChapterNumber);
+
+    $("#nextButton").on("click", function() {
+        chapterId++;
+        currentChapterNumber++;
+
+        history.pushState({}, "", "?start_id=" + startId + "&chapterId=" + chapterId);
+
+        fetchChapterData(startId, chapterId, currentChapterNumber);
+    });
+});
 </script>
 
 

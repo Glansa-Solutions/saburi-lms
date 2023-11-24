@@ -76,7 +76,7 @@ include("includes/header.php");
                                                 <thead>
                                                     <tr>
 
-                                                        <th class="product-name">Product</th>
+                                                        <th class="product-name">Course</th>
                                                         <th class="product-price">Price</th>
                                                         <th class="product-quantity">Quantity</th>
                                                         <th class="product-subtotal">Total</th>

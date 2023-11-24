@@ -1,8 +1,9 @@
 <?php
 // include("./functions/db_config.php");
-// include('./functions/list_grid.php');
 include("../core/db_config.php");
-// include("../core/data_list_grid.php");
+include("../core/data_list_grid.php");
+include('../core/listgrid.php');
+
 
 
 // include('./functions/modals_data.php');

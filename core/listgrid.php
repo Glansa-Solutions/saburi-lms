@@ -4,7 +4,9 @@ include("db_config.php");
 // include "database_functions.php";
 // $courseList = fetchCoursesList();
 // fetching list of Users to users module
-
+$fetch_list_students_query=mysqli_query($con,"SELECT * FROM students");
+$categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
+$careerQuery = mysqli_query($con, "SELECT * FROM careers ");
 $fetch_list_query=mysqli_query($con,"SELECT * FROM users where IsActive = 1");
 $fetch_user_contact_query=mysqli_query($con,"SELECT * FROM contact");
 $fetch_user_contact_details_query=mysqli_query($con,"SELECT * FROM contact_details");

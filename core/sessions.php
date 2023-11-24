@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+// $mainlink=""
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['role'])) {
         $_SESSION['role'] = $_POST['role'];

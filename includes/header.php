@@ -248,8 +248,8 @@ include("./core/allmailfun.php");
                                     </span>
                                 </a>
                             </li>
-                            <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
-                            </li>
+                            <!-- <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
+                            </li> -->
                         </ul>
                         <?php if (!empty($_SESSION['role_id'])) {
                             $visibility = "visible";
@@ -271,11 +271,11 @@ include("./core/allmailfun.php");
                                         <img class="img-md rounded-circle" src="assets/images/profile_img/student.png"
                                             height="50px" width="50px" alt="Profile image">
                                         <p class="mb-1 mt-3 font-weight-semibold">Hi<span>&nbsp</span>
-                                            <?= $s_name; ?>
+                                            <?= $fullName; ?>
 
                                         </p>
                                         <p class="fw-light text-muted mb-0">
-                                            <?= $s_email; ?>
+                                            <?= $email; ?>
                                         </p>
                                     </div>
                                     <a class="dropdown-item" href="<?= $mainlink ?>profile"><i
