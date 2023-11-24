@@ -1016,7 +1016,7 @@ if (isset($_GET['topicId'])) {
     }
 
     // Close the connection
-    mysqli_close($con);
+    // mysqli_close($con);
 }
 
 
@@ -1034,7 +1034,7 @@ if (isset($_POST['delete_user'])) {
     }
 
     // Close the database connection
-    mysqli_close($conn);
+    // mysqli_close($conn);
 }
 
 if (isset($_GET['topicId'])) {
