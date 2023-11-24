@@ -158,6 +158,7 @@ $allcourse = mysqli_query($con, $query);
                                 $coursePrice = $row["courseCost"];
                                 $courseDes = $row["courseDesc"];
                                 $bannerImage = $row["bannerImage"];
+                                // echo $bannerImage;
                                 ?>
                             <li class="product" style="margin-right:2%;">
                                 <div class="product-wrap">

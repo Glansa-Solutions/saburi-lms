@@ -163,7 +163,7 @@ elseif (isset($_POST['delete_subtopic'])) {
         $imageFile = $_FILES['image'];
         $imageFileName = $imageFile['name'];
         // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], 'upload/image/' . $imageFileName);
+        move_uploaded_file($imageFile['tmp_name'], '../uploads/images/' . $imageFileName);
     }
     // $uploadfile = $_POST['uploadfile'];
      // Handle file upload
@@ -171,7 +171,7 @@ elseif (isset($_POST['delete_subtopic'])) {
         $uploadFile = $_FILES['uploadfile'];
         $uploadFileName = $uploadFile['name'];
         // Process and move the upload file to your desired location
-        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+        move_uploaded_file($uploadFile['tmp_name'], 'uploads/files' . $uploadFileName);
     }
     // $uploadfile = isset($_POST['uploadfile']) ? $_POST['uploadfile'] : '';
     // $video = $_POST['video'];
@@ -180,7 +180,7 @@ elseif (isset($_POST['delete_subtopic'])) {
         $videoFile = $_FILES['video'];
         $videoFileName = $videoFile['name'];
         // Process and move the video file to your desired location
-        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+        move_uploaded_file($videoFile['tmp_name'], 'uploads/videos' . $videoFileName);
     }
     // $video = isset($_POST['video']) ? $_POST['video'] : '';
     // $desc = $_POST['desc'];
@@ -194,7 +194,7 @@ elseif (isset($_POST['delete_subtopic'])) {
     // $insert_query = mysqli_query($con, "INSERT INTO courses(topicID ,subTopicId ,courseName,courseCost,bannerImage,uploadfile,video,courseDesc,learn,summary,requirements) VALUES('$topic','$subtopic','$courseName','$price','$imageFileName','$uploadFileName','$videoFileName','$desc','$wyl','$summary','$requirements')");
 
     if ($insert_course) {
-        header("location: $mainlink" . "manageCourse");
+        header("location: $mainlink" . "admin/manageCourse");
     } else {
         echo "not done";
     }
@@ -1192,6 +1192,33 @@ if (isset($_POST['delete_user'])) {
 
     // Close the database connection
     mysqli_close($conn);
+}
+
+if (isset($_GET['topicId'])) {
+    // Assuming you have a function to fetch subtopics based on topicId
+    $topicId = $_GET['topicId'];
+    // echo $topicId;
+    $subt_query_conn = mysqli_query($con, "SELECT id, subTopicName FROM subtopics WHERE topicId = $topicId");
+
+    if ($subt_query_conn) {
+        // Fetch all rows from the result set
+        $subtopics = array();
+        while ($row = mysqli_fetch_assoc($subt_query_conn)) {
+            $subtopics[] = $row;
+            
+        }
+
+        foreach ($subtopics as $subtopic) {
+            echo "<option value='{$subtopic['id']}'>{$subtopic['subTopicName']}</option>";
+        }
+        
+    } else {
+        // Handle the case where the query fails
+        echo "Error: " . mysqli_error($con);
+    }
+
+    // Close the connection
+    mysqli_close($con);
 }
 
 

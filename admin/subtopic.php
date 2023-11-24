@@ -63,10 +63,10 @@ include('../core/listgrid.php');
                         </thead>
                         <tbody>
                             <?php
-                            if ($fetch_list_subtopic_query) {
+                            if ($fetch_list_join_topics_subtopic_query) {
                                 $i = 1;
                                 while ($row = mysqli_fetch_assoc($fetch_list_join_topics_subtopic_query)) {
-
+                                // var_dump($row);
                             ?>
                                     <tr>
                                         <td><?= $i; ?></td>

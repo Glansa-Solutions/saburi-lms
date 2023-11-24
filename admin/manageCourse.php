@@ -1,6 +1,7 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
+include('../core/listgrid.php');
 // include('functions/get_subtopics.php');
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -17,6 +18,7 @@ include('includes/sidebar.php');
                     method: 'GET',
                     success: function (data) {
                         // Populate the subtopic select with the retrieved data
+                        console.log(data);
                         $('#subtopic').html(data);
                     }
                 });
@@ -38,7 +40,7 @@ include('includes/sidebar.php');
                         <p class="card-description">
                             Basic form layout
                         </p> -->
-                    <form class="forms-sample row" action="functions/functions" method="POST"
+                    <form class="forms-sample row" action="../core/functions.php" method="POST"
                         enctype="multipart/form-data">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -195,24 +197,7 @@ include('includes/sidebar.php');
 </div>
 <!-- Main Content ends -->
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
 
-            </div>
-            <div class="col"></div>
-        </div>
-    </div>
-</body>
-</html> -->
 
 <?php
 
