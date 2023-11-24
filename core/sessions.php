@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if(isset($_GET['id'])){
     $_SESSION['role_id']=$_GET['id'];
     $role_id = $_SESSION['role_id'];
-    header("Location: ./");
+    header("Location: ../");
     exit();
     // echo $role_id;
 }

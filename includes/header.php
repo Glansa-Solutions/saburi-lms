@@ -9,6 +9,7 @@ include("./core/functions.php");
 include("./core/listgrid.php");
 // include("./core/checkoutFunction.php");
 include("./core/allmailfun.php");
+
 // include("./core/login_register.php");
 // include("./core/login_register.php");
 ?>
