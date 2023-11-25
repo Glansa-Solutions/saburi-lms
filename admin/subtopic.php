@@ -17,11 +17,12 @@ include('../core/listgrid.php');
                                 <select class="form-control" name="topic">
                                     <option value=""> Select Topic Name</option>
                                     <?php
+                                    
                                     if ($fetch_list_topic_query) {
                                         // $i = 1;
                                         while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
 
-                                            echo $topic_id;
+                                            // echo $topic_id;
                                     ?>
 
                                             <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
@@ -62,10 +63,10 @@ include('../core/listgrid.php');
                         </thead>
                         <tbody>
                             <?php
-                            if ($fetch_list_subtopic_query) {
+                            if ($fetch_list_join_topics_subtopic_query) {
                                 $i = 1;
                                 while ($row = mysqli_fetch_assoc($fetch_list_join_topics_subtopic_query)) {
-
+                                // var_dump($row);
                             ?>
                                     <tr>
                                         <td><?= $i; ?></td>

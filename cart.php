@@ -1,5 +1,10 @@
 <?php
 include("includes/header.php");
+
+if (isset($_SESSION['role_id'])) {
+    $role_id = $_SESSION['role_id'];
+	$role = $_SESSION['role'];
+}
 ?>
 <!--search overlay start-->
 <div class="search-wrap">
@@ -76,7 +81,7 @@ include("includes/header.php");
                                                 <thead>
                                                     <tr>
 
-                                                        <th class="product-name">Product</th>
+                                                        <th class="product-name">Course</th>
                                                         <th class="product-price">Price</th>
                                                         <th class="product-quantity">Quantity</th>
                                                         <th class="product-subtotal">Total</th>
@@ -136,10 +141,11 @@ include("includes/header.php");
                                                         column2.appendChild(priceSpan);
                                                         row.appendChild(column2);
 
-
+                                                        var role = <?php echo json_encode($role); ?>
                                                         // Column 3: Quantity
                                                         var column3 = document.createElement('td');
                                                         column3.className = 'product-quantity';
+                                                        
 
                                                         // Create decrease button
                                                         var decreaseButton = document.createElement('button');
@@ -177,6 +183,10 @@ include("includes/header.php");
                                                         column3.appendChild(increaseButton);
 
                                                         row.appendChild(column3);
+                                                        if(role == 'student'){
+                                                            $('.product-quantity').hide();
+                                                            $(column3).hide();
+                                                        }
 
                                                         function updateQuantity() {
                                                             course.quantity = parseInt(quantityInput.value, 10);
@@ -271,7 +281,7 @@ include("includes/header.php");
                                                         
                                                     }
                                                     // Initialize the cart totals when the page loads
-                                                    updateTotals(cart);
+                                                    // updateTotals(cart);
                                                     </script>
                                                     
 

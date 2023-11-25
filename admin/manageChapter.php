@@ -120,6 +120,12 @@ include('../core/functions.php');
                                     <label for="uploadfile">Upload File</label>
                                     <input type="file" class="form-control-file" name="uploadfile">
                                 </div>
+                                <div class="form-group">
+                                    <label for="chapterContent">Chapter Content</label>
+                                    <textarea class="form-control" name="chapterContent">
+
+                                    </textarea>
+                                </div>
                                 
                             </div>
                             <div class="col-md-6 p-3">
@@ -167,6 +173,7 @@ include('../core/functions.php');
                                     <th>Sub Topic Name</th>
                                     <th>Course Name</th>
                                     <th>Chapter Name</th>
+                                    <th>Chapter Content</th>
                                     <th>Upload File</th>
                                     <th>Video</th>
                                     <th>Actions</th>
@@ -184,6 +191,7 @@ include('../core/functions.php');
                                         $chapterName = $row['chapterName'];
                                         $file = $row['uploadFile'];
                                         $video = $row['video'];
+                                        $chapterContent = $row['chapterContent'];
                                         
                                         ?>
                                         <tr>
@@ -204,6 +212,9 @@ include('../core/functions.php');
                                             </td>
                                             <td>
                                                 <?= $chapterName; ?>
+                                            </td>
+                                            <td>
+                                                <?= $chapterContent; ?>
                                             </td>
                                             <td>
                                                 <?= $file; ?>

@@ -6,10 +6,10 @@ include("./core/authFunctions.php");
 include("./core/blogsFunction.php");
 include("./core/homeFunction.php");
 include("./core/functions.php");
-include("./core/data_list_grid.php");
 include("./core/listgrid.php");
 // include("./core/checkoutFunction.php");
 include("./core/allmailfun.php");
+
 // include("./core/login_register.php");
 // include("./core/login_register.php");
 if($fetch_user_contact_details_query)
@@ -259,8 +259,8 @@ if($fetch_user_contact_details_query)
                                     </span>
                                 </a>
                             </li>
-                            <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
-                            </li>
+                            <!-- <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
+                            </li> -->
                         </ul>
                         <?php if (!empty($_SESSION['role_id'])) {
                             $visibility = "visible";
@@ -282,11 +282,11 @@ if($fetch_user_contact_details_query)
                                         <img class="img-md rounded-circle" src="assets/images/profile_img/student.png"
                                             height="50px" width="50px" alt="Profile image">
                                         <p class="mb-1 mt-3 font-weight-semibold">Hi<span>&nbsp</span>
-                                            <?= $s_name; ?>
+                                            <?= $fullName; ?>
 
                                         </p>
                                         <p class="fw-light text-muted mb-0">
-                                            <?= $s_email; ?>
+                                            <?= $email; ?>
                                         </p>
                                     </div>
                                     <a class="dropdown-item" href="<?= $mainlink ?>profile"><i

@@ -51,7 +51,8 @@ courses.courseName,
 chapters.id AS chapter_id,
 chapters.chapterName,
 chapters.uploadFile,
-chapters.video
+chapters.video,
+chapters.chapterContent
 FROM
 topics
 JOIN

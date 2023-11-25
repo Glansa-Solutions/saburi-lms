@@ -42,7 +42,7 @@ $careerQuery = mysqli_query($con, "SELECT * FROM careers ");
 
 
 
-$query = mysqli_query($con, "select * from courses ");
+$query = mysqli_query($con, "select * from courses");
 
 if($query)
 {
