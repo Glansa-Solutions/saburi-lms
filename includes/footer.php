@@ -8,6 +8,17 @@ if (isset($_SESSION['role_id'])) {
     // Default value or error handling
     $role_id = 0;
 }
+if($fetch_user_contact_details_query)
+{
+    while($fetch_user_contact_details_result = mysqli_fetch_assoc($fetch_user_contact_details_query))
+    {
+        $contact_id = $fetch_user_contact_details_result["id"];
+        $contact_email = $fetch_user_contact_details_result["email"];
+        $contact_phone = $fetch_user_contact_details_result["phone_no"];
+        $contact_address = $fetch_user_contact_details_result["address"];
+    }
+}
+
 ?>
 <section class="cta-2">
     <div class="container">
@@ -51,15 +62,15 @@ if (isset($_SESSION['role_id'])) {
 				<div class="footer-widget mb-5 mb-lg-0">
 					<h5 class="widget-title">Company</h5>
 					<ul class="list-unstyled footer-links">
-						<li><a href="#">About us</a></li>
-						<li><a href="#">Contact us</a></li>
-						<li><a href="#">Projects</a></li>
-						<li><a href="#">Terms & Condition</a></li>
-						<li><a href="#">Privacy policy</a></li>
+						<li><a href="<?= $mainlink;?>about">About us</a></li>
+						<li><a href="<?= $mainlink;?>contact">Contact us</a></li>
+						<li><a href="<?= $mainlink;?>project">Projects</a></li>
+						<li><a href="<?= $mainlink;?>">Terms & Condition</a></li>
+						<li><a href="<?= $mainlink;?>">Privacy policy</a></li>
 					</ul>
 				</div>
 			</div>
-			<div class="col-lg-2 col-sm-6 col-md-6">
+			<!-- <div class="col-lg-2 col-sm-6 col-md-6">
 				<div class="footer-widget mb-5 mb-lg-0">
 					<h5 class="widget-title">Courses</h5>
 					<ul class="list-unstyled footer-links">
@@ -70,7 +81,27 @@ if (isset($_SESSION['role_id'])) {
 						<li><a href="#">Growth Mindset Training</a></li>
 					</ul>
 				</div>
+			</div> -->
+			<div class="col-lg-2 col-sm-6 col-md-6">
+			<div class="footer-widget mb-5 mb-lg-0">
+				<h5 class="widget-title">Courses</h5>
+				<ul class="list-unstyled footer-links">
+					<?php
+					$limit = 5; // Set the limit for the number of courses to display
+					$fetch_courses_query = mysqli_query($con, "SELECT * FROM courses ORDER BY id DESC LIMIT $limit");
+					
+					while ($row = mysqli_fetch_assoc($fetch_courses_query)) {
+						$courseName = $row['courseName'];
+						// You can include other course details as needed
+						$courseLink = "#"; // You should replace this with the actual link for the course
+						
+						echo "<li><a href='{$courseLink}'>{$courseName}</a></li>";
+					}
+					?>
+				</ul>
 			</div>
+		</div>
+
 			<div class="col-lg-3 col-sm-6 col-md-6">
 				<div class="footer-widget footer-contact mb-5 mb-lg-0">
 					<h5 class="widget-title">Contact </h5>
@@ -79,20 +110,20 @@ if (isset($_SESSION['role_id'])) {
 						<li><i class="bi bi-headphone"></i>
 							<div>
 								<strong>Phone number</strong>
-								7780290335
+								<?= $contact_phone?>
 							</div>
 							
 						</li>
 						<li> <i class="bi bi-envelop"></i>
 							<div>
 								<strong>Email Address</strong>
-								info@saburilms.com
+								<?= $contact_email;?>
 							</div>
 						</li>
 						<li><i class="bi bi-location-pointer"></i>
 							<div>
 								<strong>Office Address</strong>
-								Hyderabad,Madhapur
+								<?= $contact_address;?>
 							</div>
 						</li>
 					</ul>
@@ -217,6 +248,9 @@ cartItems.forEach(function(item) {
 
 // ...
 </script>
+<!-- Add this to your HTML to include SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
 <script src="./core/action.js"></script>
     <!-- 

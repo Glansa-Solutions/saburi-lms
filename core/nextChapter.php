@@ -31,6 +31,11 @@ if(isset($_GET['start_id']) && isset($_GET['chapterId'])){
     chapters ON courses.id = chapters.courseId WHERE chapters.courseId = $courseId AND chapters.id = $nextChapterId AND chapters.isActive = 1 ORDER BY chapters.id ASC");
 
     $data = mysqli_fetch_assoc($fetchChapter);
+
+    // if($data){
+    //     $r = $data['chapterName'];
+    //     echo json_encode($r);
+    // }
     
     if ($data) {
         $fetchNextChapter = mysqli_query($con, "SELECT id FROM chapters WHERE courseId = $courseId AND id > $nextChapterId AND isActive = 1 ORDER BY id ASC LIMIT 1");
