@@ -1,4 +1,7 @@
-<?php include("includes/header.php"); 
+<?php 
+include("includes/header.php"); 
+include("core/listgrid.php");
+
 $query = "SELECT * FROM courses"; // Adjust the table name as needed
 
 $conditions = []; // Array to store conditions
@@ -126,7 +129,10 @@ $allcourse = mysqli_query($con, $query);
                 <div class="col-lg-8 mb-4 mb-lg-0">
                     <div class="section-title">
                         <h2 class="title d-block text-left-sm">Courses</h2>
-                        <p class="woocommerce-result-count"> Showing 1–16 of 17 results</p>
+                        <p class="woocommerce-result-count"> Showing 1–
+                            <?php echo mysqli_num_rows($allcourse); ?> of
+                            <?php echo mysqli_num_rows($allcourse); ?> results
+                        </p>
                         <form class="woocommerce-ordering float-lg-right" method="get">
                             <select name="orderby" class="orderby form-control" aria-label="Shop order"
                                 onchange="handleSortChange(this)">
@@ -138,10 +144,7 @@ $allcourse = mysqli_query($con, $query);
                                 <option value="price_high_to_low">Sort by price: high to low</option>
                             </select>
                         </form>
-                        <p class="woocommerce-result-count"> Showing 1–
-                            <?php echo mysqli_num_rows($allcourse); ?> of
-                            <?php echo mysqli_num_rows($allcourse); ?> results
-                        </p>
+                       
                     </div>
 
                     <ul class="products columns-3">
@@ -273,7 +276,7 @@ $allcourse = mysqli_query($con, $query);
                     </section>
 
                     <section id="woocommerce_product_categories-2" class="widget woocommerce widget_product_categories">
-                        <h3 class="widget-title">Product categories</h3>
+                        <h3 class="widget-title">Course categories</h3>
                         <div class="edutim-course-topic">
                             <div class="accordion" id="accordionExample">
                                 <?php $index = 0; ?>
@@ -321,7 +324,7 @@ $allcourse = mysqli_query($con, $query);
 
                     
                     <section id="woocommerce_top_rated_products-2" class="widget woocommerce widget_top_rated_products">
-                        <h3 class="widget-title">Top rated products</h3>
+                        <h3 class="widget-title">Top Rated Course</h3>
                         <ul class="product_list_widget">
                             <li>
                                 <a href="#">

@@ -5,16 +5,20 @@ include("db_config.php");
 // $courseList = fetchCoursesList();
 // fetching list of Users to users module
 
+$fetch_home_query=mysqli_query($con,"SELECT * FROM home WHERE isActive = 1");
+$fetch_about_query=mysqli_query($con,"SELECT * FROM about WHERE isActive = 1");
+$fetch_privacy_query=mysqli_query($con,"SELECT * FROM privacy WHERE isActive = 1");
+$fetch_terms_query=mysqli_query($con,"SELECT * FROM terms WHERE isActive = 1");
+
 $fetch_list_query=mysqli_query($con,"SELECT * FROM users where IsActive = 1");
 $fetch_user_contact_query=mysqli_query($con,"SELECT * FROM contact");
-$fetch_user_contact_details_query=mysqli_query($con,"SELECT * FROM contact_details");
-
+$fetch_user_contact_details_query=mysqli_query($con,"SELECT * FROM contact_details where status=1");
 $fetch_user_newsletter_query=mysqli_query($con,"SELECT * FROM newsletter");
 $fetch_list_student_query=mysqli_query($con,"SELECT * FROM students where isActive = 1");
 
 $fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics where isActive=1");
-$fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics where isActive=1");
-$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId");
+$fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics where isActive = 1");
+$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId WHERE subtopics.isActive = 1");
 $fetch_list_join_topics_subtopic_course_query=mysqli_query($con,"SELECT 
 topics.Id AS topic_id,
 topics.topicName,
@@ -101,7 +105,7 @@ chapters.id DESC");
 
 $fetch_list_query_subscription=mysqli_query($con,"SELECT * FROM subscriptions_1");
 
-$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
+// $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
 
 $fetch_list_blog_query=mysqli_query($con,"SELECT * FROM blogs where isActive = 1");
 

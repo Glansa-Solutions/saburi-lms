@@ -7,10 +7,21 @@ include("./core/blogsFunction.php");
 include("./core/homeFunction.php");
 include("./core/functions.php");
 include("./core/data_list_grid.php");
+include("./core/listgrid.php");
 // include("./core/checkoutFunction.php");
 include("./core/allmailfun.php");
 // include("./core/login_register.php");
 // include("./core/login_register.php");
+if($fetch_user_contact_details_query)
+{
+    while($fetch_user_contact_details_result = mysqli_fetch_assoc($fetch_user_contact_details_query))
+    {
+        $contact_id = $fetch_user_contact_details_result["id"];
+        $contact_email = $fetch_user_contact_details_result["email"];
+        $contact_phone = $fetch_user_contact_details_result["phone_no"];
+        $contact_address = $fetch_user_contact_details_result["address"];
+    }
+}
 ?>
 
 
@@ -24,7 +35,7 @@ include("./core/allmailfun.php");
 
     <meta name="author" content="themeturn.com">
 
-    <title>Edutim- Education LMS template</title>
+    <title>Saburi LMS</title>
 
     <!-- Mobile Specific Meta-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -140,11 +151,11 @@ include("./core/allmailfun.php");
                         <ul class="header-contact">
                             <li>
                                 <span>Call :</span>
-                                +7780290335
+                               <?= $contact_phone;?>
                             </li>
                             <li>
                                 <span>Email :</span>
-                                info@saburilms.com
+                                <?= $contact_email; ?>
                             </li>
                         </ul>
                     </div>
