@@ -90,7 +90,7 @@ if (isset($_SESSION['role_id'])) {
                                                     
                                                 </thead>
                                                 <tbody>
-                                                    <!-- Place this script within your HTML file -->
+
                                                     <script>
                                                     // Retrieve cart data from localStorage
                                                     var cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -373,11 +373,11 @@ updateGrandTotal(cart);
 </script>
 
 <script>
-$(document).ready(function() {
-    $('.remove').on('click', function() {
-        window.location.reload();
-    })
-})
+// $(document).ready(function() {
+//     $('.remove').on('click', function() {
+//         window.location.reload();
+//     })
+// })
 </script>
 
 <?php

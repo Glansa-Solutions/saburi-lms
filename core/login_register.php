@@ -329,11 +329,11 @@ elseif (isset($_POST['registerCompany'])) {
 // Login Authentication starts
 
 if (isset($_POST["student_login"])) {
-    
+
     $student_mail = $_POST["email"];
     $student_pass = $_POST["password"];
     $student_id = $_POST['student_id'];
-    $role = $_POST['role'];
+    $role = $_POST['role']; 
 
     $match_auth_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$student_mail'");
     $checking = mysqli_num_rows($match_auth_query) > 0;
@@ -345,10 +345,19 @@ if (isset($_POST["student_login"])) {
         // Check if the entered password matches the stored password
         if ($student_pass == $stored_password) {
             $student_id = $row['id'];
-
+            $session_id = $row['session_id'];
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['role'] = $role;
             $_SESSION['id'] = $student_id;
+
+            $update_sessionId = mysqli_query($con,"UPDATE students set session_id=1 where id=$student_id");
+                if($update_sessionId){
+                    echo "updated";
+                    exit();
+                }else{
+                    echo "not updated";
+                    exit();
+                }
             // echo $_SESSION['role'].$_SESSION['id'];
             // exit();
             // header("location: ../?id=$student_id");
