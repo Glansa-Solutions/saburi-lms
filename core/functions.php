@@ -1210,4 +1210,53 @@ if (isset($_POST['delete_blog_comment_id'])) {
 echo json_encode($response);
 }
 // blog_comments functionality ( for admin side) Ends
+
+// course_review functionality ( for admin side) starts
+
+// ******** this is for fetch the data into the modal of commentsBlog page in admin starts
+if (isset($_POST['Review_id'])) {
+    $review_id = $_POST['Review_id'];
+    $query_fetch_course_review_to_admin = mysqli_query($con, "SELECT review, isactive FROM comment_course_review where id = $review_id");
+    $row = mysqli_num_rows($query_fetch_course_review_to_admin) > 0;
+    if ($row) {
+        $data = mysqli_fetch_assoc($query_fetch_course_review_to_admin);
+        echo json_encode($data);
+
+    } else {
+        echo "No comments found for the specified $review_id.";
+    }
+}
+// ******** this is for Approving the comment by admin
+if (isset($_POST['modal_review_id']) && !empty($_POST['modal_review'])) {
+    $modal_review_id = $_POST['modal_review_id'];
+    $modal_review = $_POST['modal_review'];
+    $query_fetch_course_review_to_admin = mysqli_query($con, "UPDATE comment_course_review SET isactive=1 where id = $modal_review_id");
+    if ($query_fetch_course_review_to_admin) {
+        echo "Comment is approved";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+if (isset($_POST['disapprove'])) {
+    $for_disapprove = $_POST['disapprove'];
+    $query_fetch_course_review_to_admin_disapprove = mysqli_query($con, "UPDATE comment_course_review SET isactive=0 where id = $for_disapprove");
+    if ($query_fetch_course_review_to_admin_disapprove) {
+        echo "Comment is disapprove";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+if (isset($_POST['delete_course_review_id'])) {
+    $delete_course_review_id = $_POST['delete_course_review_id'];
+    // echo $delete_blog_comment;
+    $query_fetch_course_review_to_admin_delete = mysqli_query($con, "DELETE FROM comment_course_review WHERE id = $delete_course_review_id");
+    if ($query_fetch_course_review_to_admin_delete) {
+        $response = array('success' => true, 'message' => 'Operation successful');
+    } else {
+        $response = array('success' => false, 'message' => 'Error: ' . mysqli_error($con));
+    }
+    header('Content-Type: application/json');
+echo json_encode($response);
+}
+// blog_comments functionality ( for admin side) Ends
 ?>

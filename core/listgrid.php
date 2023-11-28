@@ -8,7 +8,11 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
 
 // regarding Blog - Comment Data ( site & admin) start****
 $query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
-$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
+$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog JOIN blogs ON comments_blog.blog_id = blogs.id");
+// regarding Blog - Comment Data ( site & admin) end****
+// regarding Blog - Comment Data ( site & admin) start****
+$query_fetch_course_review = mysqli_query($con,"SELECT * FROM comment_course_review where isactive=1");
+$query_fetch_course_review_admin_grid = mysqli_query($con,"SELECT * FROM comment_course_review JOIN courses ON comment_course_review.courseId = courses.id");
 // regarding Blog - Comment Data ( site & admin) end****
 
 $fetch_list_students_query = mysqli_query($con, "SELECT * FROM students");

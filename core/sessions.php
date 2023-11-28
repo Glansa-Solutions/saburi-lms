@@ -56,6 +56,22 @@ if (isset($_GET['current_login_id'])) {
         echo "unable to reset login";
     }
 }
+// for forgot password - session storing the role
+if (isset($_GET['f_role'])) {
+    $_SESSION['f_role'] = $_GET['f_role'];
+    // $forgot_login_user_role = $_SESSION['f_role'];
+    // header("Location: prev_login.php");
+    header("Location: ../forgot_password");
+    exit();
+}
+if (isset($_GET['forgot_login_role'])) {
+    $_SESSION['role'] = $_POST['forgot_login_role'];
+        header("Location: ../account");
+    exit();
+}
+
+
+// for forgot password - session storing the role
 
 
 if (isset($_GET['start_id']) && isset($_GET['chapterId'])) {

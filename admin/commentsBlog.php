@@ -1,7 +1,6 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
-// include('functions/list_grid.php');
 ?>
 
 
@@ -34,7 +33,7 @@ include('includes/sidebar.php');
                                     $i = 1;
                                     while ($row = mysqli_fetch_assoc($query_fetch_blog_comment_admin_grid)) {
                                         $id = $row['id'];
-                                        $blog_id = $row['blog_id'];
+                                        $blogTitle = $row['blogTitle'];
                                         $comment = $row['comment'];
                                         $website = $row['website'];
                                         $name = $row['name'];
@@ -48,7 +47,7 @@ include('includes/sidebar.php');
                                                 <?= $i; ?>
                                             </td>
                                             <td>
-                                                <?= $blog_id; ?>
+                                                <?= $blogTitle; ?>
                                             </td>
                                             <td style="white-space: nowrap;">
                                                 <?= implode(' ', array_slice(str_word_count($comment, 2), 0, 5)); ?>
