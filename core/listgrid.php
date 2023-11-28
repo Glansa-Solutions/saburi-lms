@@ -8,6 +8,10 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
 // include "database_functions.php";
 // $courseList = fetchCoursesList();
 // fetching list of Users to users module
+$fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.companyName,testinomonials.*
+FROM testinomonials
+LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'student'
+LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
 $fetch_list_students_query = mysqli_query($con, "SELECT * FROM students");
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
 $careerQuery = mysqli_query($con, "SELECT * FROM careers ");
@@ -129,6 +133,12 @@ $fetch_list_careers_query = mysqli_query($con, "SELECT * FROM careers where IsAc
 $fetch_list_company_query = mysqli_query($con, "SELECT * FROM company Where isActive = 1");
 
 $fetch_list_corporategovernance_query = mysqli_query($con, "SELECT * FROM corporategovernance where isActive = 1");
+
+$fetch_testimonial_sql = mysqli_query($con, "SELECT students.name,company.companyName,students.profile_img,company.profile,testinomonials.*
+FROM testinomonials
+LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'student'
+LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
+
 
 // $fetch_list=mysqli_fetch_assoc($fetch_list_query);
 // $users_name=$fetch_list['Name'];

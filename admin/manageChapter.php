@@ -80,6 +80,7 @@ include('../core/functions.php');
             <div class="card">
 
                 <div class="card-body">
+                <h4 class="card-title">Add Chapter</h4>
                     <form action="../core/functions.php" class="col-md-12 " method="POST" enctype="multipart/form-data">
                         <div class="col-md-12 d-flex">
                             <div class="col-md-6 p-3">

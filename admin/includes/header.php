@@ -4,8 +4,15 @@ include("../core/db_config.php");
 include("../core/data_list_grid.php");
 include('../core/listgrid.php');
 
+session_start();
 
-
+// Check if the user is logged in
+if (!isset($_SESSION['name'])) {
+    // Redirect to the login page if not logged in
+    header("Location: $mainlink" . "admin/");
+    exit();
+}
+$greeting_message =  $_SESSION['name'] . "!";
 // include('./functions/modals_data.php');
 // $mainlink="http://localhost:8080/LMS/lms2/";
 ?>
@@ -92,12 +99,13 @@ include('../core/listgrid.php');
                 </div>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
-                <ul class="navbar-nav">
-                    <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                        <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">Vishal</span></h1>
-                        <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
-                    </li>
-                </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+                  <h1 class="welcome-text">Welcome <?php echo $greeting_message; ?></h1>
+                            <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
+                        </li>
+                    </ul>
+
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown d-none d-lg-block">
                         <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown"
@@ -256,7 +264,7 @@ include('../core/listgrid.php');
                             <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                 FAQ</a>
-                            <a class="dropdown-item" href="<?= $mainlink ?>"><i
+                            <a class="dropdown-item" href="../core/logout.php"><i
                                     class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
                         </div>
                     </li>

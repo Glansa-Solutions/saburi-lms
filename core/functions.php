@@ -12,27 +12,23 @@ if (isset($_POST['login_admin'])) {
     $name = mysqli_real_escape_string($con, $_POST['admin_name']);
     $password = mysqli_real_escape_string($con, $_POST['admin_password']);
 
-    $user_sql = mysqli_query($con, "SELECT * FROM users WHERE Email='$name'");
+    $user_sql = mysqli_query($con, "SELECT * FROM users WHERE Email='$name' AND Password='$password'");
     $fetch_user_sql = mysqli_fetch_assoc($user_sql);
 
     if ($fetch_user_sql) { // Check if a matching user was found
-        $user_name = $fetch_user_sql['Email'];
-        $pwd = $fetch_user_sql['Password'];
+        session_start();
+
+        // Store user information in the session
+        $_SESSION['user_id'] = $fetch_user_sql['user_id'];
+        $_SESSION['user_name'] = $fetch_user_sql['Email'];
+        $_SESSION['name'] = $fetch_user_sql['Name'];
         header("location: $mainlink" . "admin/dashboard");
         exit();
-        // Use password_hash and password_verify for password hashing
-        // if (password_verify($password, $pwd)) {
-        //     header("location: $mainlink" . "admin/dashboard");
-        //     exit();
-        // } else {
-        //     $_SESSION['message'] = "Wrong Username or Password";
-        //     header("location: $mainlink" . "404");
-        //     exit();
-        // }
+        
     } else {
         // Handle the case where no user with the specified 'Name' was found
         $_SESSION['message'] = "User not found";
-        header("location: $mainlink" . "404");
+        header("location: $mainlink" . "admin/");
         exit();
     }
 
@@ -350,16 +346,16 @@ if (isset($_POST['delete_blog'])) {
     // $writer = $_POST['writer'];
     $desc = $_POST['desc'];
 
-    $insert_query = mysqli_query($con, "INSERT INTO freeresources(resourcesName, title, bannerImage,description) VALUES('$heading', '$title', '$imageFileName','$desc')");
+    $insert_query = mysqli_query($con, "INSERT INTO freeresources(resourcesName, title, bannerImage, description, createdOn) VALUES('$heading', '$title', '$imageFileName','$desc',NOW())");
 
     if ($insert_query) {
-        header("location: $mainlink" . "freeResources");
+        header("location: $mainlink" . "admin/freeResources");
     } else {
         echo "not done";
     }
 }
     elseif (isset($_POST['checking_resource_btn'])) {
-        $resource_id = $_POST['resource_id'];
+        $resource_id = $_POST['resourceId'];
         $result_array = [];
     
         // Prepare and execute a query to fetch the blog data by ID
@@ -378,53 +374,37 @@ if (isset($_POST['delete_blog'])) {
             echo $return = "<h5>No Record Found</h5>";
         }
     }
-//     elseif(isset($_POST['update_resources']))
-// {
-//     $id = $_POST['resource_id'];
-//     $resourcename = $_POST['resourses_name'];
-//     $title = $_POST['title'];
-//     $image = $_POST['banner_image'];
-//     $description = $_POST['description'];
 
-//     $update = "UPDATE freeresources set resourcesName='$resourcename', title ='$title', bannerImage='$image', description='$description' WHERE id='$id'";
-//     $query = mysqli_query($con, $update);
-
-//     if($query)
-//     {
-//         header("location: $mainlink" . "freeResources");
-//     }
-//     else{
-//         echo "not working";
-//     }
-// }
 if(isset($_POST['update_resources'])) {
-    $id = $_POST['resource_id'];
-    $resourcename = $_POST['resourses_name'];
-    $title = $_POST['title'];
-    $description = $_POST['description'];
 
-    // Check if a new image has been uploaded
-    if (isset($_FILES['banner_image']['tmp_name']) && !empty($_FILES['banner_image']['tmp_name'])) {
+    $id = $_POST['resourceId'];
+    $resourcename = mysqli_real_escape_string($con, $_POST['resourses_name']);
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+       
+    if(isset($_FILES['banner_image']['tmp_name']) && !empty($_FILES['banner_image']['tmp_name'])) {
         // Handle the new image upload
-        $newImage = $_FILES['banner_image']['name'];
-        $imagePath = "../assets/images/freeResource/" . $newImage; // Update with your actual image upload path
+        $newImage = mysqli_real_escape_string($con, $_FILES['banner_image']['name']);
+        // Debugging for file path
+        $imagePath = "../assets/images/freeResource/" . $newImage;
+        echo "Image Path: $imagePath<br>";
 
-        if (move_uploaded_file($_FILES['banner_image']['tmp_name'], $imagePath)) {
-            // Image uploaded successfully
-        } else {
-            echo "Image upload failed.";
-            exit; // Terminate script if image upload fails
-        }
+        // Move the uploaded image to the destination folder
+        move_uploaded_file($_FILES['banner_image']['tmp_name'], $imagePath);
+
+        $update = "UPDATE freeresources SET resourcesName='$resourcename', title='$title', bannerImage='$imagePath', description='$description' WHERE id='$id'";
     } else {
         // No new image uploaded, keep the old image
-        $imagePath = $_POST['oldImage']; // This should be the path to the old image
+        $update = "UPDATE freeresources SET resourcesName='$resourcename', title ='$title', description='$description' WHERE id='$id'";
     }
 
-    $update = "UPDATE freeresources SET resourcesName='$resourcename', title='$title', bannerImage='$imagePath', description='$description' WHERE id=$id";
+    // Debugging for SQL query
+    echo "SQL Query: $update<br>";
+
     $query = mysqli_query($con, $update);
 
     if($query) {
-        header("location: $mainlink" . "freeResources");
+        header("location: $mainlink" . "admin/freeResources");
     } else {
         echo "Update failed: " . mysqli_error($con);
         exit; // Terminate script if update fails
