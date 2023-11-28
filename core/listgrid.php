@@ -6,7 +6,10 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
     $role = "";
 }
 
-
+$fetch_home_query = mysqli_query($con, "SELECT * FROM home where isActive =1");
+$fetch_about_query = mysqli_query($con, "SELECT * FROM about where isActive =1");
+$fetch_privacy_query = mysqli_query($con, "SELECT * FROM privacy where isActive =1");
+$fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1");
 // regarding Blog - Comment Data ( site & admin) start**
 $query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
 $query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
@@ -16,12 +19,12 @@ $fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.comp
 FROM testinomonials
 LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'student'
 LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
-$fetch_list_students_query = mysqli_query($con, "SELECT * FROM students");
+$fetch_list_students_query = mysqli_query($con, "SELECT * FROM students where isActive=1");
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
-$careerQuery = mysqli_query($con, "SELECT * FROM careers ");
+$careerQuery = mysqli_query($con, "SELECT * FROM careers where isActive=1");
 $fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1");
-$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact");
-$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details");
+$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where status=1");
+$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where status=1");
 $fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
 $fetch_list_order_query = mysqli_query($con, "SELECT od.id,
 o.paymentstatus,
@@ -33,6 +36,18 @@ FROM orderdetails AS od
 JOIN `orders` AS o ON od.orderId = o.id
 JOIN courses AS c ON od.courseId = c.id
 JOIN students AS s ON o.subscriberid = s.id where s.id = '$role' and o.paymentstatus = 'paid'");
+
+$fetch_list_order_details_query = mysqli_query($con, "SELECT od.id,od.createdOn,
+o.paymentstatus,
+o.orderdate,
+c.courseDesc,
+c.courseName,
+s.name
+FROM orderdetails AS od
+JOIN `orders` AS o ON od.orderId = o.id
+JOIN courses AS c ON od.courseId = c.id
+JOIN students AS s ON o.subscriberid = s.id where s.id = '$role' and o.paymentstatus = 'paid' AND od.status=1");
+
 $fetch_list_student_query = mysqli_query($con, "SELECT * FROM students where isActive = 1");
 $fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");
 $fetch_list_subtopic_query = mysqli_query($con, "SELECT * FROM subtopics where isActive=1");

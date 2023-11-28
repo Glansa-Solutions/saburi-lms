@@ -52,7 +52,7 @@ if (isset($_GET['current_login_id'])) {
     if ($set_prev_login_to_zero) {
         header("location: ../account");
         exit();
-    }else{
+    } else {
         echo "unable to reset login";
     }
 }
@@ -60,8 +60,14 @@ if (isset($_GET['current_login_id'])) {
 
 if (isset($_GET['start_id']) && isset($_GET['chapterId'])) {
     $_SESSION['course_id'] = $_GET['start_id'];
-    $_SESSION['chapter_id'] = $_GET['chapterId'];
-    header("Location: ../chapterSingle");
+    $course_id_status_active = $_SESSION['course_id'];
+    $course_id_status_active_query = mysqli_query($con, "UPDATE orderdetails SET status = 1 WHERE courseId = $course_id_status_active");
+    if ($course_id_status_active_query) {
+        $_SESSION['chapter_id'] = $_GET['chapterId'];
+        header("Location: ../chapterSingle");
+        
+        exit();
+    }
 
 }
 if (isset($_GET['ch_id'])) {

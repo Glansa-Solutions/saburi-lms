@@ -1,6 +1,5 @@
 <?php
 include("includes/header.php");
-$_SESSION['role']="default student";
 if (isset($_GET['b_id'])) {
     $blogId = $_GET['b_id'];
     $fetch_list_blog_query = mysqli_query($con, "SELECT * FROM blogs WHERE id = $blogId");
@@ -207,7 +206,7 @@ if (isset($_GET['b_id'])) {
                                 </div>
                                 <input type="hidden" name="blog_id" value="<?= $_GET['b_id'] ?>" class="form-control"
                                     placeholder="Email">
-                                <input type="hidden" name="role" value="<?= $_SESSION['role']; ?>" class="form-control"
+                                    <input type="hidden" name="role" value="<?= (!empty($_SESSION['role']))? $_SESSION['role']: "default studen"; ?>" class="form-control"
                                     placeholder="Email">
 
                                 <div class="col-lg-12">

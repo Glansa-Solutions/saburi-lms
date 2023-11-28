@@ -3706,10 +3706,12 @@ input[type=submit]:disabled {
 }
 
 .woocommerce form .form-row select {
-  height: 45px;
-  border-radius: 0px;
-  background: #F9F9F9;
-  border-color: #eee;
+  height: 55px;
+  border-radius: 46px;
+  padding-left: 20px;
+  border:2px solid #eee;
+  background: #eee;
+  /* border-color: #eee; */
 }
 
 .woocommerce form .form-row select:focus {
