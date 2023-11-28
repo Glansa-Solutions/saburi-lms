@@ -341,13 +341,21 @@ if (isset($_POST["student_login"])) {
         // Check if the entered password matches the stored password
         if ($student_pass == $stored_password) {
             $student_id = $row['id'];
-
-            $_SESSION['user_name'] = $row['name'];
-            $_SESSION['role'] = $role;
-            $_SESSION['id'] = $student_id;
+            $session_id = $row['session_id'];
             
-            header("location: sessions.php?id=$student_id");
-            exit();
+            if ($session_id == 0) {
+                mysqli_query($con, "UPDATE students SET session_id = 1 WHERE id = $student_id");
+                $_SESSION['user_name'] = $row['name'];
+                // $_SESSION['role'] = $role;
+                // $_SESSION['id'] = $student_id;
+
+                header("location: sessions.php?id=$student_id");
+                exit();
+            } else {
+                // Redirect to the message page
+                header("location: sessions.php?logged_in_elsewhere=$student_id");
+                exit();
+            }
         } else {
             // Password is incorrect
             $_SESSION['message'] = "Password is incorrect";
@@ -385,7 +393,7 @@ if (isset($_POST["company_login"])) {
         // Check if the entered password matches the stored password
         if ($company_pass == $stored_password) {
             $company_id = $row['id'];
-           
+            
             $_SESSION['user_name'] = $row['companyName'];
             $_SESSION['role'] = $role;
             $_SESSION['id'] = $company_id;

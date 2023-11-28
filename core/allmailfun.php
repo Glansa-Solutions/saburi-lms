@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-$con = mysqli_connect($host, $username, $password, $db);
+// $con = mysqli_connect($host, $username, $password, $db);
 // Fetch CountryList
 
 $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");

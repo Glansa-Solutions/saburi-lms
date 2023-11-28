@@ -33,17 +33,17 @@ include('../core/functions.php');
 
         $('#subtopic').change(function () {
             var subtopicId = $(this).val();
-            if(subtopicId){
+            if (subtopicId) {
                 $.ajax({
-                url:'../core/cheptersubFunctions.php',
-                data: {
-                    subtopicId:subtopicId
-                },
-                method:'GET',
-                success:function(data){
-                    $('#courseName').html(data);
-                }
-            })
+                    url: '../core/cheptersubFunctions.php',
+                    data: {
+                        subtopicId: subtopicId
+                    },
+                    method: 'GET',
+                    success: function (data) {
+                        $('#courseName').html(data);
+                    }
+                })
             }
         });
     });
@@ -107,16 +107,16 @@ include('../core/functions.php');
                                         ?>
                                     </select>
                                 </div>
-                                
+
                                 <div class="form-group">
-                                    
+
                                     <label for="courseName">Course Name</label>
                                     <select class="form-control" name="courseName" id="courseName">
                                         <option> Select Course name</option>
                                     </select>
                                 </div>
 
-                               
+
                                 <div class="form-group">
                                     <label for="uploadfile">Upload File</label>
                                     <input type="file" class="form-control-file" name="uploadfile">
@@ -127,7 +127,7 @@ include('../core/functions.php');
 
                                     </textarea>
                                 </div>
-                                
+
                             </div>
                             <div class="col-md-6 p-3">
                                 <div class="form-group">
@@ -139,16 +139,17 @@ include('../core/functions.php');
                                 </div>
                                 <div class="form-group">
                                     <label for="chapter">Chapter Name</label>
-                                    <input type="text" class="form-control" name="chapter" placeholder="Enter Chapter Name" id="chapterName">
+                                    <input type="text" class="form-control" name="chapter"
+                                        placeholder="Enter Chapter Name" id="chapterName">
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Upload Video</label>
                                     <input type="file" class="form-control-file" name="video" accept="video/*">
                                 </div>
-                            </div>                         
+                            </div>
 
                         </div>
-                        
+
                         <div>
                             <button type="submit" class="btn btn-primary me-2" name="chapter_manage">Submit</button>
                             <button class="btn btn-light">Cancel</button>
@@ -193,7 +194,7 @@ include('../core/functions.php');
                                         $file = $row['uploadFile'];
                                         $video = $row['video'];
                                         $chapterContent = $row['chapterContent'];
-                                        
+
                                         ?>
                                         <tr>
                                             <td>
@@ -215,7 +216,7 @@ include('../core/functions.php');
                                                 <?= $chapterName; ?>
                                             </td>
                                             <td>
-                                                <?= $chapterContent; ?>
+                                                <?= implode(' ', array_slice(str_word_count($chapterContent, 2), 0, 10)); ?>
                                             </td>
                                             <td>
                                                 <?= $file; ?>
@@ -277,16 +278,18 @@ include('../core/functions.php');
                                                             <label for="topic"> Topic Name</label>
                                                             <input type="hidden" class="form-control" name="chapterId"
                                                                 placeholder="Enter Name" id="chapterId">
-                                                                <!-- <select class="form-control" name="topic" id="topic">
+                                                            <!-- <select class="form-control" name="topic" id="topic">
 
                                                                 </select> -->
-                                                                <input type="text" class="form-control" name="topic" id="topicName" readonly>
+                                                            <input type="text" class="form-control" name="topic"
+                                                                id="topicName" readonly>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
                                                             <input type="text" class="form-control" id="course"
-                                                                name="courseName" placeholder="Enter Course Name" readonly>
+                                                                name="courseName" placeholder="Enter Course Name"
+                                                                readonly>
                                                         </div>
 
                                                         <div class="form-group">
@@ -304,7 +307,8 @@ include('../core/functions.php');
                                                             <!-- <select class="form-control" name="subtopic" id="subtopic">
                                                                 <option> select subtopic name</option>
                                                             </select> -->
-                                                            <input type="text" class="form-control" name="subtopic" id="subtopicName" readonly>
+                                                            <input type="text" class="form-control" name="subtopic"
+                                                                id="subtopicName" readonly>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="chapter">Chapter Name</label>
@@ -329,7 +333,8 @@ include('../core/functions.php');
 
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary update_chapter" name="update_chapter">Update
+                                <button type="submit" class="btn btn-primary update_chapter"
+                                    name="update_chapter">Update
                                     Changes</button>
                             </div>
                     </div>

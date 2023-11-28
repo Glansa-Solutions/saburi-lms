@@ -1,11 +1,5 @@
 <?php
-// include("../core/functions.php");
-// include("../core/data_list_grid.php");
-// include("../functions/database_functions.php");
 include("includes/header.php");
-include("./core/listgrid.php");
-
-
 
 // Variable to store the total duration
 $totalDurationInSeconds = 0;

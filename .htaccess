@@ -44,6 +44,9 @@ RewriteRule ^admin/manageAssessment admin/manageAssessment.php [L]
 RewriteRule ^admin/newsLetter admin/newsLetter.php [L]
 RewriteRule ^admin/userListReports admin/userListReports.php [L]
 RewriteRule ^admin/userContactReports admin/userContactReports.php [L]
+RewriteRule ^admin/commentsBlog admin/commentsBlog.php [L]
+RewriteRule ^admin/commentsCourse admin/commentsCourse.php [L]
+
 
 
 

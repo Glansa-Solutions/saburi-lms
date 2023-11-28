@@ -135,6 +135,20 @@ include("../core/db_config.php");
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
+                        href="<?= $mainlink;?>admin/commentsBlog">
+                            <i class="menu-icon mdi mdi-file-document"></i>
+                            <span class="menu-title">Blog Comments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                        href="<?= $mainlink;?>admin/commentsCourse">
+                            <i class="menu-icon mdi mdi-file-document"></i>
+                            <span class="menu-title">Course Comments</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
                         href="<?= $mainlink;?>admin/corpogov">
                             <i class="menu-icon mdi mdi-file-document"></i>
                             <span class="menu-title">Corporate Governance</span>

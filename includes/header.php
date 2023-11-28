@@ -279,7 +279,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                             <!-- <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
                             </li> -->
                         </ul>
-                        <?php if (!empty($_SESSION['role_id'])) {
+                        <?php if (!empty($_SESSION['role_id'])&& !empty($_SESSION['role'])) {
                             $visibility = "visible";
                         } else {
                             $visibility = "none";
@@ -312,8 +312,8 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                         <!-- <span class="badge badge-pill badge-danger">1</span></a> -->
                                         <a href="<?= $mainlink ?>myOrders" class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
-                                            My Orders</a>
-                                        <a class="dropdown-item"><i
+                                            My Courses</a>
+                                        <a href="<?= $mainlink ?>activeCourses?role_id=<?= $_SESSION['role_id'];?>&role=<?= $_SESSION['role'];?>" class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
                                             My Active Courses</a>
                                         <a href="<?= $mainlink ?>changepassword?role_id=<?= $_SESSION['role_id'];?>&role=<?= $_SESSION['role'];?>"class="dropdown-item"><i
@@ -323,7 +323,8 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                                 class="dropdown-item<?= $hide_add_testimonial_link ? ' d-none' : ''; ?>">
                                                 <i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> Add Testimonial
                                             </a>
-                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session"><i
+                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session"></i>
+                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session?logout=1"><i
                                                 class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
                                             Out</a>
                                 </div>
