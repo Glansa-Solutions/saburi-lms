@@ -1,23 +1,38 @@
 <?php
 include("db_config.php");
+if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
+    $role = $_SESSION['role_id'];
+}else{
+    $role = "";
+}
 
-// include "database_functions.php";
-// $courseList = fetchCoursesList();
-// fetching list of Users to users module
-$fetch_list_students_query=mysqli_query($con,"SELECT * FROM students");
+// regarding Blog - Comment Data ( site & admin) start****
+$query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
+$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
+// regarding Blog - Comment Data ( site & admin) end****
+
+$fetch_list_students_query = mysqli_query($con, "SELECT * FROM students");
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
 $careerQuery = mysqli_query($con, "SELECT * FROM careers ");
-$fetch_list_query=mysqli_query($con,"SELECT * FROM users where IsActive = 1");
-$fetch_user_contact_query=mysqli_query($con,"SELECT * FROM contact");
-$fetch_user_contact_details_query=mysqli_query($con,"SELECT * FROM contact_details");
-
-$fetch_user_newsletter_query=mysqli_query($con,"SELECT * FROM newsletter");
-$fetch_list_student_query=mysqli_query($con,"SELECT * FROM students where isActive = 1");
-
-$fetch_list_topic_query=mysqli_query($con,"SELECT * FROM topics where isActive=1");
-$fetch_list_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics where isActive=1");
-$fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId WHERE subtopics.isActive = 1");
-$fetch_list_join_topics_subtopic_course_query=mysqli_query($con,"SELECT 
+$fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1");
+$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact");
+$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details");
+$fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
+$fetch_list_order_query = mysqli_query($con, "SELECT od.id,
+o.paymentstatus,
+o.orderdate,
+c.courseDesc,
+c.courseName,
+s.name
+FROM orderdetails AS od
+JOIN `orders` AS o ON od.orderId = o.id
+JOIN courses AS c ON od.courseId = c.id
+JOIN students AS s ON o.subscriberid = s.id where s.id = '$role' and o.paymentstatus = 'paid'");
+$fetch_list_student_query = mysqli_query($con, "SELECT * FROM students where isActive = 1");
+$fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");
+$fetch_list_subtopic_query = mysqli_query($con, "SELECT * FROM subtopics where isActive=1");
+$fetch_list_join_topics_subtopic_query = mysqli_query($con, "SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId WHERE subtopics.isActive = 1");
+$fetch_list_join_topics_subtopic_course_query = mysqli_query($con, "SELECT 
 topics.Id AS topic_id,
 topics.topicName,
 subtopics.Id AS subtopic_id,
@@ -102,21 +117,21 @@ assessment.isActive = 1
 ORDER BY
 chapters.id DESC");
 
-$fetch_list_query_subscription=mysqli_query($con,"SELECT * FROM subscriptions_1");
+$fetch_list_query_subscription = mysqli_query($con, "SELECT * FROM subscriptions_1");
 
 // $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
 
-$fetch_list_blog_query=mysqli_query($con,"SELECT * FROM blogs where isActive = 1");
+$fetch_list_blog_query = mysqli_query($con, "SELECT * FROM blogs where isActive = 1");
 
-$fetch_list_freeResources_query=mysqli_query($con,"SELECT * FROM freeresources where isActive = 1");
+$fetch_list_freeResources_query = mysqli_query($con, "SELECT * FROM freeresources where isActive = 1");
 
-$fetch_list_affiliate_query=mysqli_query($con,"SELECT * FROM affiliates where isActive = 1");
+$fetch_list_affiliate_query = mysqli_query($con, "SELECT * FROM affiliates where isActive = 1");
 
-$fetch_list_careers_query=mysqli_query($con,"SELECT * FROM careers where IsActive = 1");
+$fetch_list_careers_query = mysqli_query($con, "SELECT * FROM careers where IsActive = 1");
 
-$fetch_list_company_query=mysqli_query($con,"SELECT * FROM company Where isActive = 1");
+$fetch_list_company_query = mysqli_query($con, "SELECT * FROM company Where isActive = 1");
 
-$fetch_list_corporategovernance_query=mysqli_query($con,"SELECT * FROM corporategovernance where isActive = 1");
+$fetch_list_corporategovernance_query = mysqli_query($con, "SELECT * FROM corporategovernance where isActive = 1");
 
 // $fetch_list=mysqli_fetch_assoc($fetch_list_query);
 // $users_name=$fetch_list['Name'];

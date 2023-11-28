@@ -1,4 +1,7 @@
-<?php include("includes/header.php"); 
+<?php 
+include("includes/header.php"); 
+include("core/listgrid.php");
+
 $query = "SELECT * FROM courses"; // Adjust the table name as needed
 
 $conditions = []; // Array to store conditions
@@ -141,7 +144,6 @@ $allcourse = mysqli_query($con, $query);
                                 <option value="price_high_to_low">Sort by price: high to low</option>
                             </select>
                         </form>
-
                     </div>
 
                     <ul class="products columns-3">
@@ -320,7 +322,7 @@ $allcourse = mysqli_query($con, $query);
 
 
                     <section id="woocommerce_top_rated_products-2" class="widget woocommerce widget_top_rated_products">
-                        <h3 class="widget-title">Top rated courses</h3>
+                        <h3 class="widget-title">Top Rated Course</h3>
                         <ul class="product_list_widget">
                             <li>
                                 <a href="#">

@@ -36,8 +36,8 @@ include("includes/header.php");
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <div class="page-header-content">
-                    <h1>My Orders</h1>
-                    <ul class="list-inline mb-0">
+                    <h1>My Active Courses</h1>
+                    <!-- <ul class="list-inline mb-0">
                         <li class="list-inline-item">
                             <a href="#">Home</a>
                         </li>
@@ -45,7 +45,7 @@ include("includes/header.php");
                         <li class="list-inline-item">
                             Cart
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
         </div>

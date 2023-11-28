@@ -1,30 +1,5 @@
 <?php
-
 include("includes/header.php");
-include("./core/listgrid.php");
-
-// $courseId = isset($_GET['course_id']) ? $_GET['course_id'] : null;
-// $orderId = isset($_GET['order_id']) ? $_GET['order_id'] : null;
-
-// function getFormattedDuration($videoFilePath)
-// {
-//     // Initialize getID3
-//     $getID3 = new getID3();
-//     // Analyze the video file
-//     $fileInfo = $getID3->analyze($videoFilePath);
-
-//     // Get video duration
-//     if (isset($fileInfo['playtime_seconds'])) {
-//         $duration = $fileInfo['playtime_seconds'];
-
-//         // Format the duration as HH:MM:SS
-//         $formattedDuration = gmdate('H:i:s', $duration);
-//     } else {
-//         $formattedDuration = "Unknown";
-//     }
-
-//     return $formattedDuration;
-// }
 
 // Variable to store the total duration
 $totalDurationInSeconds = 0;
@@ -161,7 +136,9 @@ if (isset($_GET['course_id'])) {
         </div>
     </div>
 </section>
-
+<div id="cart-success-message" class="alert alert-success" style="display: none;">
+    Course added to cart successfully!
+</div>
 <section class="page-wrapper edutim-course-single">
     <div class="container">
         <div class="row">
@@ -329,7 +306,7 @@ if (isset($_GET['course_id'])) {
                         <?php
                             if (isset($_GET['order_id'])) {
                                 $co_id = $_GET['order_id'];
-                                $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $o_id");
+                                $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $co_id");
                                 $data = mysqli_fetch_array($chapterData);
                                 $courseId = $data['courseId'];
                                 $chapters = mysqli_query($con, "SELECT * FROM chapters WHERE courseId = $courseId ORDER BY id ASC LIMIT 1");
@@ -342,6 +319,7 @@ if (isset($_GET['course_id'])) {
                                         Start Course
                                     </a>
                                 </div>
+
                                 <?php
                             } else {
                                 // If not, show the course price and quantity input
@@ -487,107 +465,135 @@ if (isset($_GET['course_id'])) {
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="course-block">
-                    <div class="course-img">
-                        <img src="assets/images/course/course1.jpg" alt="" class="img-fluid">
-                        <span class="course-label">Beginner</span>
-                    </div>
+        <?php
 
-                    <div class="course-content">
-                        <div class="course-price ">$50</div>
+        $fetch_course_list_data = mysqli_query($con, "SELECT 
 
-                        <h4><a href="#">Information About UI/UX Design Degree</a></h4>
-                        <div class="rating">
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <span>(5.00)</span>
-                        </div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, alias.</p>
+topics.Id AS topic_id,
+topics.topicName,
+subtopics.Id AS subtopic_id,
+subtopics.subTopicName,
+courses.id AS course_id,
+courses.courseName,
+courses.courseCost,
+courses.courseDesc,
+courses.bannerImage,
+courses.uploadfile,
+courses.learn,
+courses.requirements,
+courses.tag,
+courses.video
+FROM 
+topics
+JOIN 
+subtopics ON topics.Id = subtopics.topicId
+JOIN 
+courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC LIMIT 3");
 
-                        <div class="course-footer d-lg-flex align-items-center justify-content-between">
-                            <div class="course-meta">
-                                <span class="course-student"><i class="bi bi-group"></i>340</span>
-                                <span class="course-duration"><i class="bi bi-badge3"></i>82 Lessons</span>
+        if ($fetch_course_list_data && mysqli_num_rows($fetch_course_list_data) > 0) {
+            ?>
+            <div class="row">
+                <?php
+                while ($related_course = mysqli_fetch_array($fetch_course_list_data)) {
+
+                    $id = $related_course['course_id'];
+                    $courseName = $related_course['courseName'];
+                    $courseCost = $related_course['courseCost'];
+                    // $courseDesc = $related_course['courseDesc'];
+                    $courseDesc = substr($related_course['courseDesc'], 0, 100) . '...';
+                    $bannerImage = $related_course['bannerImage'];
+                    ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="course-block">
+                            <div class="course-img">
+
+                                <div class="img" style="
+                            background-image: url('<?=$mainlink?>uploads/images/<?= $bannerImage;?>');
+                            background-repeat: no-repeat;
+                            background-size:cover;
+                            width:100%;
+                            height:100%;
+                            ">
+
+                                </div>
+                                <span class="course-label">
+                                    <?= $courseName; ?>
+                                </span>
                             </div>
 
-                            <div class="buy-btn"><a href="#" class="btn btn-main-2 btn-small">Details</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="course-block">
-                    <div class="course-img">
-                        <img src="assets/images/course/course2.jpg" alt="" class="img-fluid">
-                        <span class="course-label">Advanced</span>
-                    </div>
+                            <div class="course-content">
+                                <div class="course-price">
+                                    <?= "&#8377;" . $courseCost; ?>
+                                </div>
 
-                    <div class="course-content">
-                        <div class="course-price ">$80 <span class="del">$120</span></div>
+                                <h4><a href="course_single.php?course_id=<?= $id; ?>">
+                                        <?= $courseName; ?>
+                                    </a></h4>
+                                <div class="rating">
+                                    <!-- Your rating display logic here -->
+                                </div>
+                                <p>
+                                    <?= $courseDesc; ?>
+                                </p>
 
-                        <h4><a href="#">Photography Crash Course for Photographer</a></h4>
-                        <div class="rating">
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <span>(5.00)</span>
-                        </div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, alias.</p>
+                                <div class="course-footer d-lg-flex align-items-center justify-content-between">
+                                    <div class="course-meta">
+                                        <!-- <span class="course-student"><i class="bi bi-group"></i><?= $related_course['students']; ?></span>
+                                <span class="course-duration"><i class="bi bi-badge3"></i><?= $related_course['lessons']; ?> Lessons</span> -->
+                                    </div>
 
-                        <div class="course-footer d-lg-flex align-items-center justify-content-between">
-                            <div class="course-meta">
-                                <span class="course-student"><i class="bi bi-group"></i>340</span>
-                                <span class="course-duration"><i class="bi bi-badge3"></i>82 Lessons</span>
+                                    <!-- <div class="buy-btn"><a href="course_single.php?course_id=<?= $id; ?>"
+                                    class="btn btn-main-2 btn-small">Details</a></div> -->
+                                    <?php if ($courseDesc): ?>
+                                        <a href="course_single.php?course_id=<?= $id; ?>"
+                                            class="btn btn-main btn-small read-more-link">
+                                            <i class="fa fa-plus-circle mr-2"></i>Read More
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-
-                            <div class="buy-btn"><a href="#" class="btn btn-main-2 btn-small">Details</a></div>
                         </div>
                     </div>
-                </div>
+                    <?php
+                }
+                ?>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="course-block">
-                    <div class="course-img">
-                        <img src="assets/images/course/course3.jpg" alt="" class="img-fluid">
-                        <span class="course-label">Expert</span>
-                    </div>
-
-                    <div class="course-content">
-                        <div class="course-price ">$100 <span class="del">$180</span></div>
-
-                        <h4><a href="#">React – The Complete Guide (React Router)</a></h4>
-                        <div class="rating">
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <a href="#"><i class="fa fa-star"></i></a>
-                            <span>(5.00)</span>
-                        </div>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, alias.</p>
-
-                        <div class="course-footer d-lg-flex align-items-center justify-content-between">
-                            <div class="course-meta">
-                                <span class="course-student"><i class="bi bi-group"></i>340</span>
-                                <span class="course-duration"><i class="bi bi-badge3"></i>82 Lessons</span>
-                            </div>
-
-                            <div class="buy-btn"><a href="#" class="btn btn-main-2 btn-small">Details</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <?php
+        } else {
+            echo "No related courses found.";
+        }
+        ?>
     </div>
 </section>
+<script>
+    <!-- Add this script to your HTML -->
 
+    document.addEventListener('DOMContentLoaded', function () {
+        // Add click event listener to the "Add to Cart" button
+        var addToCartButton = document.querySelector('.add_to_cart_button');
+        if (addToCartButton) {
+            addToCartButton.addEventListener('click', function (event) {
+                // Add your logic to handle adding the item to the cart
+
+                // Display the success message using SweetAlert
+                showSuccessMessage();
+            });
+        }
+
+        // Function to display the success message using SweetAlert
+        function showSuccessMessage() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Course Added To Cart Successfully!',
+                showConfirmButton: false,
+                timer: 3000 // Hide the message after 3 seconds
+            });
+        }
+    });
+
+
+
+</script>
 <?php
 include("includes/footer.php");
 ?>

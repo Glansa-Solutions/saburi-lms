@@ -1,6 +1,7 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
+include('../core/listgrid.php');
 ?>
 
 
@@ -15,25 +16,20 @@ include('includes/sidebar.php');
                         You can Write the content for about page.
                     </p> -->
                    
-                    <form class="forms-sample">
+                    <form class="forms-sample" method="POST" action="../core/functions.php">
                         <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" class="form-control" name="title"
-                                placeholder="Enter Blog Title">
+                            <label for="title">Email</label>
+                            <input type="email" class="form-control" name="email"
+                                placeholder="Enter Email">
                         </div>
                         <div class="form-group">
-                            <label for="image">Image</label>
-                            <input type="file" class="form-control-file" id="image" accept="image/*">
+                            <label for="image">phone Number</label>
+                            <input type="text" class="form-control" name="phone_no" >
                         </div>
-                        <!-- <div class="form-group">
-                            <label for="writer">Writer</label>
-                            <input type="text" class="form-control" name="writer"
-                                placeholder="Enter Writer Name">
-                        </div> -->
+                       
                         <div class="form-group">
-                            <label for="desc">Description</label>
-                            <textarea class="rte" name="desc">
-                                        Welcome to Saburi LMS
+                            <label for="desc">Address</label>
+                            <textarea class="rte" name="address">    
                                     </textarea>
                         </div>
                         <!-- <div class="form-group">
@@ -41,7 +37,7 @@ include('includes/sidebar.php');
                             <input type="file" class="form-control-file" id="banner_image" accept="image/*">
                         </div> -->
 
-                        <button type="submit" class="btn btn-primary me-2">Submit</button>
+                        <button type="submit" class="btn btn-primary me-2" name="contact_details">Submit</button>
                         <button class="btn btn-light">Cancel</button>
                     </form>
                 </div>
@@ -55,37 +51,50 @@ include('includes/sidebar.php');
                         <thead>
                             <tr>
                                 <th>S.no</th>
-                                <th>Title</th>
-                                <!-- <th> Writer </th> -->
-                                <th>Image</th>
-                                <th>Description</th>
+                                <th hidden></th>
+                                <th>Email</th>
+                                <th>Phone No</th>
+                                <th>Address</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Saburi Educations</td>
+                        <?php
+                            if($fetch_user_contact_details_query)
+                            {
+                                $i = 1;
+                                while($row=mysqli_fetch_assoc($fetch_user_contact_details_query))
+                                {
+                                    $id = $row['id'];
+                                    $email=$row['email'];
+                                    $phone_no = $row['phone_no'];
+                                    $address = $row['address'];
+                                    
+                                    ?>
+                                <tr>
+                                    <td><?= $i;?></td>
+                                    <td class="edit_id" hidden><?= $id; ?>
+                                    <td><?= $email; ?></td>
+                                    <td><?= $phone_no; ?></td>
+                                    <td><?= $address; ?></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-primary me-2 p-2 edit-button"  data-bs-toggle="modal" data-bs-target="#editmodal"
+                                        data-id="<?= $id; ?>">Edit</button>
+                                        <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deletecontactModal"  data-id="<?= $id; ?>">Delete</button>
+
+                                    </td>
+                                </tr>
+
+
+                                <?php
+                            $i++;
+                                }
                                 
-                                <!-- <td>xyz</td> -->
-                                <td><img src="images/saburi.png" class="img-fluid w-50" /></td>
-                                <td style="white-space: wrap;">Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. Facilis excepturi perferendis</td>
-                                <td><button type="submit" class="btn btn-primary me-2 p-2">Edit</button>
-                                    <button class="btn btn-danger p-2">Delete</button>
-                                </td>
-                            </tr>
-                            <!-- <tr>
-                                <td>2</td>
-                                <td><img src="images/faces/face1.jpg" class="img-fluid w-50" /></td>
-                                <td>Saburi Educations</td>
-                                <td style="white-space: wrap;">Lorem ipsum dolor sit amet consectetur adipisicing
-                                    elit. Facilis excepturi perferendis</td>
-                                <td><button type="submit" class="btn btn-primary me-2 p-2">Edit</button>
-                                    <button class="btn btn-danger p-2">Delete</button>
-                                </td>
-                            </tr> -->
-                        </tbody>
+                            }else {
+                                echo "Query failed!";
+                            }
+                            ?>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -93,7 +102,119 @@ include('includes/sidebar.php');
 
     </div>
 </div>
+
+ <!-- Modal for editing blog content -->
+ <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editBlogModalLabel">Edit Contact</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="../core/functions.php">
+                        <div class="modal-body">
+                            <!-- Form for editing the blog content -->
+
+                            <input type="hidden" id="contatId" name="contatId">
+                            <div class="form-group">
+                                <label for="editTitle">Email</label>
+                                <input type="text" class="form-control" id="editEmail" name="editEmail">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editTitle">Phone No</label>
+                                <input type="text" class="form-control" id="editPhone" name="editPhone">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editDescription">Address</label>
+                                <textarea  name="editAddress" id="edit">
+                            </textarea>    
+                            </div>
+                       </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="update_contactDetaills">Save
+                                Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deletecontactModal" tabindex="-1" role="dialog"
+            aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="../core/functions.php" method="POST">
+                        <div class="modal-body">
+
+                            <input type="hidden" id="delete_id" name="delete_id">
+                            Are you sure you want to delete this record?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger" name="delete_contact"
+                               >Delete</button>
+                        </div>
+                </div>
+            </div>
+        </div>
 <!-- Main Content ends -->
+<script>
+        $(document).ready(function() {
+            $('.edit-button').on('click', function() {
+                var contactId = $(this).closest('tr').find('.edit_id').text();
+                console.log(contactId);
+                $.ajax({
+                    type: 'POST',
+                    url: '../core/functions.php', // Replace with the URL of your server-side script
+                    data: {
+                        'checking_edit_contacts_btn': true,
+                        'contactId': contactId,
+                    },
+                    // dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        $.each(response, function(key, value) {
+                            $('#editEmail').val(value['email']);
+                            $('#editPhone').val(value['phone_no']);
+                            
+                            // You can handle image display or updating as needed
+                            $('#edit').val(value['address']);
+                            // console.log(a);
+                            $('#contatId').val(value['id']);
+                        });
+                    }
+                });
+            });
+        });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+              <script>
+        $(document).ready(function() {
+            $('.delete-button').on('click', function(e) {
+                e.preventDefault();
+                var blogId = $(this).closest('tr').find('.edit_id').text();
+
+                console.log(blogId);
+                $('#delete_id').val(blogId);
+                $('#deletecontactModal').modal('show');
+
+            });
+        });
+        </script>
 
 <?php
 

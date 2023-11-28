@@ -90,7 +90,7 @@ include("includes/header.php");
                     // echo '<div class="course-meta">';
                     // echo '</div>';
 
-                    echo '<div class="buy-btn text-center"><a href="careerName.php?c_id=' . $id . '" class="btn btn-main-2 btn-small">Apply</a></div>';
+                    echo '<div class="buy-btn text-center"><a href="careerName?cid=' . $id . '" class="btn btn-main-2 btn-small">Apply</a></div>';
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';

@@ -7,11 +7,20 @@ include("./core/blogsFunction.php");
 include("./core/homeFunction.php");
 include("./core/functions.php");
 include("./core/listgrid.php");
-// include("./core/checkoutFunction.php");
 include("./core/allmailfun.php");
 
 // include("./core/login_register.php");
 // include("./core/login_register.php");
+if($fetch_user_contact_details_query)
+{
+    while($fetch_user_contact_details_result = mysqli_fetch_assoc($fetch_user_contact_details_query))
+    {
+        $contact_id = $fetch_user_contact_details_result["id"];
+        $contact_email = $fetch_user_contact_details_result["email"];
+        $contact_phone = $fetch_user_contact_details_result["phone_no"];
+        $contact_address = $fetch_user_contact_details_result["address"];
+    }
+}
 ?>
 
 
@@ -25,7 +34,7 @@ include("./core/allmailfun.php");
 
     <meta name="author" content="themeturn.com">
 
-    <title>Edutim- Education LMS template</title>
+    <title>Saburi LMS</title>
 
     <!-- Mobile Specific Meta-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,7 +60,8 @@ include("./core/allmailfun.php");
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <!-- <script src="./js/jquery-3.6.0.min.js"></script> -->
-
+    <!-- Swal -->
+    
 </head>
 <style>
     /* Hide the default number input arrows in Chrome, Safari, and Edge */
@@ -141,11 +151,11 @@ include("./core/allmailfun.php");
                         <ul class="header-contact">
                             <li>
                                 <span>Call :</span>
-                                +7780290335
+                               <?= $contact_phone;?>
                             </li>
                             <li>
                                 <span>Email :</span>
-                                info@saburilms.com
+                                <?= $contact_email; ?>
                             </li>
                         </ul>
                     </div>
@@ -252,7 +262,7 @@ include("./core/allmailfun.php");
                             <!-- <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
                             </li> -->
                         </ul>
-                        <?php if (!empty($_SESSION['role_id'])) {
+                        <?php if (!empty($_SESSION['role_id'])&& !empty($_SESSION['role'])) {
                             $visibility = "visible";
                         } else {
                             $visibility = "none";
@@ -285,14 +295,14 @@ include("./core/allmailfun.php");
                                         <!-- <span class="badge badge-pill badge-danger">1</span></a> -->
                                         <a href="<?= $mainlink ?>myOrders" class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
-                                            My Orders</a>
-                                        <a class="dropdown-item"><i
+                                            My Courses</a>
+                                        <a href="<?= $mainlink ?>activeCourses?role_id=<?= $_SESSION['role_id'];?>&role=<?= $_SESSION['role'];?>" class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
                                             My Active Courses</a>
-                                        <a class="dropdown-item"><i
+                                        <a href="<?= $mainlink ?>changepassword?role_id=<?= $_SESSION['role_id'];?>&role=<?= $_SESSION['role'];?>"class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Change Password</a>
-                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session=<?=$role_session_id?>"><i
+                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session?logout=1"><i
                                                 class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
                                             Out</a>
                                 </div>

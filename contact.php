@@ -1,5 +1,6 @@
 <?php
 include("includes/header.php");
+include("core/listgrid.php");
 
 if ($fetch_user_contact_details_query) {
     while ($row = mysqli_fetch_assoc($fetch_user_contact_details_query)) {

@@ -1,8 +1,5 @@
 <?php
-// session_start();g
 include("db_config.php");
-
-
 // function for generating randome password
 function generateRandomPassword()
 {
@@ -13,7 +10,6 @@ function generateRandomPassword()
         $index = rand(0, strlen($characters) - 1);
         $password .= $characters[$index];
     }
-
     return $password;
 }
 
@@ -83,7 +79,7 @@ if (isset($_POST['registerStudent'])) {
 
 
     $insertQuery = mysqli_query($con, "INSERT INTO students(name, DOB, country,address, district, state, pincode, gender, phoneNumber, email, idProof, idProofDetails,password, createdOn, isActive) 
-        VALUES('$fullName', '$dob', '$country','$address', '$city', '$state', '$pin', '$gender', '$phone', '$email', '$idProof', '$uniqueIdNo', '$currentDate', 0,'$password')");
+        VALUES('$fullName', '$dob', '$country','$address', '$city', '$state', '$pin', '$gender', '$phone', '$email', '$idProof', '$uniqueIdNo','$password', '$currentDate', 0)");
     $insertedId = mysqli_insert_id($con);
     // print_r($insertedId);
     // exit();
@@ -165,7 +161,7 @@ if (isset($_POST['registerStudent'])) {
                             <p>For security reasons, we do not include passwords in emails. To set up your password or reset it, please follow the steps below:</p>
 
                             <ol>
-                            <li>Click on the following link: <a href='$mainlink" . "account?role=$userRole&id=$insertedId'>Login Here</a></li>
+                            <li>Click on the following link: <a href='$mainlink" . "changepassword?role_id=$insertedId&role=$userRole'>Change Your Password Here</a></li>
                             <li>Follow the instructions on the page to create a new password.</li>
                             </ol>
 
@@ -345,19 +341,10 @@ if (isset($_POST["student_login"])) {
         // Check if the entered password matches the stored password
         if ($student_pass == $stored_password) {
             $student_id = $row['id'];
-            $session_id = $row['session_id'];
+
             $_SESSION['user_name'] = $row['name'];
             $_SESSION['role'] = $role;
             $_SESSION['id'] = $student_id;
-
-            $update_sessionId = mysqli_query($con,"UPDATE students set session_id=1 where id=$student_id");
-                if($update_sessionId){
-                    echo "updated";
-                    exit();
-                }else{
-                    echo "not updated";
-                    exit();
-                }
             // echo $_SESSION['role'].$_SESSION['id'];
             // exit();
             // header("location: ../?id=$student_id");
@@ -400,7 +387,7 @@ if (isset($_POST["company_login"])) {
         // Check if the entered password matches the stored password
         if ($company_pass == $stored_password) {
             $company_id = $row['id'];
-           
+            
             $_SESSION['user_name'] = $row['companyName'];
             $_SESSION['role'] = $role;
             $_SESSION['id'] = $company_id;
@@ -424,11 +411,4 @@ if (isset($_POST["company_login"])) {
         exit();
     }
 }
-// company login
-// if(isset($_POST['registerCompany'])){
-//     echo "here";
-//     exit();
-// }
-
-
 // Login Authentication end

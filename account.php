@@ -1,10 +1,14 @@
 <?php
 include("includes/header.php");
+
+if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
+    $session_role = $_SESSION['role'];
+    $session_role_id = $_SESSION['role_id'];
+} else {
+    $session_role = "";
+    $session_role_id = "";
+}
 ?>
-
-
-
-
 <div class="search-wrap">
     <div class="overlay">
         <form action="" class="search-form">
@@ -75,44 +79,7 @@ include("includes/header.php");
                                         aria-describedby="emailHelp">
                                 </div>
                                 <?php
-                                if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
-                                    $session_role = $_SESSION['role'];
-                                    $session_role_id = $_SESSION['role_id'];
-                                } else {
-                                    $session_role = "";
-                                    $session_role_id = "";
-                                }
-
-
-
-                                // function encrypt($data, $key, $iv)
-                                // {
-                                //     $cipher = "aes-256-cbc";
-                                //     $options = 0;
-                                //     $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
-                                //     return base64_encode($encrypted);
-                                // }
-
-                                // function decrypt($encryptedData, $key, $iv)
-                                // {
-                                //     $cipher = "aes-256-cbc";
-                                //     $options = 0;
-                                //     $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, $options, $iv);
-                                //     return $decrypted;
-                                // }
-
-                                // // Example usage
-                                // $dataToEncrypt = $session_role;
-                                // $key = "20V23e11S19P98"; // Change this to your secret key
-                                // $iv = openssl_random_pseudo_bytes(16); // Initialization Vector, should be random and unique
-                            
-                                // $encryptedData = encrypt($dataToEncrypt, $key, $iv);
-                                // echo "Original: $dataToEncrypt\n";
-                                // echo "Encrypted: $encryptedData\n";
-
-                                // $decryptedData = decrypt($encryptedData, $key, $iv);
-                                // echo "Decrypted: $decryptedData\n";
-
+                                
                                 ?>
 
 
@@ -283,44 +250,7 @@ include("includes/header.php");
                                         aria-describedby="emailHelp">
                                 </div>
                                 <?php
-                                if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
-                                    $session_role = $_SESSION['role'];
-                                    $session_role_id = $_SESSION['role_id'];
-                                } else {
-                                    $session_role = "";
-                                    $session_role_id = "";
-                                }
-
-
-
-                                // function encrypt($data, $key, $iv)
-                                // {
-                                //     $cipher = "aes-256-cbc";
-                                //     $options = 0;
-                                //     $encrypted = openssl_encrypt($data, $cipher, $key, $options, $iv);
-                                //     return base64_encode($encrypted);
-                                // }
-
-                                // function decrypt($encryptedData, $key, $iv)
-                                // {
-                                //     $cipher = "aes-256-cbc";
-                                //     $options = 0;
-                                //     $decrypted = openssl_decrypt(base64_decode($encryptedData), $cipher, $key, $options, $iv);
-                                //     return $decrypted;
-                                // }
-
-                                // // Example usage
-                                // $dataToEncrypt = $session_role;
-                                // $key = "20V23e11S19P98"; // Change this to your secret key
-                                // $iv = openssl_random_pseudo_bytes(16); // Initialization Vector, should be random and unique
-                            
-                                // $encryptedData = encrypt($dataToEncrypt, $key, $iv);
-                                // echo "Original: $dataToEncrypt\n";
-                                // echo "Encrypted: $encryptedData\n";
-
-                                // $decryptedData = decrypt($encryptedData, $key, $iv);
-                                // echo "Decrypted: $decryptedData\n";
-
+                               
                                 ?>
 
 

@@ -133,7 +133,7 @@ li {
                                 <td>
                                     <?= $writer; ?>
                                 </td>
-                                <td><img src="../assets/images/blog<?= $image; ?>" width="80" height="80"></td>
+                                <td><img src="../assets/images/blog/<?= $image; ?>" width="80" height="80"></td>
                                 <td class="truncate-text">
                                     <?= $description; ?>
                                 </td>
@@ -175,7 +175,7 @@ li {
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" action="../core/functions.php">
+                    <form method="POST" action="../core/functions.php" enctype="multipart/form-data">
                         <div class="modal-body">
                             <!-- Form for editing the blog content -->
 
@@ -204,7 +204,7 @@ li {
 
                             <div class="form-group">
                                 <label for="editDescription">Description</label>
-                                <textarea class="rte" id="edit">
+                                <textarea  id="edit">
 
                             </textarea>
                                 <!-- <div id="editor">
@@ -233,7 +233,7 @@ li {
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="../core/functions.php" method="POST">
+                    <form action="../core/functions.php" method="POST" >
                         <div class="modal-body">
 
                             <input type="hidden" id="delete_id" name="delete_id">
@@ -329,7 +329,7 @@ li {
                         $.each(response, function(key, value) {
                             $('#editTitle').val(value['blogTitle']);
                             $('#editWriter').val(value['writer']);
-                            $('#output').attr('src', '../assets/images/blog' +
+                            $('#output').attr('src', '../assets/images/blog/' +
                                 value['bannerImage']);
                             // You can handle image display or updating as needed
                             $('#edit').val(value['description']);

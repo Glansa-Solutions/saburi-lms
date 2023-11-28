@@ -17,6 +17,7 @@ RewriteRule ^admin/about admin/about.php [L]
 RewriteRule ^admin/affiliate admin/affiliate.php [L]
 RewriteRule ^admin/blog admin/blog.php [L]
 RewriteRule ^admin/career admin/career.php [L]
+RewriteRule ^admin/careerName admin/careerName.php [L]
 RewriteRule ^admin/contact admin/contactdetails.php [L]
 RewriteRule ^admin/corporateGovernance admin/corporateGovernance.php [L]
 RewriteRule ^admin/courseslistreport admin/coursesListReport.php [L]
@@ -43,6 +44,9 @@ RewriteRule ^admin/manageAssessment admin/manageAssessment.php [L]
 RewriteRule ^admin/newsLetter admin/newsLetter.php [L]
 RewriteRule ^admin/userListReports admin/userListReports.php [L]
 RewriteRule ^admin/userContactReports admin/userContactReports.php [L]
+RewriteRule ^admin/commentsBlog admin/commentsBlog.php [L]
+RewriteRule ^admin/commentsCourse admin/commentsCourse.php [L]
+
 
 
 
