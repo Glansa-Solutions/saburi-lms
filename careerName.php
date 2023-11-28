@@ -2,8 +2,8 @@
 include("includes/header.php");
 // include('core/listgrid.php');
 
-if (isset($_GET['cid'])) {
-    $careerId = $_GET['cid'];
+if (isset($_GET['c_id'])) {
+    $careerId = $_GET['c_id'];
     $fetch_list_career_query = mysqli_query($con, "SELECT * FROM careers WHERE Id = $careerId");
 
     if ($fetch_list_career_query) {

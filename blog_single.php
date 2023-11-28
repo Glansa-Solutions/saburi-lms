@@ -1,7 +1,6 @@
 <?php
 include("includes/header.php");
-$_SESSION['role'] = "default student";
-
+$_SESSION['role']="default student";
 if (isset($_GET['b_id'])) {
     $blogId = $_GET['b_id'];
     $fetch_list_blog_query = mysqli_query($con, "SELECT * FROM blogs WHERE id = $blogId");
