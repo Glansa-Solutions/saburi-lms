@@ -1,4 +1,5 @@
 <?php
+// header('Content-Type: application/json');
 include('db_config.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -85,7 +86,7 @@ if (isset($_POST['login_admin'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql = "DELETE FROM topics WHERE Id = $id";
-    $query=mysqli_query($con, $sql);
+    $query = mysqli_query($con, $sql);
     if ($query) {
         // If the delete operation is successful, you can redirect to a success page
         header("location: $mainlink" . "./admin/topic");
@@ -286,7 +287,7 @@ if (isset($_POST['login_admin'])) {
     $writer = mysqli_real_escape_string($con, $_POST['editWriter']);
     $description = mysqli_real_escape_string($con, $_POST['editDescription']);
 
-    if(isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
+    if (isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
         // Handle the new image upload
         $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
 
@@ -309,7 +310,7 @@ if (isset($_POST['login_admin'])) {
 
     $query = mysqli_query($con, $update);
 
-    if($query) {
+    if ($query) {
         header("location: $mainlink" . "admin/blog");
     } else {
         echo "Query Error: " . mysqli_error($con);
@@ -357,27 +358,23 @@ if (isset($_POST['delete_blog'])) {
     } else {
         echo "not done";
     }
-}
-    elseif (isset($_POST['checking_resource_btn'])) {
-        $resource_id = $_POST['resource_id'];
-        $result_array = [];
-    
-        // Prepare and execute a query to fetch the blog data by ID
-        $query = "SELECT * FROM `freeresources` WHERE id = $resource_id";
-        $query_run = mysqli_query($con, $query);
-        if(mysqli_num_rows($query_run) > 0)
-        {
-            foreach($query_run as $row)
-            {
-                array_push($result_array, $row);
-                header('Content-type: application/json');
-                echo json_encode($result_array);
-            }
+} elseif (isset($_POST['checking_resource_btn'])) {
+    $resource_id = $_POST['resource_id'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `freeresources` WHERE id = $resource_id";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
         }
-        else{
-            echo $return = "<h5>No Record Found</h5>";
-        }
+    } else {
+        echo $return = "<h5>No Record Found</h5>";
     }
+}
 //     elseif(isset($_POST['update_resources']))
 // {
 //     $id = $_POST['resource_id'];
@@ -397,7 +394,7 @@ if (isset($_POST['delete_blog'])) {
 //         echo "not working";
 //     }
 // }
-if(isset($_POST['update_resources'])) {
+if (isset($_POST['update_resources'])) {
     $id = $_POST['resource_id'];
     $resourcename = $_POST['resourses_name'];
     $title = $_POST['title'];
@@ -423,16 +420,13 @@ if(isset($_POST['update_resources'])) {
     $update = "UPDATE freeresources SET resourcesName='$resourcename', title='$title', bannerImage='$imagePath', description='$description' WHERE id=$id";
     $query = mysqli_query($con, $update);
 
-    if($query) {
+    if ($query) {
         header("location: $mainlink" . "freeResources");
     } else {
         echo "Update failed: " . mysqli_error($con);
         exit; // Terminate script if update fails
     }
-}
-
-
-elseif (isset($_POST['affiliate_manage'])){
+} elseif (isset($_POST['affiliate_manage'])) {
     $name = $_POST['name'];
     $details = $_POST['details'];
     $contactdetails = $_POST['contactdetails'];
@@ -604,8 +598,8 @@ if (isset($_POST['delete_career'])) {
 //     $title = $_POST['title'];
 //     $name = $_POST['name'];
 //     $image = $_POST['image'];
-    
-    
+
+
 //     $update = "UPDATE corporategovernance set Title='$title', name ='$name', image='$image' WHERE id='$id'";
 //     $query = mysqli_query($con, $update);
 
@@ -617,7 +611,7 @@ if (isset($_POST['delete_career'])) {
 //         echo "not working";
 //     }
 // }
-elseif(isset($_POST['update_cg'])) {
+elseif (isset($_POST['update_cg'])) {
     $id = $_POST['cgId'];
     $title = $_POST['title'];
     $name = $_POST['name'];
@@ -657,44 +651,35 @@ elseif(isset($_POST['update_cg'])) {
     } else {
         echo "Error: " . mysqli_error($con);
     }
-}
-elseif (isset($_POST['checking_edit_contacts_btn'])) {
+} elseif (isset($_POST['checking_edit_contacts_btn'])) {
     $contactId = $_POST['contactId'];
     $result_array = [];
 
     // Prepare and execute a query to fetch the blog data by ID
     $query = "SELECT * FROM `contact_details` WHERE id = $contactId";
     $query_run = mysqli_query($con, $query);
-    if(mysqli_num_rows($query_run) > 0)
-    {
-        foreach($query_run as $row)
-        {
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
             array_push($result_array, $row);
             header('Content-type: application/json');
             echo json_encode($result_array);
         }
-    }
-    else{
+    } else {
         echo $return = "<h5>No Record Found</h5>";
     }
-}
-
-elseif(isset($_POST['update_contactDetaills']))
-{
+} elseif (isset($_POST['update_contactDetaills'])) {
     $id = $_POST['contatId'];
     $email = $_POST['editEmail'];
     $phone = $_POST['editPhone'];
     $address = $_POST['editAddress'];
-    
+
 
     $update_contact = "UPDATE contact_details SET email = '$email', phone_no = '$phone', address = '$address' WHERE id='$id'";
     $query = mysqli_query($con, $update_contact);
 
-    if($query)
-    {
+    if ($query) {
         header("location: $mainlink" . "admin/contactdetails");
-    }
-    else{
+    } else {
         echo "not working";
     }
 }
@@ -702,7 +687,7 @@ if (isset($_POST['delete_contact'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql = "UPDATE contact_details SET status = 0  WHERE id = $id";
-    $query=mysqli_query($con, $sql);
+    $query = mysqli_query($con, $sql);
     if ($query) {
         // If the delete operation is successful, you can redirect to a success page
         header("location: $mainlink" . "admin/contactdetails");
@@ -761,7 +746,7 @@ if (isset($_POST['sending_email'])) {
                     $mail->addAddress($email);
                     $mail->Subject = $subject;
 
-                    $unsubscribe_link = "$mainlink"."unsubscribe.php?email=" . urlencode($email);
+                    $unsubscribe_link = "$mainlink" . "unsubscribe.php?email=" . urlencode($email);
                     $message = "$des<br><br>";
                     $message .= "The content of your newsletter goes here.";
                     $message .= "<br><a href='$unsubscribe_link'>Unsubscribe</a>";
@@ -859,38 +844,38 @@ if (isset($_POST['sending_email'])) {
     } else {
         echo $return = "<h5>No Record Found</h5>";
     }
-// }elseif(isset($_POST['update_chapter'])){
+    // }elseif(isset($_POST['update_chapter'])){
 //     $chapterId = $_POST['chapterId'];
 //     $chapterName = $_POST['chapter'];
 //     $date = date("Y-m-d H:i:s");
 //     $maxUploadFileSize = 10 * 1024 * 1024; 
 //     $maxVideoFileSize = 100 * 1024 * 1024; 
 
-// if (isset($_FILES['uploadfile'])) {
+    // if (isset($_FILES['uploadfile'])) {
 //     $uploadFile = $_FILES['uploadfile'];
 //     $uploadFileName = $uploadFile['name'];
 
-//     // Process and move the upload file to your desired location
+    //     // Process and move the upload file to your desired location
 //     move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
 // }
 
-// if (isset($_FILES['video'])) {
+    // if (isset($_FILES['video'])) {
 //     $videoFile = $_FILES['video'];
 //     $videoFileName = $videoFile['name'];
 
-//     move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+    //     move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
 // }
 
-//     $update = "UPDATE chapters SET chapterName='$chapterName', uploadFile='$uploadFileName', video='$videoFileName', modifiedOn='$date' WHERE id='$chapterId'";
+    //     $update = "UPDATE chapters SET chapterName='$chapterName', uploadFile='$uploadFileName', video='$videoFileName', modifiedOn='$date' WHERE id='$chapterId'";
 //     $query = mysqli_query($con, $update);
 
-//     if($query) {
+    //     if($query) {
 //         header("location: $mainlink" . "manageChapter");
 //     } else {
 //         echo "not working";
 //     }
 // }
-}elseif(isset($_POST['update_chapter'])){
+} elseif (isset($_POST['update_chapter'])) {
     $chapterId = $_POST['chapterId'];
     $chapterName = $_POST['chapter'];
     $date = date("Y-m-d H:i:s");
@@ -1176,11 +1161,53 @@ if (isset($_POST['delete_user'])) {
     // Close the database connection
     // mysqli_close($conn);
 }
+// blog_comments functionality ( for admin side) starts
 
+// ******** this is for fetch the data into the modal of commentsBlog page in admin starts
+if (isset($_POST['Comment_id'])) {
+    $comment_id = $_POST['Comment_id'];
+    $query_fetch_blog_comment_to_admin = mysqli_query($con, "SELECT comment, isactive FROM comments_blog where id = $comment_id");
+    $row = mysqli_num_rows($query_fetch_blog_comment_to_admin) > 0;
+    if ($row) {
+        $data = mysqli_fetch_assoc($query_fetch_blog_comment_to_admin);
+        echo json_encode($data);
 
+    } else {
+        echo "No comments found for the specified $Comment_id.";
+    }
+}
+// ******** this is for Approving the comment by admin
+if (isset($_POST['modal_comment_id']) && !empty($_POST['modal_comment'])) {
+    $modal_comment_id = $_POST['modal_comment_id'];
+    $modal_comment = $_POST['modal_comment'];
+    $query_fetch_blog_comment_to_admin = mysqli_query($con, "UPDATE comments_blog SET isactive=1 where id = $modal_comment_id");
+    if ($query_fetch_blog_comment_to_admin) {
+        echo "Comment is approved";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+if (isset($_POST['disapprove'])) {
+    $for_disapprove = $_POST['disapprove'];
+    echo $for_disapprove;
+    $query_fetch_blog_comment_to_admin_disapprove = mysqli_query($con, "UPDATE comments_blog SET isactive=0 where id = $for_disapprove");
+    if ($query_fetch_blog_comment_to_admin_disapprove) {
+        echo "Comment is disapprove";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+if (isset($_POST['delete_blog_comment_id'])) {
+    $delete_blog_comment = $_POST['delete_blog_comment_id'];
+    // echo $delete_blog_comment;
+    $query_fetch_blog_comment_to_admin_delete = mysqli_query($con, "DELETE FROM comments_blog WHERE id = $delete_blog_comment");
+    if ($query_fetch_blog_comment_to_admin_delete) {
+        $response = array('success' => true, 'message' => 'Operation successful');
+    } else {
+        $response = array('success' => false, 'message' => 'Error: ' . mysqli_error($con));
+    }
+    header('Content-Type: application/json');
+echo json_encode($response);
+}
+// blog_comments functionality ( for admin side) Ends
 ?>
-
-
-
-
-

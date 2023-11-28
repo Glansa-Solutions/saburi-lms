@@ -5,9 +5,12 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
 }else{
     $role = "";
 }
-// include "database_functions.php";
-// $courseList = fetchCoursesList();
-// fetching list of Users to users module
+
+// regarding Blog - Comment Data ( site & admin) start****
+$query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
+$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
+// regarding Blog - Comment Data ( site & admin) end****
+
 $fetch_list_students_query = mysqli_query($con, "SELECT * FROM students");
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
 $careerQuery = mysqli_query($con, "SELECT * FROM careers ");
