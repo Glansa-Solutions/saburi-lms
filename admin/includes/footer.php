@@ -1,10 +1,10 @@
 <footer class="footer">
     <div class="d-sm-flex justify-content-center justify-content-sm-between">
-        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
+        <!-- <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
                 href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from
-            BootstrapDash.</span>
-        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All
-            rights reserved.</span>
+            BootstrapDash.</span> -->
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2023. All
+            rights reserved. Saburi LMS</span>
     </div>
 </footer>
 <!-- partial -->
@@ -40,9 +40,7 @@
 <!-- Rich Text Editor -->
 <script type="text/javascript" src="assets/vendors/richtexteditor/rte.js"></script>
 <script type="text/javascript" src='assets/vendors/richtexteditor/plugins/all_plugins.js'></script>
-<script>
-var editor1 = new RichTextEditor(".rte");
-</script>
+
 <!-- data table -->
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
@@ -56,8 +54,18 @@ new DataTable('#example');
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/xml/xml.min.js">
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.2.7/purify.min.js"></script>
+<!-- <script type="text/javascript" src="./assets/vendors/summernote@0.8.18/js/summernote-lite.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".mySummernote").summernote({
+            height :250
+        });
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
 
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/froala_editor.min.js"></script>
+<!-- <script type="text/javascript" src="./assets/vendors/froala_editor/js/froala_editor.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/align.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/char_counter.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/code_beautifier.min.js"></script>
@@ -86,9 +94,9 @@ new DataTable('#example');
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/video.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/help.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/print.min.js"></script>
-<!-- <script type="text/javascript" src="./assets/vendors/froala_editor/js/third_party/spell_checker.min.js"></script> -->
+<script type="text/javascript" src="./assets/vendors/froala_editor/js/third_party/spell_checker.min.js"></script>
 <script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/special_characters.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/word_paste.min.js"></script>
+<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/word_paste.min.js"></script> -->
 
 <script>
 (function() {

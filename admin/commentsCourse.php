@@ -33,7 +33,7 @@ include('includes/sidebar.php');
                                     while ($row = mysqli_fetch_assoc($query_fetch_course_review_admin_grid)) {
                                         $id = $row['id'];
                                         $course_id = $row['courseId'];
-                                        $courseName = $row['courseName'];
+                                        // $courseName = $row['courseName'];
                                         $reviewdata = $row['review'];
                                         $name = $row['name'];
                                         $email = $row['email'];
@@ -46,7 +46,7 @@ include('includes/sidebar.php');
                                                 <?= $i; ?>
                                             </td>
                                             <td>
-                                                <?= $courseName; ?>
+                                                <?= $course_id; ?>
                                             </td>
                                             <td style="white-space: nowrap;">
                                                 <?= implode(' ', array_slice(str_word_count($reviewdata, 2), 0, 5)); ?>

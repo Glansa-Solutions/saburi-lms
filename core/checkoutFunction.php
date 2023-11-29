@@ -16,6 +16,41 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
      // Get the user role from the session
 // echo $subscribedby; // For debugging purposes
 // exit();
+$cart = $_POST['cart'];
+
+// Decode the JSON string into an array
+$cartArray = json_decode($cart, true);
+
+// Check if decoding was successful
+if (is_array($cartArray) && $subscribedby=='company') {
+    foreach ($cartArray as $item) {
+        $user_id = $item['user_id'];
+        $course_id = $item['id'];
+        $quantity = $item['quantity'];
+
+        for ($i = 0; $i < $quantity; $i++) {
+            // Generate a random username and password (you may want to use a more secure method)
+            $usernamePrefix = 'SaburiLMS';
+            $randomNumber = sprintf('%06d', mt_rand(0, 999999));
+            $currentMonthYear = date('my');
+            $username = $usernamePrefix . $randomNumber . $currentMonthYear;
+
+            // Generate a 16-bit random password
+            $password = bin2hex(random_bytes(8));
+
+            // Insert data into the company users table
+            $sql = "INSERT INTO companyusers (companyId, UserId, Password, CourseId, IsActive) VALUES ('$user_id', '$username', '$password', '$course_id',1)";
+            // Execute the SQL query, you should use prepared statements for security
+           $insertQuery = mysqli_query($con, $sql);
+
+            // For testing purposes, you can print the SQL query instead of executing it
+            echo $sql . "<br>";
+        }
+    }
+} else {
+    // Handle the case where decoding failed
+    echo "Error decoding JSON string";
+}
     $grandtotal = $total - $discount;
 
     $insertOrderQuery = "INSERT INTO Orders (orderdate, subscribedby, subscriberid, paymentstatus, paymentdetails, total, couponcode, discount, grandtotal,createdOn)

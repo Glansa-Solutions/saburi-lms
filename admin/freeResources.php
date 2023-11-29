@@ -34,7 +34,7 @@ include('../core/listgrid.php');
                        
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea class="rte" name="desc">
+                            <textarea class="mySummernote" name="desc">
                                         Welcome to Saburi LMS
                                     </textarea>
                         </div>
@@ -143,7 +143,9 @@ include('../core/listgrid.php');
 
                             <div class="form-group">
                                 <label for="editTitle">Description</label>
-                                <input type="text" class="form-control" id="description" name="description">
+                                <textarea id="edit" name="description">
+                                        Welcome to Saburi LMS
+                                    </textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -203,14 +205,9 @@ $(document).ready(function() {
                 // Populate the input elements with data received from the server
                 $('#resourses_name').val(value['resourcesName']);
                 $('#title').val(value['title']); 
-                $('#output').attr('src', '.../assets/images/freeResource/' + value['bannerImage']); 
-                // if (response.bannerImage) {
-                //         $('#output').attr('src', './functions/upload/image/' + response.bannerImage);
-                //     }
-                    
-                // $('#banner_image').val(value['bannerImage']);
-                $('#description').val(value['description']); 
-                $('#resource_id').val(value['id']); 
+                $('#output').attr('src', '../assets/images/freeResource/' + value['bannerImage']); 
+                $('#edit').val(value['description']); 
+                $('#resourceId').val(value['id']); 
                 $('#editmodal').modal('show'); 
             });
            

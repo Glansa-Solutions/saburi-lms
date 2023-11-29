@@ -1,5 +1,7 @@
 <?php
 include("includes/header.php");
+// include("core/listgrid.php");
+
 ?>
 
 <div class="search-wrap">
@@ -570,81 +572,37 @@ include("includes/header.php");
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="testimonials-slides owl-carousel owl-theme">
-                    <div class="review-item">
-                        <div class="client-info">
-                            <i class="bi bi-quote"></i>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni eius autem aliquid
-                                pariatur rerum. Deserunt, praesentium.
-                                Adipisci, voluptates nihil debitis</p>
-                            <div class="rating">
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                            </div>
-                        </div>
-                        <div class="client-desc">
-                            <div class="client-img">
-                                <img src="assets/images/clients/test-1.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="client-text">
-                                <h4>John Doe</h4>
-                                <span class="designation">Developer</span>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    if($fetch_testimonial_sql)
 
-                    <div class="review-item">
-                        <div class="client-info">
-                            <i class="bi bi-quote"></i>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni eius autem aliquid
-                                pariatur rerum. Deserunt, praesentium.
-                                Adipisci, voluptates nihil debitis</p>
-                            <div class="rating">
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
+                    {
+                    // Loop through the fetched testimonials
+                    while ($row = $fetch_testimonial_sql->fetch_assoc()) {
+                        ?>
+                        <div class="review-item">
+                            
+                            <div class="client-info">
+                            <div class="title">
+                                     <b><span class="title"><?php echo $row['title'];?></span></b>
+                                </div>
+                                <i class="bi bi-quote"></i>
+                                <p><?php echo $row['description']; ?></p>
+                                
+                            </div>
+                            <div class="client-desc">
+                                <div class="client-img">
+                                    <img src="assets/images/profile_img/<?php echo ($row['subscribedBy'] == 'student') ? $row['profile_img'] : $row['profile']; ?>" alt="" class="img-fluid">
+                                </div>
+                                <div class="client-text">
+                                <h4><?php echo ($row['subscribedBy'] == 'student') ? $row['name'] : $row['companyName']; ?></h4>
+                                    <!-- <span class="designation"><?php echo $row['designation']; ?></span> -->
+                                </div>
                             </div>
                         </div>
-                        <div class="client-desc">
-                            <div class="client-img">
-                                <img src="assets/images/clients/test-2.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="client-text">
-                                <h4>John Doe</h4>
-                                <span class="designation">Developer</span>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="review-item">
-                        <div class="client-info">
-                            <i class="bi bi-quote"></i>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni eius autem aliquid
-                                pariatur rerum. Deserunt, praesentium.
-                                Adipisci, voluptates nihil debitis</p>
-                            <div class="rating">
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                            </div>
-                        </div>
-                        <div class="client-desc">
-                            <div class="client-img">
-                                <img src="assets/images/clients/test-3.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="client-text">
-                                <h4>John Doe</h4>
-                                <span class="designation">Developer</span>
-                            </div>
-                        </div>
-                    </div>
+                        <?php
+                    }
+                }
+                    ?>
                 </div>
             </div>
         </div>

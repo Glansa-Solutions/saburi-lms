@@ -17,6 +17,8 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])&&isset($_SESSION
             $student_auth = mysqli_fetch_assoc($student_auth_query);
             $id = $student_auth['id'];
             $fullName = $student_auth['name'];
+           
+
             $DOB = $student_auth['DOB'];
             $address = $student_auth['address'];
             $state = $student_auth['s_name'];
@@ -40,7 +42,7 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])&&isset($_SESSION
         $r_id = mysqli_real_escape_string($con, $_SESSION['role_id']);
         // $s_id;
         
-        $student_auth_query = mysqli_query($con, "SELECT * FROM company WHERE id='$r_id'");
+        $student_auth_query = mysqli_query($con, "SELECT c.*,a.id as c_id,s.id as s_id, a.name as a_name,s.name as s_name FROM `company` as c,awt_countries as a,awt_states as s WHERE a.id = c.country_name AND c.state = s.id and c.id='$r_id'");
         $row_count = mysqli_num_rows($student_auth_query);
     
         if ($row_count > 0) {

@@ -43,10 +43,18 @@
                 <div class="form-group">
                   <input type="password" class="form-control form-control-lg" name="admin_password" id="exampleInputPassword1" placeholder="Password">
                 </div>
+                <div id="passwordError" class="text-danger"></div>
                 <div class="mt-3">
                   <button type="submit" name="login_admin" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
                   
                 </div>
+
+                <?php
+                  // Display error message if set
+                  if (isset($error_message)) {
+                      echo '<div class="alert alert-danger mt-3" role="alert">' . $error_message . '</div>';
+                  }
+                  ?>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
@@ -88,5 +96,13 @@
   <script src="assets/js/todolist.js"></script>
   <!-- endinject -->
 </body>
-
+<script>
+    // Add this script to show/hide the password error message
+    <?php
+    // Check if the login failed due to incorrect password
+    if (isset($error_message) && strpos($error_message, "Incorrect email or password") !== false) {
+        echo 'document.getElementById("passwordError").innerText = "Incorrect password. Please try again.";';
+    }
+    ?>
+</script>
 </html>

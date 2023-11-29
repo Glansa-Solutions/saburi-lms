@@ -70,34 +70,36 @@ include("includes/header.php");
                                             <tr>
                                                 <th class="serial">S.No</th>
                                                 <th class="product-name">Course Name</th>
-                                                <th class="product-price">Description</th>
+                                                <th class="product-price">Start Date</th>
                                                 <!-- <th class="product-quantity">Quantity</th>
                                                 <th class="product-subtotal">Total</th> -->
-                                                <th class="product-subtotal">Action</th>
+                                                <!-- <th class="product-subtotal">Action</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <!-- Place this script within your HTML file -->
                                             <?php
-                                                if($fetch_list_order_query)
+                                                if($fetch_list_order_details_query)
                                                 {
                                                     $i = 1;
-                                                    while($row=mysqli_fetch_assoc($fetch_list_order_query))
+                                                    while($row=mysqli_fetch_assoc($fetch_list_order_details_query))
                                                     {
                                                         $id = $row['id'];
                                                         $courseName=$row['courseName'];
                                                         $courseDesc = $row['courseDesc'];
+                                                        $createdOn = $row['createdOn'];
                                                     
                                                         ?>
                                                     <tr>
                                                         <td><?= $i;?></td>
                                                         <td class="edit_id" hidden><?= $id; ?>
                                                         <td><?= $courseName; ?></td>
-                                                        <td><?= $courseDesc; ?></td>
+                                                        <td><?= date('d-m-Y', strtotime($createdOn)); ?></td>
+
                                                     
-                                                        <td>
+                                                        <!-- <td>
                                                             <a href="course_single?order_id=<?= $id; ?>" class="btn btn-primary text-white me-2 p-2 add-to-cart-button">View Course</a>
-                                                        </td>
+                                                        </td> -->
 
                                                     </tr>
 

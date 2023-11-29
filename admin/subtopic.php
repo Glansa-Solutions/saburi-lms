@@ -153,7 +153,7 @@ include('../core/listgrid.php');
 
             <div class="modal-body">
 
-                <input type="text" id="delete_id" name="delete_id">
+                <input type="hidden" id="delete_id" name="delete_id">
                 Are you sure you want to delete this record?
             </div>
             <div class="modal-footer">

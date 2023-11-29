@@ -4,8 +4,15 @@ include("../core/db_config.php");
 include("../core/data_list_grid.php");
 include('../core/listgrid.php');
 
+session_start();
 
-
+// Check if the user is logged in
+if (!isset($_SESSION['name'])) {
+    // Redirect to the login page if not logged in
+    header("Location: $mainlink" . "admin/");
+    exit();
+}
+$greeting_message =  $_SESSION['name'] . "!";
 // include('./functions/modals_data.php');
 // $mainlink="http://localhost:8080/LMS/lms2/";
 ?>
@@ -33,7 +40,13 @@ include('../core/listgrid.php');
     <link rel="stylesheet" href="./assets/vendors/datatables/dataTables.bootstrap4.min.css">
     <!-- flora headers -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_editor.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./assets/vendors/summernote@0.8.18/css/summernote.min.css">
+    <link rel="stylesheet" href="./assets/vendors/summernote@0.8.18/css/summernote-lite.min.css"> -->
+
+
+    <!-- <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_editor.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_style.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/code_view.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/draggable.css">
@@ -52,7 +65,7 @@ include('../core/listgrid.php');
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/third_party/spell_checker.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/special_characters.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
     <style>
         div#editor {
             width: 100%;
@@ -92,12 +105,13 @@ include('../core/listgrid.php');
                 </div>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
-                <ul class="navbar-nav">
-                    <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                        <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">Vishal</span></h1>
-                        <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
-                    </li>
-                </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+                  <h1 class="welcome-text">Welcome <?php echo $greeting_message; ?></h1>
+                            <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
+                        </li>
+                    </ul>
+
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown d-none d-lg-block">
                         <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown"
@@ -256,7 +270,7 @@ include('../core/listgrid.php');
                             <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                 FAQ</a>
-                            <a class="dropdown-item" href="<?= $mainlink ?>"><i
+                            <a class="dropdown-item" href="../core/logout.php"><i
                                     class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
                         </div>
                     </li>

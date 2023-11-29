@@ -80,6 +80,7 @@ include('../core/functions.php');
             <div class="card">
 
                 <div class="card-body">
+                    <h4 class="card-title">Add Chapter</h4>
                     <form action="../core/functions.php" class="col-md-12 " method="POST" enctype="multipart/form-data">
                         <div class="col-md-12 d-flex">
                             <div class="col-md-6 p-3">
@@ -120,12 +121,7 @@ include('../core/functions.php');
                                     <label for="uploadfile">Upload File</label>
                                     <input type="file" class="form-control-file" name="uploadfile">
                                 </div>
-                                <div class="form-group">
-                                    <label for="chapterContent">Chapter Content</label>
-                                    <textarea class="form-control" name="chapterContent">
 
-                                    </textarea>
-                                </div>
 
                             </div>
                             <div class="col-md-6 p-3">
@@ -147,6 +143,14 @@ include('../core/functions.php');
                                 </div>
                             </div>
 
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="chapterContent">Chapter Content</label>
+                                <textarea class="mySummernote" name="chapterContent">
+
+                                    </textarea>
+                            </div>
                         </div>
 
                         <div>

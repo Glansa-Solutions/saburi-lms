@@ -72,7 +72,7 @@ $result = $con->query($sql);
                         <div class="form-group">
                             <label for="desc">Description</label>
                             <div id="editor">
-                            <textarea id="edit" name="desc">
+                            <textarea class="mySummernote" name="desc">
                             </textarea>
                             </div>
                         </div>

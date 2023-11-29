@@ -8,6 +8,7 @@ include("./core/homeFunction.php");
 include("./core/functions.php");
 include("./core/listgrid.php");
 include("./core/allmailfun.php");
+include("./core/testimonials.php");
 
 // include("./core/login_register.php");
 // include("./core/login_register.php");
@@ -21,6 +22,26 @@ if($fetch_user_contact_details_query)
         $contact_address = $fetch_user_contact_details_result["address"];
     }
 }
+
+// Check if the session variables are set
+if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
+    $role_id = $_SESSION['role_id'];
+    $role = $_SESSION['role'];
+
+    // Check if testimonials exist for the current user
+    $existing_testimonial_query = mysqli_query($con, "SELECT * FROM testinomonials WHERE subscribedBy='$role' AND subscribedId='$role_id'");
+    $existing_testimonial = mysqli_fetch_assoc($existing_testimonial_query);
+
+    $hide_add_testimonial_link = $existing_testimonial ? true : false;
+} else {
+    // If session variables are not set, set default values or handle it accordingly
+    $role_id = null;
+    $role = null;
+    $hide_add_testimonial_link = false;
+}
+
+// Now you can use $role_id and $role without causing undefined variable errors
+
 ?>
 
 
@@ -59,6 +80,8 @@ if($fetch_user_contact_details_query)
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
     <!-- <script src="./js/jquery-3.6.0.min.js"></script> -->
     <!-- Swal -->
     
@@ -139,10 +162,6 @@ if($fetch_user_contact_details_query)
 </style>
 
 <body id="top-header">
-
-
-
-
     <header>
         <div class="header-top">
             <div class="container">
@@ -302,6 +321,11 @@ if($fetch_user_contact_details_query)
                                         <a href="<?= $mainlink ?>changepassword?role_id=<?= $_SESSION['role_id'];?>&role=<?= $_SESSION['role'];?>"class="dropdown-item"><i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Change Password</a>
+                                            <a href="<?= $mainlink ?>testimonials?role_id=<?= $_SESSION['role_id']; ?>&role=<?= $_SESSION['role']; ?>"
+                                                class="dropdown-item<?= $hide_add_testimonial_link ? ' d-none' : ''; ?>">
+                                                <i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> Add Testimonial
+                                            </a>
+                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session"></i>
                                         <a class="dropdown-item" href="<?= $mainlink ?>logout_session?logout=1"><i
                                                 class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
                                             Out</a>

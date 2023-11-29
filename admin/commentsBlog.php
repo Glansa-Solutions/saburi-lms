@@ -33,7 +33,8 @@ include('includes/sidebar.php');
                                     $i = 1;
                                     while ($row = mysqli_fetch_assoc($query_fetch_blog_comment_admin_grid)) {
                                         $id = $row['id'];
-                                        $blogTitle = $row['blogTitle'];
+                                        $bid = $row['blog_id'];
+                                        // $blogTitle = $row['blogTitle'];
                                         $comment = $row['comment'];
                                         $website = $row['website'];
                                         $name = $row['name'];
@@ -44,10 +45,10 @@ include('includes/sidebar.php');
                                         ?>
                                         <tr>
                                             <td>
-                                                <?= $i; ?>
+                                                <?= $id; ?>
                                             </td>
                                             <td>
-                                                <?= $blogTitle; ?>
+                                                <?= $bid; ?>
                                             </td>
                                             <td style="white-space: nowrap;">
                                                 <?= implode(' ', array_slice(str_word_count($comment, 2), 0, 5)); ?>
@@ -182,6 +183,7 @@ include('includes/sidebar.php');
             $('.view-comment').on('click', function () {
                 var view_comment = $(this).data('id');
                 $('#comment_id').val(view_comment);
+                alert(view_comment);
                 $.ajax({
                     type: 'POST',
                     url: '../core/functions.php',

@@ -91,9 +91,11 @@ if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION[
                                 <input type="hidden" name="company_id" value="<?= $session_role_id ?>"
                                     class="form-control">
                             </div>
+                            <div class="g-recaptcha" data-sitekey="6LcKvB8pAAAAAADMPbyTwHwOtDgcHzyze7n_QPg2"></div>
 
                             <button type="submit" name="company_login"
                                 class="btn btn-primary login_button">Login</button>
+
                         </form>
                     </div>
 
@@ -252,11 +254,16 @@ if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION[
                                     class="form-control">
                             </div>
                             <p>
-                                <a href="<?= $mainlink ?>core/sessions.php?f_role=<?= $_SESSION['role']; ?>">Forgot Password?</a>
+                                <a href="<?= $mainlink ?>core/sessions.php?f_role=<?= $_SESSION['role']; ?>">Forgot
+                                    Password?</a>
 
                             </p>
+
+
+
                             <button type="submit" name="student_login"
                                 class="btn btn-primary login_button">Login</button>
+                            <div class="g-recaptcha" data-sitekey="6LcKvB8pAAAAAADMPbyTwHwOtDgcHzyze7n_QPg2"></div>
                         </form>
                     </div>
 

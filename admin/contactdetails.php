@@ -29,8 +29,9 @@ include('../core/listgrid.php');
                        
                         <div class="form-group">
                             <label for="desc">Address</label>
-                            <textarea class="rte" name="address">    
-                                    </textarea>
+                            <div name="editAddress">
+                                <textarea  name="address" class="mySummernote"></textarea>
+                            </div>
                         </div>
                         <!-- <div class="form-group">
                             <label for="banner_image">Banner Image</label>
@@ -131,7 +132,7 @@ include('../core/listgrid.php');
 
                             <div class="form-group">
                                 <label for="editDescription">Address</label>
-                                <textarea  name="editAddress" id="edit">
+                                <textarea  name="editAddress" id="editAddress" class="mySummernote">
                             </textarea>    
                             </div>
                        </div>
@@ -191,7 +192,8 @@ include('../core/listgrid.php');
                             $('#editPhone').val(value['phone_no']);
                             
                             // You can handle image display or updating as needed
-                            $('#edit').val(value['address']);
+                            // $('#edit').val(value['address']);
+                            $('#editAddress').summernote('code', value['address']);
                             // console.log(a);
                             $('#contatId').val(value['id']);
                         });

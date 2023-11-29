@@ -182,54 +182,62 @@ $(document).ready(function() {
 
 $('.add_to_cart_button').click(function(e) {
     e.preventDefault();
-	var selectedQuantity;
+
+    var roleId = <?php echo json_encode($role_id); ?> || '';
+    var role = <?php echo json_encode($role); ?> || '';
+
+	console.log(roleId);
+
     var product_id = $(this).data('product-id');
     var product_name = $(this).data('product-name');
     var product_price = $(this).data('product-price');
     var product_image = $(this).data('product-image');
+	
 
-    selectedQuantity = quantityInput.val() ? quantityInput.val() : 1;
-	var role = <?php echo json_encode($role); ?>;
-	console.log(role);
+    var selectedQuantity = quantityInput.val() ? parseInt(quantityInput.val()) : 1;
 
     // Check if there is an existing cart in local storage
     var cart = JSON.parse(localStorage.getItem('cart')) || [];
-	var cartItem = {
-        user_id: roleId,
-        id: product_id,
-        name: product_name,
-        price: product_price,
-        image: product_image,
-        quantity: selectedQuantity
-    };
+    
+    var existingItem = cart.find(function(item) {
+        return item.id === product_id && item.user_id === roleId && role === 'student';
+    });
 
-	for(var c of cart){
-		if(c.id == product_id && c.user_id == roleId && role == 'student'){
-			alert("You have already added this item to cart");
-			// cartItem.quantity = selectedQuantity +1;
-			cart.pop();
-		}
-		if(c.id == product_id && c.user_id == roleId && role == 'company'){
-			cartItem.quantity = parseInt(selectedQuantity) +1;
-			cart.pop();
-		}
-	}
+    if (existingItem) {
+        alert("You have already added this item to cart");
+    } else {
+        existingItem = cart.find(function(item) {
+            return item.id === product_id && item.user_id === roleId && role === 'company';
+        });
 
- 
-    cart.push(cartItem);
+        if (existingItem) {
+            existingItem.quantity += selectedQuantity;
+        } else {
+            var cartItem = {
+                user_id: roleId,
+                id: product_id,
+                name: product_name,
+                price: product_price,
+                image: product_image,
+                quantity: selectedQuantity
+            };
+            cart.push(cartItem);
+        }
+        
+        // Save the updated cart back to local storage
+        localStorage.setItem('cart', JSON.stringify(cart));
 
-    // Save the updated cart back to local storage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Update the cart count in the header
-    updateCartCount();
+        // Update the cart count in the header
+        updateCartCount();
+    }
 });
 
-
 function updateCartCount() {
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
-    var cartCount = cart.length;
-    $('#cart-count-container').text(' (' + cartCount + ')');
+    var cart = getCartItems();
+    var totalQuantity = cart.reduce(function(acc, item) {
+        return acc + parseInt(item.quantity);
+    }, 0);
+    $('#cart-count-container').text(' (' + totalQuantity + ')');
 }
 
 $(document).ready(function() {
@@ -243,7 +251,7 @@ function getCartItems() {
 // Example: Get the cart items and do something with them
 var cartItems = getCartItems();
 cartItems.forEach(function(item) {
-    
+    // Do something with each cart item
 });
 
 // ...

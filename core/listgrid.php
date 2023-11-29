@@ -6,21 +6,29 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
     $role = "";
 }
 
-// regarding Blog - Comment Data ( site & admin) start****
+$fetch_home_query = mysqli_query($con, "SELECT * FROM home where isActive =1");
+$fetch_about_query = mysqli_query($con, "SELECT * FROM about where isActive =1");
+$fetch_privacy_query = mysqli_query($con, "SELECT * FROM privacy where isActive =1");
+$fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1");
+// regarding Blog - Comment Data ( site & admin) start**
 $query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
-$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog JOIN blogs ON comments_blog.blog_id = blogs.id");
+$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
 // regarding Blog - Comment Data ( site & admin) end****
-// regarding Blog - Comment Data ( site & admin) start****
+// regarding course - review Data ( site & admin) start****
 $query_fetch_course_review = mysqli_query($con,"SELECT * FROM comment_course_review where isactive=1");
-$query_fetch_course_review_admin_grid = mysqli_query($con,"SELECT * FROM comment_course_review JOIN courses ON comment_course_review.courseId = courses.id");
-// regarding Blog - Comment Data ( site & admin) end****
+$query_fetch_course_review_admin_grid = mysqli_query($con,"SELECT * FROM comment_course_review");
+// regarding course - review Data ( site & admin) end****
 
-$fetch_list_students_query = mysqli_query($con, "SELECT * FROM students");
+$fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.companyName,testinomonials.*
+FROM testinomonials
+LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'student'
+LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
+$fetch_list_students_query = mysqli_query($con, "SELECT * FROM students where isActive=1");
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
-$careerQuery = mysqli_query($con, "SELECT * FROM careers ");
+$careerQuery = mysqli_query($con, "SELECT * FROM careers where isActive=1");
 $fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1");
-$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact");
-$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details");
+$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where status=1");
+$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where status=1");
 $fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
 $fetch_list_order_query = mysqli_query($con, "SELECT od.id,
 o.paymentstatus,
@@ -32,6 +40,18 @@ FROM orderdetails AS od
 JOIN `orders` AS o ON od.orderId = o.id
 JOIN courses AS c ON od.courseId = c.id
 JOIN students AS s ON o.subscriberid = s.id where s.id = '$role' and o.paymentstatus = 'paid'");
+
+$fetch_list_order_details_query = mysqli_query($con, "SELECT od.id,od.createdOn,
+o.paymentstatus,
+o.orderdate,
+c.courseDesc,
+c.courseName,
+s.name
+FROM orderdetails AS od
+JOIN `orders` AS o ON od.orderId = o.id
+JOIN courses AS c ON od.courseId = c.id
+JOIN students AS s ON o.subscriberid = s.id where s.id = '$role' and o.paymentstatus = 'paid' AND od.status=1");
+
 $fetch_list_student_query = mysqli_query($con, "SELECT * FROM students where isActive = 1");
 $fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");
 $fetch_list_subtopic_query = mysqli_query($con, "SELECT * FROM subtopics where isActive=1");
@@ -136,6 +156,12 @@ $fetch_list_careers_query = mysqli_query($con, "SELECT * FROM careers where IsAc
 $fetch_list_company_query = mysqli_query($con, "SELECT * FROM company Where isActive = 1");
 
 $fetch_list_corporategovernance_query = mysqli_query($con, "SELECT * FROM corporategovernance where isActive = 1");
+
+$fetch_testimonial_sql = mysqli_query($con, "SELECT students.name,company.companyName,students.profile_img,company.profile,testinomonials.*
+FROM testinomonials
+LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'student'
+LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
+
 
 // $fetch_list=mysqli_fetch_assoc($fetch_list_query);
 // $users_name=$fetch_list['Name'];

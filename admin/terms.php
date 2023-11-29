@@ -22,7 +22,7 @@ include('../core/listgrid.php');
 
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea  name="Desc" id="edit">
+                            <textarea  name="Desc" class="mySummernote">
                             </textarea>    
                         </div>
                         
@@ -115,7 +115,7 @@ include('../core/listgrid.php');
 
                             <div class="form-group">
                                 <label for="editDescription">Description</label>
-                                <textarea  name="editDesc" id="edit">
+                                <textarea  name="editDesc" id="editAddress" class="mySummernote">
                             </textarea>    
                         </div>                           
 
@@ -172,7 +172,7 @@ include('../core/listgrid.php');
                         console.log(response);
                         $.each(response, function(key, value) {
                             $('#editheading').val(value['Heading']);
-                            $('#edit').val(value['Description']);
+                            $('#editAddress').summernote('code', value['Description']);
                             $('#termsId').val(value['id']);
                         });
                     }
