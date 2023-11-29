@@ -107,7 +107,7 @@ if (isset($_SESSION['role_id'])) {
                                                     <?php
                                                             }
                                                         } else {
-                                                            echo "Query failed!";
+                                                            echo "Login to see the wishlist!";
                                                         }
                                                     ?>
                                                 </div>
