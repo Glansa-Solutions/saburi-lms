@@ -29,7 +29,9 @@ include('../core/listgrid.php');
                         
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea id='edit' name="desc" style="margin-top: 30px;"></textarea>
+                            <div name="editAddress">
+                                <textarea  name="desc" class="mySummernote"></textarea>
+                            </div>
                         </div>
                        
                         <button type="submit" class="btn btn-primary me-2" name="insert_privacy">Submit</button>
@@ -129,7 +131,7 @@ include('../core/listgrid.php');
 
                             <div class="form-group">
                                 <label for="editDescription">Description</label>
-                                <textarea  name="editDesc" id="edit">
+                                <textarea id="editAddress" class="mySummernote" name="editDesc">
                             </textarea>    
                             </div>                      
 
@@ -187,7 +189,8 @@ include('../core/listgrid.php');
                         $.each(response, function(key, value) {
                             $('#editHeading').val(value['Heading']);
                             $('#editTitle').val(value['Title']);
-                            $('#editdesc').val(value['Description']);
+                            
+                            $('#editAddress').summernote('code', value['Description']);
                             // console.log(a);
                             $('#privacyId').val(value['id']);
                         });

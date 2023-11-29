@@ -13,17 +13,16 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
     $discount = 0;
     $subscribedby = $_SESSION['role'];
     $subscriberid = $_SESSION['role_id'];
-
-    // Multiple User Creation on Place order
-
-
+     // Get the user role from the session
+// echo $subscribedby; // For debugging purposes
+// exit();
 $cart = $_POST['cart'];
 
 // Decode the JSON string into an array
 $cartArray = json_decode($cart, true);
 
 // Check if decoding was successful
-if (is_array($cartArray)) {
+if (is_array($cartArray) && $subscribedby=='company') {
     foreach ($cartArray as $item) {
         $user_id = $item['user_id'];
         $course_id = $item['id'];
@@ -52,13 +51,6 @@ if (is_array($cartArray)) {
     // Handle the case where decoding failed
     echo "Error decoding JSON string";
 }
-
-
-    // exit();
-    // if($cart){
-    //     $companyId
-    // }
-
     $grandtotal = $total - $discount;
 
     $insertOrderQuery = "INSERT INTO Orders (orderdate, subscribedby, subscriberid, paymentstatus, paymentdetails, total, couponcode, discount, grandtotal,createdOn)

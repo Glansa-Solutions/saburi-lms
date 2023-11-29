@@ -34,7 +34,7 @@ include('../core/listgrid.php');
                        
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea id="edit" name="desc">
+                            <textarea class="mySummernote" name="desc">
                                         Welcome to Saburi LMS
                                     </textarea>
                         </div>

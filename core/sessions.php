@@ -52,16 +52,38 @@ if (isset($_GET['current_login_id'])) {
     if ($set_prev_login_to_zero) {
         header("location: ../account");
         exit();
-    }else{
+    } else {
         echo "unable to reset login";
     }
 }
+// for forgot password - session storing the role
+if (isset($_GET['f_role'])) {
+    $_SESSION['f_role'] = $_GET['f_role'];
+    // $forgot_login_user_role = $_SESSION['f_role'];
+    // header("Location: prev_login.php");
+    header("Location: ../forgot_password");
+    exit();
+}
+if (isset($_GET['forgot_login_role'])) {
+    $_SESSION['role'] = $_POST['forgot_login_role'];
+        header("Location: ../account");
+    exit();
+}
+
+
+// for forgot password - session storing the role
 
 
 if (isset($_GET['start_id']) && isset($_GET['chapterId'])) {
     $_SESSION['course_id'] = $_GET['start_id'];
-    $_SESSION['chapter_id'] = $_GET['chapterId'];
-    header("Location: ../chapterSingle");
+    $course_id_status_active = $_SESSION['course_id'];
+    $course_id_status_active_query = mysqli_query($con, "UPDATE orderdetails SET status = 1 WHERE courseId = $course_id_status_active");
+    if ($course_id_status_active_query) {
+        $_SESSION['chapter_id'] = $_GET['chapterId'];
+        header("Location: ../chapterSingle");
+        
+        exit();
+    }
 
 }
 if (isset($_GET['ch_id'])) {

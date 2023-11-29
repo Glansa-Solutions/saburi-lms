@@ -74,7 +74,7 @@ include('../core/listgrid.php');
                             <div class="form-group">
                                 <label for="banner_desc">Description</label>
                                 <div id="editor">
-                                    <textarea id='edit' name="desc" style="margin-top: 30px;">Welcome to Saburi LMS</textarea>
+                                    <textarea  name="desc" class="mySummernote">Welcome to Saburi LMS</textarea>
                                 </div>
                             </div>
 

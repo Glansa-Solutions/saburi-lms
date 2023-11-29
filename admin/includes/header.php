@@ -40,7 +40,13 @@ $greeting_message =  $_SESSION['name'] . "!";
     <link rel="stylesheet" href="./assets/vendors/datatables/dataTables.bootstrap4.min.css">
     <!-- flora headers -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_editor.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="./assets/vendors/summernote@0.8.18/css/summernote.min.css">
+    <link rel="stylesheet" href="./assets/vendors/summernote@0.8.18/css/summernote-lite.min.css"> -->
+
+
+    <!-- <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_editor.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_style.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/code_view.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/draggable.css">
@@ -59,7 +65,7 @@ $greeting_message =  $_SESSION['name'] . "!";
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/third_party/spell_checker.css">
     <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/special_characters.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
     <style>
         div#editor {
             width: 100%;

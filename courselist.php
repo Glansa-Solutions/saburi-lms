@@ -162,10 +162,17 @@ $allcourse = mysqli_query($con, $query);
                                 $bannerImage = $row["bannerImage"];
                                 // echo $bannerImage;
                                 ?>
-                        <li class="product" style="margin-right:2%;">
-                            <div class="product-wrap">
-                                <a href="course_single?course_id=<?= $id ?>">
-                                    <img src="uploads/images/<?= $bannerImage ?>" alt="">
+                       <li class="product" style="margin-right:2%;">
+                        <div class="product-wrap">
+                            <a href="course_single?course_id=<?= $id ?>">
+                                <img src="uploads/images/<?= $bannerImage ?>" alt="">
+                            </a>
+                            <div class="product-btn-wrap">
+                                <!-- <a href="" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
+                                    <i class="fa fa-shopping-basket"></i>
+                                </a> -->
+                                <a href="#" class="button wish-list" data-course-id="<?= $id ?>">
+                                    <i class="fa fa-heart"></i>
                                 </a>
                                 <div class="product-btn-wrap">
                                             <!-- Add to cart and wishlist buttons -->
@@ -178,6 +185,7 @@ $allcourse = mysqli_query($con, $query);
                                             <a href="#" class="button wish-list"><i class="fa fa-heart"></i></a> -->
                                         </div>
                             </div>
+                        </div>
                             <div class="woocommerce-product-title-wrap">
                                 <h2 class="woocommerce-loop-product__title">
                                     <a href="#">

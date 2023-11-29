@@ -224,7 +224,7 @@ if (isset($_GET['course_id'])) {
                 </div>
                 <!--  COurse Topics End -->
 
-                <div class="course-widget course-info">
+                <!-- <div class="course-widget course-info">
                     <h4 class="course-title">About the instructors</h4>
                     <div class="instructor-profile">
                         <div class="profile-img">
@@ -249,52 +249,106 @@ if (isset($_GET['course_id'])) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="course-widget course-info">
-                    <h4 class="course-title">Students Feedback</h4>
+                    <?php
+                    $row_count = 0;
+                    if ($row_count >= 0) {
+                        // Initialize an empty array to store comments
+                        $c = array();
 
-                    <div class="course-review-wrapper">
-                        <div class="course-review">
-                            <div class="profile-img">
-                                <img src="assets/images/blog/author.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="review-text">
-                                <h5>Mehedi Rasedh <span>26th june 2020</span></h5>
+                        // Loop through each row and fetch 'blog_id'
+                        while ($row = mysqli_fetch_assoc($query_fetch_course_review)) {
+                            $courseId = $row['courseId'];
+                            if ($courseId == $_GET['course_id']) {
+                                // echo "Blog ID: $blog_id<br>";
+                                $review = $row['review'];
+                                $reviewer = $row['name'];
+                                $created_by = $row['created_by'];
+                                $date = $row['created_on'];
+                                $dateString = $date;
+                                $formattedDate = date("jS M Y", strtotime($dateString));
 
-                                <div class="rating">
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star-half"></i></a>
+                                // Add each comment to the $commentsArray
+                                $reviewArray[] = array(
+                                    'reviewdBy' => $created_by,
+                                    'reviewdDate' => $formattedDate,
+                                    'reviewdContent' => $review
+                                );
+                            }
+                        }
+
+                        // Display reviews
+                        if (!empty($reviewArray)) {
+                            echo '<div class="comments">
+                <h3 class="comment-title">(' . count($reviewArray) . ') Reviews</h3>';
+
+                            foreach ($reviewArray as $review) {
+                                $reviewdBy = $review['reviewdBy'];
+                                $reviewdDate = $review['reviewdDate'];
+                                $reviewdContent = $review['reviewdContent'];
+
+
+                                echo '<div class="course-review-wrapper">
+                                <div class="course-review">
+                                <div class="profile-img">
+                                    <img src="assets/images/blog/author.jpg" alt="" class="img-fluid">
                                 </div>
-                                <p>Great course. Well structured, paced and I feel far more confident using this
-                                    software now then I did back in school when I was learning. And the guy doing the
-                                    voice over really is great at what he does</p>
-                            </div>
-                        </div>
-
-
-                        <div class="course-review">
-                            <div class="profile-img">
-                                <img src="assets/images/blog/author.jpg" alt="" class="img-fluid">
-                            </div>
-                            <div class="review-text">
-                                <h5>Rasedh raj <span>1 Year Ago</span></h5>
-                                <div class="rating">
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star"></i></a>
-                                    <a href="#"><i class="fa fa-star-half"></i></a>
+                                <div class="review-text">
+                                    <h5>' . $reviewer . ' <span>' . $reviewdDate . '</span></h5>
+                                    <p>' . $reviewdContent . '</p>
                                 </div>
-                                <p>Very deep course for a beginner, enjoyed everything from the very start and every
-                                    detail is vastly investigated and discussed. A nice choice for those, who are
-                                    enrolling Python. </p>
                             </div>
+                            </div>';
+                            }
 
-                        </div>
+                            echo '</div>'; // Close comments container
+                        }
+                    } else {
+                        echo "No rows found with isactive = 1";
+                    }
+                    ?>
+
+                    <div class="review-form p-5 mt-4">
+                        <h3>Write Your Review </h3>
+                        <p>Please share your thoughts about your experience with our course.</p>
+
+                        <form action="core/course_reviewFunctions.php" method="POST" class="comment_form">
+                            <div class="row form-row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <!-- <input type="text" name="comment" cols="30" rows="6" placeholder="Comment" class="form-control"> -->
+                                        <textarea name="reviewdata" id="msgt" cols="30" rows="6" placeholder="Review"
+                                            class="form-control" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input type="text" name="name" class="form-control" value="<?= (!empty($fullName))? $fullName : ""?>" placeholder="Enter your name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <input type="email" name="email" class="form-control" value="<?= (!empty($email))? $email : ""?>" placeholder="Enter your email">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="course_id" value="<?= $_GET['course_id'] ?>"
+                                    class="form-control">
+                                <input type="hidden" name="role"
+                                    value="<?= (!empty($_SESSION['role'])) ? $_SESSION['role'] : "default studen"; ?>"
+                                    class="form-control">
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <button type="submit" name="review" class="btn btn-main text-white">
+                                            Review
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
+                    
                 </div>
             </div>
 
@@ -303,7 +357,7 @@ if (isset($_GET['course_id'])) {
                     <div class="course-single-thumb">
                         <img src="uploads/images/<?= $bannerImage ?>" alt="" class="img-fluid w-100">
                         <div class="course-price-wrapper">
-                        <?php
+                            <?php
                             if (isset($_GET['order_id'])) {
                                 $co_id = $_GET['order_id'];
                                 $chapterData = mysqli_query($con, "SELECT * FROM orderdetails where id = $co_id");
@@ -474,26 +528,26 @@ if (isset($_GET['course_id'])) {
 
         $fetch_course_list_data = mysqli_query($con, "SELECT 
 
-topics.Id AS topic_id,
-topics.topicName,
-subtopics.Id AS subtopic_id,
-subtopics.subTopicName,
-courses.id AS course_id,
-courses.courseName,
-courses.courseCost,
-courses.courseDesc,
-courses.bannerImage,
-courses.uploadfile,
-courses.learn,
-courses.requirements,
-courses.tag,
-courses.video
-FROM 
-topics
-JOIN 
-subtopics ON topics.Id = subtopics.topicId
-JOIN 
-courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC LIMIT 3");
+        topics.Id AS topic_id,
+        topics.topicName,
+        subtopics.Id AS subtopic_id,
+        subtopics.subTopicName,
+        courses.id AS course_id,
+        courses.courseName,
+        courses.courseCost,
+        courses.courseDesc,
+        courses.bannerImage,
+        courses.uploadfile,
+        courses.learn,
+        courses.requirements,
+        courses.tag,
+        courses.video
+        FROM 
+        topics
+        JOIN 
+        subtopics ON topics.Id = subtopics.topicId
+        JOIN 
+        courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC LIMIT 3");
 
         if ($fetch_course_list_data && mysqli_num_rows($fetch_course_list_data) > 0) {
             ?>
@@ -513,7 +567,7 @@ courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC LIMIT 3");
                             <div class="course-img">
 
                                 <div class="img" style="
-                            background-image: url('<?=$mainlink?>uploads/images/<?= $bannerImage;?>');
+                            background-image: url('<?= $mainlink ?>uploads/images/<?= $bannerImage; ?>');
                             background-repeat: no-repeat;
                             background-size:cover;
                             width:100%;

@@ -23,7 +23,7 @@ include('includes/sidebar.php');
                             <div class="form-group">
                                 <label for="banner_desc">Description</label>
                                 <div id="editor">
-                                    <textarea id='edit' name="descriptions" style="margin-top: 30px;"></textarea>
+                                    <textarea class="mySummernote" name="descriptions"></textarea>
                                 </div>
                             </div>
                         </div>
