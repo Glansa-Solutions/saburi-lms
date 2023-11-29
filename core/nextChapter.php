@@ -6,29 +6,36 @@ if(isset($_GET['start_id']) && isset($_GET['chapterId'])){
     $nextChapterId = $_GET['chapterId'];
 
     // Your existing query with an additional condition for the next chapter
-    $fetchChapter = mysqli_query($con, "SELECT 
-    topics.Id AS topic_id,
-    topics.topicName,
-    subtopics.Id AS subtopic_id,
-    subtopics.subtopicName,
-    courses.id AS course_id,
-    courses.courseName,
-    courses.tag,
-    chapters.id AS chapter_id,
-    chapters.chapterName,
-    chapters.chapterContent,
-    chapters.uploadFile,
-    chapters.video,
-    chapters.createdOn, 
-    chapters.modifiedOn
-    FROM
-    topics
-    JOIN
-    subtopics ON topics.Id = subtopics.topicId
-    JOIN
-    courses ON subtopics.Id = courses.subTopicId
-    JOIN
-    chapters ON courses.id = chapters.courseId WHERE chapters.courseId = $courseId AND chapters.id = $nextChapterId AND chapters.isActive = 1 ORDER BY chapters.id ASC");
+    $fetchChapter = mysqli_query($con, "SELECT
+    cao.*,
+    ch.chapterName,  
+    ch.chapterContent, 
+    ch.uploadFile,
+    ch.video,
+    GROUP_CONCAT(a.questions) AS allQuestions,
+    GROUP_CONCAT(a.a) AS allAOptions,
+    GROUP_CONCAT(a.b) AS allBOptions,
+    GROUP_CONCAT(a.c) AS allCOptions,
+    GROUP_CONCAT(a.d) AS allDOptions,
+    GROUP_CONCAT(a.correctAnswer) AS allCorrectAnswers
+FROM
+    chaptersassessmentorders cao
+LEFT JOIN
+    chapters ch ON
+    cao.chapterId = ch.id AND
+    cao.courseId = ch.courseId AND
+    cao.subTopicId = ch.subTopicId AND
+    cao.topicId = ch.topicId AND
+    cao.typeId = 1
+LEFT JOIN
+    assessment a ON
+    cao.chapterId = a.assessmentName AND
+    -- cao.courseId = a.courseId AND
+    -- cao.subTopicId = a.subtopicId AND
+    -- cao.topicId = a.topicId AND
+    cao.typeId = 2
+GROUP BY
+    cao.id, ch.chapterName, ch.chapterContent, ch.uploadFile, ch.video");
 
     $data = mysqli_fetch_assoc($fetchChapter);
 

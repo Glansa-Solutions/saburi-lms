@@ -141,10 +141,8 @@ include('../core/functions.php');
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="chapter">Chapter Name</label>
-                                        <select class="form-control" name="chapter" id="chapter">
-                                            <option> Select Chapter name</option>
-                                        </select>
+                                        <label for="chapter">Assessment Name</label>
+                                        <input type="text" class="form-control" name="assessmentName" id="assessmentName">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
