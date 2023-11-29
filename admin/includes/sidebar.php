@@ -135,6 +135,13 @@ include("../core/db_config.php");
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
+                        href="<?= $mainlink;?>admin/companyUsers">
+                            <i class="menu-icon mdi mdi-file-document"></i>
+                            <span class="menu-title">Company Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
                         href="<?= $mainlink;?>admin/commentsBlog">
                             <i class="menu-icon mdi mdi-file-document"></i>
                             <span class="menu-title">Blog Comments</span>

@@ -408,6 +408,11 @@ if (isset($_GET['course_id'])) {
                                             data-product-price="<?= $courseCost ?>" data-product-image="<?= $bannerImage ?>">
                                             Add To Cart
                                         </a>
+                                        <a href="" class="btn btn-dark btn-block add_to_wishlist_button"
+                                            data-product-id="<?= $co_id ?>" data-product-name="<?= $courseName ?>"
+                                            data-product-price="<?= $courseCost ?>" data-product-image="<?= $bannerImage ?>">
+                                            Add To Wishlist
+                                        </a>
                                         <?php
                                     }
                                     ?>
@@ -640,7 +645,7 @@ if (isset($_GET['course_id'])) {
                 icon: 'success',
                 title: 'Course Added To Cart Successfully!',
                 showConfirmButton: false,
-                timer: 3000 // Hide the message after 3 seconds
+                timer: 2000 // Hide the message after 3 seconds
             });
         }
     });

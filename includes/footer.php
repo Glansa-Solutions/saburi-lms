@@ -186,7 +186,7 @@ $(document).ready(function() {
 
 $('.add_to_cart_button').click(function(e) {
     e.preventDefault();
-
+	console.log("hi");
     var roleId = <?php echo json_encode($role_id); ?> || '';
     var role = <?php echo json_encode($role); ?> || '';
 
@@ -263,6 +263,7 @@ var eyeIcon = document.getElementById('eye-icon');
 var showPassword = document.getElementById('show-password');
 
 
+<<<<<<< HEAD
 showPassword.addEventListener('click', function() {
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
@@ -318,11 +319,182 @@ document.addEventListener('DOMContentLoaded', function() {
         messageContainer.style.transition = 'opacity 1s';
     }, 3000);
 });
+=======
+// Wishlist Functionality
+
+
+
+$('.add_to_wishlist_button').click(function(e) {
+    e.preventDefault();
+
+    var roleId = <?php echo json_encode($role_id); ?> || '';
+    var role = <?php echo json_encode($role); ?> || '';
+
+	if(roleId && role){
+		var product_id = $(this).data('product-id');
+    var product_name = $(this).data('product-name');
+    var product_price = $(this).data('product-price');
+    var product_image = $(this).data('product-image');
+	// console.log(role);
+
+    var selectedQuantity =  1;
+	var wishlistItem = {
+                user_id: roleId,
+                id: product_id,
+                name: product_name,
+                price: product_price,
+                image: product_image,
+                role: role,
+				'add_to_wishlist_button':true,
+            };
+			
+
+    // Check if there is an existing cart in local storage
+    // var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+		$.ajax({
+			type: 'POST',
+			url:"./core/wishlistFunctionality.php",
+			data:wishlistItem,
+			success:function(response){
+					Swal.fire({
+						icon: 'success',
+						title: response,
+						showConfirmButton: false,
+						timer: 2000 // Hide the message after 3 seconds
+					});
+                    },
+                    error: function(xhr, status, error){
+                        console.error('AJAX Error:', status, error);
+                    }
+		})
+
+    
+    // var existingItem = wishlist.find(function(item) {
+    //     return item.id === product_id && item.user_id === roleId;
+    // });
+
+    // if (existingItem) {
+    //     // alert("You have already added this item to your wishlist");
+	// 			Swal.fire({
+	// 					icon: 'error',
+	// 					title: 'You have already added this item to your wishlist',
+	// 					showConfirmButton: false,
+	// 					timer: 2000 
+	// 				});
+    // } else {
+    //     $.ajax({
+	// 		type:'POST',
+	// 		url: './core/wishlistFunctionality.php',
+	// 		data: wishlistItem,
+	// 		success:function(response){
+	// 					Swal.fire({
+	// 					icon: 'success',
+	// 					title: response,
+	// 					showConfirmButton: false,
+	// 					timer: 2000 // Hide the message after 3 seconds
+	// 				});
+    //                 },
+    //                 error: function(xhr, status, error){
+    //                     console.error('AJAX Error:', status, error);
+    //                 }
+	// 	});
+    //     // wishlist.push(wishlistItem);
+    //     // Save the updated cart back to local storage
+    //     // localStorage.setItem('wishlist', JSON.stringify(wishlist));
+
+    //     // Update the cart count in the header
+    //     // updateWishlistCount();
+    // }
+	}else{
+		Swal.fire({
+						icon: 'error',
+						title: "Please Login First",
+						showConfirmButton: false,
+						timer: 2000 // Hide the message after 3 seconds
+					});
+
+	}
+
+    
+});
+
+// function updateWishlistCount() {
+//     var wishlist = getWishlistItems();
+//     var totalQuantity = wishlist.length;
+//     // $('#wishlist-count-container').text(' (' + totalQuantity + ')');
+// }
+
+// $(document).ready(function() {
+//     updateWishlistCount(); // Call this on page load to set the initial cart count
+// });
+
+// function getWishlistItems() {
+//     return JSON.parse(localStorage.getItem('wishlist')) || [];
+// }
+
+// // Example: Get the cart items and do something with them
+// var wishlistItems = getWishlistItems();
+// wishlistItems.forEach(function(item) {
+//     // Do something with each cart item
+// });
+
+// $(document).ready(function () {
+//     // Load wishlist from localStorage
+//     var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+//     console.log(wishlist);
+//     updateWishlist();
+
+//     // Event delegation for the remove button
+//     $('.wishlist-card').on('click', '.remove', function () {
+//         var indexToRemove = $(this).closest('.card').index();
+//         wishlist.splice(indexToRemove, 1); // Remove item from wishlist array
+//         localStorage.setItem('wishlist', JSON.stringify(wishlist)); // Update localStorage
+//         updateWishlist(); // Update the displayed wishlist
+//     });
+
+//     function createCard(row) {
+//         var card = $('<div class="card">');
+//         var cardBody = $('<div class="card-body">');
+
+//         cardBody.append('<img src="./uploads/images/' + row.image + '" alt="' + row.name + '">');
+//         cardBody.append('<div class="bi bi-cross remove"></div>');
+//         cardBody.append('<h3>' + row.name + '</h3>');
+//         cardBody.append('<p>Price: &#8377;' + row.price + '</p>');
+//         cardBody.append('<p>Quantity: ' + row.quantity + '</p>');
+
+//         var cardFooter = $('<div class="card-footer">');
+//         cardFooter.append(`
+//             <a href="" class="btn btn-main btn-block add_to_cart_button"
+//                 data-product-id="${row.id}" data-product-name="${row.name}"
+//                 data-product-price="${row.price}" data-product-image="${row.image}">
+//                 Add To Cart
+//             </a>
+//         `);
+
+//         card.append(cardBody);
+//         card.append(cardFooter);
+
+//         return card;
+//     }
+
+//     function updateWishlist() {
+//         $('.wishlist-card').empty(); // Clear the existing wishlist
+
+//         $.each(wishlist, function (index, row) {
+//             var card = createCard(row);
+//             $('.wishlist-card').append(card);
+//         });
+
+//         // Update wishlist count
+//         $('#wishlist-container').text(wishlist.length);
+//     }
+// });
+
+>>>>>>> 012dc0d2d647f91c337c9c5f612545177834c3c0
 // ...
 </script>
 <!-- Add this to your HTML to include SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
 
 <script src="./core/action.js"></script>
 <!-- 

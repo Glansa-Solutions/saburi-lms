@@ -1420,6 +1420,36 @@ if (isset($_POST['delete_user'])) {
     // Close the database connection
     // mysqli_close($conn);
 }
+
+
+
+// Freeze and unfreeze user
+
+if(isset($_POST['freeze_id']) && !empty($_POST['freeze_id'])){
+    $freezeId = $_POST['freeze_id'];
+
+    $query_freeze_user = mysqli_query($con, "UPDATE companyusers SET isactive=0 where id = $freezeId");
+
+    if ($query_freeze_user) {
+        echo "User freezed";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+
+
+if(isset($_POST['unfreeze_id']) && !empty($_POST['unfreeze_id'])){
+    $unfreezeId = $_POST['unfreeze_id'];
+
+    $query_unfreeze_user = mysqli_query($con, "UPDATE companyusers SET isactive=1 where id = $unfreezeId");
+
+    if ($query_unfreeze_user) {
+        echo "User unfreezed";
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+}
+
 // blog_comments functionality ( for admin side) starts
 
 // ******** this is for fetch the data into the modal of commentsBlog page in admin starts
@@ -1435,6 +1465,7 @@ if (isset($_POST['Comment_id'])) {
         echo "No comments found for the specified $Comment_id.";
     }
 }
+
 // ******** this is for Approving the comment by admin
 if (isset($_POST['modal_comment_id']) && !empty($_POST['modal_comment'])) {
     $modal_comment_id = $_POST['modal_comment_id'];

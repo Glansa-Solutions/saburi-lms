@@ -174,6 +174,16 @@ $allcourse = mysqli_query($con, $query);
                                 <a href="#" class="button wish-list" data-course-id="<?= $id ?>">
                                     <i class="fa fa-heart"></i>
                                 </a>
+                                <div class="product-btn-wrap">
+                                            <!-- Add to cart and wishlist buttons -->
+                                            <!-- <a href="" class="button product_type_simple add_to_cart_button ajax_add_to_cart"
+                                                data-product-id="<?= $id ?>" data-product-name="<?= $coursename ?>"
+                                                data-product-price="<?= $coursePrice ?>"
+                                                data-product-image="<?= $bannerImage ?>">
+                                                <i class="fa fa-shopping-basket"></i>
+                                            </a>
+                                            <a href="#" class="button wish-list"><i class="fa fa-heart"></i></a> -->
+                                        </div>
                             </div>
                         </div>
                             <div class="woocommerce-product-title-wrap">
@@ -212,7 +222,12 @@ $allcourse = mysqli_query($con, $query);
                                     <!-- <a href="#" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
                                                 <i class="fa fa-shopping-basket"></i>
                                             </a> -->
-                                            <a href="#" class="button wish-list"><i class="fa fa-heart"></i></a>
+                                            <!-- <a href="#" class=""></a> -->
+                                            <a href="#" class="button add_to_wishlist_button"
+                                            data-product-id="<?= $id ?>" data-product-name="<?= $coursename ?>"
+                                            data-product-price="<?= $coursePrice ?>" data-product-image="<?= $bannerImage ?>">
+                                            <i class="fa fa-heart"></i>
+                                        </a>
                                 </div>
                             </div>
                             <div class="woocommerce-product-title-wrap">
