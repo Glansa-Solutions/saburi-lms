@@ -47,14 +47,14 @@ if (isset($_GET['logged_in_elsewhere'])) {
 }
 
 if(isset($_GET['incorrect_pass'])){
-    $_SESSION['role_id'] = $_GET['incorrect_pass'];
+    $_SESSION['incorrect_pass_id'] = $_GET['incorrect_pass'];
     $_SESSION['alert_message'] = "Your Password is incorrect";
     header("Location: ../account");
     exit();
 }
 
 if(isset($_GET['incorrect_pass_email'])){
-    $_SESSION['role_id'] = $_GET['incorrect_pass_email'];
+    $_SESSION['incorrect_pass_email_id'] = $_GET['incorrect_pass_email'];
     $_SESSION['alert_message'] = "Your Email & Password is incorrect";
     header("Location: ../account");
     exit();

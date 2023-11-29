@@ -22,6 +22,8 @@ LEFT JOIN
 company c ON w.userId = c.id AND w.role = 'company'
 LEFT JOIN
 students s ON w.userId = s.id AND w.role = 'student' WHERE w.userId = $role");
+
+
 }else{
     $role = "";
 }

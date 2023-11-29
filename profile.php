@@ -68,26 +68,6 @@ include("includes/header.php");
                                                                         autocomplete="given-name">
                                                                 </span>
                                                             </p>
-                                                            <p class="form-row form-row-last form-group validate-required"
-                                                                data-priority="20">
-                                                                <label for="state" class="control-label">
-                                                                    State &nbsp;<abbr class="required"
-                                                                        title="required">*</abbr>
-                                                                </label>
-                                                                <span class="woocommerce-input-wrapper">
-                                                                    <input type="text"
-                                                                        class="input-text form-control input-lg"
-                                                                        name="state" id="state" placeholder=""
-                                                                        value="<?= $state; ?>"
-                                                                        autocomplete="family-name">
-                                                                    <!-- hidden -->
-                                                                    <input type="hidden"
-                                                                        class="input-text form-control input-lg"
-                                                                        name="state_id" id="state_id" placeholder=""
-                                                                        value="<?= $state_id; ?>"
-                                                                        autocomplete="family-name">
-                                                                </span>
-                                                            </p>
 
                                                             <p class="form-row form-row-last form-group validate-required"
                                                                 data-priority="20">
@@ -121,6 +101,44 @@ include("includes/header.php");
                                                                     autocomplete="family-name">
                                                                 </span>
                                                             </p>
+
+
+                                                            <p class="form-row form-row-last form-group validate-required"
+                                                                data-priority="20">
+                                                                <label for="state" class="control-label">
+                                                                    State &nbsp;<abbr class="required"
+                                                                        title="required">*</abbr>
+                                                                </label>
+                                                                <span class="woocommerce-input-wrapper">
+                                                                    <select class="form-control" name="country"
+                                                                        id="stateList">
+                                                                        <option>Choose State..</option>
+                                                                        <?php
+                                                                    $fetchCountries = mysqli_query($con, "SELECT * FROM awt_states");
+                                                                    if ($fetchCountries) {
+                                                                        while ($row = mysqli_fetch_assoc($fetchCountries)) {
+                                                                            $selected = ($row['id'] == $state_id) ? 'selected' : '';
+                                                                            ?>
+                                                                        <option value="<?= $row['id'] ?>"
+                                                                            <?= $selected ?>>
+                                                                            <?= $row['name']; ?>
+                                                                        </option>
+                                                                        <?php
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                    </select>
+                                                                </span>
+                                                                <!-- hidden -->
+                                                                <input type="hidden"
+                                                                    class="input-text form-control input-lg"
+                                                                    name="state_id" id="state_id" placeholder=""
+                                                                    value="<?= $state_id; ?>"
+                                                                    autocomplete="family-name">
+                                                                </span>
+                                                            </p>
+
+
                                                             <p class="form-row form-row-first form-group validate-required"
                                                                 data-priority="10">
                                                                 <label for="pincode"
@@ -224,7 +242,7 @@ include("includes/header.php");
 
                                                 </div>
 
-                                                <div class="col-12">
+                                                <!-- <div class="col-12">
                                                     <div class="woocommerce-shipping-fields">
                                                     </div>
                                                     <div class="woocommerce-additional-fields">
@@ -242,7 +260,7 @@ include("includes/header.php");
                                                                         rows="2" cols="5"></textarea></span></p>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </form>
@@ -387,13 +405,18 @@ include("includes/header.php");
                                                                             ?>
                                                                         <option value="<?= $row['id'] ?>"
                                                                             <?= $selected ?>>
-                                                                            <?= $row['name'] ?>
+                                                                            <?= $row['name']; ?>
                                                                         </option>
                                                                         <?php
                                                                         }
                                                                     }
                                                                     ?>
                                                                     </select>
+                                                                    <input type="hidden"
+                                                                        class="input-text form-control input-lg"
+                                                                        name="country_id" id="country_id" placeholder=""
+                                                                        value="<?= $country_id; ?>"
+                                                                        autocomplete="family-name">
                                                                 </span>
                                                             </p>
                                                             <p class="form-row form-row-last form-group validate-required"
@@ -417,10 +440,28 @@ include("includes/header.php");
                                                                         title="required">*</abbr>
                                                                 </label>
                                                                 <span class="woocommerce-input-wrapper">
-                                                                    <input type="text"
+                                                                    <select class="form-control" name="country"
+                                                                        class='stateList' id="stateList">
+                                                                        <option>Choose State..</option>
+                                                                        <?php
+                                                                    $fetchCountries = mysqli_query($con, "SELECT * FROM awt_states");
+                                                                    if ($fetchCountries) {
+                                                                        while ($row = mysqli_fetch_assoc($fetchCountries)) {
+                                                                            $selected = ($row['id'] == $state_id) ? 'selected' : '';
+                                                                            ?>
+                                                                        <option value="<?= $row['id'] ?>"
+                                                                            <?= $selected ?>>
+                                                                            <?= $row['name']; ?>
+                                                                        </option>
+                                                                        <?php
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                    </select>
+                                                                    <input type="hidden"
                                                                         class="input-text form-control input-lg"
-                                                                        name="state" id="state" placeholder=""
-                                                                        value="<?= $state; ?>"
+                                                                        name="state_id" id="state_id" placeholder=""
+                                                                        value="<?= $state_id; ?>"
                                                                         autocomplete="family-name">
                                                                 </span>
                                                             </p>
@@ -440,25 +481,6 @@ include("includes/header.php");
 
                                                 </div>
 
-                                                <!-- <div class="col-12">
-                                                    <div class="woocommerce-shipping-fields">
-                                                    </div>
-                                                    <div class="woocommerce-additional-fields">
-                                                        <h3>Additional information</h3>
-                                                        <div class="woocommerce-additional-fields__field-wrapper">
-                                                            <p class="form-row notes" id="order_comments_field"
-                                                                data-priority=""><label for="order_comments"
-                                                                    class="control-label">Order notes&nbsp;<span
-                                                                        class="optional">(optional)</span></label><span
-                                                                    class="woocommerce-input-wrapper"><textarea
-                                                                        name="order_comments"
-                                                                        class="input-text form-control input-lg"
-                                                                        id="order_comments"
-                                                                        placeholder="Notes about your order, e.g. special notes for delivery."
-                                                                        rows="2" cols="5"></textarea></span></p>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
                                             </div>
                                         </div>
                                     </form>
@@ -472,6 +494,68 @@ include("includes/header.php");
             </div>
         </section>
     </main>
+
+    <script>
+    $(document).ready(function() {
+        $('#countryList').on('change', function() {
+            var countryId = $(this).val();
+            // console.log(countryId);
+            if (countryId === "Choose Country..") { // Correct the condition
+                $('#stateList').empty();
+                $('#stateList').append($('<option>', {
+                    value: "choose_state",
+                    text: "Choose State"
+                }));
+            }
+            $.ajax({
+                method: 'GET', // Use the GET method for the request
+                url: 'core/login_register.php',
+                data: {
+                    selectedCountryId: countryId // Pass the selected countryId as a parameter
+                },
+                success: function(response) {
+                    // Handle the response from the server if needed
+                    var states = JSON.parse(response);
+                    $('#stateList').empty();
+                    // console.log(states);
+                    // var c_id =response;
+                    for (var i = 0; i < states.length; i++) {
+                        $('#stateList').append($('<option>', {
+                            value: states[i]
+                                .id, // Assuming there is an 'id' field in your states
+                            text: states[i]
+                                .name // Assuming there is a 'state_name' field in your states
+                        }));
+                    }
+
+                },
+                error: function(xhr, status, error) {
+                    // Handle errors if the AJAX request fails
+                    console.error("AJAX request failed: " + error);
+                }
+            });
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        // Add change event listener to the country dropdown
+        $('#countryList').change(function() {
+            // Set the value of the country_id input to the selected country's ID
+            $('#country_id').val($(this).val());
+        });
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        // Add change event listener to the country dropdown
+        $('#stateList').change(function() {
+            // Set the value of the country_id input to the selected country's ID
+            $('#state_id').val($(this).val());
+        });
+    });
+    </script>
+
     <?php
     include("includes/footer.php");
     ?>

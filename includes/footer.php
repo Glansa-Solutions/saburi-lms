@@ -263,7 +263,6 @@ var eyeIcon = document.getElementById('eye-icon');
 var showPassword = document.getElementById('show-password');
 
 
-<<<<<<< HEAD
 showPassword.addEventListener('click', function() {
     if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
@@ -319,13 +318,13 @@ document.addEventListener('DOMContentLoaded', function() {
         messageContainer.style.transition = 'opacity 1s';
     }, 3000);
 });
-=======
 // Wishlist Functionality
 
 
 
 $('.add_to_wishlist_button').click(function(e) {
     e.preventDefault();
+    alert("asdasd");
 
     var roleId = <?php echo json_encode($role_id); ?> || '';
     var role = <?php echo json_encode($role); ?> || '';
@@ -490,7 +489,6 @@ $('.add_to_wishlist_button').click(function(e) {
 //     }
 // });
 
->>>>>>> 012dc0d2d647f91c337c9c5f612545177834c3c0
 // ...
 </script>
 <!-- Add this to your HTML to include SweetAlert library -->

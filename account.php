@@ -10,11 +10,10 @@ if (isset($_SESSION['role']) && isset($_SESSION['role_id']) && !empty($_SESSION[
     $session_role_id = "";
     $message = "";
 }
-if (isset($_SESSION['alert_message'])) {
-    $alert = $_SESSION['alert_message'];
+$alert = $_SESSION['alert_message'] ?? "";
+
+if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) || isset($_SESSION['incorrect_pass_email_id']))) {
     unset($_SESSION['alert_message']);
-} else {
-    $alert = "";
 }
 
 ?>
@@ -142,7 +141,7 @@ if (isset($_SESSION['alert_message'])) {
 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Mobile No&nbsp;<span class="required">*</span></label>
-                                            <input type="text"
+                                            <input type="number"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="phoneNumber" id="phoneNumber" autocomplete="password" value="">
                                         </p>
@@ -164,9 +163,6 @@ if (isset($_SESSION['alert_message'])) {
                                                     }
                                                 }
                                                 ?>
-                                                <!-- </option> -->
-
-
                                             </select>
                                         </p>
 
@@ -202,11 +198,6 @@ if (isset($_SESSION['alert_message'])) {
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="pinCode" id="" autocomplete="password" value="">
                                         </p>
-
-
-
-
-
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="idProof">
