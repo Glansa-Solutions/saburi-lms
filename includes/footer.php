@@ -33,7 +33,8 @@ if($fetch_user_contact_details_query)
                 <div class="subscribe-form">
                     <form action="./core/allmailfun.php" method="POST">
                         <input type="email" class="form-control" name="email" placeholder="Email Address">
-						<button type="submit" class="btn btn-main" name="send_email">Send Newsletter<i class="fa fa-angle-right ml-2"></i></button>
+                        <button type="submit" class="btn btn-main" name="send_email">Send Newsletter<i
+                                class="fa fa-angle-right ml-2"></i></button>
                         <!-- <a href="#" class="btn btn-main" name ="send_email">Subscribe<i class="fa fa-angle-right ml-2"></i> </a> -->
                     </form>
                 </div>
@@ -43,34 +44,36 @@ if($fetch_user_contact_details_query)
 </section>
 
 <section class="footer pt-120">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-4 mr-auto col-sm-6 col-md-6">
-				<div class="widget footer-widget mb-5 mb-lg-0">
-					<h5 class="widget-title">About Us</h5>
-					<p class="mt-3">We operate in the fields of pre-primary, primary, secondary and higher secondary schools in the areas of school reform, quality assessment, professional development of teachers and Academic & Institutional Audit of Schools</p>
-					<ul class="list-inline footer-socials">
-						<li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-						<li class="list-inline-item"> <a href="#"><i class="fab fa-twitter"></i></a></li>
-						<li class="list-inline-item"><a href="#"><i class="fab fa-linkedin"></i></a></li>
-						<!-- <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li> -->
-					</ul>
-				</div>
-			</div>
-			
-			<div class="col-lg-2 col-sm-6 col-md-6">
-				<div class="footer-widget mb-5 mb-lg-0">
-					<h5 class="widget-title">Company</h5>
-					<ul class="list-unstyled footer-links">
-						<li><a href="<?= $mainlink;?>about">About us</a></li>
-						<li><a href="<?= $mainlink;?>contact">Contact us</a></li>
-						<li><a href="<?= $mainlink;?>project">Projects</a></li>
-						<li><a href="<?= $mainlink;?>">Terms & Condition</a></li>
-						<li><a href="<?= $mainlink;?>">Privacy policy</a></li>
-					</ul>
-				</div>
-			</div>
-			<!-- <div class="col-lg-2 col-sm-6 col-md-6">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mr-auto col-sm-6 col-md-6">
+                <div class="widget footer-widget mb-5 mb-lg-0">
+                    <h5 class="widget-title">About Us</h5>
+                    <p class="mt-3">We operate in the fields of pre-primary, primary, secondary and higher secondary
+                        schools in the areas of school reform, quality assessment, professional development of teachers
+                        and Academic & Institutional Audit of Schools</p>
+                    <ul class="list-inline footer-socials">
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                        <li class="list-inline-item"> <a href="#"><i class="fab fa-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                        <!-- <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li> -->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-sm-6 col-md-6">
+                <div class="footer-widget mb-5 mb-lg-0">
+                    <h5 class="widget-title">Company</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="<?= $mainlink;?>about">About us</a></li>
+                        <li><a href="<?= $mainlink;?>contact">Contact us</a></li>
+                        <li><a href="<?= $mainlink;?>project">Projects</a></li>
+                        <li><a href="<?= $mainlink;?>">Terms & Condition</a></li>
+                        <li><a href="<?= $mainlink;?>">Privacy policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- <div class="col-lg-2 col-sm-6 col-md-6">
 				<div class="footer-widget mb-5 mb-lg-0">
 					<h5 class="widget-title">Courses</h5>
 					<ul class="list-unstyled footer-links">
@@ -82,11 +85,11 @@ if($fetch_user_contact_details_query)
 					</ul>
 				</div>
 			</div> -->
-			<div class="col-lg-2 col-sm-6 col-md-6">
-			<div class="footer-widget mb-5 mb-lg-0">
-				<h5 class="widget-title">Courses</h5>
-				<ul class="list-unstyled footer-links">
-					<?php
+            <div class="col-lg-2 col-sm-6 col-md-6">
+                <div class="footer-widget mb-5 mb-lg-0">
+                    <h5 class="widget-title">Courses</h5>
+                    <ul class="list-unstyled footer-links">
+                        <?php
 					$limit = 5; // Set the limit for the number of courses to display
 					$fetch_courses_query = mysqli_query($con, "SELECT * FROM courses ORDER BY id DESC LIMIT $limit");
 					
@@ -98,61 +101,62 @@ if($fetch_user_contact_details_query)
 						echo "<li><a href='{$courseLink}'>{$courseName}</a></li>";
 					}
 					?>
-				</ul>
-			</div>
-		</div>
+                    </ul>
+                </div>
+            </div>
 
-			<div class="col-lg-3 col-sm-6 col-md-6">
-				<div class="footer-widget footer-contact mb-5 mb-lg-0">
-					<h5 class="widget-title">Contact </h5>
-					
-					<ul class="list-unstyled">
-						<li><i class="bi bi-headphone"></i>
-							<div>
-								<strong>Phone number</strong>
-								<?= $contact_phone?>
-							</div>
-							
-						</li>
-						<li> <i class="bi bi-envelop"></i>
-							<div>
-								<strong>Email Address</strong>
-								<?= $contact_email;?>
-							</div>
-						</li>
-						<li><i class="bi bi-location-pointer"></i>
-							<div>
-								<strong>Office Address</strong>
-								<?= $contact_address;?>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="footer-widget footer-contact mb-5 mb-lg-0">
+                    <h5 class="widget-title">Contact </h5>
 
-	<div class="footer-btm">
-		<div class="container">
-			<div class="row justify-content-center align-items-center">
-				<div class="col-lg-6">
-					<div class="footer-logo">
-						<img src="assets/images/saburi-logo-150x150.png" alt="Edutim" class="img-fluid" style="width:12%">
-					</div>
-				</div>
-				<div class="col-lg-6">
-					<div class="copyright text-lg-center">
-						<p>@ Copyright reserved to Glansa Solutions<a href="https://themeturn.com">  Saburi LMS</a> </p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-headphone"></i>
+                            <div>
+                                <strong>Phone number</strong>
+                                <?= $contact_phone?>
+                            </div>
+
+                        </li>
+                        <li> <i class="bi bi-envelop"></i>
+                            <div>
+                                <strong>Email Address</strong>
+                                <?= $contact_email;?>
+                            </div>
+                        </li>
+                        <li><i class="bi bi-location-pointer"></i>
+                            <div>
+                                <strong>Office Address</strong>
+                                <?= $contact_address;?>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-btm">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-6">
+                    <div class="footer-logo">
+                        <img src="assets/images/saburi-logo-150x150.png" alt="Edutim" class="img-fluid"
+                            style="width:12%">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="copyright text-lg-center">
+                        <p>@ Copyright reserved to Glansa Solutions<a href="https://themeturn.com"> Saburi LMS</a> </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 
 <div class="fixed-btm-top">
-	<a href="#top-header" class="js-scroll-trigger scroll-to-top"><i class="fa fa-angle-up"></i></a>
+    <a href="#top-header" class="js-scroll-trigger scroll-to-top"><i class="fa fa-angle-up"></i></a>
 </div>
 
 <script>
@@ -163,8 +167,8 @@ var roleId = <?php echo json_encode($role_id); ?>;
 $(document).ready(function() {
     // Get the quantity input element
     quantityInput = $('#quantity');
-	userId = sessionStorage.getItem("roleId");
-	// console.log(userId);
+    userId = sessionStorage.getItem("roleId");
+    // console.log(userId);
 
     // Increase quantity
     $('#increase').click(function() {
@@ -186,19 +190,19 @@ $('.add_to_cart_button').click(function(e) {
     var roleId = <?php echo json_encode($role_id); ?> || '';
     var role = <?php echo json_encode($role); ?> || '';
 
-	console.log(roleId);
+    console.log(roleId);
 
     var product_id = $(this).data('product-id');
     var product_name = $(this).data('product-name');
     var product_price = $(this).data('product-price');
     var product_image = $(this).data('product-image');
-	
+
 
     var selectedQuantity = quantityInput.val() ? parseInt(quantityInput.val()) : 1;
 
     // Check if there is an existing cart in local storage
     var cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
+
     var existingItem = cart.find(function(item) {
         return item.id === product_id && item.user_id === roleId && role === 'student';
     });
@@ -223,7 +227,7 @@ $('.add_to_cart_button').click(function(e) {
             };
             cart.push(cartItem);
         }
-        
+
         // Save the updated cart back to local storage
         localStorage.setItem('cart', JSON.stringify(cart));
 
@@ -253,7 +257,67 @@ var cartItems = getCartItems();
 cartItems.forEach(function(item) {
     // Do something with each cart item
 });
+//***********  script for eye- password show hide starts************//
+var passwordInput = document.getElementById('login-password');
+var eyeIcon = document.getElementById('eye-icon');
+var showPassword = document.getElementById('show-password');
 
+
+showPassword.addEventListener('click', function() {
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+    } else {
+        passwordInput.type = 'password';
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash');
+    }
+});
+var confirmPasswordInput = document.getElementById('confirm-password');
+var eyeIcon1 = document.getElementById('eye-icon1');
+var showPassword1 = document.getElementById('show-password1');
+
+showPassword1.addEventListener('click', function() {
+    if (confirmPasswordInput.type === 'password') {
+        confirmPasswordInput.type = 'text';
+        eyeIcon1.classList.remove('fa-eye-slash');
+        eyeIcon1.classList.add('fa-eye');
+    } else {
+        confirmPasswordInput.type = 'password';
+        eyeIcon1.classList.remove('fa-eye');
+        eyeIcon1.classList.add('fa-eye-slash');
+    }
+});
+
+// ************showing the message alert script starts*************//
+document.addEventListener("DOMContentLoaded", function() {
+    var messageContainer = document.getElementById('message-container');
+    var statusMessage = document.getElementById('status-message');
+
+    if (statusMessage.innerHTML.trim() === "Your password was updated") {
+        statusMessage.style.color = 'green';
+    } else {
+        statusMessage.style.color = 'red';
+    }
+
+    // Fade out the message after 3 seconds
+    setTimeout(function() {
+        messageContainer.style.opacity = '0';
+        messageContainer.style.transition = 'opacity 1s';
+    }, 3000);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var messageContainer = document.getElementById('getting-message-container');
+    var statusMessage = document.getElementById('status-message');
+
+    // Fade out the message after 3 seconds
+    setTimeout(function() {
+        messageContainer.style.opacity = '0';
+        messageContainer.style.transition = 'opacity 1s';
+    }, 3000);
+});
 // ...
 </script>
 <!-- Add this to your HTML to include SweetAlert library -->
@@ -261,24 +325,25 @@ cartItems.forEach(function(item) {
 
 
 <script src="./core/action.js"></script>
-    <!-- 
+<!-- 
     Essential Scripts
     =====================================-->
-    
-    <!-- Main jQuery -->
-    <script src="assets/vendors/jquery/jquery.js"></script>
-    <!-- Bootstrap 4.5 -->
-    <script src="assets/vendors/bootstrap/bootstrap.js"></script>
-    <!-- Counterup -->
-    <script src="assets/vendors/counterup/waypoint.js"></script>
-    <script src="assets/vendors/counterup/jquery.counterup.min.js"></script>
-    <script src="assets/vendors/jquery.isotope.js"></script>
-    <script src="assets/vendors/imagesloaded.js"></script>
-    <!--  Owlk Carousel-->
-    <script src="assets/vendors/owl/owl.carousel.min.js"></script>
-    <script src="assets/js/script.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Main jQuery -->
+<script src="assets/vendors/jquery/jquery.js"></script>
+<!-- Bootstrap 4.5 -->
+<script src="assets/vendors/bootstrap/bootstrap.js"></script>
+<!-- Counterup -->
+<script src="assets/vendors/counterup/waypoint.js"></script>
+<script src="assets/vendors/counterup/jquery.counterup.min.js"></script>
+<script src="assets/vendors/jquery.isotope.js"></script>
+<script src="assets/vendors/imagesloaded.js"></script>
+<!--  Owlk Carousel-->
+<script src="assets/vendors/owl/owl.carousel.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
-  </body>
-  </html>
+</body>
+
+</html>
