@@ -2,6 +2,26 @@
 include("db_config.php");
 if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
     $role = $_SESSION['role_id'];
+    $roleId = $_SESSION['role'];
+    $query_fetch_wishlist = mysqli_query($con, "SELECT
+w.id,
+w.userId,
+w.role,
+w.courseId,
+w.courseName,
+w.price,
+w.image,
+CASE
+    WHEN w.role = 'company' THEN c.companyName  
+    WHEN w.role = 'student' THEN s.name  
+    ELSE NULL  
+END AS name
+FROM
+wishlist w
+LEFT JOIN
+company c ON w.userId = c.id AND w.role = 'company'
+LEFT JOIN
+students s ON w.userId = s.id AND w.role = 'student' WHERE w.userId = $role");
 }else{
     $role = "";
 }
@@ -10,6 +30,10 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
 // regarding Blog - Comment Data ( site & admin) start**
 $query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
 $query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
+
+$query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.UserId, companyusers.Password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
+
+
 // regarding Blog - Comment Data ( site & admin) end**
 
 $fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.companyName,testinomonials.*

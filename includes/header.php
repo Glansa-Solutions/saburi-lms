@@ -276,6 +276,31 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                     </span>
                                 </a>
                             </li>
+
+                            <li>
+                                <a href="<?= $mainlink ?>wishlist" id="cart-link" class="header-cart">
+                                    <i class="fa fa-heart"></i>
+                                    <!-- Inside your header.php -->
+                                    <span id="wishlist-count-container">
+                                        <?php 
+                                            if(isset($_SESSION['role']) && isset($_SESSION['role_id'])){
+                                                $role = $_SESSION['role'];
+                                                $role_id = $_SESSION['role_id'];
+                                                
+                                                // Make sure to sanitize user inputs to prevent SQL injection
+                                                $role = mysqli_real_escape_string($con, $role);
+                                                $role_id = mysqli_real_escape_string($con, $role_id);
+
+                                                $wishlist = mysqli_query($con, "SELECT count(*) as count FROM wishlist WHERE role = '$role' AND userId = $role_id");
+                                                $wishlistcount = mysqli_fetch_array($wishlist);
+                                        ?>
+                                        <span id="wishlist-count"><?= $wishlistcount['count'] ?></span>
+                                        <?php }?>
+                                    </span>
+
+
+                                </a>
+                            </li>
                             <!-- <li><a href="#" class="header-search search_toggle"> <i class="fa fa fa-search"></i></a>
                             </li> -->
                         </ul>
@@ -341,15 +366,157 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
         // <!-- This is your HTML for displaying the cart count -->
 
 
-        document.addEventListener('DOMContentLoaded', function () {
-            function updateCartCount() {
+        // document.addEventListener('DOMContentLoaded', function () {
+            
+
+            
+        // });
+
+        $(document).ready(function () {
+    var tableBody = $('.tableBody');
+    var cart = JSON.parse(localStorage.getItem('cart')) || [];
+    var role = <?php echo json_encode($role); ?>
+
+    // Function to update the cart, totals, and grand total
+    function updateCartAndTotals(cartData) {
+        updateCart(cartData);
+        updateTotals(cartData);
+        updateGrandTotal(cartData);
+        updateCartCount();
+    }
+
+    // Function to update the row and remove item from the cart
+    function removeCartItem(row, course) {
+        var index = cart.findIndex(function (cartItem) {
+            return cartItem.id === course.id;
+        });
+
+        if (index !== -1) {
+            cart.splice(index, 1);
+            updateCartAndTotals(cart);
+
+            // Remove the row from the table
+            row.remove();
+        }
+    }
+    function updateCartCount() {
                 const cartJSON = localStorage.getItem('cart');
                 const cartItems = JSON.parse(cartJSON) || [];
                 const cartCount = cartItems.length;
                 const cartCountContainer = document.getElementById('cart-count');
                 cartCountContainer.textContent = cartCount;
             }
+    
+    function updateCart(cartData) {
+        localStorage.setItem('cart', JSON.stringify(cartData));
+    }
+    function updateTotals(cartData) {
+                                                        // Calculate the total quantity and price
+        var totalQuantity = cartData.reduce(function(total, course) {
+            return total + course.quantity;
+        }, 0);
+        
+    }
+    
+    function updateGrandTotal(cartData) {
+    var grandTotal = calculateTotal(cartData).toFixed(2);
+    document.getElementById('grand-total').textContent = grandTotal ? grandTotal : 0;
+}
+function calculateTotal(cartData) {
+    return cartData.reduce(function(total, course) {
+        return total + course.price * course.quantity;
+    }, 0);
+    console.log(cartData);
+}
 
-            updateCartCount();
+    // Event handler for remove button
+    tableBody.on('click', '.removeBtn', function () {
+        var row = $(this).closest('tr');
+        var courseId = $(this).data('id'); // Assuming productName contains the course ID
+
+        // Find the corresponding course in the cart
+        var course = cart.find(function (cartItem) {
+            return cartItem.id === courseId;
         });
+
+        if (course) {
+            removeCartItem(row, course);
+        }
+    });
+
+    // Event handler for quantity buttons
+    tableBody.on('click', '.quantity-button', function () {
+        var row = $(this).closest('tr');
+        var courseId = $(this).data('id'); // Assuming productName contains the course ID
+
+        // Find the corresponding course in the cart
+        var course = cart.find(function (cartItem) {
+            return cartItem.id === courseId;
+        });
+
+        if (course) {
+            var quantityInput = row.find('.quantity-input');
+            var currentQuantity = parseInt(quantityInput.val());
+
+            if ($(this).hasClass('increment')) {
+                currentQuantity++;
+            } else if ($(this).hasClass('decrement') && currentQuantity > 1) {
+                currentQuantity--;
+            }
+
+            // Update the quantity in the cart and UI
+            course.quantity = currentQuantity;
+            quantityInput.val(currentQuantity);
+
+            // Update the total and grand total
+            updateCartAndTotals(cart);
+        }
+    });
+
+    // Iterate over the cart items and populate the table
+    $.each(cart, function (index, row) {
+        var newRow = $('<tr>');
+        newRow.append('<td class="productName" >' + row.name + '</td>');
+        newRow.append('<td class="price">' + '&#8377;' + (row.price) + '</td>');
+
+        if (role == 'student') {
+            newRow.append('<td class="product-quantity justify-content-center align-items-center" style="display: none;"></td>');
+            $('.product-quantity').hide();
+        } else {
+            newRow.append('<td class="product-quantity justify-content-center align-items-center"><button class="quantity-button decrement" data-id="' + row.id + '">-</button><input type="number" class="quantity-input course-size" /><button class="quantity-button increment" data-id="' + row.id + '">+</button></td>');
+        }
+
+        newRow.append('<td id="woocommerce-Price-amount" class="amount course-size"></td>');
+        newRow.append('<td><button class="fas fa-trash-alt bg-light removeBtn" data-id="' + row.id + '"></button></td>');
+
+        // Set the value of the quantity input field for the current row
+        newRow.find('.quantity-input').val(parseInt(row.quantity));
+
+        var total = parseInt(row.price) * parseInt(row.quantity);
+        newRow.find('#woocommerce-Price-amount').text('₹' + total);
+
+        // Append the new row to the cart
+        tableBody.append(newRow);
+    });
+
+    // Update the cart and totals when the page loads
+    updateCartAndTotals(cart);
+});
+
+    </script>
+
+    <script>
+       $(document).ready(function(){
+        function updateWishlistCount() {
+                const wishlistJSON = localStorage.getItem('wishlist');
+                const wishlistItem = JSON.parse(wishlistJSON) || [];
+                const wishlistCount = wishlistItem.length;
+                const wishlistContainer = document.getElementById('wishlist-container');
+                wishlistContainer.textContent = wishlistCount;
+            }
+
+            updateWishlistCount();
+       })
+
+       
     </script>
