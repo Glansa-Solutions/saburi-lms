@@ -645,7 +645,7 @@ if (isset($_GET['course_id'])) {
                 icon: 'success',
                 title: 'Course Added To Cart Successfully!',
                 showConfirmButton: false,
-                timer: 2000 // Hide the message after 3 seconds
+                timer: 2000 
             });
         }
     });
