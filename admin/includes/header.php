@@ -23,8 +23,9 @@ $greeting_message =  $_SESSION['name'] . "!";
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>LMS2 </title>
+    <title>Saburi LMS </title>
     <!-- plugins:css -->
+
     <script src="./assets/js/jquery-3.6.0.min.js"></script>
 
     <link rel="stylesheet" href="./assets/vendors/feather/feather.css">
@@ -35,37 +36,13 @@ $greeting_message =  $_SESSION['name'] . "!";
     <link rel="stylesheet" href="./assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="./assets/vendors/datatables/bootstrap.min.css">
     <link rel="stylesheet" href="./assets/css/vertical-layout-light/style.css">
-    <link rel="shortcut icon" href="./assets/images/favicon.png" />
+    <link rel="shortcut icon" href="https://glansa.com/Tickets/uploads/company/favicon.png" />
     <link rel="stylesheet" href="./assets/vendors/richtexteditor/rte_theme_default.css" />
     <link rel="stylesheet" href="./assets/vendors/datatables/dataTables.bootstrap4.min.css">
     <!-- flora headers -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="./assets/vendors/summernote@0.8.18/css/summernote.min.css">
-    <link rel="stylesheet" href="./assets/vendors/summernote@0.8.18/css/summernote-lite.min.css"> -->
-
-
-    <!-- <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_editor.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/froala_style.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/code_view.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/draggable.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/colors.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/emoticons.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/image_manager.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/image.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/line_breaker.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/table.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/char_counter.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/video.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/fullscreen.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/file.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/quick_insert.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/help.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/third_party/spell_checker.css">
-    <link rel="stylesheet" href="./assets/vendors/froala_editor/css/plugins/special_characters.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
     <style>
         div#editor {
             width: 100%;
