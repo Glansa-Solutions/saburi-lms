@@ -5801,3 +5801,8 @@ Home New 8
   background-color: #e9770e;
   color: white;
 }
+/* password visible */
+.eye {
+  background-color: #e9ecef00;
+  border: none;
+}

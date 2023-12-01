@@ -1,9 +1,18 @@
 <?php include("includes/header.php"); 
+// Unset all session variables
+// $_SESSION = array();
+
+// // Destroy the session
+// session_destroy();
+
 $srole = "students";
 $crole = "company";
 
 ?>
+<script>
+// localStorage.removeItem('cart');
 
+</script>
 <section class="section-padding">
     <div class="main">
         <div class="row">

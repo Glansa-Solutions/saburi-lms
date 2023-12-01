@@ -5,7 +5,7 @@ include("db_config.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['role'])) {
         $_SESSION['role'] = $_POST['role'];
-        header("Location: ../account");
+        header("Location: ../account#login_con");
     }
 }
 // echo $_GET['id'];
@@ -22,7 +22,7 @@ if (isset($_GET['login_id'])) {
     $role_id = $_SESSION['role_id'];
     // echo $role_id;
     // exit();
-    header("Location: ../account");
+    header("Location: ../account#login_con");
     exit();
     // echo $role_id;
 }
@@ -37,7 +37,7 @@ if (isset($_GET['logged_in_elsewhere'])) {
         $row = mysqli_fetch_assoc($fetch_prev_login_id);
         $email = $row['email'];
         $_SESSION['prev_email'] = $email;
-        header("location: ../alertmessage");
+        header("location: ../alertmessage#alert");
     } else {
         echo "email is wrong";
     }
@@ -46,11 +46,26 @@ if (isset($_GET['logged_in_elsewhere'])) {
     exit();
 }
 
-if (isset($_GET['current_login_id'])) {
+if(isset($_GET['incorrect_pass'])){
+    $_SESSION['incorrect_pass_id'] = $_GET['incorrect_pass'];
+    $_SESSION['alert_message'] = "Your Password is incorrect";
+    header("Location: ../account#login_con");
+    exit();
+}
+
+if(isset($_GET['incorrect_pass_email'])){
+    $_SESSION['incorrect_pass_email_id'] = $_GET['incorrect_pass_email'];
+    $_SESSION['alert_message'] = "Your Email & Password is incorrect";
+    header("Location: ../account#login_con");
+    exit();
+}
+
+if (isset($_GET['current_login_id']) && isset($_GET['current_login_role'])) {
     $current_login_id = $_GET['current_login_id'];
-    $set_prev_login_to_zero = mysqli_query($con, "UPDATE students SET session_id = 0 WHERE id = $current_login_id");
+    $current_login_role = $_GET['current_login_role'];
+    $set_prev_login_to_zero = mysqli_query($con, "UPDATE $current_login_role SET session_id = 0 WHERE id = $current_login_id");
     if ($set_prev_login_to_zero) {
-        header("location: ../account");
+        header("location: ../account#login_con");
         exit();
     } else {
         echo "unable to reset login";
@@ -66,7 +81,7 @@ if (isset($_GET['f_role'])) {
 }
 if (isset($_GET['forgot_login_role'])) {
     $_SESSION['role'] = $_POST['forgot_login_role'];
-        header("Location: ../account");
+        header("Location: ../account#login_con");
     exit();
 }
 

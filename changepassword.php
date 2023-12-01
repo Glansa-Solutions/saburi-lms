@@ -20,45 +20,76 @@ if (isset($_GET['role']) && isset($_GET['role_id']) && !empty($_GET['role_id']))
                 <div class="container col-md-8 py-3">
                     <h3>Change Password</h3>
                     <style>
-                        .form-control {
-                            width: 80%;
-                        }
+                    .form-control {
+                        width: 80%;
+                    }
                     </style>
                     <form method="post" action="core/confirm_password.php" class="py-3">
                         <div class="mb-4">
-                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                <input type="password" name="current_password" placeholder="Current Password"
-                                    class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                    id="old_password" required>
-                            </p>
+                            <div
+                                class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide position-relative">
+                                <input type="password" name="current_password" class="form-control" id="login-password"
+                                    placeholder="Current Password" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text eye" id="show-password">
+                                        <i class="fa fa-eye-slash" id="eye-icon"></i>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-4">
-                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                <input type="password" name="new_password" placeholder="New Password"
-                                    class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                    id="new_password" required>
-                            </p>
+                            <div
+                                class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide position-relative">
+                                <input type="text" name="new_password" class="form-control" id="login-password"
+                                    placeholder="New Password" required>
+                                <!-- <div class="input-group-append">
+                                    <span class="input-group-text eye" id="show-password">
+                                        <i class="fa fa-eye-slash" id="eye-icon"></i>
+                                    </span>
+                                </div> -->
+                            </div>
                         </div>
-                        <?php
-
-                        ?>
                         <div class="mb-4">
-                            <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-                                <input type="password" name="conf_password" class="form-control"
-                                    placeholder="Confirm Password" id="conf_password" required>
-                            </p>
+                            <div
+                                class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide position-relative">
+                                <input type="password" name="conf_password" class="form-control" id="confirm-password"
+                                    placeholder="Confirm Password" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text eye" id="show-password1">
+                                        <i class="fa fa-eye-slash" id="eye-icon1"></i>
+                                    </span>
+                                </div>
+                            </div>
                             <!-- <?= $_SESSION['role']; ?> -->
                             <input type="hidden" name="role" value="<?= $role; ?>" class="form-control">
                             <!-- <input type="hidden" name="iv" value="<?= $iv; ?>" class="form-control"> -->
                             <input type="hidden" name="roleid" value="<?= $role_id ?>" class="form-control">
                         </div>
-                        <div class="mb-4">
-                            <h5>
-                                <?= $message;
-                                unset($_SESSION['message']);
-                                ?>
-                            </h5>
+                        <div class="mb-4" id="message-container">
+                            <p id="status-message">
+                                <?php 
+                                echo $message;
+                                unset($_SESSION['message']); ?>
+                            </p>
                         </div>
+                        <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            var messageContainer = document.getElementById('message-container');
+                            var statusMessage = document.getElementById('status-message');
+
+                            if (statusMessage.innerHTML.trim() === "Your password was updated") {
+                                statusMessage.style.color = 'green';
+                            } else {
+                                statusMessage.style.color = 'red';
+                            }
+
+                            // Fade out the message after 3 seconds
+                            setTimeout(function() {
+                                messageContainer.style.opacity = '0';
+                                messageContainer.style.transition = 'opacity 1s';
+                            }, 3000);
+                        });
+                        </script>
                         <button type="submit" name="confrm_pass" class="btn btn-primary login_button">Proceed</button>
                     </form>
                 </div>
@@ -99,7 +130,7 @@ if (isset($_GET['role']) && isset($_GET['role_id']) && !empty($_GET['role_id']))
 include("includes/footer.php");
 ?>
 <style>
-    .cta-2 {
-        display: none;
-    }
+.cta-2 {
+    display: none;
+}
 </style>

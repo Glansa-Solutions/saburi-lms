@@ -1,4 +1,5 @@
 <?php
+// session_start();
 include("db_config.php");
 // function for generating randome password
 function generateRandomPassword()
@@ -325,7 +326,7 @@ elseif (isset($_POST['registerCompany'])) {
 // Login Authentication starts
 
 if (isset($_POST["student_login"])) {
-    
+
     $student_mail = $_POST["email"];
     $student_pass = $_POST["password"];
     $student_id = $_POST['student_id'];
@@ -345,12 +346,12 @@ if (isset($_POST["student_login"])) {
         if ($student_pass == $stored_password) {
             $student_id = $row['id'];
             $session_id = $row['session_id'];
-            
+
             if ($session_id == 0) {
                 mysqli_query($con, "UPDATE students SET session_id = 1 WHERE id = $student_id");
                 $_SESSION['user_name'] = $row['name'];
-                // $_SESSION['role'] = $role;
-                // $_SESSION['id'] = $student_id;
+                $_SESSION['email'] = $student_mail;
+                $_SESSION['pass'] = $student_pass;
 
                 header("location: sessions.php?id=$student_id");
                 exit();
@@ -360,64 +361,54 @@ if (isset($_POST["student_login"])) {
                 exit();
             }
         } else {
-            // Password is incorrect
-            $_SESSION['message'] = "Password is incorrect";
-            header("location: ../account?role=$userRole&id=$student_id");
+            header("location: sessions.php?incorrect_pass=$student_id");
             exit();
         }
     } else {
-        // Email is incorrect
-        $_SESSION['message'] = "Username or Password are incorrect";
-
-        // Debugging output
-        echo "Role value received: " . htmlspecialchars($userRole);
-
-        // Redirect after setting the session message
-        header("location: ../account?role=$userRole");
+        header("location: sessions.php?incorrect_pass_email=$student_id");
         exit();
     }
 }
 if (isset($_POST["company_login"])) {
     $company_mail = $_POST["email"];
     $company_pass = $_POST["password"];
-
     $company_id = $_POST['company_id'];
     $role = $_POST['role'];
-    
+
     $match_auth_query = mysqli_query($con, "SELECT * FROM company WHERE email = '$company_mail'");
     $checking = mysqli_num_rows($match_auth_query) > 0;
 
     if ($checking) {
         // echo $checking;
-    // exit();
+        // exit();
         $row = mysqli_fetch_assoc($match_auth_query);
-        $stored_password = $row['generated_password'];
-       
+        $stored_password = $row['password'];
+
         // Check if the entered password matches the stored password
         if ($company_pass == $stored_password) {
             $company_id = $row['id'];
-            
-            $_SESSION['user_name'] = $row['companyName'];
-            $_SESSION['role'] = $role;
-            $_SESSION['id'] = $company_id;
-            header("location: sessions.php?id=$company_id");
-            exit();
+            $session_id = $row['session_id'];
+            if ($session_id == 0) {
+                mysqli_query($con, "UPDATE company SET session_id = 1 WHERE id = $company_id");
+                $_SESSION['user_name'] = $row['name'];
+                $_SESSION['email'] = $company_mail;
+                $_SESSION['pass'] = $company_pass;
+
+                header("location: sessions.php?id=$company_id");
+                exit();
+            } else {
+                // Redirect to the message page
+                header("location: sessions.php?logged_in_elsewhere=$company_id");
+                exit();
+            }
         } else {
-            // Password is incorrect
-            $_SESSION['message'] = "Password is incorrect";
-            header("location: ../account?role=$userRole&id=$student_id");
+            header("location: sessions.php?incorrect_pass=$company_id");
             exit();
         }
-    } else {
-        // Email is incorrect
-        $_SESSION['message'] = "Username or Password are incorrect";
-
-        // Debugging output
-        echo "Role value received: " . htmlspecialchars($userRole);
-
-        // Redirect after setting the session message
-        header("location: ../account?role=$userRole");
+    }else {
+        header("location: sessions.php?incorrect_pass_email=$company_id");
         exit();
     }
+            
 }
 // Login Authentication end

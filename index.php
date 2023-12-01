@@ -1,7 +1,5 @@
 <?php
 include("includes/header.php");
-// include("core/listgrid.php");
-
 ?>
 
 <div class="search-wrap">

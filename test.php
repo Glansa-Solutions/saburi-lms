@@ -1,30 +1,43 @@
-SELECT
-    cao.*,
-    ch.chapterName,  -- replace with actual column names
-    ch.chapterContent,  -- replace with actual column names
-    ch.uploadFile,
-    ch.video,
-    -- Add more columns as needed from the 'chapters' table
-    a.questions,  -- replace with actual column names
-    a.a,  -- replace with actual column names
-    a.b,
-    a.c,
-    a.d,
-    a.correctAnswer
-    -- Add more columns as needed from the 'assessment' table
-FROM
-    chaptersassessmentorders cao
-LEFT JOIN
-    chapters ch ON
-    cao.chapterId = ch.id AND
-    cao.courseId = ch.courseId AND
-    cao.subTopicId = ch.subTopicId AND
-    cao.topicId = ch.topicId AND
-    cao.typeId = 1
-LEFT JOIN
-    assessment a ON
-    cao.chapterId = a.assessmentName AND
-    cao.courseId = a.courseId AND
-    cao.subTopicId = a.subtopicId AND
-    cao.topicId = a.topicId AND
-    cao.typeId = 2;
+<?php
+include("includes/header.php");
+function encrypt($string, $key=5) {
+	$result = '';
+	for($i=0, $k= strlen($string); $i<$k; $i++) {
+		$char = substr($string, $i, 1);
+		$keychar = substr($key, ($i % strlen($key))-1, 1);
+		$char = chr(ord($char)+ord($keychar));
+		$result .= $char;
+	}
+	return base64_encode($result);
+}
+function decrypt($string, $key=5) {
+	$result = '';
+	$string = base64_decode($string);
+	for($i=0,$k=strlen($string); $i< $k ; $i++) {
+		$char = substr($string, $i, 1);
+		$keychar = substr($key, ($i % strlen($key))-1, 1);
+		$char = chr(ord($char)-ord($keychar));
+		$result.=$char;
+	}
+	return $result;
+}
+
+echo $_SERVER['REMOTE_ADDR'];
+$encypid = 8519998738;
+
+$encypid1 = encrypt($encypid);
+$encypid2 = decrypt($encypid1);
+echo "<pre>";
+echo "original: $encypid</br>";
+echo "encrypted: $encypid1</br>";
+echo "decrypted: $encypid2";
+echo "</pre>";
+
+$num = strlen($encypid);
+echo $num;
+
+
+
+
+include("includes/footer.php");
+?>

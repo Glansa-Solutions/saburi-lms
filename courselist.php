@@ -171,9 +171,9 @@ $allcourse = mysqli_query($con, $query);
                                 <!-- <a href="" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
                                     <i class="fa fa-shopping-basket"></i>
                                 </a> -->
-                                <a href="#" class="button wish-list" data-course-id="<?= $id ?>">
+                                <!-- <a href="#" class="button wish-list" data-course-id="<?= $id ?>">
                                     <i class="fa fa-heart"></i>
-                                </a>
+                                </a> -->
                                 <div class="product-btn-wrap">
                                             <!-- Add to cart and wishlist buttons -->
                                             <!-- <a href="" class="button product_type_simple add_to_cart_button ajax_add_to_cart"
