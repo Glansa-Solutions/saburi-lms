@@ -189,7 +189,6 @@ $allcourse = mysqli_query($con, $query);
                                     </span>
                                 </ins>
                             </span>
-                            <div class="star-rating"></div>
                         </li>
                         <?php
                             }
@@ -233,7 +232,6 @@ $allcourse = mysqli_query($con, $query);
                                     </span>
                                 </ins>
                             </span>
-                            <div class="star-rating"></div>
                         </li>
                         <?php
                             }
