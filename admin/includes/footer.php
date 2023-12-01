@@ -46,7 +46,7 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
 <script>
-new DataTable('#example');
+    new DataTable('#example');
 </script>
 <!-- flora scripts -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js">
@@ -57,53 +57,46 @@ new DataTable('#example');
 <!-- <script type="text/javascript" src="./assets/vendors/summernote@0.8.18/js/summernote-lite.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $(".mySummernote").summernote({
-            height :250
+            height: 250
         });
         $('.dropdown-toggle').dropdown();
     });
+    // accepting only numbers functions
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+    // (function () {
+    //     new FroalaEditor("#edit")
+    //     new FroalaEditor("#edt")
+
+    // })()
+    //accepting only text functions
+
+    function isText(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+        // Allow letters and spaces
+        if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 32) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 </script>
 
-<!-- <script type="text/javascript" src="./assets/vendors/froala_editor/js/froala_editor.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/align.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/char_counter.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/code_beautifier.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/code_view.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/colors.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/draggable.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/emoticons.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/entities.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/file.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/font_size.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/font_family.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/fullscreen.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/image.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/image_manager.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/line_breaker.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/inline_style.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/link.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/lists.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/paragraph_format.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/paragraph_style.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/quick_insert.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/quote.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/table.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/save.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/url.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/video.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/help.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/print.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/third_party/spell_checker.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/special_characters.min.js"></script>
-<script type="text/javascript" src="./assets/vendors/froala_editor/js/plugins/word_paste.min.js"></script> -->
+
 
 <script>
-(function() {
-    new FroalaEditor("#edit")
-    new FroalaEditor("#edt")
-    
-})()
+
 </script>
 
 </body>

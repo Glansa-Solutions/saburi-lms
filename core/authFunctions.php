@@ -3,7 +3,7 @@ include("db_config.php");
 
 if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])&&isset($_SESSION['role'])) {
 
-    if($_SESSION['role']=="student"){
+    if($_SESSION['role']=="students"){
         $r_id = mysqli_real_escape_string($con, $_SESSION['role_id']);
         // $s_id;
         

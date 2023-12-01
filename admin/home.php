@@ -17,8 +17,8 @@ include('../core/listgrid.php');
                         enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="banner_title">Title</label>
-                            <input type="text" class="form-control" name="title" id="banner_title"
-                                placeholder="Enter Banner Title">
+                            <input type="text" class="form-control" onkeypress="return isText(event)" name="title" id="banner_title"
+                                placeholder="Enter Banner Title" required>
                         </div>
                         <div class="form-group">
                             <label for="banner_desc">Description</label>
@@ -122,7 +122,7 @@ include('../core/listgrid.php');
                     <input type="hidden" id="homeId" name="homeId">
                     <div class="form-group">
                         <label for="editTitle">Title</label>
-                        <input type="text" class="form-control" id="editTitle" name="editTitle">
+                        <input type="text" class="form-control" onkeypress="return isNumber(event)" id="editTitle" name="editTitle">
                     </div>
 
                     <div class="form-group">

@@ -6,7 +6,7 @@ if (isset($_POST['confrm_pass'])) {
     $role = isset($_POST['role']) ? mysqli_real_escape_string($con, $_POST['role']) : '';
     $roleid = isset($_POST['roleid']) ? (int)$_POST['roleid'] : 0;
 
-    if ($role === "student" && $roleid > 0) {
+    if ($role === "students" && $roleid > 0) {
         $current_password = isset($_POST['current_password']) ? mysqli_real_escape_string($con, $_POST['current_password']) : '';
         $new_password = isset($_POST['new_password']) ? mysqli_real_escape_string($con, $_POST['new_password']) : '';
         $conf_password = isset($_POST['conf_password']) ? mysqli_real_escape_string($con, $_POST['conf_password']) : '';

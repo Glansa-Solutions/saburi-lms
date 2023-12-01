@@ -1,8 +1,7 @@
 <?php include("includes/header.php");
-
 ?>
 
-<section class="about-section section-padding about-2">
+<section class="about-section section-padding about-2" id="alert">
     <div class="container">
         <div class="row align-items-center">
 
@@ -30,7 +29,7 @@
                                                 value="<?= $_SESSION['prev_email']; ?>">
                                             <input type="hidden" class="form-control" id="prev_user_role_id"
                                                 value="<?= $_SESSION['role_id']; ?>">
-                                            <input type="hidden" class="form-control" id="prev_user_role_id"
+                                            <input type="hidden" class="form-control" id="prev_user_role"
                                                 value="<?= $_SESSION['role']; ?>">
                                         </div>
                                         <div class="mb-3">
@@ -59,12 +58,14 @@
         var email = $('#email').val();
         // alert(email);
         var roleid = $('#prev_user_role_id').val();
+        var role = $('#prev_user_role').val();
         $.ajax({
             method: 'POST',
             url: 'core/prev_login.php',
             data: {
                 'prev_login_email': email,
                 'prev_user_role_id': roleid,
+                'prev_user_role': role,
             },
             success: function (response) {
                 alert(response);

@@ -5,9 +5,10 @@ include("db_config.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-if(isset($_POST['prev_login_email']) && $_POST['prev_user_role_id']){
+if(isset($_POST['prev_login_email']) && $_POST['prev_user_role_id'] && $_POST['prev_user_role']){
     $prev_login_id= $_POST['prev_user_role_id'];
     $prev_login_email= $_POST['prev_login_email'];
+    $prev_login_role= $_POST['prev_user_role'];
     // $fetch_prev_login_id_data=mysqli_query($con, "SELECT email FROM students WHERE id= $prev_login_id");
     // echo $prev_logon_email;
     
@@ -84,7 +85,7 @@ if(isset($_POST['prev_login_email']) && $_POST['prev_user_role_id']){
                         <p>For security reasons, we do not include passwords in emails. To reset your login, please follow the steps below:</p>
 
                         <ol>
-                            <li><a href='$mainlink" . "core/sessions.php?current_login_id=$prev_login_id'>It's You</a></li>
+                            <li><a href='$mainlink" . "core/sessions.php?current_login_id=$prev_login_id&current_login_role=$prev_login_role'>It's You</a></li>
                             <li><a href='$mainlink'>Not You</a></li>
 
                         </ol>

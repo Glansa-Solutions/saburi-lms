@@ -172,7 +172,7 @@ $(document).ready(function () {
                 showConfirmButton: false,
                 timer: 2000
             });
-            $(this).closest('.card').remove(); // Now 'this' refers to the clicked element
+            $(this).closest('.col').remove(); // Now 'this' refers to the clicked element
         }
     });
 });

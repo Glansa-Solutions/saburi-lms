@@ -61,7 +61,7 @@ include("includes/header.php");
                     $createdOn = date('M j, Y', strtotime($row['createdOn']));
 
             ?>
-            <a href="blog_single?id=<?php echo $row['id']; ?>">
+            <a href="blog_single?b_id=<?php echo $row['id']; ?>">
             <div class="col-lg-4 col-md-6">
                 <div class="blog-item">
                     <a href="blog_single?b_id=<?php echo $row['id']; ?>"><img src="assets/images/blog/<?= $row['bannerImage'] ?>" style="width:100%;"alt="" class="img-fluid"></a>

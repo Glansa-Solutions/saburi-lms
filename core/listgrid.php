@@ -13,7 +13,7 @@ w.price,
 w.image,
 CASE
     WHEN w.role = 'company' THEN c.companyName  
-    WHEN w.role = 'student' THEN s.name  
+    WHEN w.role = 'students' THEN s.name  
     ELSE NULL  
 END AS name
 FROM
@@ -21,7 +21,7 @@ wishlist w
 LEFT JOIN
 company c ON w.userId = c.id AND w.role = 'company'
 LEFT JOIN
-students s ON w.userId = s.id AND w.role = 'student' WHERE w.userId = $role");
+students s ON w.userId = s.id AND w.role = 'students' WHERE w.userId = $role");
 
 
 }else{
@@ -48,7 +48,7 @@ $query_fetch_course_review_admin_grid = mysqli_query($con,"SELECT * FROM comment
 
 $fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.companyName,testinomonials.*
 FROM testinomonials
-LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'student'
+LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'students'
 LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
 $fetch_list_students_query = mysqli_query($con, "SELECT * FROM students where isActive=1");
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
@@ -130,43 +130,43 @@ chapters.isActive = 1
 ORDER BY
 chapters.id DESC");
 
-// $fetch_list_join_topics_subtopics_course_chapters_assessments_query = mysqli_query($con, "SELECT 
-// topics.Id AS topic_id,
-// topics.topicName,
-// subtopics.Id AS subtopic_id,
-// subtopics.subtopicName,
-// courses.id AS course_id,
-// courses.courseName,
-// chapters.id AS chapter_id,
-// chapters.chapterName,
-// assessment.id AS assessment_id,
-// assessment.questions,
-// assessment.a,
-// assessment.b,
-// assessment.c,
-// assessment.d,
-// assessment.isActive,
-// CASE assessment.correctAnswer
-//     WHEN 'a' THEN assessment.a
-//     WHEN 'b' THEN assessment.b
-//     WHEN 'c' THEN assessment.c
-//     WHEN 'd' THEN assessment.d
-//     ELSE NULL
-// END AS correctAnswer
-// FROM
-// topics
-// JOIN
-// subtopics ON topics.Id = subtopics.topicId
-// JOIN
-// courses ON subtopics.Id = courses.subTopicId
-// JOIN
-// chapters ON courses.id = chapters.courseId
-// JOIN 
-// assessment ON chapters.id = assessment.chapterId
-// WHERE
-// assessment.isActive = 1
-// ORDER BY
-// chapters.id DESC");
+$fetch_list_join_topics_subtopics_course_chapters_assessments_query = mysqli_query($con, "SELECT 
+topics.Id AS topic_id,
+topics.topicName,
+subtopics.Id AS subtopic_id,
+subtopics.subtopicName,
+courses.id AS course_id,
+courses.courseName,
+chapters.id AS chapter_id,
+chapters.chapterName,
+assessment.id AS assessment_id,
+assessment.questions,
+assessment.a,
+assessment.b,
+assessment.c,
+assessment.d,
+assessment.isActive,
+CASE assessment.correctAnswer
+    WHEN 'a' THEN assessment.a
+    WHEN 'b' THEN assessment.b
+    WHEN 'c' THEN assessment.c
+    WHEN 'd' THEN assessment.d
+    ELSE NULL
+END AS correctAnswer
+FROM
+topics
+JOIN
+subtopics ON topics.Id = subtopics.topicId
+JOIN
+courses ON subtopics.Id = courses.subTopicId
+JOIN
+chapters ON courses.id = chapters.courseId
+JOIN 
+assessment ON chapters.id = assessment.chapterId
+WHERE
+assessment.isActive = 1
+ORDER BY
+chapters.id DESC");
 
 $fetch_list_query_subscription = mysqli_query($con, "SELECT * FROM subscriptions_1");
 
@@ -186,7 +186,7 @@ $fetch_list_corporategovernance_query = mysqli_query($con, "SELECT * FROM corpor
 
 $fetch_testimonial_sql = mysqli_query($con, "SELECT students.name,company.companyName,students.profile_img,company.profile,testinomonials.*
 FROM testinomonials
-LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'student'
+LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'students'
 LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
 
 

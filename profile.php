@@ -12,7 +12,7 @@ include("includes/header.php");
                     <section id="primary" class="content-area col-lg-12">
                         <main id="main" class="site-main" role="main">
 
-                            <?php if ($_SESSION['role'] === "student") 
+                            <?php if ($_SESSION['role'] === "students") 
                             { ?>
                             <article id="post-8" class="post-8 page type-page status-publish hentry">
                                 <div class="entry-content">

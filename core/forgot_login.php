@@ -10,7 +10,7 @@ if (isset($_POST['forgot_login_email']) && $_POST['f_role']) {
     $forgot_login_email = $_POST['forgot_login_email'];
     $f_role = $_POST['f_role'];
 
-    if ($f_role === "student") {
+    if ($f_role === "students") {
         $match_f_role_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$forgot_login_email'");
         $checking = mysqli_num_rows($match_f_role_query) > 0;
 
