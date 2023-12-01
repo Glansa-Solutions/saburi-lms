@@ -4,7 +4,7 @@ include('db_config.php');
     // session_start(); // Start the session
 
     // // Check if the user is logged in and has the necessary role and role_id
-    // if (isset($_SESSION['role']) && isset($_SESSION['role_id'])  || ($_SESSION['role'])=== 'student') {
+    // if (isset($_SESSION['role']) && isset($_SESSION['role_id'])  || ($_SESSION['role'])=== 'students') {
     // User has the required role and role_id, proceed with updating the profile
 
     if (isset($_POST['update_student_register'])) {

@@ -368,7 +368,7 @@ if (isset($_GET['course_id'])) {
                                 // If an order ID is present, hide the course price and quantity input
                                 ?>
                                 <div class="buy-btn">
-                                    <a href="core/sessions.php?start_id=<?= $courseId ?>&chapterId=<?= $d['id'] ?>"
+                                    <a href="core/sessions.php?start_id=<?= $courseId ?>&chapterId=<?= $d['id'] ?>&orderId=<?= $co_id ?>"
                                         class="btn btn-main btn-block">
                                         Start Course
                                     </a>

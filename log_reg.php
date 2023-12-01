@@ -1,5 +1,5 @@
 <?php include("includes/header.php"); 
-$srole = "student";
+$srole = "students";
 $crole = "company";
 
 ?>

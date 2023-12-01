@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_GET["role"])) {
-    if ($_GET["role"] == 'student' || $_GET["role"] == 'company') {
+    if ($_GET["role"] == 'students' || $_GET["role"] == 'company') {
         $_SESSION['user_role'] = $_GET["role"];
         $userRole = $_SESSION['user_role'];
     } else {

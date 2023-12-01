@@ -215,10 +215,8 @@ include('../core/functions.php');
                                 <tr>
                                     <th>S.no</th>
                                     <th hidden></th>
-                                    <th>Topic Name</th>
-                                    <th>Sub Topic Name</th>
                                     <th>Course Name</th>
-                                    <th>Chapter Name</th>
+                                    <th>Assessment Name</th>
                                     <th>Questions</th>
                                     <th>Option A</th>
                                     <th>Option B</th>
@@ -234,11 +232,9 @@ include('../core/functions.php');
                                     $i = 1;
                                     while ($row = mysqli_fetch_assoc($fetch_list_join_topics_subtopics_course_chapters_assessments_query)) {
                                         $id = $row['assessment_id'];
-                                        $topic_name = $row['topicName'];
-                                        $subtopic_name = $row['subtopicName'];
+                                        $assessmentName = $row['assessmentName'];
                                         $course_name = $row['courseName'];
-                                        $chapterName = $row['chapterName'];
-                                        $questions = $row['questions'];
+                                        $questions = $row['questionsName'];
                                         $optionA = $row['a'];
                                         $optionB = $row['b'];
                                         $optionC = $row['c'];
@@ -254,16 +250,10 @@ include('../core/functions.php');
                                                 <?= $id; ?>
                                             </td>
                                             <td>
-                                                <?= $topic_name; ?>
-                                            </td>
-                                            <td>
-                                                <?= $subtopic_name; ?>
-                                            </td>
-                                            <td>
                                                 <?= $course_name; ?>
                                             </td>
                                             <td>
-                                                <?= $chapterName; ?>
+                                                <?= $assessmentName; ?>
                                             </td>
                                             <td>
                                                 <?= $questions; ?>

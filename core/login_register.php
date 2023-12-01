@@ -211,7 +211,7 @@ elseif (isset($_POST['registerCompany'])) {
     $currentDate = date("Y-m-d H:i:s");
 
 
-    $insertCompany = mysqli_query($con, "INSERT INTO company(companyName, contactName, companyPhone, email,generated_password, address, district, country_name, state, pincode, idProof, idProofDetails, createdOn, isActive) 
+    $insertCompany = mysqli_query($con, "INSERT INTO company(companyName, contactName, companyPhone, email,password, address, district, country_name, state, pincode, idProof, idProofDetails, createdOn, isActive) 
     VALUES('$companyName', '$contactName', '$phoneNumber', '$email','$generated_password','$address', '$dist', '$country', '$state', '$pin', '$idProof', '$idDetails', '$currentDate', 0)");
     $insertedId = mysqli_insert_id($con);
     // echo $insertedId;
@@ -330,6 +330,9 @@ if (isset($_POST["student_login"])) {
     $student_pass = $_POST["password"];
     $student_id = $_POST['student_id'];
     $role = $_POST['role'];
+    // $_SESSION['studentmail'] = $student_mail;
+    // $_SESSION['password'] = $student_pass;
+    // $_SESSION['student_id'] = $student_id;
 
     $match_auth_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$student_mail'");
     $checking = mysqli_num_rows($match_auth_query) > 0;

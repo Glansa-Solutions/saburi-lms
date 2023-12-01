@@ -231,13 +231,13 @@ if (isset($_GET['b_id'])) {
             </style>
             <div class="col-md-4 sidebar">
                 <div class="blog-sidebar mt-5 mt-lg-0 mt-md-0">
-                    <div class="widget widget_search">
+                    <!-- <div class="widget widget_search">
                         <h4 class="widget-title">Search</h4>
                         <form role="search" class="search-form">
                             <input type="text" class="form-control" placeholder="Search">
                             <button type="submit" class="search-submit"><i class="fa fa-search"></i></button>
                         </form>
-                    </div>
+                    </div> -->
 
                     <div class="widget widget_news">
                         <h4 class="widget-title">Latest Posts</h4>
@@ -259,7 +259,7 @@ if (isset($_GET['b_id'])) {
                                         <span>
                                             <?php echo date('M j, Y', strtotime($post['createdOn'])); ?>
                                         </span>
-                                        <h6> <a href="blog_single?id=<?php echo $post['id']; ?>">
+                                        <h6> <a href="blog_single?b_id=<?php echo $post['id']; ?>">
                                                 <?php echo $post['blogTitle']; ?>
                                             </a></h6>
                                     </div>

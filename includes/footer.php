@@ -200,7 +200,7 @@ $('.add_to_cart_button').click(function(e) {
     var cart = JSON.parse(localStorage.getItem('cart')) || [];
     
     var existingItem = cart.find(function(item) {
-        return item.id === product_id && item.user_id === roleId && role === 'student';
+        return item.id === product_id && item.user_id === roleId && role === 'studentss';
     });
 
     if (existingItem) {
@@ -303,43 +303,6 @@ $('.add_to_wishlist_button').click(function(e) {
                     }
 		})
 
-    
-    // var existingItem = wishlist.find(function(item) {
-    //     return item.id === product_id && item.user_id === roleId;
-    // });
-
-    // if (existingItem) {
-    //     // alert("You have already added this item to your wishlist");
-	// 			Swal.fire({
-	// 					icon: 'error',
-	// 					title: 'You have already added this item to your wishlist',
-	// 					showConfirmButton: false,
-	// 					timer: 2000 
-	// 				});
-    // } else {
-    //     $.ajax({
-	// 		type:'POST',
-	// 		url: './core/wishlistFunctionality.php',
-	// 		data: wishlistItem,
-	// 		success:function(response){
-	// 					Swal.fire({
-	// 					icon: 'success',
-	// 					title: response,
-	// 					showConfirmButton: false,
-	// 					timer: 2000 // Hide the message after 3 seconds
-	// 				});
-    //                 },
-    //                 error: function(xhr, status, error){
-    //                     console.error('AJAX Error:', status, error);
-    //                 }
-	// 	});
-    //     // wishlist.push(wishlistItem);
-    //     // Save the updated cart back to local storage
-    //     // localStorage.setItem('wishlist', JSON.stringify(wishlist));
-
-    //     // Update the cart count in the header
-    //     // updateWishlistCount();
-    // }
 	}else{
 		Swal.fire({
 						icon: 'error',

@@ -870,10 +870,8 @@ if (isset($_POST['sending_email'])) {
 
     mysqli_close($conn);
 } elseif (isset($_POST['assessment_manage'])) {
-    $topicName = $_POST['topic'];
-    $subtopicName = $_POST['subtopic'];
     $courseName = $_POST['courseName'];
-    $chapterName = $_POST['chapter'];
+    $assessmentName = $_POST['assessmentName'];
     $question = $_POST['question'];
     $optionA = $_POST['optionA'];
     $optionB = $_POST['optionB'];
@@ -881,14 +879,31 @@ if (isset($_POST['sending_email'])) {
     $optionD = $_POST['optionD'];
     $correctAnswer = $_POST['correctAns'];
 
+    $result = mysqli_query($con, "SELECT * FROM assessment WHERE courseId = '$courseName' AND assessmentName = '$assessmentName'");
+    $row_count = mysqli_num_rows($result);
+if($row_count > 0){
+    echo json_encode("Can not add already having same name in id");
+}else{
+$insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
 
-    $insert_assessment = mysqli_query($con, "INSERT INTO assessment(topicId,subTopicId,courseId,chapterId,questions,a,b,c,d,correctAnswer,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$question','$optionA','$optionB','$optionC','$optionD','$correctAnswer',1)");
+if ($insert_assessment) {
+    $assessmentId = $con->insert_id;
+    // echo $assessmentId;
+    // Insert data into the 'questions' table
+    $insertedQuestions = mysqli_query($con, "INSERT INTO questions (assessmentId, questionsName, a, b, c, d, correctAnswer, isActive) VALUES ('$assessmentId', '$question', '$optionA', '$optionB', '$optionC', '$optionD', '$correctAnswer', 1)");
 
-    if ($insert_assessment) {
+    if ($insertedQuestions) {
         header("location: $mainlink" . "admin/manageAssessment");
     } else {
-        echo "not done";
+        echo "Failed to insert questions.";
     }
+} else {
+    echo "Failed to insert assessment.";
+}
+}
+
+
+
 
 
 } elseif (isset($_POST['checking_assessment_btn'])) {

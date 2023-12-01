@@ -591,10 +591,10 @@ include("includes/header.php");
                             </div>
                             <div class="client-desc">
                                 <div class="client-img">
-                                    <img src="assets/images/profile_img/<?php echo ($row['subscribedBy'] == 'student') ? $row['profile_img'] : $row['profile']; ?>" alt="" class="img-fluid">
+                                    <img src="assets/images/profile_img/<?php echo ($row['subscribedBy'] == 'students') ? $row['profile_img'] : $row['profile']; ?>" alt="" class="img-fluid">
                                 </div>
                                 <div class="client-text">
-                                <h4><?php echo ($row['subscribedBy'] == 'student') ? $row['name'] : $row['companyName']; ?></h4>
+                                <h4><?php echo ($row['subscribedBy'] == 'students') ? $row['name'] : $row['companyName']; ?></h4>
                                     <!-- <span class="designation"><?php echo $row['designation']; ?></span> -->
                                 </div>
                             </div>

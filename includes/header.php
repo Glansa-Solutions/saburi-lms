@@ -28,11 +28,25 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
     $role_id = $_SESSION['role_id'];
     $role = $_SESSION['role'];
 
+    
     // Check if testimonials exist for the current user
     $existing_testimonial_query = mysqli_query($con, "SELECT * FROM testinomonials WHERE subscribedBy='$role' AND subscribedId='$role_id'");
     $existing_testimonial = mysqli_fetch_assoc($existing_testimonial_query);
 
     $hide_add_testimonial_link = $existing_testimonial ? true : false;
+
+    $fetch_mail_pass = mysqli_query($con,"select email, password from $role where id=$role_id");
+    $row = mysqli_fetch_assoc($fetch_mail_pass);
+    if($fetch_mail_pass){
+        $_SESSION['mail'] = $row['email'];
+        $_SESSION['pass'] = $row['password'];
+        $roel_mail = $_SESSION['mail'];
+        $role_pass = $_SESSION['pass'];
+        
+    }else{
+        $roel_mail = "";
+        $role_pass = "";
+    }
 } else {
     // If session variables are not set, set default values or handle it accordingly
     $role_id = null;
@@ -481,7 +495,7 @@ function calculateTotal(cartData) {
         newRow.append('<td class="productName" >' + row.name + '</td>');
         newRow.append('<td class="price">' + '&#8377;' + (row.price) + '</td>');
 
-        if (role == 'student') {
+        if (role == 'students') {
             newRow.append('<td class="product-quantity justify-content-center align-items-center" style="display: none;"></td>');
             $('.product-quantity').hide();
         } else {

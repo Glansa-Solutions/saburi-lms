@@ -74,16 +74,36 @@ if (isset($_GET['forgot_login_role'])) {
 // for forgot password - session storing the role
 
 
-if (isset($_GET['start_id']) && isset($_GET['chapterId'])) {
+if (isset($_GET['start_id']) && isset($_GET['chapterId']) && isset($_GET['orderId'])) {
     $_SESSION['course_id'] = $_GET['start_id'];
+    $_SESSION['chapter_id'] = $_GET['chapterId'];
     $course_id_status_active = $_SESSION['course_id'];
+    $courseId = $_GET['start_id'];
+    $chapterId = $_GET['chapterId']; 
+    $orderId = $_GET['orderId'];
+    $userId = $_SESSION['mail'];
+    $password = $_SESSION['pass'];
+
     $course_id_status_active_query = mysqli_query($con, "UPDATE orderdetails SET status = 1 WHERE courseId = $course_id_status_active");
+    $fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE username = '$userId' AND pwd = '$password' AND courseid = $courseId AND status = 1");
+    $fetch_chapter_assessment_order = mysqli_query($con, "SELECT * FROM chaptersassessmentorders WHERE courseId = $courseId");
+    $order_chapter_assement_data = mysqli_fetch_array($fetch_chapter_assessment_order);
+
+    $chapter_assessment_order_id = $order_chapter_assement_data['id'];
+
+    $count_course_login = mysqli_num_rows($fetch_course_login);
+    if($count_course_login >0 ){
+        header("Location: ../chapterSingle");
+    }else{
+        $insert_course_login = mysqli_query($con, "INSERT INTO courselogin (orderid, courseid, course_contentid, username, pwd, status) VALUES ($orderId, $courseId, $chapter_assessment_order_id, '$userId', '$password', 1)");
     if ($course_id_status_active_query) {
         $_SESSION['chapter_id'] = $_GET['chapterId'];
         header("Location: ../chapterSingle");
         
         exit();
     }
+    }
+    
 
 }
 if (isset($_GET['ch_id'])) {

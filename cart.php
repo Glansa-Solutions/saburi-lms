@@ -183,7 +183,7 @@ if (isset($_SESSION['role_id'])) {
                                                         column3.appendChild(increaseButton);
 
                                                         row.appendChild(column3);
-                                                        if(role == 'student'){
+                                                        if(role == 'students'){
                                                             $('.product-quantity').hide();
                                                             $(column3).hide();
                                                         }

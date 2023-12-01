@@ -1,8 +1,36 @@
 <?php
 include("includes/header.php");
     $courseId = $_SESSION['course_id'];
-    $chid = $_SESSION['chapter_id'];
+    $userId = $_SESSION['mail'];
+    $password = $_SESSION['pass'];
 
+    $fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE courseid = $courseId AND username = '$userId' AND pwd = '$password' AND status =1");
+    $courseLogin = mysqli_fetch_array($fetch_course_login);
+    $coursecontentId = $courseLogin['course_contentid'];
+    $fetch_order_wise_data = mysqli_query($con,"SELECT * FROM `chaptersassessmentorders` WHERE courseId =$courseId AND id >= $coursecontentId  LIMIT 2");
+    while($data = mysqli_fetch_array($fetch_order_wise_data)){
+        $rows[] = $data;
+    }
+
+    $type = $rows[0]['type'];
+    $typeId = $rows[0]['typeId'];
+    $serialNumber = $rows[0]['serialNumber'];
+    $nextId = isset($rows[1]['id']) ? $rows[1]['id'] : '';
+if ($type === 'chapters') {
+    $fetch_chapter_data = mysqli_query($con, "SELECT chapters.*, courses.courseName FROM chapters INNER JOIN courses ON chapters.courseId = courses.id WHERE chapters.courseId = $courseId AND chapters.id = $typeId");
+
+    if (!$fetch_chapter_data) {
+        die("Error in SQL query: " . mysqli_error($con));
+    }
+
+    $chapterData = mysqli_fetch_array($fetch_chapter_data);
+
+} elseif($type === 'assessments') {
+    echo '<script type="text/javascript">window.location.href="'.$mainlink.'assessment";</script>';
+}
+
+// print_r($type);
+  
 ?>
 
 <!-- The rest of your HTML code for displaying the course details -->
@@ -37,27 +65,35 @@ include("includes/header.php");
         <div class="row">
             <div class="col-lg-8">
                 <div class="course-single-header">
-
-                    <span class="single-course-title">Course Name: </span> <span class="single-course-title"
+                    
+                    <span class="single-course-title">Course Name: <?= $chapterData['courseName']; ?></span> <span class="single-course-title"
                         id="courseName"></span><br /><br />
-                    <span class="course-title">Chapter Name:</span> <span style="font-size:20px;"
+                    <span class="course-title">Chapter Name: <?= $chapterData['chapterName'] ?></span> <span style="font-size:20px;"
                         class="chapterName"></span>
                 </div>
 
                 <div class="single-course-details ">
                     <h4 class="course-title">Description</h4>
-                    <p id="chapterDesc"></p>
+                    <p id="chapterDesc"><?= $chapterData['chapterContent']?></p>
                     <h5>Chapter Content</h5>
-                    <div><a href="" target="_blank" id="chpterContent"></a></div>
+                    <div><a href="" target="_blank" id="chpterContent"><?= $chapterData['uploadFile'] ?></a></div>
                     <h5>Video</h5>
                     <video id="myVideo" width="320" height="240" controls controlsList="nodownload">
-                        <source src="" type="video/mp4">
+                        <source src="<?= $chapterData['video'] ?>" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
                 <div class="proceed text-right">
-                
-                    <button class="btn btn-saburi rounded-0" id="nextButton">Next</button>
+                <?php
+                    if($nextId){
+                        
+                    ?>
+                    <button class="btn btn-saburi rounded-0" id="nextButton" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-next-id="<?= $nextId ?>">Next</button>
+                    <?php
+                    }else{?>
+                    <button class="btn btn-saburi rounded-0">Finish</button>
+                    <?php
+                    }?>
                 </div>
 
             </div>
@@ -125,63 +161,34 @@ include("includes/header.php");
 
 <script>
 $(document).ready(function() {
-    var currentChapterNumber = 1;
+    var type = <?php echo json_encode($type); ?>;
+    console.log(type);
 
-    function fetchChapterData(startId, chapterId, currentChapterNumber) {
-        $.ajax({
-            url: 'core/nextChapter.php',
+
+$('#nextButton').on('click', function(event){
+    event.preventDefault();
+    var nextId = $(this).data('next-id');
+    var userName = $(this).data('username');
+    var pwd = $(this).data('password');
+    var courseId = $(this).data('courseid');
+    var courseContentId = $(this).data('coursecontentid');
+    // console.log(nextId,userName,pwd,courseId,courseContentId);
+    $.ajax({
+            url: './core/nextChapter.php',
             type: 'GET',
             data: {
-                start_id: startId,
-                chapterId: chapterId
+                nextId: nextId,
+                userName: userName,
+                pwd: pwd,
+                courseId: courseId,
+                courseContentId: courseContentId
             },
-            success: function(data) {
-                if (data) {
-                    console.log(data);
-                    var newData = JSON.parse(data);
-                    $(".chapterName").text(newData.chapterName);
-                    var dateToDisplay = newData.modifiedOn !== "0000-00-00 00:00:00" ? newData
-                        .modifiedOn : newData.createdOn;
-                    $(".date").text(dateToDisplay);
-                    $(".tag").text(newData.tag);
-                    $("#chpterContent").attr("href", "../functions/upload/file/" + newData
-                        .uploadFile).text(newData.uploadFile);
-                    $("#myVideo source").attr("src", "../functions/upload/video/" + newData.video);
-                    $("#myVideo")[0].load();
-                    $('#chapterDesc').text(newData.chapterContent);
-                    $("#noOfChapters").text(newData.noOfChapters.count);
-                    $('#currentNoOfChapter').text(currentChapterNumber);
-                    $('#courseName').text(newData.courseName);
-
-                    // Check if there are more chapters, if not, change the button text
-                    if (!newData.hasMoreChapters) {
-                        $("#nextButton").text("Finish");
-
-                        alert("Your course is finished!");
-                        $("#nextButton").prop("disabled", true);
-                    }
-                } else {
-                    console.error("Error fetching chapter data");
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error fetching chapter data: " + error);
+            success : function(data){
+                window.location.reload();
             }
         });
-    }
-
-    var startId = <?php echo isset($_SESSION['course_id']) ? $_SESSION['course_id'] : 0; ?>;
-    var chapterId = <?php echo isset($_SESSION['chapter_id']) ? $_SESSION['chapter_id'] : 0; ?>;
-    fetchChapterData(startId, chapterId, currentChapterNumber);
-
-    $("#nextButton").on("click", function() {
-        chapterId++;
-        currentChapterNumber++;
-
-        history.pushState({}, "", "?start_id=" + startId + "&chapterId=" + chapterId);
-
-        fetchChapterData(startId, chapterId, currentChapterNumber);
-    });
+})
+    
 });
 </script>
 
