@@ -273,6 +273,16 @@ if ($type === 'assessments') {
             var score = 0;
             var totalQuestions = Object.keys(questionsAndAnswers).length;
 
+            if (Object.keys(selectedAnswers).length < totalQuestions) {
+                Swal.fire({
+                        icon: 'error',
+                        title: 'Please answer all questions before submitting.',
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                return; 
+            }
+
             $.each(selectedAnswers, function (questionNumber, selectedAnswer) {
                 var correctAnswer = questionsAndAnswers[questionNumber].correctAnswer;
 

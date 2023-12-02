@@ -91,7 +91,7 @@ if ($type === 'chapters') {
                     <button class="btn btn-saburi rounded-0" id="nextButton" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-next-id="<?= $nextId ?>">Next</button>
                     <?php
                     }else{?>
-                    <button class="btn btn-saburi rounded-0">Finish</button>
+                    <button class="btn btn-saburi rounded-0 finishClick" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>">Finish</button>
                     <?php
                     }?>
                 </div>
@@ -164,6 +164,7 @@ $(document).ready(function() {
     var type = <?php echo json_encode($type); ?>;
     console.log(type);
 
+    
 
 $('#nextButton').on('click', function(event){
     event.preventDefault();
@@ -187,7 +188,30 @@ $('#nextButton').on('click', function(event){
                 window.location.reload();
             }
         });
-})
+});
+
+
+$('.finishClick').on('click', function(){
+    var userName = $(this).data('username');
+    var pwd= $(this).data('password');
+    var courseId = $(this).data('courseid');
+    var courseContentId = $(this).data('coursecontentid');
+    console.log("ho");
+    $.ajax({
+        url:'./core/finishChapter.php',
+        type:'POST',
+        data:{
+            userName:userName,
+            pwd:pwd,
+            courseId:courseId,
+            courseContentId:courseContentId,
+            'finishClick': true
+        },
+        success:function(data){
+            window.location.href = data;
+        }
+    });
+});
     
 });
 </script>

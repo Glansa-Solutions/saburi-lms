@@ -96,8 +96,7 @@ if (isset($_POST['login_admin'])) {
 } elseif (isset($_POST['subtopic_manage'])) {
     $topic = $_POST['topic'];
     $subtopic = $_POST['subtopic'];
-    $currentDate = date("Y-m-d H:i:s");
-    $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,createdOn) VALUES('$topic','$subtopic','$currentDate')");
+    $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,isActive) VALUES('$topic','$subtopic',1)");
 
     if ($insert_query) {
         header("location: $mainlink" . "./admin/subtopic");
