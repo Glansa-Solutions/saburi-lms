@@ -1,5 +1,5 @@
-<?php 
-include("includes/header.php"); 
+<?php
+include("includes/header.php");
 include("core/listgrid.php");
 
 $query = "SELECT * FROM courses"; // Adjust the table name as needed
@@ -128,22 +128,24 @@ $allcourse = mysqli_query($con, $query);
                 <!-- product section end-->
                 <div class="col-lg-8 mb-4 mb-lg-0">
                     <div class="section-title">
-                        <h2 class="title d-block text-left-sm">Courses</h2>
+                        <div class="name_of_c d-flex justify-content-between">
+                            <h2 class="title d-block text-left-sm">Courses</h2>
+                            <form class="woocommerce-ordering float-lg-right" method="get">
+                                <select name="orderby" class="orderby form-control" aria-label="Shop order"
+                                    onchange="handleSortChange(this)">
+                                    <option value="" selected="selected">Default sorting</option>
+                                    <option value="popularity">Sort by popularity</option>
+                                    <option value="average_rating">Sort by average rating</option>
+                                    <option value="latest">Sort by latest</option>
+                                    <option value="price_low_to_high">Sort by price: low to high</option>
+                                    <option value="price_high_to_low">Sort by price: high to low</option>
+                                </select>
+                            </form>
+                        </div>
                         <p class="woocommerce-result-count"> Showing 1–
                             <?php echo mysqli_num_rows($allcourse); ?> of
                             <?php echo mysqli_num_rows($allcourse); ?> results
                         </p>
-                        <form class="woocommerce-ordering float-lg-right" method="get">
-                            <select name="orderby" class="orderby form-control" aria-label="Shop order"
-                                onchange="handleSortChange(this)">
-                                <option value="" selected="selected">Default sorting</option>
-                                <option value="popularity">Sort by popularity</option>
-                                <option value="average_rating">Sort by average rating</option>
-                                <option value="latest">Sort by latest</option>
-                                <option value="price_low_to_high">Sort by price: low to high</option>
-                                <option value="price_high_to_low">Sort by price: high to low</option>
-                            </select>
-                        </form>
                     </div>
 
                     <ul class="products columns-3">
@@ -162,30 +164,16 @@ $allcourse = mysqli_query($con, $query);
                                 $bannerImage = $row["bannerImage"];
                                 // echo $bannerImage;
                                 ?>
-                       <li class="product" style="margin-right:2%;">
-                        <div class="product-wrap">
-                            <a href="course_single?course_id=<?= $id ?>">
-                                <img src="uploads/images/<?= $bannerImage ?>" alt="">
-                            </a>
-                            <div class="product-btn-wrap">
-                                <!-- <a href="" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
-                                    <i class="fa fa-shopping-basket"></i>
-                                </a> -->
-                                <!-- <a href="#" class="button wish-list" data-course-id="<?= $id ?>">
-                                    <i class="fa fa-heart"></i>
-                                </a> -->
-                                <div class="product-btn-wrap">
-                                            <!-- Add to cart and wishlist buttons -->
-                                            <!-- <a href="" class="button product_type_simple add_to_cart_button ajax_add_to_cart"
-                                                data-product-id="<?= $id ?>" data-product-name="<?= $coursename ?>"
-                                                data-product-price="<?= $coursePrice ?>"
-                                                data-product-image="<?= $bannerImage ?>">
-                                                <i class="fa fa-shopping-basket"></i>
-                                            </a>
-                                            <a href="#" class="button wish-list"><i class="fa fa-heart"></i></a> -->
-                                        </div>
+                        <li class="product" style="margin-right:2%;">
+                            <div class="product-wrap">
+                                <a href="course_single?course_id=<?= $id ?>">
+                                    <img src="uploads/images/<?= $bannerImage ?>" alt="">
+                                </a>
+                                <!-- <div class="product-btn-wrap">
+                                    <div class="product-btn-wrap">
+                                    </div>
+                                </div> -->
                             </div>
-                        </div>
                             <div class="woocommerce-product-title-wrap">
                                 <h2 class="woocommerce-loop-product__title">
                                     <a href="#">
@@ -201,7 +189,6 @@ $allcourse = mysqli_query($con, $query);
                                     </span>
                                 </ins>
                             </span>
-                            <div class="star-rating"></div>
                         </li>
                         <?php
                             }
@@ -222,12 +209,12 @@ $allcourse = mysqli_query($con, $query);
                                     <!-- <a href="#" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
                                                 <i class="fa fa-shopping-basket"></i>
                                             </a> -->
-                                            <!-- <a href="#" class=""></a> -->
-                                            <a href="#" class="button add_to_wishlist_button"
-                                            data-product-id="<?= $id ?>" data-product-name="<?= $coursename ?>"
-                                            data-product-price="<?= $coursePrice ?>" data-product-image="<?= $bannerImage ?>">
-                                            <i class="fa fa-heart"></i>
-                                        </a>
+                                    <!-- <a href="#" class=""></a> -->
+                                    <a href="#" class="button add_to_wishlist_button" data-product-id="<?= $id ?>"
+                                        data-product-name="<?= $coursename ?>" data-product-price="<?= $coursePrice ?>"
+                                        data-product-image="<?= $bannerImage ?>">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
                                 </div>
                             </div>
                             <div class="woocommerce-product-title-wrap">
@@ -245,7 +232,6 @@ $allcourse = mysqli_query($con, $query);
                                     </span>
                                 </ins>
                             </span>
-                            <div class="star-rating"></div>
                         </li>
                         <?php
                             }
@@ -338,38 +324,7 @@ $allcourse = mysqli_query($con, $query);
                     </section>
 
 
-                    <section id="woocommerce_top_rated_products-2" class="widget woocommerce widget_top_rated_products">
-                        <h3 class="widget-title">Top Rated Course</h3>
-                        <ul class="product_list_widget">
-                            <li>
-                                <a href="#">
-                                    <img width="300" height="300" src="assets/images/shop/p1.jpg"
-                                        class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="">
-                                    <span class="product-title">V-Neck T-Shirt</span>
-                                </a>
 
-                                <span class="woocommerce-Price-currencySymbol">data</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img width="300" height="300" src="assets/images/shop/p1.jpg"
-                                        class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="">
-                                    <span class="product-title">V-Neck T-Shirt</span>
-                                </a>
-
-                                <span class="woocommerce-Price-currencySymbol">data</span>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img width="300" height="300" src="assets/images/shop/p1.jpg"
-                                        class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="">
-                                    <span class="product-title">V-Neck T-Shirt</span>
-                                </a>
-
-                                <span class="woocommerce-Price-currencySymbol">data</span>
-                            </li>
-                        </ul>
-                    </section>
                 </div>
 
 
@@ -385,11 +340,11 @@ $allcourse = mysqli_query($con, $query);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function () {
+$(document).ready(function() {
     // Add a click event to all elements with the class 'subtopic-link'
     var subtopicLinks = $('.subtopic-link');
 
-    subtopicLinks.on('click', function (event) {
+    subtopicLinks.on('click', function(event) {
         event.preventDefault();
 
         // Get the subtopicId from the clicked element
@@ -400,12 +355,12 @@ $(document).ready(function () {
     });
 
     var searchInput = $('.search-field');
-    searchInput.on('input', function () {
+    searchInput.on('input', function() {
         updateUrlAndContent();
     });
 
     var sortingSelect = $('.orderby');
-    sortingSelect.on('change', function () {
+    sortingSelect.on('change', function() {
         updateUrlAndContent();
     });
 
@@ -414,10 +369,13 @@ $(document).ready(function () {
         var selectedValue = sortingSelect.val();
 
         // If subtopicId is provided, include it in the state object
-        var stateObj = { s: searchTerm, orderby: selectedValue };
+        var stateObj = {
+            s: searchTerm,
+            orderby: selectedValue
+        };
         if (subtopicId) {
             stateObj.subtopicId = subtopicId;
-        }else{
+        } else {
             stateObj.subtopicId = '';
         }
 
@@ -434,20 +392,16 @@ $(document).ready(function () {
         $.ajax({
             url: window.location.href,
             type: 'GET',
-            success: function (data) {
+            success: function(data) {
                 // Update the content of the relevant container (e.g., '.products')
                 $('.products').html($(data).find('.products').html());
             },
-            error: function () {
+            error: function() {
                 alert('Error updating content');
             }
         });
     }
 });
-
-
-
-
 </script>
 
 
