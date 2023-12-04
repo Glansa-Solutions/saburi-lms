@@ -418,11 +418,8 @@ if ($fetch_user_contact_details_query) {
             return false;
         }
     }
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 437b8f40db2822fca2232eb334d4bda64a40779a
 </script>
 <script>
     // Disable right-click and show a custom message
