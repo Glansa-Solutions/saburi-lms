@@ -105,7 +105,30 @@ subtopics ON topics.Id = subtopics.topicId
 JOIN 
 courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC");
 // fetch chepter data
-$fetch_list_join_topics_subtopics_course_chapters_query = mysqli_query($con, " ");
+$fetch_list_join_topics_subtopics_course_chapters_query = mysqli_query($con, "SELECT 
+topics.Id AS topic_id,
+topics.topicName,
+subtopics.Id AS subtopic_id,
+subtopics.subtopicName,
+courses.id AS course_id,
+courses.courseName,
+chapters.id AS chapter_id,
+chapters.chapterName,
+chapters.uploadFile,
+chapters.video,
+chapters.chapterContent
+FROM
+topics
+JOIN
+subtopics ON topics.Id = subtopics.topicId
+JOIN
+courses ON subtopics.Id = courses.subTopicId
+JOIN
+chapters ON courses.id = chapters.courseId
+WHERE
+chapters.isActive = 1
+ORDER BY
+chapters.id DESC");
 
 $fetch_list_join_topics_subtopics_course_chapters_assessments_query = mysqli_query($con, "SELECT 
 courses.id AS course_id,
