@@ -911,33 +911,29 @@ if ($insert_assessment) {
 
     // Prepare and execute a query to fetch the blog data by ID
     $query = "SELECT 
-    topics.Id AS topic_id,
-    topics.topicName,
-    subtopics.Id AS subtopic_id,
-    subtopics.subtopicName,
     courses.id AS course_id,
     courses.courseName,
-    chapters.id AS chapter_id,
-    chapters.chapterName,
-    assessment.id AS assessment_id,
-    assessment.questions,
-    assessment.a,
-    assessment.b,
-    assessment.c,
-    assessment.d,
-    assessment.correctAnswer
+    assessment.id as assessment_id,
+    assessment.assessmentName,
+    questions.id as questions_id,
+    questions.questionsName,
+    questions.a,
+    questions.b,
+    questions.c,
+    questions.d,
+    questions.correctAnswer
     FROM
-    topics
+    courses
     JOIN
-    subtopics ON topics.Id = subtopics.topicId
+    assessment ON courses.id = assessment.courseId
     JOIN
-    courses ON subtopics.Id = courses.subTopicId
-    JOIN
-    chapters ON courses.id = chapters.courseId
-    JOIN 
-    assessment ON chapters.id = assessment.chapterId
+    questions ON assessment.id = questions.assessmentId
+    -- JOIN
+    -- chapters ON courses.id = chapters.courseId
+    -- JOIN 
+    -- assessment ON chapters.id = assessment.chapterId
     WHERE
-    assessment.id = $assessmentId";
+  questions.id = $assessmentId";
     // $query = "SELECT * FROM `chapters` WHERE id = $chapterId";
     $query_run = mysqli_query($con, $query);
     if (mysqli_num_rows($query_run) > 0) {
@@ -950,7 +946,7 @@ if ($insert_assessment) {
         //echo $return = "<h5>No Record Found</h5>";
     }
 } elseif (isset($_POST['update_assessment'])) {
-    $assessmentId = $_POST['assessmentId'];
+    $questionsId = $_POST['questionsId'];
     $questions = $_POST['questions'];
     $optionA = $_POST['optionA'];
     $optionB = $_POST['optionB'];
@@ -958,15 +954,15 @@ if ($insert_assessment) {
     $optionD = $_POST['optionD'];
     $correctAns = $_POST['correctAnswer'];
 
-    $update = "UPDATE assessment SET 
-                questions='$questions',
+    $update = "UPDATE questions SET 
+                questionsName='$questions',
                 a='$optionA',
                 b='$optionB',
                 c='$optionC',
                 d='$optionD',
                 correctAnswer='$correctAns',
                 modifiedOn=NOW() 
-                WHERE id='$assessmentId'";
+                WHERE id='$questionsId'";
 
     $query = mysqli_query($con, $update);
 
@@ -978,15 +974,16 @@ if ($insert_assessment) {
 } elseif (isset($_POST['deleteAssesment'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql1 = "UPDATE assessment SET isActive = 0 WHERE id = $id";
+    $sql1 = "UPDATE questions SET isActive= 0 WHERE id = $id";
     $query1 = mysqli_query($con, $sql1);
     if ($query1) {
         header("location: $mainlink" . "admin/manageAssessment");
+        exit();
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
-    mysqli_close($con);
+    // mysqli_close($con);
 } elseif (isset($_POST['deleteStudent'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];

@@ -405,86 +405,30 @@ if ($fetch_user_contact_details_query) {
         }
     }
 
-    // Wishlist Functionality
 
-
-
-    
-
-    // function updateWishlistCount() {
-    //     var wishlist = getWishlistItems();
-    //     var totalQuantity = wishlist.length;
-    //     // $('#wishlist-count-container').text(' (' + totalQuantity + ')');
-    // }
-
-    // $(document).ready(function() {
-    //     updateWishlistCount(); // Call this on page load to set the initial cart count
-    // });
-
-    // function getWishlistItems() {
-    //     return JSON.parse(localStorage.getItem('wishlist')) || [];
-    // }
-
-    // // Example: Get the cart items and do something with them
-    // var wishlistItems = getWishlistItems();
-    // wishlistItems.forEach(function(item) {
-    //     // Do something with each cart item
-    // });
-
-    // $(document).ready(function () {
-    //     // Load wishlist from localStorage
-    //     var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    //     console.log(wishlist);
-    //     updateWishlist();
-
-    //     // Event delegation for the remove button
-    //     $('.wishlist-card').on('click', '.remove', function () {
-    //         var indexToRemove = $(this).closest('.card').index();
-    //         wishlist.splice(indexToRemove, 1); // Remove item from wishlist array
-    //         localStorage.setItem('wishlist', JSON.stringify(wishlist)); // Update localStorage
-    //         updateWishlist(); // Update the displayed wishlist
-    //     });
-
-    //     function createCard(row) {
-    //         var card = $('<div class="card">');
-    //         var cardBody = $('<div class="card-body">');
-
-    //         cardBody.append('<img src="./uploads/images/' + row.image + '" alt="' + row.name + '">');
-    //         cardBody.append('<div class="bi bi-cross remove"></div>');
-    //         cardBody.append('<h3>' + row.name + '</h3>');
-    //         cardBody.append('<p>Price: &#8377;' + row.price + '</p>');
-    //         cardBody.append('<p>Quantity: ' + row.quantity + '</p>');
-
-    //         var cardFooter = $('<div class="card-footer">');
-    //         cardFooter.append(`
-    //             <a href="" class="btn btn-main btn-block add_to_cart_button"
-    //                 data-product-id="${row.id}" data-product-name="${row.name}"
-    //                 data-product-price="${row.price}" data-product-image="${row.image}">
-    //                 Add To Cart
-    //             </a>
-    //         `);
-
-    //         card.append(cardBody);
-    //         card.append(cardFooter);
-
-    //         return card;
-    //     }
-
-    //     function updateWishlist() {
-    //         $('.wishlist-card').empty(); // Clear the existing wishlist
-
-    //         $.each(wishlist, function (index, row) {
-    //             var card = createCard(row);
-    //             $('.wishlist-card').append(card);
-    //         });
-
-    //         // Update wishlist count
-    //         $('#wishlist-container').text(wishlist.length);
-    //     }
-    // });
-
-    // ...
 </script>
+<script>
+    // Disable right-click and show a custom message
+    // document.addEventListener('contextmenu', function (e) {
+    //     e.preventDefault();
+    //     alert("Right-clicking is disabled on this site.");
+    // });
+
+	//  // Disable copy and cut
+	//  document.addEventListener('copy', function (e) {
+    //     e.preventDefault();
+    //     alert("Copying is disabled on this site.");
+    // });
+
+    // document.addEventListener('cut', function (e) {
+    //     e.preventDefault();
+    //     alert("Cutting is disabled on this site.");
+    // });
+	
+
+
+</script>
+
 <!-- Add this to your HTML to include SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
