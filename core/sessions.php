@@ -139,16 +139,19 @@ if (isset($_GET['start_id']) && isset($_GET['chapterId']) && isset($_GET['orderI
     $password = $_SESSION['pass'];
 
     $course_id_status_active_query = mysqli_query($con, "UPDATE orderdetails SET status = 1 WHERE courseId = $course_id_status_active");
-    $fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE username = '$userId' AND pwd = '$password' AND courseid = $courseId AND status = 1");
+    $fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE username = '$userId' AND pwd = '$password' AND courseid = $courseId ");
+    $courseLoginData = mysqli_fetch_array($fetch_course_login);
     $fetch_chapter_assessment_order = mysqli_query($con, "SELECT * FROM chaptersassessmentorders WHERE courseId = $courseId");
     $order_chapter_assement_data = mysqli_fetch_array($fetch_chapter_assessment_order);
 
     $chapter_assessment_order_id = $order_chapter_assement_data['id'];
 
     $count_course_login = mysqli_num_rows($fetch_course_login);
-    if ($count_course_login > 0) {
+    if($count_course_login >0 && $courseLoginData['status'] == 1 ){
         header("Location: ../chapterSingle");
-    } else {
+    }elseif($count_course_login >0 && $courseLoginData['status'] == 0){
+        header("Location: ../thankyou");
+    }elseif($count_course_login == 0){
         $insert_course_login = mysqli_query($con, "INSERT INTO courselogin (orderid, courseid, course_contentid, username, pwd, status) VALUES ($orderId, $courseId, $chapter_assessment_order_id, '$userId', '$password', 1)");
         if ($course_id_status_active_query) {
             $_SESSION['chapter_id'] = $_GET['chapterId'];

@@ -9,7 +9,7 @@ $totalScore = $_POST['totalScore'];
 $acquiredScore = $_POST['acquiredScore'];
 
 // echo json_encode($userRole.$userid.$courseid.$assessmentid.$totalScore.$acquiredScore);
-// exit();
+// exit(); 
 $fetch_assessment_result = mysqli_query($con, "SELECT * FROM assessmentresult WHERE userRole = '$userRole' AND userId = '$userid' AND courseId = $courseid AND assessmentId = $assessmentid AND isAttend = 1");
 $count_assessment_result = mysqli_num_rows($fetch_assessment_result);
 // echo json_encode($count_course_login);
