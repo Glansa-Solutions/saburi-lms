@@ -63,7 +63,7 @@ if (isset($_POST['remove'])) {
         $delete_query = mysqli_query($con, "DELETE FROM wishlist WHERE id IN ($idList)");
 
         if ($delete_query) {
-            echo json_encode('Items removed from cart');
+            echo json_encode('Items removed from Wishlist');
         } else {
             echo json_encode("Error: " . mysqli_error($con));
         }

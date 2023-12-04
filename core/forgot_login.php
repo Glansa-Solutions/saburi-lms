@@ -103,17 +103,21 @@ if (isset($_POST['forgot_login_email']) && $_POST['f_role']) {
                 </body>
                 </html>";
                 $mail->send();
+                // echo json_encode('Message has been sent');
+                echo json_encode(['status' => 'success', 'message' => 'We have sent your password to Mail, Kindly check']);
                 // header('location: ');
                 // header("location: sessions.php?login_id=$insertedId");
-                echo 'Message has been sent';
+                // echo 'Message has been sent';
                 // echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
             } catch (Exception $e) {
-                echo "Inserted successfully, but email sending failed. Error: {$mail->ErrorInfo}";
+                echo json_encode("Inserted successfully, but email sending failed. Error: {$mail->ErrorInfo}");
             }
+        }else {
+            echo json_encode(['status' => 'error', 'message' => 'Error: Provided Mail-Id is Invalid']);
         }
 
 
-    } elseif($f_role === "company") {
+    } elseif ($f_role === "company") {
         $match_auth_query = mysqli_query($con, "SELECT * FROM students WHERE email = '$student_mail'");
         $checking = mysqli_num_rows($match_auth_query) > 0;
 
@@ -223,7 +227,7 @@ if (isset($_POST['forgot_login_email']) && $_POST['f_role']) {
                 echo "Inserted successfully, but email sending failed. Error: {$mail->ErrorInfo}";
             }
         }
-    }else{
+    } else {
         header("location: ../log_reg");
     }
 

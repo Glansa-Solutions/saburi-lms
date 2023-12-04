@@ -20,9 +20,9 @@ if (isset($_GET['role']) && isset($_GET['role_id']) && !empty($_GET['role_id']))
                 <div class="container col-md-8 py-3">
                     <h3>Change Password</h3>
                     <style>
-                    .form-control {
-                        width: 80%;
-                    }
+                        .form-control {
+                            width: 80%;
+                        }
                     </style>
                     <form method="post" action="core/confirm_password.php" class="py-3">
                         <div class="mb-4">
@@ -41,12 +41,7 @@ if (isset($_GET['role']) && isset($_GET['role_id']) && !empty($_GET['role_id']))
                             <div
                                 class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide position-relative">
                                 <input type="text" name="new_password" class="form-control" id="login-password"
-                                    placeholder="New Password" required>
-                                <!-- <div class="input-group-append">
-                                    <span class="input-group-text eye" id="show-password">
-                                        <i class="fa fa-eye-slash" id="eye-icon"></i>
-                                    </span>
-                                </div> -->
+                                    placeholder="New Password" required onchange="validatePasswordOnChange()">
                             </div>
                         </div>
                         <div class="mb-4">
@@ -67,28 +62,36 @@ if (isset($_GET['role']) && isset($_GET['role_id']) && !empty($_GET['role_id']))
                         </div>
                         <div class="mb-4" id="message-container">
                             <p id="status-message">
-                                <?php 
+                                <?php
                                 echo $message;
                                 unset($_SESSION['message']); ?>
                             </p>
                         </div>
                         <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                            var messageContainer = document.getElementById('message-container');
-                            var statusMessage = document.getElementById('status-message');
+                            function validatePasswordOnChange() {
+                                var newPassword = document.getElementsByName("new_password")[0].value;
+                                var regex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
 
-                            if (statusMessage.innerHTML.trim() === "Your password was updated") {
-                                statusMessage.style.color = 'green';
-                            } else {
-                                statusMessage.style.color = 'red';
+                                if (!regex.test(newPassword)) {
+                                    alert("Password must contain at least 1 uppercase letter, 1 number, and be at least 8 characters long.");
+                                }
                             }
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var messageContainer = document.getElementById('message-container');
+                                var statusMessage = document.getElementById('status-message');
 
-                            // Fade out the message after 3 seconds
-                            setTimeout(function() {
-                                messageContainer.style.opacity = '0';
-                                messageContainer.style.transition = 'opacity 1s';
-                            }, 3000);
-                        });
+                                if (statusMessage.innerHTML.trim() === "Your password was updated") {
+                                    statusMessage.style.color = 'green';
+                                } else {
+                                    statusMessage.style.color = 'red';
+                                }
+
+                                // Fade out the message after 3 seconds
+                                setTimeout(function () {
+                                    messageContainer.style.opacity = '0';
+                                    messageContainer.style.transition = 'opacity 1s';
+                                }, 3000);
+                            });
                         </script>
                         <button type="submit" name="confrm_pass" class="btn btn-primary login_button">Proceed</button>
                     </form>
@@ -102,25 +105,6 @@ if (isset($_GET['role']) && isset($_GET['role_id']) && !empty($_GET['role_id']))
                     </ul>
                 </div>
             </div>
-            <?php
-            // if(isset($_GET['result'])&& $_GET['result']=='yes')
-            // {
-            //     echo '
-            //     <div class="form-column1 col-lg-12 py-5 text-center">
-            //     <div class="text mb-3">
-            //         <h3>Your Password Has been updated</h3>
-            //     </div>
-            //     <div class="click">
-            //         <a href="'.$mainlink.'account" class="btn btn-main btn-large rounded">Login Now</a>
-            //     </div>
-            
-            // </div>
-            //     ';
-            // }else{
-            //     echo"";
-            // }
-            
-            ?>
 
         </div>
     </div>
@@ -130,7 +114,7 @@ if (isset($_GET['role']) && isset($_GET['role_id']) && !empty($_GET['role_id']))
 include("includes/footer.php");
 ?>
 <style>
-.cta-2 {
-    display: none;
-}
+    .cta-2 {
+        display: none;
+    }
 </style>

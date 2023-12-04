@@ -122,12 +122,15 @@ if (isset($_POST['registerCompany'])) {
     }
 } elseif (isset($_POST['send_email'])) {
     $email = $_POST['email'];
+    $page_name = $_POST['page'];
+    // echo $email;
     $currentDate = date("Y-m-d H:i:s");
 
     $insert_query = mysqli_query($con, "INSERT INTO newsletter(email,created_on) VALUES('$email','$currentDate')");
 
     if ($insert_query) {
-        header("location: ");
+        echo json_encode("Thank you for subscribing Saburi-LMS");
+        header("location: ../$page_name");
     } else {
         echo "Failed to insert data.";
     }

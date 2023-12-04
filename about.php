@@ -38,7 +38,7 @@ include("includes/header.php");
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">
-                            About Us
+                           <?= $filename; ?>
                         </li>
                     </ul>
                 </div>

@@ -3,17 +3,21 @@ session_start();
 // Include your database connection code here
 
 // Function to update the session_id for a student
-function updateStudentSession($studentId) {
+function updateSession($role_Id,$role) {
     include("core/db_config.php");
-    $id_update = mysqli_query($con,"UPDATE students SET session_id = 0 WHERE id = $studentId");
+    $id_update = mysqli_query($con,"UPDATE $role SET session_id = 0 WHERE id = $role_Id");
 }
 
 // Check if the user is logged in
 if (isset($_SESSION['role_id'])) {
-    $studentId = $_SESSION['role_id'];
-
-    // Update the session_id for the student
-    updateStudentSession($studentId);
+    $role= $_SESSION['role'];
+    $role_Id = $_SESSION['role_id'];
+    // if($role == "company" || $role=="students"){
+        updateSession($role_Id,$role);
+    // }else{
+    //     echo "User Role Is Undefined";
+    //     exit();
+    // }
 }
 
 // Unset all session variables

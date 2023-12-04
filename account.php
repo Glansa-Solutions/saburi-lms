@@ -44,7 +44,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
             <div class="col-lg-8">
                 <div class="page-header-content">
                     <h1>
-                    <?= ($_SESSION['role'])? $_SESSION['role']:""; ?> Account
+                        <?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?> Account
 
                     </h1>
                     <ul class="list-inline mb-0">
@@ -53,7 +53,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">
-                            My Account
+                            <?= $filename; ?>
                         </li>
                     </ul>
                 </div>
@@ -65,7 +65,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
     <!-- conmpany section starts -->
     <?php if ($_SESSION['role'] == "company") { ?>
         <section class="section-padding" id="login_con">
-            <div class="container-fluid" >
+            <div class="container-fluid">
                 <div class="container mt-3">
                     <ul class="nav nav-pills" id="myTabs" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -86,22 +86,24 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                         <?= $alert; ?>
                                     </p>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="login-email" class="form-label">Email address</label>
-                                    <input type="email" name="email" class="form-control" id="login-email"
-                                        aria-describedby="emailHelp">
+                                <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mb-3">
+                                    <label for="login-email" class="form-label">User Id / Email address</label>
+                                    <input type="text" name="email" class="form-control" id="login-email"
+                                        aria-describedby="emailHelp" required>
                                 </div>
-                                <div class="mb-3">
+                                <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mb-3">
                                     <label for="login-password" class="form-label">Password</label>
                                     <div class="input-group">
-                                        <input type="password" name="password" class="form-control" id="login-password">
+                                        <input type="password" name="password" class="form-control" id="login-password"
+                                            required>
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="show-password">
                                                 <i class="fa fa-eye-slash" id="eye-icon"></i>
                                             </span>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="role" value="<?= $session_role; ?>" class="form-control">
+                                    <input type="hidden" name="role"
+                                        value="<?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?>" class="form-control">
                                     <!-- <input type="hidden" name="iv" value="<?= $iv; ?>" class="form-control"> -->
                                     <input type="hidden" name="company_id" value="<?= $session_role_id ?>"
                                         class="form-control">
@@ -130,20 +132,20 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="company_name" id="company_name" onkeypress="return isText(event)"
-                                                autocomplete="user-name" value="">
+                                                autocomplete="user-name" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Company Email&nbsp;<span class="required">*</span></label>
                                             <input type="email"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="email" id="" autocomplete="password" value="">
+                                                name="email" id="" autocomplete="password" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Contact Name&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="contact_name" id="contact_name" onkeypress="return isText(event)"
-                                                autocomplete="password" value="">
+                                                autocomplete="password" value="" required>
                                         </p>
 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
@@ -151,12 +153,12 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <input type="number"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="phoneNumber" id="phoneNumber" autocomplete="password"
-                                                onkeypress="return isNumber(event)" value="">
+                                                onkeypress="return isNumber(event)" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Country&nbsp;<span class="required">*</span></label>
-                                            <select class="form-control" name="country" class='countryList'
-                                                id="countryList">
+                                            <select class="form-control" name="country" class='countryList' id="countryList"
+                                                required>
                                                 <option>Choose Country..</option>
                                                 <!-- <option> -->
                                                 <?php
@@ -177,7 +179,8 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select State&nbsp;<span class="required">*</span></label>
-                                            <select class="form-control" name="state" class='stateList' id="stateList">
+                                            <select class="form-control" name="state" class='stateList' id="stateList"
+                                                required>
                                                 <option value="-1">Choose States...</option>
 
                                             </select>
@@ -193,20 +196,20 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="dist" id="dist" onkeypress="return isText(event)" autocomplete="email"
-                                                value="">
+                                                value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Address&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="address" id="address" autocomplete="password" value="">
+                                                name="address" id="address" autocomplete="password" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>PinCode&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="pinCode" id="" autocomplete="password"
-                                                onkeypress="return isNumber(event)" value="">
+                                                onkeypress="return isNumber(event)" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
@@ -219,13 +222,12 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Id Details&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="id_details" id="id_details" autocomplete="password" value="">
+                                                name="id_details" id="id_details" autocomplete="password" value="" required>
                                         </p>
 
-
                                         <p class="woocommerce-FormRow form-row">
-                                            <input type="hidden" id="woocommerce-register-nonce" name="role"
-                                            value="<?= ($_SESSION['role'])? $_SESSION['role']:""; ?>"><input type="hidden"
+                                            <input type="text" id="woocommerce-register-nonce" name="role"
+                                                value="<?= $_SESSION['role']; ?>"><input type="hidden"
                                                 name="_wp_http_referer" value="/my-account/">
                                             <button type="submit" class="woocommerce-Button button" name="registerCompany"
                                                 value="Register">Register</button>
@@ -262,27 +264,30 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                         <?= $alert; ?>
                                     </p>
                                 </div>
-                                <div class="mb-3">
+                                <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mb-3">
                                     <label for="login-email" class="form-label">Email address</label>
                                     <input type="email" name="email" class="form-control" id="login-email"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" required>
                                 </div>
-                                <div class="mb-3">
+                                <div class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide mb-3">
                                     <label for="login-password" class="form-label">Password</label>
                                     <div class="input-group">
-                                        <input type="password" name="password" class="form-control" id="login-password">
+                                        <input type="password" name="password" class="form-control" id="login-password"
+                                            required>
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="show-password">
                                                 <i class="fa fa-eye-slash" id="eye-icon"></i>
                                             </span>
                                         </div>
                                     </div>
-                                    <input type="hidden" name="role" value="<?= ($_SESSION['role'])? $_SESSION['role']:""; ?>" class="form-control">
+                                    <input type="hidden" name="role"
+                                        value="<?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?>" class="form-control">
                                     <input type="hidden" name="student_id" value="<?= $session_role_id ?>"
                                         class="form-control">
                                 </div>
                                 <p>
-                                    <a href="<?= $mainlink ?>core/sessions.php?f_role=<?= ($_SESSION['role'])? $_SESSION['role']:""; ?>">Forgot
+                                    <a
+                                        href="<?= $mainlink ?>core/sessions.php?f_role=<?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?>">Forgot
                                         Password?</a>
                                 </p>
                                 <button type="submit" name="student_login"
@@ -303,7 +308,8 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Full Name&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="fullName" id="" autocomplete="user-name" onkeypress="return isText(event)" value="" required>
+                                                name="fullName" id="" autocomplete="user-name"
+                                                onkeypress="return isText(event)" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Date Of Birth&nbsp;<span class="required">*</span></label>
@@ -315,7 +321,8 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Phone Number&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="phoneNumber" id="" autocomplete="password" onkeypress="return isNumber(event)" value="" required>
+                                                name="phoneNumber" id="" autocomplete="password"
+                                                onkeypress="return isNumber(event)" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Email&nbsp;<span class="required">*</span></label>
@@ -325,7 +332,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Gender&nbsp;<span class="required">*</span></label>
-                                            <select class="form-control" name="gender">
+                                            <select class="form-control" name="gender" required>
                                                 <option value="-1">Choose..</option>
                                                 <option value="male">Male</option>
                                                 <option value="female">Female</option>
@@ -335,7 +342,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Country&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="country" class='countryList form-control'
-                                                id="countryList">
+                                                id="countryList" required>
                                                 <option value="Choose Country..">Choose Country..</option>
                                                 <!-- <option> -->
                                                 <?php
@@ -359,7 +366,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                     <div class="col-md-6">
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label for="stateList">Select State<span class="required">*</span></label>
-                                            <select class="form-control" name="state" id="stateList">
+                                            <select class="form-control" name="state" id="stateList" required>
                                                 <option value="-1">Choose States...</option>
                                                 <!-- Add other options here -->
                                             </select>
@@ -368,23 +375,26 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>City Name&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="city" id="" autocomplete="email" onkeypress="return isText(event)" value="" required>
+                                                name="city" id="" autocomplete="email" onkeypress="return isText(event)"
+                                                value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Area PinCode&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="pinCode" id="" autocomplete="password" onkeypress="return isNumber(event)" value="" required>
+                                                name="pinCode" id="" autocomplete="password"
+                                                onkeypress="return isNumber(event)" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Address&nbsp;<span class="required">*</span></label>
                                             <input type="textarea"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="address" id="" value=""  required>
+                                                name="address" id="" value="" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
-                                            <select class="form-control" name="idProof">
+                                            <select class="form-control" name="idProof" required>
+                                                <option value="-1">Choose..</option>
                                                 <option>Aadhar Card</option>
                                                 <option>Passport</option>
                                             </select>
@@ -397,7 +407,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                         </p>
                                         <p class="woocommerce-FormRow form-row">
                                             <input type="hidden" id="woocommerce-register-nonce" name="role"
-                                            value="<?= ($_SESSION['role'])? $_SESSION['role']:""; ?>">
+                                                value="<?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?>">
                                             <button type="submit" class="woocommerce-Button button" name="registerStudent"
                                                 value="Register">Register</button>
                                         </p>

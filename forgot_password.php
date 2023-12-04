@@ -26,8 +26,10 @@
                                     <h4 class="card-title">Enter your registerd email Id</h4>
                                     <form>
                                         <div class="mb-3">
-                                            <input type="email" class="form-control" id="email" placeholder="Enter your registerd email">
-                                            <input type="hidden" class="form-control" id="f_role" value="<?= $_SESSION['f_role']; ?>">
+                                            <input type="email" class="form-control" id="email"
+                                                placeholder="Enter your registerd email">
+                                            <input type="hidden" class="form-control" id="f_role"
+                                                value="<?= $_SESSION['f_role']; ?>">
                                         </div>
                                         <div class="mb-3">
                                             <button type="button" class="btn btn-saburi btn-sm p-2"
@@ -51,23 +53,32 @@
     </div>
 </section>
 <script>
-    $('#submit_email_forgotPass').on('click', function () {
-        var email = $('#email').val();
-        var f_role = $('#f_role').val();
-        $.ajax({
-            method: 'POST',
-            url: 'core/forgot_login.php',
-            data: {
-                'forgot_login_email': email,
-                'f_role': f_role,
-            },
-            success: function (response) {
-                window.location.href = './';
-            },
-            error: function (xhr, status, error) {
-                console.error("AJAX Error:", status, error);
-            }
-        });
+$('#submit_email_forgotPass').on('click', function() {
+    var email = $('#email').val();
+    var f_role = $('#f_role').val();
+    $.ajax({
+        method: 'POST',
+        url: 'core/forgot_login.php',
+        data: {
+            'forgot_login_email': email,
+            'f_role': f_role,
+        },
+        success: function(response) {
+            var result = JSON.parse(response);
+
+            Swal.fire({
+                icon: result.status === 'success' ? 'success' : 'error',
+                title: result.message,
+                showConfirmButton: false,
+                timer: 2000
+            }).then(function () {
+                if (result.status === 'success') {
+                    // Reload the page
+                    window.location.href = 'account';
+                }
+            });
+        },
     });
+});
 </script>
 <?php include("includes/footer.php"); ?>

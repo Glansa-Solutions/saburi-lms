@@ -1,8 +1,8 @@
 <?php
 include("db_config.php");
 if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
-    $role = $_SESSION['role_id'];
-    $roleId = $_SESSION['role'];
+    $roleId = $_SESSION['role_id'];
+    $role = $_SESSION['role'];
     $query_fetch_wishlist = mysqli_query($con, "SELECT
 w.id,
 w.userId,
@@ -21,11 +21,11 @@ wishlist w
 LEFT JOIN
 company c ON w.userId = c.id AND w.role = 'company'
 LEFT JOIN
-students s ON w.userId = s.id AND w.role = 'students' WHERE w.userId = $role");
+students s ON w.userId = s.id AND w.role = 'students' WHERE w.userId = $roleId");
 
 
 }else{
-    $role = "";
+    $roleId = "";
 }
 
 $fetch_home_query = mysqli_query($con, "SELECT * FROM home where isActive =1");
@@ -36,7 +36,7 @@ $fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1")
 $query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
 $query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
 
-$query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.UserId, companyusers.Password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
+$query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.email, companyusers.password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
 
 
 // regarding Blog - Comment Data ( site & admin) end**
@@ -66,7 +66,7 @@ s.name
 FROM orderdetails AS od
 JOIN `orders` AS o ON od.orderId = o.id
 JOIN courses AS c ON od.courseId = c.id
-JOIN students AS s ON o.subscriberid = s.id where s.id = '$role' and o.paymentstatus = 'paid'");
+JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid'");
 
 $fetch_list_order_details_query = mysqli_query($con, "SELECT od.id,od.createdOn,
 o.paymentstatus,
@@ -77,7 +77,7 @@ s.name
 FROM orderdetails AS od
 JOIN `orders` AS o ON od.orderId = o.id
 JOIN courses AS c ON od.courseId = c.id
-JOIN students AS s ON o.subscriberid = s.id where s.id = '$role' and o.paymentstatus = 'paid' AND od.status=1");
+JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid' AND od.status=1");
 
 $fetch_list_student_query = mysqli_query($con, "SELECT * FROM students where isActive = 1");
 $fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");

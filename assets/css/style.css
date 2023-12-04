@@ -5802,8 +5802,15 @@ Home New 8
   background-color: #e9770e;
   color: white;
 }
+.saburi-text {
+  color: #E9770E;
+  font-size: 30px;
+}
 /* password visible */
 .eye {
   background-color: #e9ecef00;
   border: none;
+}
+.d-none{
+  display: none;
 }

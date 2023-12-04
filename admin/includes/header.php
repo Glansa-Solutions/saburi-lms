@@ -1,10 +1,11 @@
 <?php
-// include("./functions/db_config.php");
+// session_start();
+
+include("../core/admin_functions.php");
 include("../core/db_config.php");
 include("../core/data_list_grid.php");
 include('../core/listgrid.php');
 
-session_start();
 
 // Check if the user is logged in
 if (!isset($_SESSION['name'])) {
@@ -43,6 +44,8 @@ $greeting_message =  $_SESSION['name'] . "!";
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.min.css">
+
     <style>
         div#editor {
             width: 100%;

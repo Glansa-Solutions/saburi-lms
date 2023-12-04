@@ -1,5 +1,10 @@
 <?php
-
+$filename = pathinfo(basename($_SERVER['SCRIPT_NAME']), PATHINFO_FILENAME);
+if ($filename == 'index') {
+    echo $filename = "";
+} else {
+    // echo $filename;
+}
 // Access the role_id from the session
 if (isset($_SESSION['role_id'])) {
     $role_id = $_SESSION['role_id'];
@@ -29,12 +34,21 @@ if ($fetch_user_contact_details_query) {
             </div>
             <div class="col-lg-6">
                 <div class="subscribe-form">
-                    <form action="./core/allmailfun.php" method="POST">
-                        <input type="email" class="form-control" name="email" placeholder="Email Address">
-                        <button type="submit" class="btn btn-main" name="send_email">Send Newsletter<i
+                    <!-- <form action="" method="POST"> -->
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
+                        <input type="hidden" class="form-control" name="page" id="page" value="<?= $filename ?>">
+                        <button class="btn btn-main" name="send_email" id="submit_nl">Send Newsletter<i
                                 class="fa fa-angle-right ml-2"></i></button>
-                        <!-- <a href="#" class="btn btn-main" name ="send_email">Subscribe<i class="fa fa-angle-right ml-2"></i> </a> -->
-                    </form>
+                    <!-- </form> -->
+                    <script>
+                        $(document).ready(function () {
+                            $('#submit_nl').on('click', function () {
+                                var email_id_nl = ('#email').val();
+                                alert(email_id_nl);
+                            });
+                        });
+
+                    </script>
                 </div>
             </div>
         </div>
@@ -305,7 +319,7 @@ if ($fetch_user_contact_details_query) {
             })
 
 
-            
+
         } else {
             Swal.fire({
                 icon: 'error',
@@ -404,86 +418,6 @@ if ($fetch_user_contact_details_query) {
             return false;
         }
     }
-
-    // Wishlist Functionality
-
-
-
-    
-
-    // function updateWishlistCount() {
-    //     var wishlist = getWishlistItems();
-    //     var totalQuantity = wishlist.length;
-    //     // $('#wishlist-count-container').text(' (' + totalQuantity + ')');
-    // }
-
-    // $(document).ready(function() {
-    //     updateWishlistCount(); // Call this on page load to set the initial cart count
-    // });
-
-    // function getWishlistItems() {
-    //     return JSON.parse(localStorage.getItem('wishlist')) || [];
-    // }
-
-    // // Example: Get the cart items and do something with them
-    // var wishlistItems = getWishlistItems();
-    // wishlistItems.forEach(function(item) {
-    //     // Do something with each cart item
-    // });
-
-    // $(document).ready(function () {
-    //     // Load wishlist from localStorage
-    //     var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    //     console.log(wishlist);
-    //     updateWishlist();
-
-    //     // Event delegation for the remove button
-    //     $('.wishlist-card').on('click', '.remove', function () {
-    //         var indexToRemove = $(this).closest('.card').index();
-    //         wishlist.splice(indexToRemove, 1); // Remove item from wishlist array
-    //         localStorage.setItem('wishlist', JSON.stringify(wishlist)); // Update localStorage
-    //         updateWishlist(); // Update the displayed wishlist
-    //     });
-
-    //     function createCard(row) {
-    //         var card = $('<div class="card">');
-    //         var cardBody = $('<div class="card-body">');
-
-    //         cardBody.append('<img src="./uploads/images/' + row.image + '" alt="' + row.name + '">');
-    //         cardBody.append('<div class="bi bi-cross remove"></div>');
-    //         cardBody.append('<h3>' + row.name + '</h3>');
-    //         cardBody.append('<p>Price: &#8377;' + row.price + '</p>');
-    //         cardBody.append('<p>Quantity: ' + row.quantity + '</p>');
-
-    //         var cardFooter = $('<div class="card-footer">');
-    //         cardFooter.append(`
-    //             <a href="" class="btn btn-main btn-block add_to_cart_button"
-    //                 data-product-id="${row.id}" data-product-name="${row.name}"
-    //                 data-product-price="${row.price}" data-product-image="${row.image}">
-    //                 Add To Cart
-    //             </a>
-    //         `);
-
-    //         card.append(cardBody);
-    //         card.append(cardFooter);
-
-    //         return card;
-    //     }
-
-    //     function updateWishlist() {
-    //         $('.wishlist-card').empty(); // Clear the existing wishlist
-
-    //         $.each(wishlist, function (index, row) {
-    //             var card = createCard(row);
-    //             $('.wishlist-card').append(card);
-    //         });
-
-    //         // Update wishlist count
-    //         $('#wishlist-container').text(wishlist.length);
-    //     }
-    // });
-
-    // ...
 </script>
 <!-- Add this to your HTML to include SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

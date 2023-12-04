@@ -16,6 +16,18 @@ if (isset($_GET['id'])) {
     exit();
     // echo $role_id;
 }
+
+
+if (isset($_GET['set_user_role_id']) && isset($_GET['set_user_role'])) {
+    $_SESSION['role_id'] = $_GET['set_user_role_id'];
+    $_SESSION['role'] = $_GET['set_user_role'];
+    $role_id = $_SESSION['role_id'];
+    header("Location: ../");
+    exit();
+    // echo $role_id;
+}
+
+
 // login Sessions
 if (isset($_GET['login_id'])) {
     $_SESSION['role_id'] = $_GET['login_id'];
@@ -46,14 +58,41 @@ if (isset($_GET['logged_in_elsewhere'])) {
     exit();
 }
 
-if(isset($_GET['incorrect_pass'])){
+if (isset($_GET['set_user_role_id_logged_in_elsewhere']) && isset($_GET['set_user_role'])) {
+    $_SESSION['role_id'] = $_GET['set_user_role_id_logged_in_elsewhere'];
+    $_SESSION['role'] = $_GET['set_user_role'];
+    $role = $_SESSION['role'];
+    
+    $_SESSION['login_else_message'] = "You have logged in already, kindly logout or reset login.";
+    // $role_id = $_SESSION['role_id'];
+    $prev_login_id = $_SESSION['role_id'];
+    // echo $prev_login_id;
+    // exit();
+
+    $fetch_prev_login_id = mysqli_query($con, "SELECT email FROM $role WHERE id= $prev_login_id");
+    if ($fetch_prev_login_id) {
+        $row = mysqli_fetch_assoc($fetch_prev_login_id);
+        $email = $row['email'];
+        $_SESSION['prev_email'] = $email;
+        header("location: ../alertmessage#alert");
+    } else {
+        echo "email is wrong";
+    }
+
+
+    // header("Location: prev_login.php");
+    // header("Location: ../alertmessage");
+    exit();
+}
+
+if (isset($_GET['incorrect_pass'])) {
     $_SESSION['incorrect_pass_id'] = $_GET['incorrect_pass'];
     $_SESSION['alert_message'] = "Your Password is incorrect";
     header("Location: ../account#login_con");
     exit();
 }
 
-if(isset($_GET['incorrect_pass_email'])){
+if (isset($_GET['incorrect_pass_email'])) {
     $_SESSION['incorrect_pass_email_id'] = $_GET['incorrect_pass_email'];
     $_SESSION['alert_message'] = "Your Email & Password is incorrect";
     header("Location: ../account#login_con");
@@ -81,7 +120,7 @@ if (isset($_GET['f_role'])) {
 }
 if (isset($_GET['forgot_login_role'])) {
     $_SESSION['role'] = $_POST['forgot_login_role'];
-        header("Location: ../account#login_con");
+    header("Location: ../account#login_con");
     exit();
 }
 
@@ -94,7 +133,7 @@ if (isset($_GET['start_id']) && isset($_GET['chapterId']) && isset($_GET['orderI
     $_SESSION['chapter_id'] = $_GET['chapterId'];
     $course_id_status_active = $_SESSION['course_id'];
     $courseId = $_GET['start_id'];
-    $chapterId = $_GET['chapterId']; 
+    $chapterId = $_GET['chapterId'];
     $orderId = $_GET['orderId'];
     $userId = $_SESSION['mail'];
     $password = $_SESSION['pass'];
@@ -107,18 +146,18 @@ if (isset($_GET['start_id']) && isset($_GET['chapterId']) && isset($_GET['orderI
     $chapter_assessment_order_id = $order_chapter_assement_data['id'];
 
     $count_course_login = mysqli_num_rows($fetch_course_login);
-    if($count_course_login >0 ){
+    if ($count_course_login > 0) {
         header("Location: ../chapterSingle");
-    }else{
+    } else {
         $insert_course_login = mysqli_query($con, "INSERT INTO courselogin (orderid, courseid, course_contentid, username, pwd, status) VALUES ($orderId, $courseId, $chapter_assessment_order_id, '$userId', '$password', 1)");
-    if ($course_id_status_active_query) {
-        $_SESSION['chapter_id'] = $_GET['chapterId'];
-        header("Location: ../chapterSingle");
-        
-        exit();
+        if ($course_id_status_active_query) {
+            $_SESSION['chapter_id'] = $_GET['chapterId'];
+            header("Location: ../chapterSingle");
+
+            exit();
+        }
     }
-    }
-    
+
 
 }
 if (isset($_GET['ch_id'])) {

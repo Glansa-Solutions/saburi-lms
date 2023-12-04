@@ -1,5 +1,7 @@
 <?php
 session_start();
+$filename = pathinfo(basename($_SERVER['SCRIPT_NAME']), PATHINFO_FILENAME);
+
 // include("./core/init.php");
 include("./core/login_register.php");
 include("./core/authFunctions.php");
@@ -20,35 +22,18 @@ if ($fetch_user_contact_details_query) {
         $contact_address = $fetch_user_contact_details_result["address"];
     }
 }
-$_SESSION['mail'] = "hey";
 
 // Check if the session variables are set
 if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
     $role_id = $_SESSION['role_id'];
     $role = $_SESSION['role'];
-
-
-    
     // Check if testimonials exist for the current user
     $existing_testimonial_query = mysqli_query($con, "SELECT * FROM testinomonials WHERE subscribedBy='$role' AND subscribedId='$role_id'");
     $existing_testimonial = mysqli_fetch_assoc($existing_testimonial_query);
 
     $hide_add_testimonial_link = $existing_testimonial ? true : false;
 
-    $fetch_mail_pass = mysqli_query($con,"select email, password from $role where id=$role_id");
-    $row = mysqli_fetch_assoc($fetch_mail_pass);
-    if($fetch_mail_pass){
-        $_SESSION['mail'] = $row['email'];
-        $_SESSION['pass'] = $row['password'];
-        $roel_mail = $_SESSION['mail'];
-        $role_pass = $_SESSION['pass'];
-        
-    }else{
-        $roel_mail = "";
-        $role_pass = "";
-    }
-
-    $fetch_mail_pass = mysqli_query($con, "select email, password from $role where id=$role_id");
+    $fetch_mail_pass = mysqli_query($con, "SELECT email, password FROM `$role` WHERE id = $role_id");
     $row = mysqli_fetch_assoc($fetch_mail_pass);
     if ($fetch_mail_pass) {
         $_SESSION['mail'] = $row['email'];
@@ -56,7 +41,11 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
         $roel_mail = $_SESSION['mail'];
         $role_pass = $_SESSION['pass'];
 
+    } else {
+        $roel_mail = "";
+        $role_pass = "";
     }
+
 } else {
     // If session variables are not set, set default values or handle it accordingly
     $role_id = null;
@@ -194,11 +183,15 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                         <ul class="header-contact">
                             <li>
                                 <span>Call :</span>
-                                <?= $contact_phone; ?>
+                                <a href="tel: <?= $contact_phone; ?>">
+                                    <?= $contact_phone; ?>
+                                </a>
                             </li>
                             <li>
                                 <span>Email :</span>
-                                <?= $contact_email; ?>
+                                <a href="mailto: <?= $contact_email; ?>">
+                                    <?= $contact_email; ?>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -212,7 +205,9 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                     <li><a href="#"><i class="fab fa-pinterest"></i></a></li>
                                 </ul>
                             </div>
-                            <div class="header-btn">
+                            <?php $class = ($role == "" && $role_id == "") ? "" : "d-none"; ?>
+
+                            <div class="header-btn <?= $class ?>">
                                 <a href="<?= $mainlink ?>log_reg" class="btn btn-main btn-small"><i
                                         class="fa fa-user mr-2"></i>Login / Register</a>
                             </div>
@@ -264,9 +259,16 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>courselist">
-                                    Courses
-                                </a>
+                                <?php if ($role == "companyusers") { ?>
+                                    <a class="nav-link js-scroll-trigger"
+                                        href="<?= $mainlink ?>myOrders">
+                                        Courses
+                                    </a>
+                                <?php } else { ?>
+                                    <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>courselist">
+                                        Courses
+                                    </a>
+                                <?php } ?>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>blogs">
@@ -359,8 +361,8 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                             <?= $email; ?>
                                         </p>
                                     </div>
-                                    <a class="dropdown-item" href="<?= $mainlink ?>profile"><i
-                                            class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
+                                    <a class="dropdown-item <?= $style; ?>" href="<?= $mainlink ?>profile"><i
+                                            class="dropdown-item-icon mdi mdi-account-outline text-primary me-2 "></i>My
                                         Profile
                                         <!-- <span class="badge badge-pill badge-danger">1</span></a> -->
                                         <a href="<?= $mainlink ?>myOrders" class="dropdown-item"><i
@@ -371,19 +373,19 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                                 class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
                                             My Active Courses</a>
                                         <a href="<?= $mainlink ?>changepassword?role_id=<?= $_SESSION['role_id']; ?>&role=<?= $_SESSION['role']; ?>"
-                                            class="dropdown-item"><i
+                                            class="dropdown-item <?= $style; ?>"><i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Change Password</a>
                                         <a href="<?= $mainlink ?>testimonials?role_id=<?= $_SESSION['role_id']; ?>&role=<?= $_SESSION['role']; ?>"
-                                            class="dropdown-item<?= $hide_add_testimonial_link ? ' d-none' : ''; ?>">
+                                            class="dropdown-item<?= $hide_add_testimonial_link ? ' d-none' : ''; ?> <?= $style; ?>">
                                             <i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Add Testimonial
                                         </a>
-                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session"></i>
-                                            <a class="dropdown-item" href="<?= $mainlink ?>logout_session?logout=1"><i
-                                                    class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
-                                                Out</a>
+                                        <!-- <a class="dropdown-item" href="<?= $mainlink ?>logout_session"> -->
+                                        <a class="dropdown-item" href="<?= $mainlink ?>logout_session"><i
+                                                class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
+                                            Out</a>
                                 </div>
                             </li>
                         </ul>

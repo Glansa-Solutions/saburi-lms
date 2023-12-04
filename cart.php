@@ -42,7 +42,7 @@ if (isset($_SESSION['role_id'])) {
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">
-                            Cart
+                        <?= $filename; ?>
                         </li>
                     </ul>
                 </div>

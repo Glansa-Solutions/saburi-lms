@@ -34,10 +34,6 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])&&isset($_SESSION
             $_SESSION['email']= $email;
             $idProof = $student_auth['idProof'];
             $idProofDetails = $student_auth['idProofDetails'];
-        } else {
-            // Student not found, handle accordingly (redirect, show error, etc.)
-            echo "Student not found";
-            exit; // or redirect to an error page
         }
     }elseif($_SESSION['role']=="company"){
         $r_id = mysqli_real_escape_string($con, $_SESSION['role_id']);
@@ -65,16 +61,28 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])&&isset($_SESSION
             $email = $student_auth['email'];
             $idProof = $student_auth['idProof'];
             $idProofDetails = $student_auth['idProofDetails'];
-        } else {
-            // Student not found, handle accordingly (redirect, show error, etc.)
-            echo "Student not found";
-            exit; // or redirect to an error page
         }
+    }elseif($_SESSION['role']=="companyusers"){
+        $r_id = mysqli_real_escape_string($con, $_SESSION['role_id']);
+        // $s_id;
+        
+        $company_user_auth_query = mysqli_query($con, "SELECT * FROM companyusers WHERE id='$r_id'");
+        $row_count = mysqli_num_rows($company_user_auth_query);
+    
+        if ($row_count > 0) {
+            // Fetch student information
+            $company_user_auth = mysqli_fetch_assoc($company_user_auth_query);
+            $id = $company_user_auth['id'];
+            $fullName = $company_user_auth['email'];
+            $email = "";
+            $style="d-none";
+        } 
     }
     // Using prepared statement to prevent SQL injection
     
 
 } else {
+    // header("location: $mainlink");
     // Set default values if 'id' is not set or empty
     $s_id = '';
     $s_email = '';

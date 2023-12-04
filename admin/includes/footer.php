@@ -30,6 +30,8 @@
 <script src="./assets/js/template.js"></script>
 <script src="./assets/js/settings.js"></script>
 <script src="./assets/js/todolist.js"></script>
+<script src="./assets/js/sweetalert.js"></script>
+
 <!-- endinject -->
 <!-- Custom js for this page-->
 <script src="./assetsjs/jquery.cookie.js" type="text/javascript"></script>

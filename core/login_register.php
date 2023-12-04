@@ -375,40 +375,94 @@ if (isset($_POST["company_login"])) {
     $company_id = $_POST['company_id'];
     $role = $_POST['role'];
 
-    $match_auth_query = mysqli_query($con, "SELECT * FROM company WHERE email = '$company_mail'");
-    $checking = mysqli_num_rows($match_auth_query) > 0;
 
-    if ($checking) {
-        // echo $checking;
-        // exit();
-        $row = mysqli_fetch_assoc($match_auth_query);
+    $match_company_users_auth_query = mysqli_query($con, "SELECT * FROM companyusers WHERE email = '$company_mail'");
+    $checking_company_users = mysqli_num_rows($match_company_users_auth_query) > 0;
+    if ($checking_company_users) {
+        $row = mysqli_fetch_assoc($match_company_users_auth_query);
         $stored_password = $row['password'];
-
         // Check if the entered password matches the stored password
         if ($company_pass == $stored_password) {
-            $company_id = $row['id'];
-            $session_id = $row['session_id'];
-            if ($session_id == 0) {
-                mysqli_query($con, "UPDATE company SET session_id = 1 WHERE id = $company_id");
-                $_SESSION['user_name'] = $row['name'];
-                $_SESSION['email'] = $company_mail;
-                $_SESSION['pass'] = $company_pass;
-
-                header("location: sessions.php?id=$company_id");
+            $company_user_id = $row['id'];
+            $company_user_session_id = $row['session_id'];
+            $role = "companyusers";
+            if ($company_user_session_id == 0) {
+                mysqli_query($con, "UPDATE companyusers SET session_id = 1 WHERE id = $company_user_id");
+                
+                header("location: sessions.php?set_user_role_id=$company_user_id&set_user_role=$role");
                 exit();
             } else {
                 // Redirect to the message page
-                header("location: sessions.php?logged_in_elsewhere=$company_id");
+                header("location: sessions.php?set_user_role_id_logged_in_elsewhere=$company_user_id&set_user_role=$role");
                 exit();
             }
         } else {
             header("location: sessions.php?incorrect_pass=$company_id");
             exit();
         }
-    }else {
-        header("location: sessions.php?incorrect_pass_email=$company_id");
-        exit();
+    } else {
+        $match_auth_query = mysqli_query($con, "SELECT * FROM company WHERE email = '$company_mail'");
+        $checking = mysqli_num_rows($match_auth_query) > 0;
+        if ($checking) {
+            $row = mysqli_fetch_assoc($match_auth_query);
+            $stored_password = $row['password'];
+
+            // Check if the entered password matches the stored password
+            if ($company_pass == $stored_password) {
+                $company_id = $row['id'];
+                $session_id = $row['session_id'];
+                if ($session_id == 0) {
+                    mysqli_query($con, "UPDATE company SET session_id = 1 WHERE id = $company_id");
+                    $_SESSION['user_name'] = $row['name'];
+                    $_SESSION['email'] = $company_mail;
+                    $_SESSION['pass'] = $company_pass;
+
+                    header("location: sessions.php?set_user_role_id=$company_id&set_user_role=$role");
+                    exit();
+                } else {
+                    // Redirect to the message page
+                    header("location: sessions.php?set_user_role_id_logged_in_elsewhere=$company_id&set_user_role=$role");
+                    exit();
+                }
+            } else {
+                header("location: sessions.php?incorrect_pass=$company_id");
+                exit();
+            }
+        } else {
+            header("location: sessions.php?incorrect_pass_email=$company_id");
+            exit();
+        }
+
     }
-            
+
+    // if ($checking) {
+    //     // echo $checking;
+    //     // exit();
+    //     $row = mysqli_fetch_assoc($match_auth_query);
+    //     $stored_password = $row['password'];
+
+    //     // Check if the entered password matches the stored password
+    //     if ($company_pass == $stored_password) {
+    //         $company_id = $row['id'];
+    //         $session_id = $row['session_id'];
+    //         if ($session_id == 0) {
+    //             mysqli_query($con, "UPDATE company SET session_id = 1 WHERE id = $company_id");
+    //             $_SESSION['user_name'] = $row['name'];
+    //             $_SESSION['email'] = $company_mail;
+    //             $_SESSION['pass'] = $company_pass;
+
+    //             header("location: sessions.php?id=$company_id");
+    //             exit();
+    //         } else {
+    //             // Redirect to the message page
+    //             header("location: sessions.php?logged_in_elsewhere=$company_id");
+    //             exit();
+    //         }
+    //     } else {
+    //         header("location: sessions.php?incorrect_pass=$company_id");
+    //         exit();
+    //     }
+    // }
+
 }
 // Login Authentication end

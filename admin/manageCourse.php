@@ -14,7 +14,7 @@ include('../core/listgrid.php');
                         <p class="card-description">
                             Basic form layout
                         </p> -->
-                    <form class="forms-sample row" action="../core/functions.php" method="POST"
+                    <form class="forms-sample row" action="../core/admin_functions.php" method="POST"
                         enctype="multipart/form-data">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -180,7 +180,7 @@ include('../core/listgrid.php');
             if (topicId) {
                 // Make an AJAX request to fetch subtopics for the selected topic
                 $.ajax({
-                    url: '../core/functions.php', // Replace with the actual server-side script
+                    url: '../core/admin_functions.php', // Replace with the actual server-side script
                     data: { topicId: topicId },
                     method: 'GET',
                     success: function (data) {

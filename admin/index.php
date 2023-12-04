@@ -38,23 +38,26 @@
               <!--  -->
               <form class="pt-3" action="../core/functions.php" method="POST">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" name="admin_name" id="exampleInputEmail1" placeholder="Username">
+                  <input type="email" class="form-control form-control-lg" name="admin_name" id="exampleInputEmail1"
+                    placeholder="Username">
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" name="admin_password" id="exampleInputPassword1" placeholder="Password">
+                  <input type="password" class="form-control form-control-lg" name="admin_password"
+                    id="exampleInputPassword1" placeholder="Password">
                 </div>
                 <div id="passwordError" class="text-danger"></div>
                 <div class="mt-3">
-                  <button type="submit" name="login_admin" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
-                  
+                  <button type="submit" name="login_admin"
+                    class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+
                 </div>
 
                 <?php
-                  // Display error message if set
-                  if (isset($error_message)) {
-                      echo '<div class="alert alert-danger mt-3" role="alert">' . $error_message . '</div>';
-                  }
-                  ?>
+                // Display error message if set
+                if (isset($error_message)) {
+                  echo '<div class="alert alert-danger mt-3" role="alert">' . $error_message . '</div>';
+                }
+                ?>
                 <div class="my-2 d-flex justify-content-between align-items-center">
                   <div class="form-check">
                     <label class="form-check-label text-muted">
@@ -62,7 +65,7 @@
                       Keep me signed in
                     </label>
                   </div>
-                  <a class="auth-link text-black" href="<?= $mainlink;?>forgotPassword">Forgot password?</a>
+                  <a class="auth-link text-black" href="<?= $mainlink; ?>forgotPassword">Forgot password?</a>
                 </div>
                 <!-- <div class="mb-2">
                   <button type="button" class="btn btn-block btn-facebook auth-form-btn">
@@ -97,12 +100,13 @@
   <!-- endinject -->
 </body>
 <script>
-    // Add this script to show/hide the password error message
-    <?php
-    // Check if the login failed due to incorrect password
-    if (isset($error_message) && strpos($error_message, "Incorrect email or password") !== false) {
-        echo 'document.getElementById("passwordError").innerText = "Incorrect password. Please try again.";';
-    }
-    ?>
+  // Add this script to show/hide the password error message
+  <?php
+  // Check if the login failed due to incorrect password
+  if (isset($error_message) && strpos($error_message, "Incorrect email or password") !== false) {
+    echo 'document.getElementById("passwordError").innerText = "Incorrect password. Please try again.";';
+  }
+  ?>
 </script>
+
 </html>

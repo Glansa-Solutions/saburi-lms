@@ -98,10 +98,7 @@ if(isset($_POST['prev_login_email']) && $_POST['prev_user_role_id'] && $_POST['p
             </body>
             </html>";
             $mail->send();
-            // header('location: ');
-            // header("location: sessions.php?login_id=$insertedId");
-            echo 'Message has been sent';
-            // echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
+            echo json_encode('Message has been sent');
         } catch (Exception $e) {
             echo "Inserted successfully, but email sending failed. Error: {$mail->ErrorInfo}";
         }

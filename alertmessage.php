@@ -68,7 +68,13 @@
                 'prev_user_role': role,
             },
             success: function (response) {
-                alert(response);
+                Swal.fire({
+                    icon: 'success',
+                    title: response,
+                    showConfirmButton: false,
+                    timer: 2000 
+                });
+                window.location.href= "log_reg";
             },
             error: function (xhr, status, error) {
                 console.error("AJAX Error:", status, error);

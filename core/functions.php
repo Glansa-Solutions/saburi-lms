@@ -96,8 +96,7 @@ if (isset($_POST['login_admin'])) {
 } elseif (isset($_POST['subtopic_manage'])) {
     $topic = $_POST['topic'];
     $subtopic = $_POST['subtopic'];
-    $currentDate = date("Y-m-d H:i:s");
-    $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,createdOn) VALUES('$topic','$subtopic','$currentDate')");
+    $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,isActive) VALUES('$topic','$subtopic',1)");
 
     if ($insert_query) {
         header("location: $mainlink" . "./admin/subtopic");
@@ -881,31 +880,26 @@ if (isset($_POST['sending_email'])) {
 
     $result = mysqli_query($con, "SELECT * FROM assessment WHERE courseId = '$courseName' AND assessmentName = '$assessmentName'");
     $row_count = mysqli_num_rows($result);
-if($row_count > 0){
-    echo json_encode("Can not add already having same name in id");
-}else{
-$insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
-
-if ($insert_assessment) {
-    $assessmentId = $con->insert_id;
-    // echo $assessmentId;
-    // Insert data into the 'questions' table
-    $insertedQuestions = mysqli_query($con, "INSERT INTO questions (assessmentId, questionsName, a, b, c, d, correctAnswer, isActive) VALUES ('$assessmentId', '$question', '$optionA', '$optionB', '$optionC', '$optionD', '$correctAnswer', 1)");
-
-    if ($insertedQuestions) {
-        header("location: $mainlink" . "admin/manageAssessment");
+    if ($row_count > 0) {
+        echo json_encode("Can not add already having same name in id");
     } else {
-        echo "Failed to insert questions.";
+        $insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
+
+        if ($insert_assessment) {
+            $assessmentId = $con->insert_id;
+            // echo $assessmentId;
+            // Insert data into the 'questions' table
+            $insertedQuestions = mysqli_query($con, "INSERT INTO questions (assessmentId, questionsName, a, b, c, d, correctAnswer, isActive) VALUES ('$assessmentId', '$question', '$optionA', '$optionB', '$optionC', '$optionD', '$correctAnswer', 1)");
+
+            if ($insertedQuestions) {
+                header("location: $mainlink" . "admin/manageAssessment");
+            } else {
+                echo "Failed to insert questions.";
+            }
+        } else {
+            echo "Failed to insert assessment.";
+        }
     }
-} else {
-    echo "Failed to insert assessment.";
-}
-}
-
-
-
-
-
 } elseif (isset($_POST['checking_assessment_btn'])) {
     $assessmentId = $_POST['assessmentId'];
     $result_array = [];
@@ -1440,7 +1434,7 @@ if (isset($_POST['delete_user'])) {
 
 // Freeze and unfreeze user
 
-if(isset($_POST['freeze_id']) && !empty($_POST['freeze_id'])){
+if (isset($_POST['freeze_id']) && !empty($_POST['freeze_id'])) {
     $freezeId = $_POST['freeze_id'];
 
     $query_freeze_user = mysqli_query($con, "UPDATE companyusers SET isactive=0 where id = $freezeId");
@@ -1453,7 +1447,7 @@ if(isset($_POST['freeze_id']) && !empty($_POST['freeze_id'])){
 }
 
 
-if(isset($_POST['unfreeze_id']) && !empty($_POST['unfreeze_id'])){
+if (isset($_POST['unfreeze_id']) && !empty($_POST['unfreeze_id'])) {
     $unfreezeId = $_POST['unfreeze_id'];
 
     $query_unfreeze_user = mysqli_query($con, "UPDATE companyusers SET isactive=1 where id = $unfreezeId");

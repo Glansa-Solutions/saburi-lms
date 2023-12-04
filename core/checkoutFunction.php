@@ -31,7 +31,7 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
                 $username = $usernamePrefix . $randomNumber . $currentMonthYear;
                 $password = bin2hex(random_bytes(8));
 
-                $sql = "INSERT INTO companyusers (companyId, UserId, Password, CourseId, IsActive) VALUES ('$user_id', '$username', '$password', '$course_id', 1)";
+                $sql = "INSERT INTO companyusers (companyId, email, password, CourseId, IsActive) VALUES ('$user_id', '$username', '$password', '$course_id', 1)";
                 $insertQuery = mysqli_query($con, $sql);
 
                 $courseNameQuery = "SELECT courseName FROM courses WHERE id = '$course_id'";
@@ -112,8 +112,9 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
             $courseId = $item['id'];
             $qty = $item['quantity'];
             $rate = $item['price'];
+            $total_price =  $qty * $rate;
 
-            $insertOrderDetailsQuery = mysqli_query($con, "INSERT INTO Orderdetails (OrderId, CourseId, quantity, price, createdOn) VALUES ($orderId, $courseId, $qty, $rate,NOW())");
+            $insertOrderDetailsQuery = mysqli_query($con, "INSERT INTO Orderdetails (OrderId, CourseId, quantity, price,totalPrice, createdOn) VALUES ($orderId, $courseId, $qty, $rate,$total_price,NOW())");
 
             if ($insertOrderDetailsQuery) {
                 header("Location: ../cart.php");
