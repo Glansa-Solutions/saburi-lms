@@ -229,7 +229,7 @@ include('../core/functions.php');
                                 if ($fetch_list_join_topics_subtopics_course_chapters_assessments_query) {
                                     $i = 1;
                                     while ($row = mysqli_fetch_assoc($fetch_list_join_topics_subtopics_course_chapters_assessments_query)) {
-                                        $id = $row['assessment_id'];
+                                        $id = $row['question_id'];
                                         $assessmentName = $row['assessmentName'];
                                         $course_name = $row['courseName'];
                                         $questions = $row['questionsName'];
@@ -321,20 +321,13 @@ include('../core/functions.php');
                                                 <!-- <form class="forms-sample row" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="topic"> Topic Name</label>
-                                                            <input type="hidden" class="form-control" name="assessmentId"
-                                                                placeholder="Enter Name" id="assessmentId">
-                                                                <!-- <select class="form-control" name="topic" id="topic">
-
-                                                                </select> -->
-                                                                <input type="text" class="form-control" name="topic" id="topicName" readonly>
-                                                        </div>
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
                                                             <input type="text" class="form-control" id="course"
                                                                 name="courseName" placeholder="Enter Course Name" readonly>
+                                                                <input type="hidden" class="form-control" name="questionsId"
+                                                                placeholder="Enter Name" id="questionsId">
                                                         </div>
 
                                                         <div class="form-group">
@@ -355,17 +348,9 @@ include('../core/functions.php');
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <label for="subtopic">Sub Topic Name</label>
-                                                            <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                                            <!-- <select class="form-control" name="subtopic" id="subtopic">
-                                                                <option> select subtopic name</option>
-                                                            </select> -->
-                                                            <input type="text" class="form-control" name="subtopic" id="subtopicName" readonly>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="chapter">Chapter Name</label>
-                                                            <input type="text" class="form-control" id="chapterName"
-                                                                name="chapter" placeholder="Enter Chapter Name" readonly>
+                                                            <label for="assessment">Assessment Name</label>
+                                                            <input type="text" class="form-control" id="assessment_name"
+                                                                name="assessmentName" placeholder="Enter Assessment Name" readonly>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Option A</label>
@@ -449,7 +434,7 @@ include('../core/functions.php');
         $('.edit-button').on('click', function () {
             // console.log('hii');
             var assessmentId = $(this).closest('tr').find('.edit_id').text();
-            // console.log(blogId);
+            console.log(assessmentId);
             $.ajax({
                 type: 'POST',
                 url: '../core/functions.php', // Replace with the URL of your server-side script
@@ -461,12 +446,10 @@ include('../core/functions.php');
                 success: function (response) {
                     console.log(response);
                     $.each(response, function (key, value) {
-                        $('#topicName').val(value['topicName']);
-                        $('#subtopicName').val(value['subtopicName']);
                         $('#course').val(value['courseName']);
-                        $('#chapterName').val(value['chapterName']);
-                        $('#assessmentId').val(value['assessment_id']);
-                        $('#questions').val(value['questions']);
+                        $('#assessment_name').val(value['assessmentName']);
+                        $('#questionsId').val(value['questions_id']);
+                        $('#questions').val(value['questionsName']);
                         $('#OptionA').val(value['a']);
                         $('#OptionB').val(value['b']);
                         $('#OptionC').val(value['c']);

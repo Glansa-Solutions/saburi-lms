@@ -18,6 +18,7 @@ if (isset($_GET['id'])) {
 }
 
 
+<<<<<<< HEAD
 if (isset($_GET['set_user_role_id']) && isset($_GET['set_user_role'])) {
     $_SESSION['set_user_role_id'] = $_GET['set_user_role_id'];
     $_SESSION['set_user_role'] = $_GET['set_user_role'];
@@ -26,8 +27,23 @@ if (isset($_GET['set_user_role_id']) && isset($_GET['set_user_role'])) {
     exit();
     // echo $role_id;
 }
+=======
+$encypid1 = encrypt($encypid);
+$encypid2 = decrypt($encypid1);
+echo "<pre>";
+echo "original: $encypid</br>";
+echo "encrypted: $encypid1</br>";
+echo "decrypted: $encypid2";
+echo "</pre>";
 
+$num = strlen($encypid);
+echo $num;
+?>
+>>>>>>> 437b8f40db2822fca2232eb334d4bda64a40779a
 
+<!-- Your main content goes here -->
+
+<<<<<<< HEAD
 // login Sessions
 if (isset($_GET['login_id'])) {
     $_SESSION['role_id'] = $_GET['login_id'];
@@ -130,8 +146,16 @@ if (isset($_GET['forgot_login_role'])) {
         header("Location: ../account#login_con");
     exit();
 }
+=======
+<button onclick="showAlert()">Show Alert</button>
+>>>>>>> 437b8f40db2822fca2232eb334d4bda64a40779a
 
+<div class="alert" id="myAlert">
+    <span class="closebtn" onclick="closeAlert()">&times;</span>
+    <p>This is a stylish alert!</p>
+</div>
 
+<<<<<<< HEAD
 // for forgot password - session storing the role
 
 
@@ -175,4 +199,57 @@ if (isset($_GET['ch_id'])) {
 }
 // Redirect to the account page
 exit;
+=======
+<style>
+	body {
+    font-family: Arial, sans-serif;
+}
+
+.alert {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Adjust this value to control the initial position */
+    width: 300px;
+    background-color: green;
+    color: #fff;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.alert p {
+    margin: 0;
+}
+
+.closebtn {
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.closebtn:hover {
+    color: #333;
+}
+
+</style>
+
+<script>
+	function openAlert() {
+    document.getElementById("myAlert").style.right = "0";
+}
+
+function closeAlert() {
+    document.getElementById("myAlert").style.right = "-300px";
+}
+
+function showAlert() {
+    openAlert();
+}
+
+</script>
+
+<?php
+include("includes/footer.php");
+>>>>>>> 437b8f40db2822fca2232eb334d4bda64a40779a
 ?>

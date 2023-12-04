@@ -135,6 +135,7 @@ courses.id AS course_id,
 courses.courseName,
 assessment.id AS assessment_id,
 assessment.assessmentName,
+questions.id AS question_id,
 questions.questionsName,
 questions.a,
 questions.b,
@@ -152,7 +153,7 @@ FROM
 courses JOIN assessment ON assessment.courseId = courses.id
 JOIN questions ON assessment.id = questions.assessmentId
 WHERE
-assessment.isActive = 1");
+questions.isActive = 1");
 
 $fetch_list_query_subscription = mysqli_query($con, "SELECT * FROM subscriptions_1");
 

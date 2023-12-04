@@ -418,7 +418,34 @@ if ($fetch_user_contact_details_query) {
             return false;
         }
     }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 437b8f40db2822fca2232eb334d4bda64a40779a
 </script>
+<script>
+    // Disable right-click and show a custom message
+    // document.addEventListener('contextmenu', function (e) {
+    //     e.preventDefault();
+    //     alert("Right-clicking is disabled on this site.");
+    // });
+
+	//  // Disable copy and cut
+	//  document.addEventListener('copy', function (e) {
+    //     e.preventDefault();
+    //     alert("Copying is disabled on this site.");
+    // });
+
+    // document.addEventListener('cut', function (e) {
+    //     e.preventDefault();
+    //     alert("Cutting is disabled on this site.");
+    // });
+	
+
+
+</script>
+
 <!-- Add this to your HTML to include SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
