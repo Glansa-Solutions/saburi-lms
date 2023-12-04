@@ -180,11 +180,7 @@ include('../core/listgrid.php');
             if (topicId) {
                 // Make an AJAX request to fetch subtopics for the selected topic
                 $.ajax({
-<<<<<<< HEAD
-                    url: '../core/admin_functions.php', // Replace with the actual server-side script
-=======
                     url: '../core/chepterTopicFunctions.php', // Replace with the actual server-side script
->>>>>>> 437b8f40db2822fca2232eb334d4bda64a40779a
                     data: { topicId: topicId },
                     method: 'GET',
                     success: function (data) {
