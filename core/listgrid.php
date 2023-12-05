@@ -3,6 +3,7 @@ include("db_config.php");
 if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
     $roleId = $_SESSION['role_id'];
     $role = $_SESSION['role'];
+    // print_r($role);
     $query_fetch_wishlist = mysqli_query($con, "SELECT
 w.id,
 w.userId,
@@ -24,7 +25,7 @@ LEFT JOIN
 students s ON w.userId = s.id AND w.role = 'students' WHERE w.userId = $roleId");
 
 
-}else{
+} else {
     $roleId = "";
 }
 
@@ -33,8 +34,8 @@ $fetch_about_query = mysqli_query($con, "SELECT * FROM about where isActive =1")
 $fetch_privacy_query = mysqli_query($con, "SELECT * FROM privacy where isActive =1");
 $fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1");
 // regarding Blog - Comment Data ( site & admin) start**
-$query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
-$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
+$query_fetch_blog_comment = mysqli_query($con, "SELECT * FROM comments_blog where isactive=1");
+$query_fetch_blog_comment_admin_grid = mysqli_query($con, "SELECT * FROM comments_blog");
 
 $query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.email, companyusers.password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
 
@@ -42,11 +43,11 @@ $query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company
 // regarding Blog - Comment Data ( site & admin) end**
 // regarding Blog - Comment Data ( site & admin) end****
 // regarding course - review Data ( site & admin) start****
-$query_fetch_course_review = mysqli_query($con,"SELECT * FROM comment_course_review where isactive=1");
-$query_fetch_course_review_admin_grid = mysqli_query($con,"SELECT * FROM comment_course_review");
+$query_fetch_course_review = mysqli_query($con, "SELECT * FROM comment_course_review where isactive=1");
+$query_fetch_course_review_admin_grid = mysqli_query($con, "SELECT * FROM comment_course_review");
 // regarding course - review Data ( site & admin) end****
 
-$fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.companyName,testinomonials.*
+$fetch_testimonials_query = mysqli_query($con, "SELECT students.name,company.companyName,testinomonials.*
 FROM testinomonials
 LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'students'
 LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
@@ -57,16 +58,52 @@ $fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1")
 $fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where status=1");
 $fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where status=1");
 $fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
-$fetch_list_order_query = mysqli_query($con, "SELECT od.id,
-o.paymentstatus,
-o.orderdate,
-c.courseDesc,
-c.courseName,
-s.name
-FROM orderdetails AS od
-JOIN `orders` AS o ON od.orderId = o.id
-JOIN courses AS c ON od.courseId = c.id
-JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid'");
+
+if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id']) && isset($_SESSION['role']) && !empty($_SESSION['role'])) {
+    $role = $_SESSION['role'];
+    $roleId = $_SESSION['role_id'];
+
+    if ($role === 'students' && $roleId) {
+        // print_r($role);
+        $fetch_list_order_query = mysqli_query($con, "SELECT od.id,
+        o.paymentstatus,
+        o.orderdate,
+        c.courseDesc,
+        c.courseName,
+        s.name
+        FROM orderdetails AS od
+        JOIN `orders` AS o ON od.orderId = o.id
+        JOIN courses AS c ON od.courseId = c.id
+        JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid' and o.subscribedBy = '$role'");
+    }elseif($role === "company" && $roleId) {
+        // print_r($role);
+        $fetch_list_order_query = mysqli_query($con, "SELECT od.id,
+        o.paymentstatus,
+        o.orderdate,
+        c.courseDesc,
+        c.courseName,
+        co.companyName
+        FROM orderdetails AS od
+        JOIN `orders` AS o ON od.orderId = o.id
+        JOIN courses AS c ON od.courseId = c.id
+        JOIN company AS co ON o.subscriberid = co.id where co.id = '$roleId' and o.paymentstatus = 'paid' and o.subscribedBy = '$role'");
+    }elseif($role === "companyusers" && $roleId) {
+        // print_r($role);
+        // print_r($roleId);
+        $fetch_list_order_query = mysqli_query($con, "SELECT od.id,
+        o.paymentstatus,
+        o.orderdate,
+        c.courseDesc,
+        c.courseName,
+        cu.email
+        FROM orderdetails AS od
+        JOIN `orders` AS o ON od.orderId = o.id
+        JOIN courses AS c ON od.courseId = c.id
+        JOIN companyusers AS cu ON o.subscriberid = cu.companyId where cu.id = '$roleId' and o.paymentstatus = 'paid' and o.subscribedBy = 'company' and od.courseId =  cu.courseId");
+    }
+}
+
+
 
 $fetch_list_order_details_query = mysqli_query($con, "SELECT od.id,od.createdOn,
 o.paymentstatus,

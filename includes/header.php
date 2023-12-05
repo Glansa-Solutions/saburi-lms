@@ -398,6 +398,11 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Add Testimonial
                                         </a>
+                                        <a href="<?= $mainlink ?>companyCourseReport" class="dropdown-item">
+                                        <i
+                                                class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
+                                            Company Course Report
+                                        </a>
                                         <!-- <a class="dropdown-item" href="<?= $mainlink ?>logout_session"> -->
                                         <a class="dropdown-item" href="<?= $mainlink ?>logout_session"><i
                                                 class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign
