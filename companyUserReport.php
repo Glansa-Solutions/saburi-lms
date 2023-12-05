@@ -44,6 +44,18 @@ $fetch_assessment_result = mysqli_query($con, "SELECT courses.courseName, assess
                     </table>
                 </div>
             </div>
+            <div class="overall-score-section">
+                    <h3>Overall Score</h3>
+                    <p>Total Acquired Score:
+                        <?= $totalAcquiredScore ?>
+                    </p>
+                    <p>Total Total Score:
+                        <?= $totalTotalScore ?>
+                    </p>
+                    <p>Average Percentage:
+                        <?= ($totalPercentage) ?>%
+                    </p>
+                </div>
         </div>
     </div>
 </div>

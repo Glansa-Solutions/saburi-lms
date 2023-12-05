@@ -749,14 +749,14 @@ if (isset($_POST['sending_email'])) {
         $uploadFile = $_FILES['uploadfile'];
         $uploadFileName = $uploadFile['name'];
         // Process and move the upload file to your desired location
-        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+        move_uploaded_file($uploadFile['tmp_name'], '../uploads/files/' . $uploadFileName);
     }
 
     if (isset($_FILES['video'])) {
         $videoFile = $_FILES['video'];
         $videoFileName = $videoFile['name'];
         // Process and move the video file to your desired location
-        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+        move_uploaded_file($videoFile['tmp_name'], '../uploads/videos/' . $videoFileName);
     }
 
 
@@ -819,7 +819,7 @@ if (isset($_POST['sending_email'])) {
         $uploadFileName = $uploadFile['name'];
 
         // Process and move the upload file to your desired location
-        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+        move_uploaded_file($uploadFile['tmp_name'], '../uploads/files/' . $uploadFileName);
     } else {
         // If not provided, keep the existing value
         $uploadFileName = ''; // Assuming it's a string field in the database
@@ -830,7 +830,7 @@ if (isset($_POST['sending_email'])) {
         $videoFile = $_FILES['video'];
         $videoFileName = $videoFile['name'];
 
-        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+        move_uploaded_file($videoFile['tmp_name'], '../uploads/videos/' . $videoFileName);
     } else {
         // If not provided, keep the existing value
         $videoFileName = ''; // Assuming it's a string field in the database
