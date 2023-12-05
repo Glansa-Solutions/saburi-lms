@@ -35,10 +35,10 @@ if ($fetch_user_contact_details_query) {
             <div class="col-lg-6">
                 <div class="subscribe-form">
                     <!-- <form action="" method="POST"> -->
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
-                        <input type="hidden" class="form-control" name="page" id="page" value="<?= $filename ?>">
-                        <button class="btn btn-main" name="send_email" id="submit_nl">Send Newsletter<i
-                                class="fa fa-angle-right ml-2"></i></button>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
+                    <input type="hidden" class="form-control" name="page" id="page" value="<?= $filename ?>">
+                    <button class="btn btn-main" name="send_email" id="submit_nl">Send Newsletter<i
+                            class="fa fa-angle-right ml-2"></i></button>
                     <!-- </form> -->
                     <script>
                         $(document).ready(function () {
@@ -332,7 +332,7 @@ if ($fetch_user_contact_details_query) {
 
 
     });
-
+    // *************Script for login and register pages - validations ***********//
     //***********  script for eye- password show hide starts************//
     var passwordInput = document.getElementById('login-password');
     var eyeIcon = document.getElementById('eye-icon');
@@ -398,12 +398,28 @@ if ($fetch_user_contact_details_query) {
     // accepting only numbers functions
 
     function isNumber(evt) {
-        evt = (evt) ? evt : window.event;
-        var charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        var charCode = (event.which) ? event.which : event.keyCode;
+
+        // Allow only numeric input and check the maxlength
+        if (charCode > 31 && (charCode < 48 || charCode > 57) || event.target.value.length >= 12) {
+            event.preventDefault();
             return false;
         }
         return true;
+    }
+    function validatePhoneNumber() {
+        var phoneNumberInput = document.getElementById('phoneNumber');
+        var errorText = document.getElementById('errorPhn');
+        var phoneNumber = phoneNumberInput.value;
+
+        // Allow only numeric input and check the maxlength
+        if (/[^0-9]/.test(phoneNumber) || phoneNumber.length >= 15 || phoneNumber.length < 10 || (phoneNumber.length > 0 && !['6', '7', '8', '9'].includes(phoneNumber.charAt(0)))) {
+            errorText.textContent = 'Enter a valid number';
+            phoneNumberInput.setCustomValidity('Invalid phone number');
+        } else {
+            errorText.textContent = '';
+            phoneNumberInput.setCustomValidity('');
+        }
     }
     //accepting only text functions
 
@@ -418,11 +434,20 @@ if ($fetch_user_contact_details_query) {
             return false;
         }
     }
-<<<<<<< HEAD
-=======
+    //register date restrictio for Students
+    function validateDate() {
+        var errorText = document.getElementById('errorDob');
+        var currentDate = new Date();
+        var selectedDate = new Date(document.getElementById("dateOfBirth").value);
+        if (selectedDate > currentDate) {
+            errorText.textContent = 'Future dates are not allowed';
+            document.getElementById("dateOfBirth").value = ""; // Reset the value
+        }else{
+            errorText.textContent = '';
+        }
+    }
+    // *************Script for login and register pages - validations ends ***********//
 
-
->>>>>>> 437b8f40db2822fca2232eb334d4bda64a40779a
 </script>
 <script>
     // Disable right-click and show a custom message
@@ -431,8 +456,8 @@ if ($fetch_user_contact_details_query) {
     //     alert("Right-clicking is disabled on this site.");
     // });
 
-	//  // Disable copy and cut
-	//  document.addEventListener('copy', function (e) {
+    //  // Disable copy and cut
+    //  document.addEventListener('copy', function (e) {
     //     e.preventDefault();
     //     alert("Copying is disabled on this site.");
     // });
@@ -441,7 +466,7 @@ if ($fetch_user_contact_details_query) {
     //     e.preventDefault();
     //     alert("Cutting is disabled on this site.");
     // });
-	
+
 
 
 </script>

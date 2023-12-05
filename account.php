@@ -181,7 +181,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Select State&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="state" class='stateList' id="stateList"
                                                 required>
-                                                <option value="-1">Choose States...</option>
+                                                <option value="">Choose States...</option>
 
                                             </select>
                                         </p>
@@ -315,25 +315,35 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Date Of Birth&nbsp;<span class="required">*</span></label>
                                             <input type="date"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="dateOfBirth" id="" autocomplete="email" value="" required>
+                                                name="dateOfBirth" id="dateOfBirth" autocomplete="email" value="" required
+                                                oninput="validateDate()">
+                                            <span id="errorDob" style="color: red;"></span>
                                         </p>
+
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Phone Number&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="phoneNumber" id="" autocomplete="password"
-                                                onkeypress="return isNumber(event)" value="" required>
+                                                name="phoneNumber" id="phoneNumber" autocomplete="password"
+                                                onkeypress="return isNumber(event)" oninput="validatePhoneNumber()"
+                                                maxlength="12" value="" required>
+                                            <span id="errorPhn" style="color: red;"></span>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Email&nbsp;<span class="required">*</span></label>
                                             <input type="email"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="email" id="" autocomplete="password" value="" required>
+                                                name="email" id="emailInput" autocomplete="password" value="" required>
+                                            <span id="errorEmail" style="color: red;"></span>
                                         </p>
+                                        <script>
+
+                                        </script>
+
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Gender&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="gender" required>
-                                                <option value="-1">Choose..</option>
+                                                <option value="">Choose..</option>
                                                 <option value="male">Male</option>
                                                 <option value="female">Female</option>
                                                 <option value="others">Others</option>
@@ -367,7 +377,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label for="stateList">Select State<span class="required">*</span></label>
                                             <select class="form-control" name="state" id="stateList" required>
-                                                <option value="-1">Choose States...</option>
+                                                <option value="">Choose States...</option>
                                                 <!-- Add other options here -->
                                             </select>
                                         </p>
@@ -383,7 +393,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="pinCode" id="" autocomplete="password"
-                                                onkeypress="return isNumber(event)" value="" required>
+                                                onkeypress="return isNumber(event)" value="" maxlength="6" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Address&nbsp;<span class="required">*</span></label>
@@ -394,7 +404,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="idProof" required>
-                                                <option value="-1">Choose..</option>
+                                                <option value="">Choose..</option>
                                                 <option>Aadhar Card</option>
                                                 <option>Passport</option>
                                             </select>
@@ -403,13 +413,14 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Id Proof Unique Id&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="uniqueIdNo" id="" autocomplete="password" value="" required>
+                                                name="uniqueIdNo" id="" onkeypress="return isNumber(event)" maxlength="12" autocomplete="password" value=""
+                                                required>
                                         </p>
                                         <p class="woocommerce-FormRow form-row">
                                             <input type="hidden" id="woocommerce-register-nonce" name="role"
                                                 value="<?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?>">
                                             <button type="submit" class="woocommerce-Button button" name="registerStudent"
-                                                value="Register">Register</button>
+                                                id="registerButton" value="Register">Register</button>
                                         </p>
                                     </div>
                             </form>
@@ -443,6 +454,11 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                     // Handle the response from the server if needed
                     var states = JSON.parse(response);
                     $('#stateList').empty();
+                    $('#stateList').append($('<option>', {
+                        value: '',  // Provide an empty value for the initial option
+                        text: 'Select State'
+                    }));
+
                     // console.log(states);
                     // var c_id =response;
                     for (var i = 0; i < states.length; i++) {
@@ -457,6 +473,32 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                 },
                 error: function (xhr, status, error) {
                     // Handle errors if the AJAX request fails
+                    console.error("AJAX request failed: " + error);
+                }
+            });
+        });
+        var emailInput = document.getElementById('emailInput');
+        var registerButton = document.getElementById('registerButton');
+        var errorText = document.getElementById('errorEmail');
+
+
+        emailInput.addEventListener('blur', function () {
+            // Get the entered email value
+            var enteredEmail = emailInput.value;
+
+            // // Display the entered email in an alert
+            // alert('Entered Email: ' + enteredEmail);
+            $.ajax({
+                method: 'GET',
+                url: 'core/validate_email_in_reg.php',
+                data: {
+                    entered_mail: enteredEmail,
+                },
+                success: function (response) {
+                    errorText.textContent = response;
+                    registerButton.disabled = (response === 'Email already exists');
+                },
+                error: function (xhr, status, error) {
                     console.error("AJAX request failed: " + error);
                 }
             });

@@ -134,6 +134,11 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
         width: 50%;
     }
 
+    #pro {
+        display: block;
+        /* Set the initial display property according to your needs */
+    }
+
     .product-quantity {
         display: flex;
         align-items: center;
@@ -173,6 +178,18 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
         color: #E9770E;
     }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check if the URL contains "#login_con"
+        if (window.location.href.includes("#login_con") || window.location.href.includes("#alert")) {
+            // Hide the element with the id "pro"
+            var proElement = document.getElementById("pro");
+            if (proElement) {
+                proElement.style.display = "none";
+            }
+        }
+    });
+</script>
 
 <body id="top-header">
     <header>
@@ -260,8 +277,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                             </li>
                             <li class="nav-item dropdown">
                                 <?php if ($role == "companyusers") { ?>
-                                    <a class="nav-link js-scroll-trigger"
-                                        href="<?= $mainlink ?>myOrders">
+                                    <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>myOrders">
                                         Courses
                                     </a>
                                 <?php } else { ?>

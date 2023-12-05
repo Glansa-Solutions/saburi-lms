@@ -32,8 +32,6 @@ if (isset($_GET['set_user_role_id']) && isset($_GET['set_user_role'])) {
 if (isset($_GET['login_id'])) {
     $_SESSION['role_id'] = $_GET['login_id'];
     $role_id = $_SESSION['role_id'];
-    // echo $role_id;
-    // exit();
     header("Location: ../account#login_con");
     exit();
     // echo $role_id;

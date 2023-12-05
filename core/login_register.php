@@ -1,6 +1,8 @@
 <?php
+
 // session_start();
 include("db_config.php");
+
 // function for generating randome password
 function generateRandomPassword()
 {
@@ -59,6 +61,7 @@ if (isset($_POST['registerStudent'])) {
     $userRole = $_POST['role'];
     // echo $userRole;
     // exit() ;
+
     $currentDate = date("Y-m-d H:i:s");
     function getRandom($length)
     {
@@ -77,7 +80,6 @@ if (isset($_POST['registerStudent'])) {
 
     }
     $password = getRandom(16);
-
 
     $insertQuery = mysqli_query($con, "INSERT INTO students(name, DOB, country,address, district, state, pincode, gender, phoneNumber, email, idProof, idProofDetails,password, createdOn, isActive) 
         VALUES('$fullName', '$dob', '$country','$address', '$city', '$state', '$pin', '$gender', '$phone', '$email', '$idProof', '$uniqueIdNo','$password', '$currentDate', 0)");
@@ -177,9 +179,10 @@ if (isset($_POST['registerStudent'])) {
                 </body>
                 </html>";
             $mail->send();
-            header("location: sessions.php?login_id=$insertedId");
-            // echo 'Message has been sent';
             echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
+            header("location: ../logout_session");
+            // echo 'Message has been sent';
+
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
@@ -388,7 +391,7 @@ if (isset($_POST["company_login"])) {
             $role = "companyusers";
             if ($company_user_session_id == 0) {
                 mysqli_query($con, "UPDATE companyusers SET session_id = 1 WHERE id = $company_user_id");
-                
+
                 header("location: sessions.php?set_user_role_id=$company_user_id&set_user_role=$role");
                 exit();
             } else {
