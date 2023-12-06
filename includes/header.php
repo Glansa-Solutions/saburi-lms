@@ -95,6 +95,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
 
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/ccr.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
