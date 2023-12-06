@@ -119,9 +119,9 @@ include("includes/header.php");
                 while ($row = $allCourses->fetch_assoc()) {
                     echo '<div class="course-item '.$row['subTopicId'].' col-lg-4 col-md-6">';
                     echo '<div class="course-block">';
-                    echo '<div class="course-img">';
-                    echo '<img src="assets/images/course/'.$row['bannerImage'].'" alt="" class="img-fluid">';
-                    echo '<span class="course-label">Expert</span>';
+                    echo '<div class="course-img" style="width: auto;" height:300px;>';
+                    echo '<img src="./uploads/images/'.$row['bannerImage'].'" alt="" class="img-fluid">';
+                    // echo '<span class="course-label">Expert</span>';
                     echo '</div>';
                     echo '<div class="course-content">';
                     echo '<div class="course-price ">₹'.$row['courseCost'].'</div>';
@@ -141,7 +141,7 @@ include("includes/header.php");
                     echo '<span class="course-duration"><i class="bi bi-badge3"></i>82 Lessons</span>';
                     echo '</div>';
 
-                    echo '<div class="buy-btn"><a href="#" class="btn btn-main-2 btn-small">Details</a></div>';
+                    echo '<div class="buy-btn"><a href="course_single?course_id=' . $row['id'] . '" class="btn btn-main-2 btn-small">Details</a></div>';
                     echo '</div>';
                     echo '</div>';
                     echo '</div>';
