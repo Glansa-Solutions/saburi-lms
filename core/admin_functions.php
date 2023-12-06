@@ -1003,9 +1003,10 @@ elseif (isset($_POST['checking_user_btn'])) {
 
 //  Inserting Home
 elseif (isset($_POST['insert_home'])) {
-    $title = $_POST['title'];
-    $desc = $_POST['desc'];
-    $admin_name = $_POST['admin_name'];
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $desc_text = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    $desc = strip_tags($desc_text);
 
     $select_query = mysqli_query($con, "SELECT * FROM home");
     $fetch_home_rows = mysqli_fetch_assoc($select_query);
@@ -1074,10 +1075,10 @@ elseif (isset($_POST['insert_home'])) {
     }
     mysqli_close($con);
 } elseif (isset($_POST['insert_about'])) {
-    $title = $_POST['title'];
-    $desc = $_POST['desc'];
-    $admin_name = $_POST['admin_name'];
-
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $desc_text = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    $desc = strip_tags($desc_text);
     $select_query = mysqli_query($con, "SELECT * FROM about");
     $fetch_about_rows = mysqli_fetch_assoc($select_query);
     $row_count = mysqli_num_rows($select_query);
@@ -1140,23 +1141,26 @@ elseif (isset($_POST['insert_home'])) {
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
-    mysqli_close($con);
+    // mysqli_close($con);
 }
 // Contact Details Page Crud
 elseif (isset($_POST['contact_details'])) {
     $email = mysqli_real_escape_string($con, $_POST['email']);
     $phone = mysqli_real_escape_string($con, $_POST['phone_no']);
-    $address = mysqli_real_escape_string($con, $_POST['address']);
+    $address_text = mysqli_real_escape_string($con, $_POST['address']);
     $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    $address = strip_tags($address_text);
 
 
     $select_query = mysqli_query($con, "SELECT * FROM contact_details");
     $fetch_contact_rows = mysqli_fetch_assoc($select_query);
     $row_count = mysqli_num_rows($select_query);
     if ($row_count > 0) {
+
         $update_query = mysqli_query($con, "UPDATE contact_details SET email='$email', phone_no='$phone', address='$address', modify_on=NOW(), modify_by='$admin_name' WHERE id=1");
 
         if ($update_query) {
+
             $_SESSION['status'] = "success";
             $_SESSION['message'] = "Successfully Updated";
 
@@ -1164,9 +1168,8 @@ elseif (isset($_POST['contact_details'])) {
             $_SESSION['status'] = "danger";
             $_SESSION['message'] = "Not Updated";
         }
-        exit();
     } else {
-        $insert_query1 = mysqli_query($con, "INSERT INTO contact_details(id,email, phone_no, address, created_on, created_by) VALUES(1,'$email','$phone','$address',NOW(), '$admin_name')");
+        $insert_query = mysqli_query($con, "INSERT INTO contact_details(id,email, phone_no, address, created_on, created_by) VALUES(1,'$email','$phone','$address',NOW(), '$admin_name')");
 
         if ($insert_query) {
             $_SESSION['status'] = "success";
@@ -1175,48 +1178,17 @@ elseif (isset($_POST['contact_details'])) {
             $_SESSION['status'] = "danger";
             $_SESSION['message'] = "Not Inserted";
         }
-        
+
     }
     header("location: $mainlink" . "./admin/contactdetails");
     exit();
 
 
-} elseif (isset($_POST['checking_edit_contacts_btn'])) {
-    $contactId = $_POST['contactId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `contact_details` WHERE id = $contactId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} elseif (isset($_POST['update_contactDetaills'])) {
-    $id = $_POST['contatId'];
-    $email = $_POST['editEmail'];
-    $phone = $_POST['editPhone'];
-    $address = $_POST['editAddress'];
-
-
-    $update_contact = "UPDATE contact_details SET email = '$email', phone_no = '$phone', address = '$address' WHERE id='$id'";
-    $query = mysqli_query($con, $update_contact);
-
-    if ($query) {
-        header("location: $mainlink" . "admin/contactdetails");
-    } else {
-        echo "not working";
-    }
 }
 if (isset($_POST['delete_contact'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql = "UPDATE contact_details SET status = 0  WHERE id = $id";
+    $sql = "DELETE FROM contact_details";
     $query = mysqli_query($con, $sql);
     if ($query) {
         // If the delete operation is successful, you can redirect to a success page
