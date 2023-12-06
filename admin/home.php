@@ -52,7 +52,7 @@ include('../core/listgrid.php');
                                             <button type="button" class="btn btn-primary me-2 p-2 edit-button"
                                                 data-bs-toggle="modal" data-id="<?= $id; ?>" data-title="<?= $title; ?>"
                                                 data-admin_name="<?= $name; ?>" data-desc="<?= strip_tags($desc); ?>"
-                                                data-banner="<?= $bannerImage; ?>">Edit</button>
+                                                data-banner="<?= $bannerImage; ?>">Click here for update</button>
 
                                             <button type="submit" class="btn btn-danger p-2 delete-button"
                                                 data-bs-toggle="modal" data-bs-target="#deleteHomeModal"
@@ -122,7 +122,7 @@ include('../core/listgrid.php');
                             </div>
                         </div>
 
-                        <button type="submit" name="insert_home" class="btn btn-primary me-2">Submit</button>
+                        <button type="submit" id="insert_update" name="insert_home" class="btn btn-primary me-2">Submit</button>
                     </form>
                 </div>
             </div>
@@ -239,6 +239,7 @@ include('../core/listgrid.php');
         //     });
         // });
         $('.edit-button').on('click', function () {
+            $('#insert_update').text('Update');
             // Retrieve data attributes
             var id = $(this).data('id');
             var title = $(this).data('title');
