@@ -1,8 +1,6 @@
 <?php
 session_start();
 $filename = pathinfo(basename($_SERVER['SCRIPT_NAME']), PATHINFO_FILENAME);
-
-// include("./core/init.php");
 include("./core/login_register.php");
 include("./core/authFunctions.php");
 include("./core/blogsFunction.php");
@@ -12,8 +10,6 @@ include("./core/listgrid.php");
 include("./core/allmailfun.php");
 include("./core/testimonials.php");
 
-// include("./core/login_register.php");
-// include("./core/login_register.php");
 if ($fetch_user_contact_details_query) {
     while ($fetch_user_contact_details_result = mysqli_fetch_assoc($fetch_user_contact_details_query)) {
         $contact_id = $fetch_user_contact_details_result["id"];

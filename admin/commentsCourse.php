@@ -181,7 +181,7 @@ include('includes/sidebar.php');
                 // alert(view_review);
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data: {
                         'Review_id': view_review,
                     },
@@ -232,7 +232,7 @@ include('includes/sidebar.php');
                 var delete_id_value = $('#delete_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data:{
                       'delete_course_review_id' : delete_id_value,   
                     },
@@ -250,7 +250,7 @@ include('includes/sidebar.php');
                 // alert(textareaContent);
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data: {
                         'modal_review_id': reviewId,
                         'modal_review': textareaContent,
@@ -269,7 +269,7 @@ include('includes/sidebar.php');
                 // alert(c_Id);
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data: {
                         'disapprove': r_Id,
                     },

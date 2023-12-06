@@ -186,7 +186,7 @@ include('includes/sidebar.php');
                 alert(view_comment);
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data: {
                         'Comment_id': view_comment,
                     },
@@ -237,7 +237,7 @@ include('includes/sidebar.php');
                 var delete_id_value = $('#delete_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data:{
                       'delete_blog_comment_id' : delete_id_value,   
                     },
@@ -255,7 +255,7 @@ include('includes/sidebar.php');
                 // alert(textareaContent);
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data: {
                         'modal_comment_id': commentId,
                         'modal_comment': textareaContent,
@@ -274,7 +274,7 @@ include('includes/sidebar.php');
                 // alert(c_Id);
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data: {
                         'disapprove': c_Id,
                     },

@@ -43,7 +43,7 @@ $result = $con->query($sql);
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                <form class="forms-sample" action="../core/functions.php" method="POST">
+                <form class="forms-sample" action="../core/admin_functions.php" method="POST">
                     <h4 class="card-title">Career Page</h4>
                       <div class="form-group">
                         <label for="categorySelect">Category</label>   
@@ -152,7 +152,7 @@ $result = $con->query($sql);
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="../core/functions.php">
+            <form method="POST" action="../core/admin_functions.php">
                 <div class="modal-body">
                     <!-- Form for editing the blog content -->
 
@@ -197,7 +197,7 @@ $result = $con->query($sql);
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="../core/functions.php" method="POST">
+            <form action="../core/admin_functions.php" method="POST">
 
                 <div class="modal-body">
 
@@ -229,7 +229,7 @@ $(document).ready(function() {
         console.log(careerId);
         $.ajax({
             type: 'POST',
-            url: '../core/functions.php', // Replace with the URL of your server-side script
+            url: '../core/admin_functions.php', // Replace with the URL of your server-side script
             data: {
                 'checking_career_btn': true,
                 'careerId': careerId,

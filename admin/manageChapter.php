@@ -2,7 +2,7 @@
 include('includes/header.php');
 include('includes/sidebar.php');
 include('../core/listgrid.php');
-include('../core/functions.php');
+include('../core/admin_functions.php');
 
 // include('functions/get_subtopics.php');
 ?>
@@ -81,7 +81,7 @@ include('../core/functions.php');
 
                 <div class="card-body">
                     <h4 class="card-title">Add Chapter</h4>
-                    <form action="../core/functions.php" class="col-md-12 " method="POST" enctype="multipart/form-data">
+                    <form action="../core/admin_functions.php" class="col-md-12 " method="POST" enctype="multipart/form-data">
                         <div class="col-md-12 d-flex">
                             <div class="col-md-6 p-3">
                                 <div class="form-group">
@@ -264,7 +264,7 @@ include('../core/functions.php');
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="POST" action="../core/functions.php" enctype="multipart/form-data">
+                        <form method="POST" action="../core/admin_functions.php" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <!-- Form for editing the blog content -->
 
@@ -362,7 +362,7 @@ include('../core/functions.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="../core/functions.php" method="POST">
+            <form action="../core/admin_functions.php" method="POST">
 
                 <div class="modal-body">
 
@@ -386,7 +386,7 @@ include('../core/functions.php');
             // console.log(blogId);
             $.ajax({
                 type: 'POST',
-                url: '../core/functions.php', // Replace with the URL of your server-side script
+                url: '../core/admin_functions.php', // Replace with the URL of your server-side script
                 data: {
                     'checking_chapters_btn': true,
                     'chapterId': chapterId,

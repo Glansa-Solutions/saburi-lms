@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Send the data via AJAX
         $.ajax({
-            url: '../core/functions.php',
+            url: '../core/admin_functions.php',
             method: 'POST',
             processData: false,
             contentType: false,

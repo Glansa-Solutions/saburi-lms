@@ -9,7 +9,7 @@ include('../core/listgrid.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Topic Details</h4>
-                    <form class="forms-sample row" action="../core/functions.php" method="POST">
+                    <form class="forms-sample row" action="../core/admin_functions.php" method="POST">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Topic Name</label>
@@ -81,7 +81,7 @@ include('../core/listgrid.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="../core/functions.php">
+            <form method="POST" action="../core/admin_functions.php">
               <div class="modal-body">
                 <!-- Form for editing the blog content -->
                 
@@ -111,7 +111,7 @@ include('../core/listgrid.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="../core/functions.php" method="POST">
+            <form action="../core/admin_functions.php" method="POST">
 
             <div class="modal-body">
 
@@ -133,7 +133,7 @@ $(document).ready(function() {
         console.log(topicId);
         $.ajax({
         type: 'POST',
-        url: '../core/functions.php', // Replace with the URL of your server-side script
+        url: '../core/admin_functions.php', // Replace with the URL of your server-side script
         data: { 
             'checking_topic_btn' : true,
              'topicId': topicId, },

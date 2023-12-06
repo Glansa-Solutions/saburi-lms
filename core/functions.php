@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 // Admin Login
 
 if (isset($_POST['login_admin'])) {
-
+    session_start();
     $name = mysqli_real_escape_string($con, $_POST['admin_name']);
     $password = mysqli_real_escape_string($con, $_POST['admin_password']);
 
@@ -20,8 +20,6 @@ if (isset($_POST['login_admin'])) {
         $admin_pass = $fetch_admin_sql['Password'];
 
         if ($admin_pass === $password) {
-            session_start();
-
             // Store user information in the session
             $_SESSION['admin_id'] = $fetch_admin_sql['id'];
             $_SESSION['admin_email'] = $fetch_admin_sql['Email'];
@@ -31,19 +29,14 @@ if (isset($_POST['login_admin'])) {
             header("location: $mainlink" . "admin/dashboard");
             exit();
         } else {
-            $_SESSION['errormessage'] = "Email id and password";
-            header("location: $mainlink" . "admin/404");
+            $_SESSION['errormessage'] = "Entered password is incorrect";
+            header("location: $mainlink" . "admin/");
             exit();
         }
-        // Check if a matching user was found
-
-        // exit();
-
     } else {
-        // Handle the case where no user with the specified 'Name' was found
-        $_SESSION['message'] = "User not found";
+        $_SESSION['errormessage'] = "Entered Username is incorrect";
         header("location: $mainlink" . "admin/");
-        // exit();
+        exit();
     }
 
 

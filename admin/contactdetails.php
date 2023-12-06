@@ -16,7 +16,7 @@ include('../core/listgrid.php');
                         You can Write the content for about page.
                     </p> -->
                    
-                    <form class="forms-sample" method="POST" action="../core/functions.php">
+                    <form class="forms-sample" method="POST" action="../core/admin_functions.php">
                         <div class="form-group">
                             <label for="title">Email</label>
                             <input type="email" class="form-control" name="email"
@@ -115,7 +115,7 @@ include('../core/listgrid.php');
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" action="../core/functions.php">
+                    <form method="POST" action="../core/admin_functions.php">
                         <div class="modal-body">
                             <!-- Form for editing the blog content -->
 
@@ -157,7 +157,7 @@ include('../core/listgrid.php');
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="../core/functions.php" method="POST">
+                    <form action="../core/admin_functions.php" method="POST">
                         <div class="modal-body">
 
                             <input type="hidden" id="delete_id" name="delete_id">
@@ -179,7 +179,7 @@ include('../core/listgrid.php');
                 console.log(contactId);
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php', // Replace with the URL of your server-side script
+                    url: '../core/admin_functions.php', // Replace with the URL of your server-side script
                     data: {
                         'checking_edit_contacts_btn': true,
                         'contactId': contactId,

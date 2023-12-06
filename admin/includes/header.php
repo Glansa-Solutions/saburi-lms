@@ -7,10 +7,13 @@ include("../core/data_list_grid.php");
 include('../core/listgrid.php');
 // Check if the user is logged in
 if (!isset($_SESSION['admin_name'])) {
+
     // Redirect to the login page if not logged in
     header("Location: $mainlink" . "admin/");
     exit();
 }
+$name = $_SESSION['admin_name'];
+$email = $_SESSION['admin_email'];
 $greeting_message = $_SESSION['admin_name'] . "!";
 ?>
 <!DOCTYPE html>
@@ -234,13 +237,18 @@ $greeting_message = $_SESSION['admin_name'] . "!";
                             <div class="dropdown-header text-center">
                                 <img class="img-md rounded-circle" src="./assets/images/faces/face8.jpg"
                                     alt="Profile image">
-                                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                <p class="mb-1 mt-3 font-weight-semibold">
+                                    <?= $name ?>
+                                </p>
+                                <p class="fw-light text-muted mb-0">
+                                    <?= $email ?>
+                                </p>
                             </div>
                             <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile
-                                <span class="badge badge-pill badge-danger">1</span></a>
-                            <a class="dropdown-item"><i
+                                <!-- <span class="badge badge-pill badge-danger">1</span> -->
+                            </a>
+                            <!-- <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
                                 Messages</a>
                             <a class="dropdown-item"><i
@@ -248,7 +256,7 @@ $greeting_message = $_SESSION['admin_name'] . "!";
                                 Activity</a>
                             <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
-                                FAQ</a>
+                                FAQ</a> -->
                             <a class="dropdown-item" href="../core/logout.php"><i
                                     class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
                         </div>

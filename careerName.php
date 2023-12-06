@@ -166,7 +166,7 @@ if (isset($_GET['c_id'])) {
             </div>
             <div class="modal-body">
                 <div class="container">
-                    <form method="POST" class="w-100 rounded-1 p-4 border bg-white" action="./core/functions.php"
+                    <form method="POST" class="w-100 rounded-1 p-4 border bg-white" action="./core/admin_functions.php"
                         enctype="multipart/form-data">
                         <input required name="CareerId" type="hidden" value="<?= $id ?>" class="form-control"
                             placeholder="Enter Your Name" />
