@@ -18,7 +18,14 @@ if ($fetch_user_contact_details_query) {
         $contact_address = $fetch_user_contact_details_result["address"];
     }
 }
+if (!isset($_SESSION['role'])) {
+    // Set default role to "students"
+    $_SESSION['role'] = 'students';
 
+    // Redirect to the login page if not logged in
+    header("Location: $mainlink" . "log_reg");
+    exit();
+}
 // Check if the session variables are set
 if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
     $role_id = $_SESSION['role_id'];
@@ -104,6 +111,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
         background-size: cover;
         position: relative;
     }
+
     /* style for banner update End */
 
     /* Hide the default number input arrows in Chrome, Safari, and Edge */

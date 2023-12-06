@@ -38,7 +38,7 @@ include("includes/header.php");
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">
-                           <?= $filename; ?>
+                            <?= $filename; ?>
                         </li>
                     </ul>
                 </div>
@@ -52,20 +52,22 @@ include("includes/header.php");
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-12">
                 <div class="about-img2">
-                    <img src="assets/images/bg/choose.png" alt="" class="img-fluid">
+                    <img src="assets/images/about/<?= $about_banner_name ?>" alt="" class="img-fluid">
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="section-heading">
-                    <span class="subheading">Top Categories</span>
-                    <h3>Learn new skills to go ahead for your career</h3>
+                    <span class="subheading">Here we are</span>
+                    <h3>
+                        <?= $about_title; ?>
+                    </h3>
                 </div>
 
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores excepturi explicabo esse nisi
-                    molestias molestiae magni porro magnam,
-                    iusto sunt aliquid necessitatibus optio quod iste facilis similique eos voluptatum sint?</p>
+                <p>
+                    <?= $about_Description ?>
+                </p>
 
-                <a href="#" class="btn btn-main"><i class="fa fa-check mr-2"></i>Learn More</a>
+                <!-- <a href="#" class="btn btn-main"><i class="fa fa-check mr-2"></i>Learn More</a> -->
 
             </div>
         </div>
@@ -199,7 +201,7 @@ include("includes/header.php");
         </div>
     </div>
 </section>
-<section class="testimonial section-padding">
+<!-- <section class="testimonial section-padding">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">
@@ -287,6 +289,60 @@ include("includes/header.php");
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+<section class="testimonial section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="section-heading center-heading text-center">
+                    <span class="subheading">Testimonials</span>
+                    <!-- <h3>Learn New Skills to Go Ahead for Your Career</h3> -->
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="testimonials-slides owl-carousel owl-theme">
+                    <?php
+                    if ($fetch_testimonial_sql) {
+                        // Loop through the fetched testimonials
+                        while ($row = $fetch_testimonial_sql->fetch_assoc()) {
+                            ?>
+                            <div class="review-item">
+
+                                <div class="client-info">
+                                    <div class="title">
+                                        <b><span class="title">
+                                                <?php echo $row['title']; ?>
+                                            </span></b>
+                                    </div>
+                                    <i class="bi bi-quote"></i>
+                                    <p>
+                                        <?php echo $row['description']; ?>
+                                    </p>
+
+                                </div>
+                                <div class="client-desc">
+                                    <div class="client-img">
+                                        <img src="assets/images/profile_img/<?php echo ($row['subscribedBy'] == 'students') ? $row['profile_img'] : $row['profile']; ?>"
+                                            alt="" class="img-fluid">
+                                    </div>
+                                    <div class="client-text">
+                                        <h4>
+                                            <?php echo ($row['subscribedBy'] == 'students') ? $row['name'] : $row['companyName']; ?>
+                                        </h4>
+                                        <!-- <span class="designation"><?php echo $row['designation']; ?></span> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    }
+                    ?>
                 </div>
             </div>
         </div>

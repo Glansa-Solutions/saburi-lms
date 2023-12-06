@@ -1,15 +1,6 @@
 <?php
 include("includes/header.php");
 ?>
-<style>
-    /* .banner {
-        padding: 130px 0px;
-        padding-bottom: 180px;
-        background: url(assets/images/home/'<?= $banner_name; ?>');
-        background-size: cover;
-        position: relative;
-    } */
-</style>
 <div class="search-wrap">
     <div class="overlay">
         <form action="" class="search-form">
@@ -337,20 +328,18 @@ include("includes/header.php");
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-12">
                 <div class="about-img2">
-                    <img src="assets/images/bg/choose.png" alt="" class="img-fluid">
+                    <img src="assets/images/about/<?= $about_banner_name ?>" alt="" class="img-fluid">
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="section-heading">
                     <span class="subheading">About Us</span>
-                    <h3>Learn new skills to go ahead for your career</h3>
+                    <h3><?= $about_title;?></h3>
                 </div>
 
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores excepturi explicabo esse nisi
-                    molestias molestiae magni porro magnam,
-                    iusto sunt aliquid necessitatibus optio quod iste facilis similique eos voluptatum sint?</p>
+                <p><?= $about_Description?></p>
 
-                <a href="#" class="btn btn-main"><i class="fa fa-check mr-2"></i>Learn More</a>
+                <a href="<?= $mainlink?>about" class="btn btn-main"><i class="fa fa-check mr-2"></i>Learn More</a>
 
             </div>
         </div>
