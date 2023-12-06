@@ -13,8 +13,8 @@
 </div>
 <!-- page-body-wrapper ends -->
 </div>
-<!-- container-scroller -->
-
+<!-- swall-scroller -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!-- plugins:js -->
 <script src="./assets/vendors/js/vendor.bundle.base.js"></script>
 <!-- endinject -->

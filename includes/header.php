@@ -96,6 +96,16 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
 
 </head>
 <style>
+    /* style for banner update */
+    .banner {
+        padding: 130px 0px;
+        padding-bottom: 180px;
+        background: url("./assets/images/home/<?= $banner_name; ?>");
+        background-size: cover;
+        position: relative;
+    }
+    /* style for banner update End */
+
     /* Hide the default number input arrows in Chrome, Safari, and Edge */
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
@@ -395,7 +405,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                             Add Testimonial
                                         </a>
                                         <a href="<?= $mainlink ?>companyCourseReport" class="dropdown-item">
-                                        <i
+                                            <i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Company Course Report
                                         </a>

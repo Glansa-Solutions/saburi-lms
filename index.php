@@ -1,7 +1,15 @@
 <?php
 include("includes/header.php");
 ?>
-
+<style>
+    /* .banner {
+        padding: 130px 0px;
+        padding-bottom: 180px;
+        background: url(assets/images/home/'<?= $banner_name; ?>');
+        background-size: cover;
+        position: relative;
+    } */
+</style>
 <div class="search-wrap">
     <div class="overlay">
         <form action="" class="search-form">
@@ -29,8 +37,12 @@ include("includes/header.php");
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-8">
                 <div class="banner-content center-heading">
-                    <span class="subheading">Expert instruction</span>
-                    <h1>Convenient easy way of learning new skills!</h1>
+                    <span class="subheading">
+                        <?= $banner_title ?>
+                    </span>
+                    <h1>
+                        <?= $banner_Description ?>
+                    </h1>
                     <a href="#" class="btn btn-main"><i class="fa fa-list-ul mr-2"></i>our Courses </a>
                     <a href="#" class="btn btn-tp ">get Started <i class="fa fa-angle-right ml-2"></i></a>
                 </div>

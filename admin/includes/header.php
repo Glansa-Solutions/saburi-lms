@@ -1,6 +1,4 @@
 <?php
-// session_start();
-
 include("../core/admin_functions.php");
 include("../core/db_config.php");
 include("../core/data_list_grid.php");
@@ -44,6 +42,8 @@ $greeting_message = $_SESSION['admin_name'] . "!";
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9">
 
     <style>
         div#editor {

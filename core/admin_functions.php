@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
-// Admin Login
+// Admin Login start
 
 if (isset($_POST['login_admin'])) {
     $name = mysqli_real_escape_string($con, $_POST['admin_name']);
@@ -23,7 +23,7 @@ if (isset($_POST['login_admin'])) {
             $_SESSION['admin_id'] = $fetch_admin_sql['id'];
             $_SESSION['admin_email'] = $fetch_admin_sql['Email'];
             $_SESSION['admin_name'] = $fetch_admin_sql['Name'];
-            
+
             // echo $_SESSION['admin_name'];
             // exit();
             header("location: $mainlink" . "admin/dashboard");
@@ -39,10 +39,9 @@ if (isset($_POST['login_admin'])) {
         exit();
     }
 
+    // Admin Login End
 
-    // if($password = )
-
-    // header('location: ../dashboard');
+    // Topic Management start
 } elseif (isset($_POST['topic_manage'])) {
     $topic = $_POST['topic'];
     $currentDate = date("Y-m-d H:i:s");
@@ -53,6 +52,7 @@ if (isset($_POST['login_admin'])) {
     } else {
         echo "not done";
     }
+    // Topic Management end 
 
 
 
@@ -1067,23 +1067,62 @@ elseif (isset($_POST['checking_user_btn'])) {
 elseif (isset($_POST['insert_home'])) {
     $title = $_POST['title'];
     $desc = $_POST['desc'];
+    $admin_name = $_POST['admin_name'];
 
+    $insert_query = mysqli_query($con, "SELECT * FROM home");
+    $fetch_home_rows = mysqli_fetch_assoc($insert_query);
+    $row_count = mysqli_num_rows($insert_query);
+    if ($row_count > 0) {
+        // Existing record, update operation
+        if (isset($_FILES['bannerImage']) && $_FILES['bannerImage']['error'] === UPLOAD_ERR_OK) {
+            // Case 1: New image is uploaded
+            $imageFile = $_FILES['bannerImage'];
+            $imageFileName = $imageFile['name'];
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/home/' . $trimmed_banner_name);
 
-    if (isset($_FILES['bannerImage'])) {
-        $imageFile = $_FILES['bannerImage'];
-        $imageFileName = $imageFile['name'];
-        // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], '../assets/images/home/' . $imageFileName);
-    }
-    // $name = $_POST['name'];
+            // Delete old image file
+            $oldBannerName = $fetch_home_rows['bannerImage'];
+            unlink('../assets/images/home/' . $oldBannerName);
+        } else {
+            // Case 2: No new image uploaded, use the existing banner name
+            $trimmed_banner_name = $fetch_home_rows['bannerImage'];
+        }
 
-    $insert_query = mysqli_query($con, "INSERT INTO home(Title, Description, bannerImage, createdOn) VALUES('$title','$desc','$imageFileName',NOW())");
+        $update_query = mysqli_query($con, "UPDATE home SET Title='$title', Description='$desc', bannerImage='$trimmed_banner_name', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
 
-    if ($insert_query) {
-        header("location: $mainlink" . "./admin/home");
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
+        }
     } else {
-        echo "not done";
+        // New record, insert operation
+        if (isset($_FILES['bannerImage'])) {
+            $imageFile = $_FILES['bannerImage'];
+            $imageFileName = $imageFile['name'];
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/home/' . $trimmed_banner_name);
+        }
+
+        $insert_query = mysqli_query($con, "INSERT INTO home(id,Title, Description, bannerImage, createdOn, createdBy) VALUES(1,'$title','$desc','$trimmed_banner_name',NOW(), '$admin_name')");
+
+        if ($insert_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
+        }
     }
+
+    // Redirect to the appropriate page
+    header("location: $mainlink" . "./admin/home");
+    exit();
+
 }
 
 // End Inserting Home
@@ -1142,7 +1181,7 @@ elseif (isset($_POST['checking_edit_home_btn'])) {
 } elseif (isset($_POST['delete_home'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql3 = "UPDATE home SET isActive = 0 WHERE id = $id";
+    $sql3 = "DELETE from home";
     $query3 = mysqli_query($con, $sql3);
     if ($query3) {
         header("location: $mainlink" . "./admin/home");
