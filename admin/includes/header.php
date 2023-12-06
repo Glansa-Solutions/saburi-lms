@@ -5,17 +5,13 @@ include("../core/admin_functions.php");
 include("../core/db_config.php");
 include("../core/data_list_grid.php");
 include('../core/listgrid.php');
-
-
 // Check if the user is logged in
-if (!isset($_SESSION['name'])) {
+if (!isset($_SESSION['admin_name'])) {
     // Redirect to the login page if not logged in
     header("Location: $mainlink" . "admin/");
     exit();
 }
-$greeting_message =  $_SESSION['name'] . "!";
-// include('./functions/modals_data.php');
-// $mainlink="http://localhost:8080/LMS/lms2/";
+$greeting_message = $_SESSION['admin_name'] . "!";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +52,8 @@ $greeting_message =  $_SESSION['name'] . "!";
         .ss {
             background-color: red;
         }
-        #fr-logo{
+
+        #fr-logo {
             visibility: hidden;
         }
     </style>
@@ -74,7 +71,7 @@ $greeting_message =  $_SESSION['name'] . "!";
                     </button>
                 </div>
                 <div>
-                    <a class="navbar-brand brand-logo" href="<?= $mainlink;?>admin/dashboard">
+                    <a class="navbar-brand brand-logo" href="<?= $mainlink; ?>admin/dashboard">
                         <img src="./assets/images/saburi.png" alt="logo" />
                         <!-- <h3 style="color:white;">LMS - SABURI</h3> -->
                     </a>
@@ -85,15 +82,17 @@ $greeting_message =  $_SESSION['name'] . "!";
                 </div>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
-            <ul class="navbar-nav">
-                <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                  <h1 class="welcome-text">Welcome <?php echo $greeting_message; ?></h1>
-                            <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
-                        </li>
-                    </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+                        <h1 class="welcome-text">Welcome
+                            <?php echo $greeting_message; ?>
+                        </h1>
+                        <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
+                    </li>
+                </ul>
 
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown d-none d-lg-block">
+                    <!-- <li class="nav-item dropdown d-none d-lg-block">
                         <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown"
                             href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
@@ -184,7 +183,7 @@ $greeting_message =  $_SESSION['name'] . "!";
                                 </div>
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link count-indicator" id="countDropdown" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">

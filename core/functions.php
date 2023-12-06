@@ -13,17 +13,30 @@ if (isset($_POST['login_admin'])) {
     $name = mysqli_real_escape_string($con, $_POST['admin_name']);
     $password = mysqli_real_escape_string($con, $_POST['admin_password']);
 
-    $user_sql = mysqli_query($con, "SELECT * FROM users WHERE Email='$name' AND Password='$password'");
-    $fetch_user_sql = mysqli_fetch_assoc($user_sql);
+    $admin_sql = mysqli_query($con, "SELECT * FROM users WHERE Name='$name'");
+    $fetch_admin_sql = mysqli_fetch_assoc($admin_sql);
 
-    if ($fetch_user_sql) { // Check if a matching user was found
-        session_start();
+    if ($admin_sql) {
+        $admin_pass = $fetch_admin_sql['Password'];
 
-        // Store user information in the session
-        $_SESSION['user_id'] = $fetch_user_sql['user_id'];
-        $_SESSION['user_name'] = $fetch_user_sql['Email'];
-        $_SESSION['name'] = $fetch_user_sql['Name'];
-        header("location: $mainlink" . "admin/dashboard");
+        if ($admin_pass === $password) {
+            session_start();
+
+            // Store user information in the session
+            $_SESSION['admin_id'] = $fetch_admin_sql['id'];
+            $_SESSION['admin_email'] = $fetch_admin_sql['Email'];
+            $_SESSION['admin_name'] = $fetch_admin_sql['Name'];
+            // echo $_SESSION['admin_name'];
+            // exit();
+            header("location: $mainlink" . "admin/dashboard");
+            exit();
+        } else {
+            $_SESSION['errormessage'] = "Email id and password";
+            header("location: $mainlink" . "admin/404");
+            exit();
+        }
+        // Check if a matching user was found
+
         // exit();
 
     } else {

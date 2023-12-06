@@ -1,4 +1,3 @@
-<?php include('../core/init.php') ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +19,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
   <!-- endinject -->
-  <link rel="shortcut icon" href="assets/images/favicon.png" />
+  <!-- <link rel="shortcut icon" href="assets/images/favicon.png" /> -->
 </head>
 
 <body>
@@ -38,8 +37,8 @@
               <!--  -->
               <form class="pt-3" action="../core/functions.php" method="POST">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" name="admin_name" id="exampleInputEmail1"
-                    placeholder="Username">
+                  <input type="text" class="form-control form-control-lg" name="admin_name" id="exampleInputEmail1"
+                    placeholder="Enter username">
                 </div>
                 <div class="form-group">
                   <input type="password" class="form-control form-control-lg" name="admin_password"
@@ -48,8 +47,8 @@
                 <div id="passwordError" class="text-danger"></div>
                 <div class="mt-3">
                   <button type="submit" name="login_admin"
-                    class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
-
+                    class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN
+                  </button>
                 </div>
 
                 <?php
@@ -67,11 +66,6 @@
                   </div>
                   <a class="auth-link text-black" href="<?= $mainlink; ?>forgotPassword">Forgot password?</a>
                 </div>
-                <!-- <div class="mb-2">
-                  <button type="button" class="btn btn-block btn-facebook auth-form-btn">
-                    <i class="ti-facebook me-2"></i>Connect using facebook
-                  </button>
-                </div> -->
                 <div class="text-center mt-4 fw-light">
                   Don't have an account? <a href="register.html" class="text-primary">Create</a>
                 </div>
