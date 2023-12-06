@@ -2,7 +2,6 @@
 include('includes/header.php');
 include('includes/sidebar.php');
 include('../core/listgrid.php');
-include('../core/admin_functions.php');
 
 // include('functions/get_subtopics.php');
 ?>

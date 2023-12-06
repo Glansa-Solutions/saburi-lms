@@ -11,43 +11,7 @@ include('../core/listgrid.php');
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Contact Details Page</h4>
-                    <!-- <p class="card-description">
-                        You can Write the content for about page.
-                    </p> -->
-                   
-                    <form class="forms-sample" method="POST" action="../core/admin_functions.php">
-                        <div class="form-group">
-                            <label for="title">Email</label>
-                            <input type="email" class="form-control" name="email"
-                                placeholder="Enter Email">
-                        </div>
-                        <div class="form-group">
-                            <label for="image">phone Number</label>
-                            <input type="text" class="form-control" name="phone_no" >
-                        </div>
-                       
-                        <div class="form-group">
-                            <label for="desc">Address</label>
-                            <div name="editAddress">
-                                <textarea  name="address" class="mySummernote"></textarea>
-                            </div>
-                        </div>
-                        <!-- <div class="form-group">
-                            <label for="banner_image">Banner Image</label>
-                            <input type="file" class="form-control-file" id="banner_image" accept="image/*">
-                        </div> -->
-
-                        <button type="submit" class="btn btn-primary me-2" name="contact_details">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                <h4 class="card-title">Contact Details  list</h4>
+                    <h4 class="card-title">Contact Details list</h4>
                     <table id="example" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
@@ -60,164 +24,152 @@ include('../core/listgrid.php');
                             </tr>
                         </thead>
                         <tbody>
-                        <?php
-                            if($fetch_user_contact_details_query)
-                            {
+                            <?php
+                            if ($fetch_user_contact_details_query) {
                                 $i = 1;
-                                while($row=mysqli_fetch_assoc($fetch_user_contact_details_query))
-                                {
+                                while ($row = mysqli_fetch_assoc($fetch_user_contact_details_query)) {
                                     $id = $row['id'];
-                                    $email=$row['email'];
+                                    $email = $row['email'];
                                     $phone_no = $row['phone_no'];
-                                    $address = $row['address'];
-                                    
+                                    $address_content = $row['address'];
+                                    $address_text = strip_tags($address_content);
+                                    $address = wordwrap($address_text, 20, "</br>\n");
                                     ?>
-                                <tr>
-                                    <td><?= $i;?></td>
-                                    <td class="edit_id" hidden><?= $id; ?>
-                                    <td><?= $email; ?></td>
-                                    <td><?= $phone_no; ?></td>
-                                    <td><?= $address; ?></td>
-                                    <td>
-                                        <button type="submit" class="btn btn-primary me-2 p-2 edit-button"  data-bs-toggle="modal" data-bs-target="#editmodal"
-                                        data-id="<?= $id; ?>">Edit</button>
-                                        <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deletecontactModal"  data-id="<?= $id; ?>">Delete</button>
+                                    <tr>
+                                        <td>
+                                            <?= $i; ?>
+                                        </td>
+                                        <td class="edit_id" hidden>
+                                            <?= $id; ?>
+                                        <td>
+                                            <?= $email; ?>
+                                        </td>
+                                        <td>
+                                            <?= $phone_no; ?>
+                                        </td>
+                                        <td>
+                                            <?= $address; ?>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary me-2 p-2 edit-button"
+                                                data-bs-toggle="modal" data-id="<?= $id; ?>" data-email="<?= $email; ?>"
+                                                data-phone_no="<?= $phone_no; ?>" data-admin_name="<?= $name; ?>"
+                                                data-desc="<?= $address; ?>">Click here for
+                                                update</button>
+                                            <button type="submit" class="btn btn-danger p-2 delete-button"
+                                                data-bs-toggle="modal" data-bs-target="#deletecontactModal"
+                                                data-id="<?= $id; ?>">Delete</button>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
 
-                                <?php
-                            $i++;
+                                    <?php
+                                    $i++;
                                 }
-                                
-                            }else {
+
+                            } else {
                                 echo "Query failed!";
                             }
                             ?>
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Contact Details Page</h4>
+                    <!-- <p class="card-description">
+                        You can Write the content for about page.
+                    </p> -->
 
-    </div>
-</div>
-
- <!-- Modal for editing blog content -->
- <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editBlogModalLabel">Edit Contact</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form method="POST" action="../core/admin_functions.php">
-                        <div class="modal-body">
-                            <!-- Form for editing the blog content -->
-
-                            <input type="hidden" id="contatId" name="contatId">
-                            <div class="form-group">
-                                <label for="editTitle">Email</label>
-                                <input type="text" class="form-control" id="editEmail" name="editEmail">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="editTitle">Phone No</label>
-                                <input type="text" class="form-control" id="editPhone" name="editPhone">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="editDescription">Address</label>
-                                <textarea  name="editAddress" id="editAddress" class="mySummernote">
-                            </textarea>    
-                            </div>
-                       </div>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary" name="update_contactDetaills">Save
-                                Changes</button>
+                    <form class="forms-sample" id="entry_form" method="POST"
+                        action="../core/admin_functions.php">
+                        <div class="form-group">
+                            <label for="title">Email</label>
+                            <input type="email" id="emailInput" class="form-control" name="email"
+                                placeholder="Enter Email">
+                            <span id="errorEmail" style="color: red;"></span>
+                            <input type="hidden" id="admin_name" name="admin_name" value=<?= $name; ?>>
                         </div>
+                        <div class="form-group">
+                            <label for="image">phone Number</label>
+                            <input type="text" class="form-control" onkeypress="return isNumber(event)"
+                                oninput="validatePhoneNumber()" value="" id="phoneNumber" name="phone_no">
+                            <span id="errorPhn" style="color: red;"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="desc">Address</label>
+                            <div name="editAddress">
+                                <textarea name="address" id="editAddress" class="mySummernote"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary me-2" id="insert_update"
+                            name="contact_details">Submit</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn"
+                            onclick="resetForm()">Reset</button>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
-        <div class="modal fade" id="deletecontactModal" tabindex="-1" role="dialog"
-            aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <form action="../core/admin_functions.php" method="POST">
-                        <div class="modal-body">
-
-                            <input type="hidden" id="delete_id" name="delete_id">
-                            Are you sure you want to delete this record?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-danger" name="delete_contact"
-                               >Delete</button>
-                        </div>
-                </div>
+<!-- Modal for editing blog content -->
+<div class="modal fade" id="deletecontactModal" tabindex="-1" role="dialog"
+    aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
+            <form action="../core/admin_functions.php" method="POST">
+                <div class="modal-body">
+
+                    <input type="hidden" id="delete_id" name="delete_id">
+                    Are you sure you want to delete this record?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger" name="delete_contact">Delete</button>
+                </div>
         </div>
+    </div>
+</div>
 <!-- Main Content ends -->
 <script>
-        $(document).ready(function() {
-            $('.edit-button').on('click', function() {
-                var contactId = $(this).closest('tr').find('.edit_id').text();
-                console.log(contactId);
-                $.ajax({
-                    type: 'POST',
-                    url: '../core/admin_functions.php', // Replace with the URL of your server-side script
-                    data: {
-                        'checking_edit_contacts_btn': true,
-                        'contactId': contactId,
-                    },
-                    // dataType: 'json',
-                    success: function(response) {
-                        console.log(response);
-                        $.each(response, function(key, value) {
-                            $('#editEmail').val(value['email']);
-                            $('#editPhone').val(value['phone_no']);
-                            
-                            // You can handle image display or updating as needed
-                            // $('#edit').val(value['address']);
-                            $('#editAddress').summernote('code', value['address']);
-                            // console.log(a);
-                            $('#contatId').val(value['id']);
-                        });
-                    }
-                });
-            });
+    $(document).ready(function () {
+        $('.edit-button').on('click', function () {
+            $('#insert_update').text('Update');
+            // Retrieve data attributes
+            var id = $(this).data('id');
+            var email = $(this).data('email');
+            var desc = $(this).data('desc');
+            var phone_no = $(this).data('phone_no');
+            var admin_name = $(this).data('admin_name');
+
+            $('#emailInput').val(email);
+            $('#phoneNumber').val(phone_no);
+            $('#editAddress').summernote('code', desc);
         });
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        $('.delete-button').on('click', function (e) {
+            e.preventDefault();
+            var blogId = $(this).closest('tr').find('.edit_id').text();
 
-              <script>
-        $(document).ready(function() {
-            $('.delete-button').on('click', function(e) {
-                e.preventDefault();
-                var blogId = $(this).closest('tr').find('.edit_id').text();
+            console.log(blogId);
+            $('#delete_id').val(blogId);
+            $('#deletecontactModal').modal('show');
 
-                console.log(blogId);
-                $('#delete_id').val(blogId);
-                $('#deletecontactModal').modal('show');
-
-            });
         });
-        </script>
 
+    });
+</script>
 <?php
 
 include('includes/footer.php');

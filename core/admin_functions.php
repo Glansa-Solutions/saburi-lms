@@ -603,68 +603,6 @@ if (isset($_POST['delete_career'])) {
     } else {
         echo "not working";
     }
-} elseif (isset($_POST['contact_details'])) {
-
-    $email = $_POST['email'];
-    $phone = $_POST['phone_no'];
-    $address = $_POST['address'];
-
-    $currentDate = date("Y-m-d H:i:s");
-
-    $insert_query1 = mysqli_query($con, "INSERT INTO contact_details(email, phone_no, address, created_on) VALUES('$email','$phone','$address','$currentDate')");
-
-    if ($insert_query1) {
-        header("location: $mainlink" . "admin/contactdetails");
-    } else {
-        echo "Error: " . mysqli_error($con);
-    }
-} elseif (isset($_POST['checking_edit_contacts_btn'])) {
-    $contactId = $_POST['contactId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `contact_details` WHERE id = $contactId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} elseif (isset($_POST['update_contactDetaills'])) {
-    $id = $_POST['contatId'];
-    $email = $_POST['editEmail'];
-    $phone = $_POST['editPhone'];
-    $address = $_POST['editAddress'];
-
-
-    $update_contact = "UPDATE contact_details SET email = '$email', phone_no = '$phone', address = '$address' WHERE id='$id'";
-    $query = mysqli_query($con, $update_contact);
-
-    if ($query) {
-        header("location: $mainlink" . "admin/contactdetails");
-    } else {
-        echo "not working";
-    }
-}
-if (isset($_POST['delete_contact'])) {
-    // Get the ID from the URL
-    $id = $_POST['delete_id'];
-    $sql = "UPDATE contact_details SET status = 0  WHERE id = $id";
-    $query = mysqli_query($con, $sql);
-    if ($query) {
-        // If the delete operation is successful, you can redirect to a success page
-        header("location: $mainlink" . "admin/contactdetails");
-        // exit();
-    } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
-
-    // Close the database connection
-    mysqli_close($conn);
 }
 if (isset($_POST['sending_email'])) {
     $des = $_POST['descriptions'];
@@ -1069,9 +1007,10 @@ elseif (isset($_POST['insert_home'])) {
     $desc = $_POST['desc'];
     $admin_name = $_POST['admin_name'];
 
-    $insert_query = mysqli_query($con, "SELECT * FROM home");
-    $fetch_home_rows = mysqli_fetch_assoc($insert_query);
-    $row_count = mysqli_num_rows($insert_query);
+    $select_query = mysqli_query($con, "SELECT * FROM home");
+    $fetch_home_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
+
     if ($row_count > 0) {
         // Existing record, update operation
         if (isset($_FILES['bannerImage']) && $_FILES['bannerImage']['error'] === UPLOAD_ERR_OK) {
@@ -1123,61 +1062,6 @@ elseif (isset($_POST['insert_home'])) {
     header("location: $mainlink" . "./admin/home");
     exit();
 
-}
-
-// End Inserting Home
-
-// Start Fetching Home
-elseif (isset($_POST['checking_edit_home_btn'])) {
-    $homeId = $_POST['homeId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `home` WHERE Id = $homeId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        ////echo $return = "<h5>No Record Found</h5>";
-    }
-} elseif (isset($_POST['update_home'])) {
-    $id = $_POST['homeId'];
-    $title = mysqli_real_escape_string($con, $_POST['editTitle']);
-    $description = mysqli_real_escape_string($con, $_POST['editDesc']);
-
-
-    if (isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
-        // Handle the new image upload
-        $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
-
-        // Debugging for file path
-        $imagePath = "../assets/images/home/" . $newImage;
-        echo "Image Path: $imagePath<br>";
-
-        // Move the uploaded image to the destination folder
-        move_uploaded_file($_FILES['editImage']['tmp_name'], $imagePath);
-
-        // Update the database with the new image filename
-        $update = "UPDATE home SET Title='$title', Description='$description', bannerImage='$newImage' WHERE id='$id'";
-    } else {
-        // No new image uploaded, keep the old image
-        $update = "UPDATE home SET Title='$title', Description='$description' WHERE id='$id'";
-    }
-
-    // Debugging for SQL query
-    echo "SQL Query: $update<br>";
-
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        header("location: $mainlink" . "./admin/home");
-    } else {
-        echo "Query Error: " . mysqli_error($con);
-    }
 } elseif (isset($_POST['delete_home'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
@@ -1188,91 +1072,67 @@ elseif (isset($_POST['checking_edit_home_btn'])) {
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
-
     mysqli_close($con);
-}
-
-
-// Inserting About
-elseif (isset($_POST['insert_about'])) {
+} elseif (isset($_POST['insert_about'])) {
     $title = $_POST['title'];
     $desc = $_POST['desc'];
+    $admin_name = $_POST['admin_name'];
 
+    $select_query = mysqli_query($con, "SELECT * FROM about");
+    $fetch_about_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
 
-    if (isset($_FILES['bannerImage'])) {
-        $imageFile = $_FILES['bannerImage'];
-        $imageFileName = $imageFile['name'];
-        // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], '../assets/images/about/' . $imageFileName);
-    }
-    // $name = $_POST['name'];
+    if ($row_count > 0) {
+        // Existing record, update operation
+        if (isset($_FILES['bannerImage']) && $_FILES['bannerImage']['error'] === UPLOAD_ERR_OK) {
+            // Case 1: New image is uploaded
+            $imageFile = $_FILES['bannerImage'];
+            $imageFileName = $imageFile['name'];
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/about/' . $trimmed_banner_name);
+            $oldBannerName = $fetch_about_rows['bannerImage'];
+            unlink('../assets/images/about/' . $oldBannerName);
+        } else {
+            // Case 2: No new image uploaded, use the existing banner name
+            $trimmed_banner_name = $fetch_about_rows['bannerImage'];
+        }
+        $update_query = mysqli_query($con, "UPDATE about SET Title='$title', Description='$desc', bannerImage='$trimmed_banner_name', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
 
-    $insert_query = mysqli_query($con, "INSERT INTO about(Title, Description, bannerImage, createdOn) VALUES('$title','$desc','$imageFileName',NOW())");
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
 
-    if ($insert_query) {
-        header("location: $mainlink" . "./admin/about");
-    } else {
-        echo "not done";
-    }
-}
-
-// End Inserting Home
-
-// Start Fetching Home
-elseif (isset($_POST['checking_edit_about_btn'])) {
-    $aboutId = $_POST['aboutId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `about` WHERE Id = $aboutId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
         }
     } else {
-        ////echo $return = "<h5>No Record Found</h5>";
-    }
-} elseif (isset($_POST['update_about'])) {
-    $id = $_POST['aboutId'];
-    $title = mysqli_real_escape_string($con, $_POST['editTitle']);
-    $description = mysqli_real_escape_string($con, $_POST['editDesc']);
+        // New record, insert operation
+        if (isset($_FILES['bannerImage'])) {
+            $imageFile = $_FILES['bannerImage'];
+            $imageFileName = $imageFile['name'];
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/about/' . $trimmed_banner_name);
+        }
 
+        $insert_query = mysqli_query($con, "INSERT INTO about(id,Title, Description, bannerImage, createdOn, createdBy) VALUES(1,'$title','$desc','$trimmed_banner_name',NOW(), '$admin_name')");
 
-    if (isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
-        // Handle the new image upload
-        $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
-
-        // Debugging for file path
-        $imagePath = "../assets/images/about/" . $newImage;
-        echo "Image Path: $imagePath<br>";
-
-        // Move the uploaded image to the destination folder
-        move_uploaded_file($_FILES['editImage']['tmp_name'], $imagePath);
-
-        // Update the database with the new image filename
-        $update = "UPDATE about SET Title='$title', Description='$description', bannerImage='$newImage' WHERE id='$id'";
-    } else {
-        // No new image uploaded, keep the old image
-        $update = "UPDATE about SET Title='$title', Description='$description' WHERE id='$id'";
+        if ($insert_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
+        }
     }
 
-    // Debugging for SQL query
-    echo "SQL Query: $update<br>";
-
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        header("location: $mainlink" . "./admin/about");
-    } else {
-        echo "Query Error: " . mysqli_error($con);
-    }
+    // Redirect to the appropriate page
+    header("location: $mainlink" . "./admin/about");
+    exit();
 } elseif (isset($_POST['delete_about'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql3 = "UPDATE about SET isActive = 0 WHERE id = $id";
+    $sql3 = "DELETE from about";
     $query3 = mysqli_query($con, $sql3);
     if ($query3) {
         header("location: $mainlink" . "./admin/about");
@@ -1281,6 +1141,93 @@ elseif (isset($_POST['checking_edit_about_btn'])) {
     }
 
     mysqli_close($con);
+}
+// Contact Details Page Crud
+elseif (isset($_POST['contact_details'])) {
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $phone = mysqli_real_escape_string($con, $_POST['phone_no']);
+    $address = mysqli_real_escape_string($con, $_POST['address']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+
+
+    $select_query = mysqli_query($con, "SELECT * FROM contact_details");
+    $fetch_contact_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
+    if ($row_count > 0) {
+        $update_query = mysqli_query($con, "UPDATE contact_details SET email='$email', phone_no='$phone', address='$address', modify_on=NOW(), modify_by='$admin_name' WHERE id=1");
+
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
+        }
+        exit();
+    } else {
+        $insert_query1 = mysqli_query($con, "INSERT INTO contact_details(id,email, phone_no, address, created_on, created_by) VALUES(1,'$email','$phone','$address',NOW(), '$admin_name')");
+
+        if ($insert_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
+        }
+        
+    }
+    header("location: $mainlink" . "./admin/contactdetails");
+    exit();
+
+
+} elseif (isset($_POST['checking_edit_contacts_btn'])) {
+    $contactId = $_POST['contactId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `contact_details` WHERE id = $contactId";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    } else {
+        //echo $return = "<h5>No Record Found</h5>";
+    }
+} elseif (isset($_POST['update_contactDetaills'])) {
+    $id = $_POST['contatId'];
+    $email = $_POST['editEmail'];
+    $phone = $_POST['editPhone'];
+    $address = $_POST['editAddress'];
+
+
+    $update_contact = "UPDATE contact_details SET email = '$email', phone_no = '$phone', address = '$address' WHERE id='$id'";
+    $query = mysqli_query($con, $update_contact);
+
+    if ($query) {
+        header("location: $mainlink" . "admin/contactdetails");
+    } else {
+        echo "not working";
+    }
+}
+if (isset($_POST['delete_contact'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "UPDATE contact_details SET status = 0  WHERE id = $id";
+    $query = mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "admin/contactdetails");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
 }
 
 // Inserting Privacy

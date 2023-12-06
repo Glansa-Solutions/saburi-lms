@@ -59,11 +59,34 @@
 <!-- <script type="text/javascript" src="./assets/vendors/summernote@0.8.18/js/summernote-lite.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script>
+    var emailInput = document.getElementById('emailInput');
+    var errorText = document.getElementById('errorEmail');
+    var insert_update = document.getElementById('insert_update');
+
+
     $(document).ready(function () {
         $(".mySummernote").summernote({
             height: 250
         });
         $('.dropdown-toggle').dropdown();
+        emailInput.addEventListener('blur', function () {
+            validateEmail();
+        });
+
+        function validateEmail() {
+            var emailValue = emailInput.value.trim();
+            var commonDomainPattern = /^(.+)@(gmail\.com|yahoo\.com|yahoo\.co.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com|saburieducations\.com|saburieducations\.in)$/i;
+
+            if (emailValue === '') {
+                errorEmail.textContent = 'Email is required.';
+            } else if (!commonDomainPattern.test(emailValue) || emailValue.includes(',')) {
+                errorEmail.textContent = 'Enter a valid email address.';
+                insert_update.disabled = true; // Disable the button
+            } else {
+                errorEmail.textContent = '';
+                insert_update.disabled = false; // Enable the button
+            }
+        }
     });
     // accepting only numbers functions
 
@@ -75,13 +98,6 @@
         }
         return true;
     }
-    // (function () {
-    //     new FroalaEditor("#edit")
-    //     new FroalaEditor("#edt")
-
-    // })()
-    //accepting only text functions
-
     function isText(evt) {
         evt = (evt) ? evt : window.event;
         var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -92,6 +108,24 @@
         } else {
             return false;
         }
+    }
+    function validatePhoneNumber() {
+        var phoneNumberInput = document.getElementById('phoneNumber');
+        var errorText = document.getElementById('errorPhn');
+        var phoneNumber = phoneNumberInput.value;
+
+        // Allow only numeric input and check the maxlength
+        if (/[^0-9]/.test(phoneNumber) || phoneNumber.length >= 15 || phoneNumber.length < 10 || (phoneNumber.length > 0 && !['6', '7', '8', '9'].includes(phoneNumber.charAt(0)))) {
+            errorText.textContent = 'Enter a valid number';
+            phoneNumberInput.setCustomValidity('Invalid phone number');
+        } else {
+            errorText.textContent = '';
+            phoneNumberInput.setCustomValidity('');
+        }
+    }
+    function resetForm() {
+        document.getElementById("entry_form").reset();
+        $('#editAddress').summernote('code', '');
     }
 </script>
 
