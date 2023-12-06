@@ -80,8 +80,8 @@ if ($fetch_user_contact_details_query) {
                         <li><a href="<?= $mainlink; ?>about">About us</a></li>
                         <li><a href="<?= $mainlink; ?>contact">Contact us</a></li>
                         <li><a href="<?= $mainlink; ?>project">Projects</a></li>
-                        <li><a href="<?= $mainlink; ?>">Terms & Condition</a></li>
-                        <li><a href="<?= $mainlink; ?>">Privacy policy</a></li>
+                        <li><a href="<?= $mainlink; ?>terms&conditions">Terms & Condition</a></li>
+                        <li><a href="<?= $mainlink; ?>privacypolicy">Privacy policy</a></li>
                     </ul>
                 </div>
             </div>

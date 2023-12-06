@@ -17,8 +17,9 @@ include('../core/listgrid.php');
                             <tr>
                                 <th>S.no</th>
                                 <th hidden></th>
-                                <th>Heading</th>
-                                <th>Title</th>
+                                <th hidden></th>
+                                <!-- <th>Heading</th>
+                                <th>Title</th> -->
                                 <th>Description</th>
                                 <th>Actions</th>
                             </tr>
@@ -31,38 +32,45 @@ include('../core/listgrid.php');
                                     $id = $row['id'];
                                     $heading = $row['Heading'];
                                     $title = $row['Title'];
-                                    $desc = $row['Description'];
-
+                                    $desc_content = $row['Description'];
+                                    $desc_text = strip_tags($desc_content);
+                                    $desc = wordwrap($desc_text, 100, "</br>\n");
+                                    $small_desc = substr($desc, 0, 150);
 
                                     ?>
-                            <tr>
-                                <td>
-                                    <?= $i; ?>
-                                </td>
-                                <td class="edit_id" hidden>
-                                    <?= $id; ?>
-                                <td>
-                                    <?= $heading; ?>
-                                <td>
-                                    <?= $title; ?>
-                                </td>
-                                <td>
-                                    <?= $desc; ?>
-                                </td>
+                                    <tr>
+                                        <td>
+                                            <?= $i; ?>
+                                        </td>
+                                        <td class="edit_id" hidden>
+                                            <?= $id; ?>
+                                        </td>
+                                        <!-- <td>
+                                            <?= $heading; ?>
+                                        </td>
+                                        <td>
+                                            <?= $title; ?>
+                                        </td> -->
+                                        <td id="desc" hidden>
+                                            <?= $desc_content; ?>...
+                                        </td>
+                                        <td>
+                                            <?= $small_desc; ?>...
+                                        </td>
 
-                                <td>
-                                    <button type="submit" class="btn btn-primary me-2 p-2 edit-button"
-                                        data-bs-toggle="modal" data-bs-target="#editmodal"
-                                        data-id="<?= $id; ?>">Edit</button>
-                                    <button type="submit" class="btn btn-danger p-2 delete-button"
-                                        data-bs-toggle="modal" data-bs-target="#deleteHomeModal"
-                                        data-id="<?= $id; ?>">Delete</button>
+                                        <td>
+                                            <button type="button" class="btn btn-primary me-2 p-2 edit-button"
+                                                data-bs-toggle="modal" data-id="<?= $id; ?>" data-admin_name="<?= $name; ?>"
+                                                data-desc="<?= strip_tags($desc_content); ?>">Click here for update</button>
+                                            <button type="submit" class="btn btn-danger p-2 delete-button"
+                                                data-bs-toggle="modal" data-bs-target="#deleteHomeModal"
+                                                data-id="<?= $id; ?>">Delete</button>
 
-                                </td>
-                            </tr>
+                                        </td>
+                                    </tr>
 
 
-                            <?php
+                                    <?php
                                     $i++;
                                 }
 
@@ -79,29 +87,34 @@ include('../core/listgrid.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Privacy Policy Page</h4>
+                    <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+                        $status = $_SESSION['status'];
+                        $message = $_SESSION['message'];
+                        ?>
+                        <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show"
+                            role="alert">
+                            <strong>
+                                <?= $message; ?>
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php unset($_SESSION['message']);
+                    } ?>
 
-
-                    <form class="forms-sample" method="POST" action="../core/admin_functions.php"
+                    <form class="forms-sample" id="entry_form" method="POST" action="../core/admin_functions.php"
                         enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="hidden" id="admin_name" name="admin_name" value=<?= $name; ?>>
 
-                        <div class="form-group">
-                            <label for="heading">Heading</label>
-                            <input type="text" class="form-control" name="heading" placeholder="Enter Heading">
-                        </div>
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Title">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="desc">Description</label>
+                            <label for="desc">Your Description Here</label>
                             <div name="editAddress">
-                                <textarea name="desc" class="mySummernote"></textarea>
+                                <textarea name="desc" id="editAddress" class="mySummernote"></textarea>
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary me-2" name="insert_privacy">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button type="submit" id="insert_update" class="btn btn-primary me-2"
+                            name="insert_privacy">Submit</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                     </form>
                 </div>
             </div>
@@ -124,7 +137,6 @@ include('../core/listgrid.php');
                 <div class="modal-body">
                     <!-- Form for editing the blog content -->
 
-                    <input type="hidden" id="privacyId" name="privacyId">
                     <div class="form-group">
                         <label for="editTitle">Heading</label>
                         <input type="text" class="form-control" id="editHeading" name="editHeading">
@@ -170,7 +182,7 @@ include('../core/listgrid.php');
                     Are you sure you want to delete this record?
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger" name="delete_privacy" id="delete_home">Delete</button>
                 </div>
         </div>
@@ -178,49 +190,28 @@ include('../core/listgrid.php');
 </div>
 <!-- Main Content ends -->
 <script>
-$(document).ready(function() {
-    $('.edit-button').on('click', function() {
-        var privacyId = $(this).closest('tr').find('.edit_id').text();
-        console.log(privacyId);
-        $.ajax({
-            type: 'POST',
-            url: '../core/admin_functions.php', // Replace with the URL of your server-side script
-            data: {
-                'checking_edit_privacy_btn': true,
-                'privacyId': privacyId,
-            },
-            // dataType: 'json',
-            success: function(response) {
-                console.log(response);
-                $.each(response, function(key, value) {
-                    $('#editHeading').val(value['Heading']);
-                    $('#editTitle').val(value['Title']);
+    $(document).ready(function () {
+        $('.edit-button').on('click', function () {
+            $('#insert_update').text('Update');
+            // Retrieve data attributes
+            var id = $(this).data('id');
+            var title = $(this).data('title');
+            var desc = $('#desc').text();
+            var admin_name = $(this).data('admin_name');
+            $('#editAddress').summernote('code', desc);
 
-                    $('#editAddress').summernote('code', value['Description']);
-                    // console.log(a);
-                    $('#privacyId').val(value['id']);
-                });
-            }
+        });
+        $('.delete-button').on('click', function (e) {
+            e.preventDefault();
+            var blogId = $(this).closest('tr').find('.edit_id').text();
+
+            console.log(blogId);
+            $('#delete_id').val(blogId);
+            $('#deleteBlogModal').modal('show');
+
         });
     });
-});
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script>
-$(document).ready(function() {
-    $('.delete-button').on('click', function(e) {
-        e.preventDefault();
-        var blogId = $(this).closest('tr').find('.edit_id').text();
-
-        console.log(blogId);
-        $('#delete_id').val(blogId);
-        $('#deleteBlogModal').modal('show');
-
-    });
-});
-</script>
-<!-- Main Content ends -->
 
 <?php
 

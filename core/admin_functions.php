@@ -1204,65 +1204,49 @@ if (isset($_POST['delete_contact'])) {
 
 // Inserting Privacy
 elseif (isset($_POST['insert_privacy'])) {
-    $heading = $_POST['heading'];
-    $title = $_POST['title'];
-    $desc = $_POST['desc'];
+    // $heading = $_POST['heading'];
+    // $title = $_POST['title'];
 
-    $insert_query = mysqli_query($con, "INSERT INTO privacy(Heading, Title, Description,createdOn) VALUES('$heading','$title','$desc',NOW())");
+    $desc = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    // $desc = strip_tags($desc_text);
 
-    if ($insert_query) {
-        header("location: $mainlink" . "./admin/privacypolicy");
-    } else {
-        echo "not done";
-    }
-}
 
-// End Inserting Home
+    $select_query = mysqli_query($con, "SELECT * FROM privacy");
+    $fetch_privacy_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
 
-// Start Fetching Home
-elseif (isset($_POST['checking_edit_privacy_btn'])) {
-    $privacyId = $_POST['privacyId'];
-    $result_array = [];
+    if ($row_count > 0) {
+        $update_query = mysqli_query($con, "UPDATE privacy SET Description='$desc', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
 
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `privacy` WHERE Id = $privacyId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
         }
     } else {
-        ////echo $return = "<h5>No Record Found</h5>";
+        $insert_query = mysqli_query($con, "INSERT INTO privacy(id,Description,createdOn, createdBy) VALUES(1,'$desc',NOW(),'$admin_name')");
+
+        if ($insert_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
+        }
     }
 
-} elseif (isset($_POST['update_privcy'])) {
-    $id = $_POST['privacyId'];
-    $heading = mysqli_real_escape_string($con, $_POST['editHeading']);
-    $title = mysqli_real_escape_string($con, $_POST['editTitle']);
-    $description = mysqli_real_escape_string($con, $_POST['editDesc']);
 
-
-
-    // No new image uploaded, keep the old image
-    $update = "UPDATE privacy SET Heading ='$heading', Title='$title', Description='$description' WHERE id='$id'";
-
-
-    // Debugging for SQL query
-    // echo "SQL Query: $update<br>";
-
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        header("location: $mainlink" . "./admin/privacypolicy");
-    } else {
-        echo "Query Error: " . mysqli_error($con);
-    }
-} elseif (isset($_POST['delete_privacy'])) {
+    header("location: $mainlink" . "./admin/privacy");
+    exit();
+}
+elseif (isset($_POST['delete_privacy'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql3 = "UPDATE privacy SET isActive = 0 WHERE id = $id";
+    $sql3 = "DELETE FROM privacy";
     $query3 = mysqli_query($con, $sql3);
     if ($query3) {
         header("location: $mainlink" . "./admin/privacy");
@@ -1272,68 +1256,51 @@ elseif (isset($_POST['checking_edit_privacy_btn'])) {
 
     mysqli_close($con);
 }
-
-
-
-// Inserting Privacy
+// Inserting Termsa
 elseif (isset($_POST['insert_terms'])) {
-    $heading = $_POST['heading'];
-    $desc = $_POST['Desc'];
+    // $heading = $_POST['heading'];
+    // $title = $_POST['title'];
 
-    $insert_query = mysqli_query($con, "INSERT INTO terms(Heading, Description,createdOn) VALUES('$heading','$desc',NOW())");
+    $desc = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    // $desc = strip_tags($desc_text);
 
-    if ($insert_query) {
-        header("location: $mainlink" . "./admin/terms");
-    } else {
-        echo "not done";
-    }
-}
 
-// End Inserting Home
+    $select_query = mysqli_query($con, "SELECT * FROM terms");
+    $fetch_terms_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
 
-// Start Fetching Home
-elseif (isset($_POST['checking_edit_terms_btn'])) {
-    $termsId = $_POST['termsId'];
-    $result_array = [];
+    if ($row_count > 0) {
+        $update_query = mysqli_query($con, "UPDATE terms SET Description='$desc', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
 
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `terms` WHERE Id = $termsId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
         }
     } else {
-        ////echo $return = "<h5>No Record Found</h5>";
+        $insert_query = mysqli_query($con, "INSERT INTO terms(id,Description,createdOn, createdBy) VALUES(1,'$desc',NOW(),'$admin_name')");
+
+        if ($insert_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
+        }
     }
 
-} elseif (isset($_POST['update_terms'])) {
-    $id = $_POST['termsId'];
-    $heading = mysqli_real_escape_string($con, $_POST['editheading']);
-    $description = mysqli_real_escape_string($con, $_POST['editDesc']);
 
-
-
-    // No new image uploaded, keep the old image
-    $update = "UPDATE terms SET Heading ='$heading', Description='$description' WHERE id='$id'";
-
-
-    // Debugging for SQL query
-    // echo "SQL Query: $update<br>";
-
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        header("location: $mainlink" . "./admin/terms");
-    } else {
-        echo "Query Error: " . mysqli_error($con);
-    }
-} elseif (isset($_POST['delete_terms'])) {
+    header("location: $mainlink" . "./admin/terms");
+    exit();
+}
+elseif (isset($_POST['delete_terms'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql3 = "UPDATE terms SET isActive = 0 WHERE id = $id";
+    $sql3 = "DELETE FROM terms";
     $query3 = mysqli_query($con, $sql3);
     if ($query3) {
         header("location: $mainlink" . "./admin/terms");
