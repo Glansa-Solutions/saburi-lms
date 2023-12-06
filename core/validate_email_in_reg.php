@@ -2,11 +2,13 @@
 include("db_config.php");
 // echo "yes";
 
-if (isset($_GET['entered_mail'])) {
-    $exist_email = mysqli_real_escape_string($con, $_GET['entered_mail']);
+if (isset($_GET['entered_mail']) && isset($_GET['role'])) {
 
+
+    $exist_email = mysqli_real_escape_string($con, $_GET['entered_mail']);
+    $role_email = mysqli_real_escape_string($con, $_GET['role']);
     // Using prepared statement to prevent SQL injection
-    $finding_existed_account_query = mysqli_prepare($con, "SELECT email FROM students WHERE email=?");
+    $finding_existed_account_query = mysqli_prepare($con, "SELECT email FROM $role_email WHERE email=?");
     mysqli_stmt_bind_param($finding_existed_account_query, "s", $exist_email);
     mysqli_stmt_execute($finding_existed_account_query);
     mysqli_stmt_store_result($finding_existed_account_query);

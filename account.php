@@ -134,11 +134,19 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                                 name="company_name" id="company_name" onkeypress="return isText(event)"
                                                 autocomplete="user-name" value="" required>
                                         </p>
+                                        <!-- <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+                                            <label>Email&nbsp;<span class="required">*</span></label>
+                                            <input type="email"
+                                                class="woocommerce-Input woocommerce-Input--text input-text form-control"
+                                                name="email" id="emailInput" autocomplete="password" value="" required>
+                                            <span id="errorEmail" style="color: red;"></span>
+                                        </p> -->
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Company Email&nbsp;<span class="required">*</span></label>
                                             <input type="email"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="email" id="" autocomplete="password" value="" required>
+                                                name="email" id="emailInput" autocomplete="password" value="" required>
+                                            <span id="errorEmail" style="color: red;"></span>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Contact Name&nbsp;<span class="required">*</span></label>
@@ -153,7 +161,9 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <input type="number"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="phoneNumber" id="phoneNumber" autocomplete="password"
-                                                onkeypress="return isNumber(event)" value="" required>
+                                                onkeypress="return isNumber(event)" oninput="validatePhoneNumber()" value=""
+                                                required>
+                                            <span id="errorPhn" style="color: red;"></span>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Country&nbsp;<span class="required">*</span></label>
@@ -209,7 +219,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
                                                 name="pinCode" id="" autocomplete="password"
-                                                onkeypress="return isNumber(event)" value="" required>
+                                                onkeypress="return isNumber(event)" value="" maxlength="6" required>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Your ID Proof&nbsp;<span class="required">*</span></label>
@@ -222,15 +232,14 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Id Details&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="id_details" id="id_details" autocomplete="password" value="" required>
+                                                name="id_details" id="id_details" autocomplete="password" value=""
+                                                maxlength="12" required>
                                         </p>
 
                                         <p class="woocommerce-FormRow form-row">
-                                            <input type="text" id="woocommerce-register-nonce" name="role"
-                                                value="<?= $_SESSION['role']; ?>"><input type="hidden"
-                                                name="_wp_http_referer" value="/my-account/">
+                                            <input type="hidden" name="role" value="<?= $_SESSION['role']; ?>" id="role">
                                             <button type="submit" class="woocommerce-Button button" name="registerCompany"
-                                                value="Register">Register</button>
+                                                id="registerButton" value="Register">Register</button>
                                         </p>
                                     </div>
                                 </div>
@@ -336,10 +345,6 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                                 name="email" id="emailInput" autocomplete="password" value="" required>
                                             <span id="errorEmail" style="color: red;"></span>
                                         </p>
-                                        <script>
-
-                                        </script>
-
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
                                             <label>Select Gender&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="gender" required>
@@ -413,12 +418,12 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Id Proof Unique Id&nbsp;<span class="required">*</span></label>
                                             <input type="text"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="uniqueIdNo" id="" onkeypress="return isNumber(event)" maxlength="12" autocomplete="password" value=""
-                                                required>
+                                                name="uniqueIdNo" id="" onkeypress="return isNumber(event)" maxlength="12"
+                                                autocomplete="password" value="" required>
                                         </p>
                                         <p class="woocommerce-FormRow form-row">
-                                            <input type="hidden" id="woocommerce-register-nonce" name="role"
-                                                value="<?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?>">
+                                            <input type="hidden" name="role"
+                                                value="<?= ($_SESSION['role']) ? $_SESSION['role'] : ""; ?>" id="role">
                                             <button type="submit" class="woocommerce-Button button" name="registerStudent"
                                                 id="registerButton" value="Register">Register</button>
                                         </p>
@@ -433,10 +438,13 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
     <?php } ?>
 </section>
 <script>
+    var emailInput = document.getElementById('emailInput');
+    var roleHere = document.getElementById('role');
+    var registerButton = document.getElementById('registerButton');
+    var errorText = document.getElementById('errorEmail');
     $(document).ready(function () {
         $('#countryList').on('change', function () {
             var countryId = $(this).val();
-            // console.log(countryId);
             if (countryId === "Choose Country..") { // Correct the condition
                 $('#stateList').empty();
                 $('#stateList').append($('<option>', {
@@ -477,32 +485,41 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                 }
             });
         });
-        var emailInput = document.getElementById('emailInput');
-        var registerButton = document.getElementById('registerButton');
-        var errorText = document.getElementById('errorEmail');
-
 
         emailInput.addEventListener('blur', function () {
-            // Get the entered email value
-            var enteredEmail = emailInput.value;
-
-            // // Display the entered email in an alert
-            // alert('Entered Email: ' + enteredEmail);
-            $.ajax({
-                method: 'GET',
-                url: 'core/validate_email_in_reg.php',
-                data: {
-                    entered_mail: enteredEmail,
-                },
-                success: function (response) {
-                    errorText.textContent = response;
-                    registerButton.disabled = (response === 'Email already exists');
-                },
-                error: function (xhr, status, error) {
-                    console.error("AJAX request failed: " + error);
-                }
-            });
+            validateEmail();
         });
+
+        function validateEmail() {
+            var emailValue = emailInput.value.trim();
+            var commonDomainPattern = /^(.+)@(gmail\.com|yahoo\.com|yahoo\.co.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com)$/i;
+
+            if (emailValue === '') {
+                errorEmail.textContent = 'Email is required.';
+            } else if (!commonDomainPattern.test(emailValue) || emailValue.includes(',')) {
+                errorEmail.textContent = 'Enter a valid email address.';
+            } else {
+                errorEmail.textContent = ''; // Clear error message if validation passed
+                var enteredEmail = emailInput.value;
+                var roleHerePop = roleHere.value;
+                // AJAX request to validate email on the server
+                $.ajax({
+                    method: 'GET',
+                    url: 'core/validate_email_in_reg.php',
+                    data: {
+                        entered_mail: emailValue,
+                        role: roleHerePop, // Assuming roleHerePop is defined somewhere in your code
+                    },
+                    success: function (response) {
+                        errorEmail.textContent = response;
+                        registerButton.disabled = (response === 'Email already exists');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX request failed: " + error);
+                    }
+                });
+            }
+        }
     });
 </script>
 

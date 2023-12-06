@@ -1,188 +1,59 @@
-<?php
-include("db_config.php");
-if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
-    $roleId = $_SESSION['role_id'];
-    $role = $_SESSION['role'];
-    print_r($role);
-    $query_fetch_wishlist = mysqli_query($con, "SELECT
-w.id,
-w.userId,
-w.role,
-w.courseId,
-w.courseName,
-w.price,
-w.image,
-CASE
-    WHEN w.role = 'company' THEN c.companyName  
-    WHEN w.role = 'students' THEN s.name  
-    ELSE NULL  
-END AS name
-FROM
-wishlist w
-LEFT JOIN
-company c ON w.userId = c.id AND w.role = 'company'
-LEFT JOIN
-students s ON w.userId = s.id AND w.role = 'students' WHERE w.userId = $roleId");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Validation</title>
+  <!-- Bootstrap CSS (for styling, you can adjust it based on your needs) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    /* Add your own styling here */
+    .form-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
 
+  <div class="form-container">
+    <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+      <label>Company Email&nbsp;<span class="required">*</span></label>
+      <input type="email"
+             class="woocommerce-Input woocommerce-Input--text input-text form-control"
+             name="email" id="emailInput" autocomplete="password" value="" required>
+      <span id="errorEmail" style="color: red;"></span>
+    </p>
+    <button class="btn btn-primary">Submit</button>
+  </div>
 
-}else{
-    $roleId = "";
-}
+  <script>
+    var emailInput = document.getElementById('emailInput');
+    var errorEmail = document.getElementById('errorEmail');
 
-$fetch_home_query = mysqli_query($con, "SELECT * FROM home where isActive =1");
-$fetch_about_query = mysqli_query($con, "SELECT * FROM about where isActive =1");
-$fetch_privacy_query = mysqli_query($con, "SELECT * FROM privacy where isActive =1");
-$fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1");
-// regarding Blog - Comment Data ( site & admin) start**
-$query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
-$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
+    emailInput.addEventListener('blur', function () {
+      validateEmail();
+    });
 
-$query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.email, companyusers.password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
+    function validateEmail() {
+      var emailValue = emailInput.value.trim();
+      var commonDomainPattern = /^(.+)@(gmail\.com|yahoo\.com|yahoo\.co.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com)$/i;
 
+      if (emailValue === '') {
+        errorEmail.textContent = 'Email is required.';
+      } else if (!commonDomainPattern.test(emailValue) || emailValue.includes(',')) {
+        errorEmail.textContent = 'Enter a valid email address.';
+      } else {
+        errorEmail.textContent = ''; // Clear error message if validation passed
+        // Additional logic to submit the form or take further actions
+      }
+    }
+  </script>
 
-// regarding Blog - Comment Data ( site & admin) end**
-// regarding Blog - Comment Data ( site & admin) end****
-// regarding course - review Data ( site & admin) start****
-$query_fetch_course_review = mysqli_query($con,"SELECT * FROM comment_course_review where isactive=1");
-$query_fetch_course_review_admin_grid = mysqli_query($con,"SELECT * FROM comment_course_review");
-// regarding course - review Data ( site & admin) end****
+  <!-- Bootstrap JS (Popper.js and Bootstrap JS) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-$fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.companyName,testinomonials.*
-FROM testinomonials
-LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'students'
-LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
-$fetch_list_students_query = mysqli_query($con, "SELECT * FROM students where isActive=1");
-$categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
-$careerQuery = mysqli_query($con, "SELECT * FROM careers where isActive=1");
-$fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1");
-$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where status=1");
-$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where status=1");
-$fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
-
-if(isset($_SESSION['role_id']) && !empty($_SESSION['role_id']) && isset($_SESSION['role']) && !empty($_SESSION['role'])){
-    
-}
-
-$fetch_list_order_query = mysqli_query($con, "SELECT od.id,
-o.paymentstatus,
-o.orderdate,
-c.courseDesc,
-c.courseName,
-s.name
-FROM orderdetails AS od
-JOIN `orders` AS o ON od.orderId = o.id
-JOIN courses AS c ON od.courseId = c.id
-JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid'");
-
-$fetch_list_order_details_query = mysqli_query($con, "SELECT od.id,od.createdOn,
-o.paymentstatus,
-o.orderdate,
-c.courseDesc,
-c.courseName,
-s.name
-FROM orderdetails AS od
-JOIN `orders` AS o ON od.orderId = o.id
-JOIN courses AS c ON od.courseId = c.id
-JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid' AND od.status=1");
-
-$fetch_list_student_query = mysqli_query($con, "SELECT * FROM students where isActive = 1");
-$fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");
-$fetch_list_subtopic_query = mysqli_query($con, "SELECT * FROM subtopics where isActive=1");
-$fetch_list_join_topics_subtopic_query = mysqli_query($con, "SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId WHERE subtopics.isActive = 1");
-$fetch_list_join_topics_subtopic_course_query = mysqli_query($con, "SELECT 
-topics.Id AS topic_id,
-topics.topicName,
-subtopics.Id AS subtopic_id,
-subtopics.subTopicName,
-courses.id AS course_id,
-courses.courseName,
-courses.courseCost,
-courses.courseDesc,
-courses.bannerImage,
-courses.uploadfile,
-courses.learn,
-courses.requirements,
-courses.tag,
-courses.video
-FROM 
-topics
-JOIN 
-subtopics ON topics.Id = subtopics.topicId
-JOIN 
-courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC");
-// fetch chepter data
-$fetch_list_join_topics_subtopics_course_chapters_query = mysqli_query($con, "SELECT 
-topics.Id AS topic_id,
-topics.topicName,
-subtopics.Id AS subtopic_id,
-subtopics.subtopicName,
-courses.id AS course_id,
-courses.courseName,
-chapters.id AS chapter_id,
-chapters.chapterName,
-chapters.uploadFile,
-chapters.video,
-chapters.chapterContent
-FROM
-topics
-JOIN
-subtopics ON topics.Id = subtopics.topicId
-JOIN
-courses ON subtopics.Id = courses.subTopicId
-JOIN
-chapters ON courses.id = chapters.courseId
-WHERE
-chapters.isActive = 1
-ORDER BY
-chapters.id DESC");
-
-$fetch_list_join_topics_subtopics_course_chapters_assessments_query = mysqli_query($con, "SELECT 
-courses.id AS course_id,
-courses.courseName,
-assessment.id AS assessment_id,
-assessment.assessmentName,
-questions.id AS question_id,
-questions.questionsName,
-questions.a,
-questions.b,
-questions.c,
-questions.d,
-questions.isActive,
-CASE questions.correctAnswer
-    WHEN 'a' THEN questions.a
-    WHEN 'b' THEN questions.b
-    WHEN 'c' THEN questions.c
-    WHEN 'd' THEN questions.d
-    ELSE NULL
-END AS correctAnswer
-FROM
-courses JOIN assessment ON assessment.courseId = courses.id
-JOIN questions ON assessment.id = questions.assessmentId
-WHERE
-questions.isActive = 1");
-
-$fetch_list_query_subscription = mysqli_query($con, "SELECT * FROM subscriptions_1");
-
-// $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
-
-$fetch_list_blog_query = mysqli_query($con, "SELECT * FROM blogs where isActive = 1");
-
-$fetch_list_freeResources_query = mysqli_query($con, "SELECT * FROM freeresources where isActive = 1");
-
-$fetch_list_affiliate_query = mysqli_query($con, "SELECT * FROM affiliates where isActive = 1");
-
-$fetch_list_careers_query = mysqli_query($con, "SELECT * FROM careers where IsActive = 1");
-
-$fetch_list_company_query = mysqli_query($con, "SELECT * FROM company Where isActive = 1");
-
-$fetch_list_corporategovernance_query = mysqli_query($con, "SELECT * FROM corporategovernance where isActive = 1");
-
-$fetch_testimonial_sql = mysqli_query($con, "SELECT students.name,company.companyName,students.profile_img,company.profile,testinomonials.*
-FROM testinomonials
-LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'students'
-LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
-
-
-// $fetch_list=mysqli_fetch_assoc($fetch_list_query);
-// $users_name=$fetch_list['Name'];
-// echo $users_name;
+</body>
+</html>

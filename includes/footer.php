@@ -446,6 +446,7 @@ if ($fetch_user_contact_details_query) {
             errorText.textContent = '';
         }
     }
+    
     // *************Script for login and register pages - validations ends ***********//
 
 </script>
