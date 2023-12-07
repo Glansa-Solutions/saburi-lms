@@ -9,28 +9,34 @@ use PHPMailer\PHPMailer\Exception;
 // Admin Login
 
 if (isset($_POST['login_admin'])) {
-
+    session_start();
     $name = mysqli_real_escape_string($con, $_POST['admin_name']);
     $password = mysqli_real_escape_string($con, $_POST['admin_password']);
 
-    $user_sql = mysqli_query($con, "SELECT * FROM users WHERE Email='$name' AND Password='$password'");
-    $fetch_user_sql = mysqli_fetch_assoc($user_sql);
+    $admin_sql = mysqli_query($con, "SELECT * FROM users WHERE Name='$name'");
+    $fetch_admin_sql = mysqli_fetch_assoc($admin_sql);
 
-    if ($fetch_user_sql) { // Check if a matching user was found
-        session_start();
+    if ($admin_sql) {
+        $admin_pass = $fetch_admin_sql['Password'];
 
-        // Store user information in the session
-        $_SESSION['user_id'] = $fetch_user_sql['user_id'];
-        $_SESSION['user_name'] = $fetch_user_sql['Email'];
-        $_SESSION['name'] = $fetch_user_sql['Name'];
-        header("location: $mainlink" . "admin/dashboard");
-        // exit();
-
+        if ($admin_pass === $password) {
+            // Store user information in the session
+            $_SESSION['admin_id'] = $fetch_admin_sql['id'];
+            $_SESSION['admin_email'] = $fetch_admin_sql['Email'];
+            $_SESSION['admin_name'] = $fetch_admin_sql['Name'];
+            // echo $_SESSION['admin_name'];
+            // exit();
+            header("location: $mainlink" . "admin/dashboard");
+            exit();
+        } else {
+            $_SESSION['errormessage'] = "Entered password is incorrect";
+            header("location: $mainlink" . "admin/");
+            exit();
+        }
     } else {
-        // Handle the case where no user with the specified 'Name' was found
-        $_SESSION['message'] = "User not found";
+        $_SESSION['errormessage'] = "Entered Username is incorrect";
         header("location: $mainlink" . "admin/");
-        // exit();
+        exit();
     }
 
 

@@ -4,6 +4,8 @@ include("includes/header.php");
 if (isset($_SESSION['role_id'])) {
     $role_id = $_SESSION['role_id'];
 	$role = $_SESSION['role'];
+}else{
+    $role="";
 }
 ?>
 <!--search overlay start-->

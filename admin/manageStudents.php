@@ -1,7 +1,6 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
-include('../core/listgrid.php');
 ?>
 
 <div class="content-wrapper">
@@ -100,7 +99,7 @@ include('../core/listgrid.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="../core/functions.php" method="POST">
+            <form action="../core/admin_functions.php" method="POST">
 
                 <div class="modal-body">
 

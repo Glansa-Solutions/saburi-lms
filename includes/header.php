@@ -1,8 +1,6 @@
 <?php
 session_start();
 $filename = pathinfo(basename($_SERVER['SCRIPT_NAME']), PATHINFO_FILENAME);
-
-// include("./core/init.php");
 include("./core/login_register.php");
 include("./core/authFunctions.php");
 include("./core/blogsFunction.php");
@@ -12,8 +10,6 @@ include("./core/listgrid.php");
 include("./core/allmailfun.php");
 include("./core/testimonials.php");
 
-// include("./core/login_register.php");
-// include("./core/login_register.php");
 if ($fetch_user_contact_details_query) {
     while ($fetch_user_contact_details_result = mysqli_fetch_assoc($fetch_user_contact_details_query)) {
         $contact_id = $fetch_user_contact_details_result["id"];
@@ -22,7 +18,14 @@ if ($fetch_user_contact_details_query) {
         $contact_address = $fetch_user_contact_details_result["address"];
     }
 }
+if (!isset($_SESSION['role'])) {
+    // Set default role to "students"
+    $_SESSION['role'] = 'students';
 
+    // Redirect to the login page if not logged in
+    header("Location: $mainlink" . "log_reg");
+    exit();
+}
 // Check if the session variables are set
 if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
     $role_id = $_SESSION['role_id'];
@@ -92,6 +95,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
 
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/ccr.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
@@ -100,6 +104,17 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
 
 </head>
 <style>
+    /* style for banner update */
+    .banner {
+        padding: 130px 0px;
+        padding-bottom: 180px;
+        background: url("./assets/images/home/<?= $banner_name; ?>");
+        background-size: cover;
+        position: relative;
+    }
+
+    /* style for banner update End */
+
     /* Hide the default number input arrows in Chrome, Safari, and Edge */
     input[type=number]::-webkit-inner-spin-button,
     input[type=number]::-webkit-outer-spin-button {
@@ -399,7 +414,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                             Add Testimonial
                                         </a>
                                         <a href="<?= $mainlink ?>companyCourseReport" class="dropdown-item">
-                                        <i
+                                            <i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Company Course Report
                                         </a>

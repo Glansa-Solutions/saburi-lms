@@ -437,35 +437,5 @@ if (isset($_POST["company_login"])) {
         }
 
     }
-
-    // if ($checking) {
-    //     // echo $checking;
-    //     // exit();
-    //     $row = mysqli_fetch_assoc($match_auth_query);
-    //     $stored_password = $row['password'];
-
-    //     // Check if the entered password matches the stored password
-    //     if ($company_pass == $stored_password) {
-    //         $company_id = $row['id'];
-    //         $session_id = $row['session_id'];
-    //         if ($session_id == 0) {
-    //             mysqli_query($con, "UPDATE company SET session_id = 1 WHERE id = $company_id");
-    //             $_SESSION['user_name'] = $row['name'];
-    //             $_SESSION['email'] = $company_mail;
-    //             $_SESSION['pass'] = $company_pass;
-
-    //             header("location: sessions.php?id=$company_id");
-    //             exit();
-    //         } else {
-    //             // Redirect to the message page
-    //             header("location: sessions.php?logged_in_elsewhere=$company_id");
-    //             exit();
-    //         }
-    //     } else {
-    //         header("location: sessions.php?incorrect_pass=$company_id");
-    //         exit();
-    //     }
-    // }
-
 }
 // Login Authentication end

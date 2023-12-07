@@ -1,21 +1,18 @@
 <?php
-// session_start();
-
 include("../core/admin_functions.php");
 include("../core/db_config.php");
 include("../core/data_list_grid.php");
 include('../core/listgrid.php');
-
-
 // Check if the user is logged in
-if (!isset($_SESSION['name'])) {
+if (!isset($_SESSION['admin_name'])) {
+
     // Redirect to the login page if not logged in
     header("Location: $mainlink" . "admin/");
     exit();
 }
-$greeting_message =  $_SESSION['name'] . "!";
-// include('./functions/modals_data.php');
-// $mainlink="http://localhost:8080/LMS/lms2/";
+$name = $_SESSION['admin_name'];
+$email = $_SESSION['admin_email'];
+$greeting_message = $_SESSION['admin_name'] . "!";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,6 +43,8 @@ $greeting_message =  $_SESSION['name'] . "!";
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.15/dist/sweetalert2.min.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9">
+
     <style>
         div#editor {
             width: 100%;
@@ -56,7 +55,8 @@ $greeting_message =  $_SESSION['name'] . "!";
         .ss {
             background-color: red;
         }
-        #fr-logo{
+
+        #fr-logo {
             visibility: hidden;
         }
     </style>
@@ -74,7 +74,7 @@ $greeting_message =  $_SESSION['name'] . "!";
                     </button>
                 </div>
                 <div>
-                    <a class="navbar-brand brand-logo" href="<?= $mainlink;?>admin/dashboard">
+                    <a class="navbar-brand brand-logo" href="<?= $mainlink; ?>admin/dashboard">
                         <img src="./assets/images/saburi.png" alt="logo" />
                         <!-- <h3 style="color:white;">LMS - SABURI</h3> -->
                     </a>
@@ -85,15 +85,17 @@ $greeting_message =  $_SESSION['name'] . "!";
                 </div>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
-            <ul class="navbar-nav">
-                <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                  <h1 class="welcome-text">Welcome <?php echo $greeting_message; ?></h1>
-                            <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
-                        </li>
-                    </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+                        <h1 class="welcome-text">Welcome
+                            <?php echo $greeting_message; ?>
+                        </h1>
+                        <!-- <h3 class="welcome-sub-text">Your performance summary this week </h3> -->
+                    </li>
+                </ul>
 
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown d-none d-lg-block">
+                    <!-- <li class="nav-item dropdown d-none d-lg-block">
                         <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown"
                             href="#" data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
@@ -184,7 +186,7 @@ $greeting_message =  $_SESSION['name'] . "!";
                                 </div>
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown">
                         <a class="nav-link count-indicator" id="countDropdown" href="#" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -235,13 +237,18 @@ $greeting_message =  $_SESSION['name'] . "!";
                             <div class="dropdown-header text-center">
                                 <img class="img-md rounded-circle" src="./assets/images/faces/face8.jpg"
                                     alt="Profile image">
-                                <p class="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
-                                <p class="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
+                                <p class="mb-1 mt-3 font-weight-semibold">
+                                    <?= $name ?>
+                                </p>
+                                <p class="fw-light text-muted mb-0">
+                                    <?= $email ?>
+                                </p>
                             </div>
                             <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile
-                                <span class="badge badge-pill badge-danger">1</span></a>
-                            <a class="dropdown-item"><i
+                                <!-- <span class="badge badge-pill badge-danger">1</span> -->
+                            </a>
+                            <!-- <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
                                 Messages</a>
                             <a class="dropdown-item"><i
@@ -249,7 +256,7 @@ $greeting_message =  $_SESSION['name'] . "!";
                                 Activity</a>
                             <a class="dropdown-item"><i
                                     class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
-                                FAQ</a>
+                                FAQ</a> -->
                             <a class="dropdown-item" href="../core/logout.php"><i
                                     class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
                         </div>

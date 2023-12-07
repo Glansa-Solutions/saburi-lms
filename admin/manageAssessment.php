@@ -2,7 +2,6 @@
 include('includes/header.php');
 include('includes/sidebar.php');
 include('../core/listgrid.php');
-include('../core/functions.php');
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -93,7 +92,7 @@ include('../core/functions.php');
             <div class="card">
 
                 <div class="card-body">
-                    <form action="../core/functions.php" class=" " method="POST" enctype="multipart/form-data">
+                    <form action="../core/admin_functions.php" class=" " method="POST" enctype="multipart/form-data">
                         
                             <div class="row">
                                 <div class="col-md-6">
@@ -308,7 +307,7 @@ include('../core/functions.php');
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form method="POST" action="../core/functions.php" enctype="multipart/form-data">
+                        <form method="POST" action="../core/admin_functions.php" enctype="multipart/form-data">
                             <div class="modal-body">
                                 <!-- Form for editing the blog content -->
 
@@ -413,7 +412,7 @@ include('../core/functions.php');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="../core/functions.php" method="POST">
+            <form action="../core/admin_functions.php" method="POST">
 
                 <div class="modal-body">
 
@@ -437,7 +436,7 @@ include('../core/functions.php');
             console.log(assessmentId);
             $.ajax({
                 type: 'POST',
-                url: '../core/functions.php', // Replace with the URL of your server-side script
+                url: '../core/admin_functions.php', // Replace with the URL of your server-side script
                 data: {
                     'checking_assessment_btn': true,
                     'assessmentId': assessmentId,

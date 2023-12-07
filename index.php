@@ -1,7 +1,6 @@
 <?php
 include("includes/header.php");
 ?>
-
 <div class="search-wrap">
     <div class="overlay">
         <form action="" class="search-form">
@@ -29,8 +28,12 @@ include("includes/header.php");
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-8">
                 <div class="banner-content center-heading">
-                    <span class="subheading">Expert instruction</span>
-                    <h1>Convenient easy way of learning new skills!</h1>
+                    <span class="subheading">
+                        <?= $banner_title ?>
+                    </span>
+                    <h1>
+                        <?= $banner_Description ?>
+                    </h1>
                     <a href="#" class="btn btn-main"><i class="fa fa-list-ul mr-2"></i>our Courses </a>
                     <a href="#" class="btn btn-tp ">get Started <i class="fa fa-angle-right ml-2"></i></a>
                 </div>
@@ -97,11 +100,12 @@ include("includes/header.php");
                 <li class="active"><a href="#" data-filter="*"> All</a></li>
                 <?php
                 $counter = 0;
-                    if ($result->num_rows > 0) {
+                if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<li><a href="#" data-filter=".'.$row['id'].'">' . $row['subTopicName']. '</a></li>';
+                        echo '<li><a href="#" data-filter=".' . $row['id'] . '">' . $row['subTopicName'] . '</a></li>';
                         $counter++;  // Increment the counter
-                        if ($counter >= 6) break;
+                        if ($counter >= 6)
+                            break;
                     }
                 } else {
                     echo '<p>No Subtopics found.</p>';
@@ -114,45 +118,54 @@ include("includes/header.php");
 
         <div class="row course-gallery ">
             <?php
-                $counter = 0;
-                if ($allCourses->num_rows > 0) {                 
-                while ($row = $allCourses->fetch_assoc()) {
-                    echo '<div class="course-item '.$row['subTopicId'].' col-lg-4 col-md-6">';
-                    echo '<div class="course-block">';
-                    echo '<div class="course-img" style="width: auto;" height:300px;>';
-                    echo '<img src="./uploads/images/'.$row['bannerImage'].'" alt="" class="img-fluid">';
-                    // echo '<span class="course-label">Expert</span>';
-                    echo '</div>';
-                    echo '<div class="course-content">';
-                    echo '<div class="course-price ">₹'.$row['courseCost'].'</div>';
-                    echo '<h4><a href="#">'.$row['courseName'].'</a></h4>';
-                    echo '<div class="rating">';
-                    echo '<a href="#"><i class="fa fa-star"></i></a>';
-                    echo '<a href="#"><i class="fa fa-star"></i></a>';
-                    echo '<a href="#"><i class="fa fa-star"></i></a>';
-                    echo '<a href="#"><i class="fa fa-star"></i></a>';
-                    echo '<a href="#"><i class="fa fa-star"></i></a>';
-                    echo '<span>(5.00)</span>';
-                    echo '</div>';
-                    echo '<p>'. substr($row['courseDesc'], 0, 100) .'</p>';
-                    echo '<div class="course-footer d-lg-flex align-items-center justify-content-between">';
-                    echo '<div class="course-meta">';
-                    echo '<span class="course-student"><i class="bi bi-group"></i>340</span>';
-                    echo '<span class="course-duration"><i class="bi bi-badge3"></i>82 Lessons</span>';
-                    echo '</div>';
+            $counter = 0;
 
-                    echo '<div class="buy-btn"><a href="course_single?course_id=' . $row['id'] . '" class="btn btn-main-2 btn-small">Details</a></div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    echo '</div>';
-                    $counter++;  // Increment the counter
-                    if ($counter >= 6) break;
-                }
-            } else {
+            if ($allCourses->num_rows > 0):
+                while ($row = $allCourses->fetch_assoc()):
+                    ?>
+                    <div class="course-item <?php echo $row['subTopicId']; ?> col-lg-4 col-md-6">
+                        <div class="course-block">
+                            <div class="course-img" style="width: auto;" height="300px;">
+                                <img src="./uploads/images/<?php echo $row['bannerImage']; ?>" alt="" class="img-fluid">
+                                <!-- <span class="course-label">Expert</span> -->
+                            </div>
+                            <div class="course-content">
+                                <div class="course-price ">₹
+                                    <?php echo $row['courseCost']; ?>
+                                </div>
+                                <h4><a href="#">
+                                        <?php echo $row['courseName']; ?>
+                                    </a></h4>
+                                <div class="rating">
+                                    <?php for ($i = 0; $i < 5; $i++): ?>
+                                        <a href="#"><i class="fa fa-star"></i></a>
+                                    <?php endfor; ?>
+                                    <span>(5.00)</span>
+                                </div>
+                                <p>
+                                    <?php echo substr($row['courseDesc'], 0, 100); ?>
+                                </p>
+                                <div class="course-footer d-lg-flex align-items-center justify-content-between">
+                                    <div class="course-meta">
+                                        <span class="course-student"><i class="bi bi-group"></i>340</span>
+                                        <span class="course-duration"><i class="bi bi-badge3"></i>82 Lessons</span>
+                                    </div>
+                                    <div class="buy-btn"><a href="course_single?course_id=<?php echo $row['id']; ?>"
+                                            class="btn btn-main-2 btn-small">Details</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                    $counter++;
+                    if ($counter >= 6)
+                        break;
+                endwhile;
+            else:
                 echo '<p>No Courses found.</p>';
-            }
+            endif;
             ?>
+
         </div>
     </div>
     <!--course-->
@@ -315,20 +328,18 @@ include("includes/header.php");
         <div class="row align-items-center">
             <div class="col-lg-6 col-md-12">
                 <div class="about-img2">
-                    <img src="assets/images/bg/choose.png" alt="" class="img-fluid">
+                    <img src="assets/images/about/<?= $about_banner_name ?>" alt="" class="img-fluid">
                 </div>
             </div>
             <div class="col-lg-6 col-md-12">
                 <div class="section-heading">
                     <span class="subheading">About Us</span>
-                    <h3>Learn new skills to go ahead for your career</h3>
+                    <h3><?= $about_title;?></h3>
                 </div>
 
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores excepturi explicabo esse nisi
-                    molestias molestiae magni porro magnam,
-                    iusto sunt aliquid necessitatibus optio quod iste facilis similique eos voluptatum sint?</p>
+                <p><?= $about_Description?></p>
 
-                <a href="#" class="btn btn-main"><i class="fa fa-check mr-2"></i>Learn More</a>
+                <a href="<?= $mainlink?>about" class="btn btn-main"><i class="fa fa-check mr-2"></i>Learn More</a>
 
             </div>
         </div>
@@ -571,35 +582,40 @@ include("includes/header.php");
             <div class="col-lg-12">
                 <div class="testimonials-slides owl-carousel owl-theme">
                     <?php
-                    if($fetch_testimonial_sql)
+                    if ($fetch_testimonial_sql) {
+                        // Loop through the fetched testimonials
+                        while ($row = $fetch_testimonial_sql->fetch_assoc()) {
+                            ?>
+                            <div class="review-item">
 
-                    {
-                    // Loop through the fetched testimonials
-                    while ($row = $fetch_testimonial_sql->fetch_assoc()) {
-                        ?>
-                        <div class="review-item">
-                            
-                            <div class="client-info">
-                            <div class="title">
-                                     <b><span class="title"><?php echo $row['title'];?></span></b>
+                                <div class="client-info">
+                                    <div class="title">
+                                        <b><span class="title">
+                                                <?php echo $row['title']; ?>
+                                            </span></b>
+                                    </div>
+                                    <i class="bi bi-quote"></i>
+                                    <p>
+                                        <?php echo $row['description']; ?>
+                                    </p>
+
                                 </div>
-                                <i class="bi bi-quote"></i>
-                                <p><?php echo $row['description']; ?></p>
-                                
+                                <div class="client-desc">
+                                    <div class="client-img">
+                                        <img src="assets/images/profile_img/<?php echo ($row['subscribedBy'] == 'students') ? $row['profile_img'] : $row['profile']; ?>"
+                                            alt="" class="img-fluid">
+                                    </div>
+                                    <div class="client-text">
+                                        <h4>
+                                            <?php echo ($row['subscribedBy'] == 'students') ? $row['name'] : $row['companyName']; ?>
+                                        </h4>
+                                        <!-- <span class="designation"><?php echo $row['designation']; ?></span> -->
+                                    </div>
+                                </div>
                             </div>
-                            <div class="client-desc">
-                                <div class="client-img">
-                                    <img src="assets/images/profile_img/<?php echo ($row['subscribedBy'] == 'students') ? $row['profile_img'] : $row['profile']; ?>" alt="" class="img-fluid">
-                                </div>
-                                <div class="client-text">
-                                <h4><?php echo ($row['subscribedBy'] == 'students') ? $row['name'] : $row['companyName']; ?></h4>
-                                    <!-- <span class="designation"><?php echo $row['designation']; ?></span> -->
-                                </div>
-                            </div>
-                        </div>
-                        <?php
+                            <?php
+                        }
                     }
-                }
                     ?>
                 </div>
             </div>
@@ -673,42 +689,47 @@ include("includes/header.php");
             <div class="col-lg-6">
                 <div class="section-heading center-heading">
                     <span class="subheading">Blog News</span>
-                    <h3>Latest Blog News</h3>
+                    <h3>Latest Blog & News</h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicin gelit, sed do eiusmod tempor incididunt ut
                         labore et dolore magna aliqua.</p>
                 </div>
             </div>
         </div>
-        <!-- <div class="row>
-        
-        </div> -->
-
 
         <div class="row">
             <?php
-        if ($blogs->num_rows > 0) {
-            // echo $result;
-        // Output data of each row
-        while ($row = $blogs->fetch_assoc()) {
-            echo '<div class="col-lg-4 col-md-6">';
-            echo '<div class="blog-item">';
-            echo '<img src="assets/images/blog/' . $row['bannerImage'] . '" alt="loading.." class="img-fluid">';
-            echo '<div class="blog-content">';
-            echo '<div class="entry-meta">';
-            echo '<span><i class="fa fa-calendar-alt"></i>' . date('M j, Y', strtotime($row['createdOn'])) . '</span>';
-            echo '<span><i class="fa fa-pen"></i>' . $row['writer'] . ' </span>';
-            echo '</div>';
-            echo '<h2><a href="#">' . $row['blogTitle'] . '</a></h2>';
-            echo '<p>' . substr($row['description'], 0, 100) . '...</p>';
-            echo '<a href="'.$mainlink.'"blog_single/"'.$row['writer'].' class="btn btn-main btn-small"><i class="fa fa-plus-circle mr-2"></i>Read More</a>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-        }
-    } else {
-        echo '<p>No blog posts found.</p>';
-    }
-    ?>
+            if ($blogs->num_rows > 0) {
+                while ($row = $blogs->fetch_assoc()): ?>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="blog-item">
+                            <img src="assets/images/blog/<?php echo $row['bannerImage']; ?>" alt="loading.." class="img-fluid">
+                            <div class="blog-content">
+                                <div class="entry-meta">
+                                    <span><i class="fa fa-calendar-alt"></i>
+                                        <?php echo date('M j, Y', strtotime($row['createdOn'])); ?>
+                                    </span>
+                                    <span><i class="fa fa-pen"></i>
+                                        <?php echo $row['writer']; ?>
+                                    </span>
+                                </div>
+                                <h2><a href="#">
+                                        <?php echo $row['blogTitle']; ?>
+                                    </a></h2>
+                                <p>
+                                    <?php echo substr($row['description'], 0, 100) . '...'; ?>
+                                </p>
+                                <a href="<?php echo $mainlink . 'blog_single/' . $row['writer']; ?>"
+                                    class="btn btn-main btn-small">
+                                    <i class="fa fa-plus-circle mr-2"></i>Read More
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <?php endwhile;
+            } else {
+                echo '<p>No blog posts found.</p>';
+            }
+            ?>
         </div>
 
 

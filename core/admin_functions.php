@@ -1,72 +1,62 @@
 <?php
 session_start();
-
 include('db_config.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
-// Admin login_admin start
-if (isset($_POST['login_admin'])) {
+// Admin Login start
 
+if (isset($_POST['login_admin'])) {
     $name = mysqli_real_escape_string($con, $_POST['admin_name']);
     $password = mysqli_real_escape_string($con, $_POST['admin_password']);
 
+    $admin_sql = mysqli_query($con, "SELECT * FROM users WHERE Name='$name'");
+    $fetch_admin_sql = mysqli_fetch_assoc($admin_sql);
 
-    $user_sql = mysqli_query($con, "SELECT * FROM users WHERE Email='$name' AND Password='$password'");
-    $fetch_user_sql = mysqli_fetch_assoc($user_sql);
+    if ($admin_sql) {
+        $admin_pass = $fetch_admin_sql['Password'];
 
-    if ($fetch_user_sql) { // Check if a matching user was found
-        // echo $name;
-        // exit();
-        // session_start();
+        if ($admin_pass === $password) {
+            // Store user information in the session
+            $_SESSION['admin_id'] = $fetch_admin_sql['id'];
+            $_SESSION['admin_email'] = $fetch_admin_sql['Email'];
+            $_SESSION['admin_name'] = $fetch_admin_sql['Name'];
 
-        // Store user information in the session
-        $_SESSION['user_id'] = $fetch_user_sql['user_id'];
-        $_SESSION['user_name'] = $fetch_user_sql['Email'];
-        $_SESSION['name'] = $fetch_user_sql['Name'];
-
-
-        header("location: $mainlink" . "admin/dashboard");
-        // exit();
-
+            // echo $_SESSION['admin_name'];
+            // exit();
+            header("location: $mainlink" . "admin/dashboard");
+            exit();
+        } else {
+            $_SESSION['errormessage'] = "Entered password is incorrect";
+            header("location: $mainlink" . "admin/");
+            exit();
+        }
     } else {
-        // Handle the case where no user with the specified 'Name' was found
-        $_SESSION['message'] = "User not found";
+        $_SESSION['errormessage'] = "Entered Username is incorrect";
         header("location: $mainlink" . "admin/");
-        // exit();
+        exit();
     }
 
-// Admin topic_manage start
-} 
-// Admin login_admin end
+    // Admin Login End
 
-
-// Admin Topic Management Start
-elseif (isset($_POST['topic_manage'])) {
+    // Topic Management start
+} elseif (isset($_POST['topic_manage'])) {
     $topic = $_POST['topic'];
     $currentDate = date("Y-m-d H:i:s");
     $insert_query = mysqli_query($con, "INSERT INTO topics(topicName,createdOn,isActive) VALUES('$topic','$currentDate',1)");
 
     if ($insert_query) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "./admin/topic");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-
-        header("location: $mainlink" . "./admin/topic");
         echo "not done";
     }
+    // Topic Management end 
 
 
 
-} 
-elseif (isset($_POST['checking_topic_btn'])) {
+} elseif (isset($_POST['checking_topic_btn'])) {
     $topic_id = $_POST['topicId'];
     $result_array = [];
 
@@ -82,8 +72,7 @@ elseif (isset($_POST['checking_topic_btn'])) {
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} 
-elseif (isset($_POST['update_topic'])) {
+} elseif (isset($_POST['update_topic'])) {
     $id = $_POST['topicId'];
     $topic_name = $_POST['topic_name'];
 
@@ -91,96 +80,53 @@ elseif (isset($_POST['update_topic'])) {
     $query = mysqli_query($con, $update_topic);
 
     if ($query) {
-        $_SESSION['status'] = "Update Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "./admin/topic");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        header("location: $mainlink" . "./admin/topic");
         echo "not working";
     }
-} 
-elseif (isset($_POST['delete_topic'])) {
+} elseif (isset($_POST['delete_topic'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql = "DELETE FROM topics WHERE Id = $id";
     $query = mysqli_query($con, $sql);
     if ($query) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
         // If the delete operation is successful, you can redirect to a success page
         header("location: $mainlink" . "./admin/topic");
         // exit();
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
-// Admin topic_manage end
-
-// Admin Subtopic Management starts
-
-} 
-// Admin Topic Management Ends
-
-
-// Admin Subtopic Management Start
-elseif (isset($_POST['subtopic_manage'])) {
-    $topic = $_POST['topic'];
-    $subtopic = $_POST['subtopic'];
-    $currentDate = date("Y-m-d H:i:s");
-    $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,createdOn) VALUES('$topic','$subtopic','$currentDate')");
-
-    if ($insert_query) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "./admin/subtopic");
-        // echo "hii";
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        header("location: $mainlink" . "./admin/subtopic");
-        // echo "not done";
-        // echo $topic, $subtopic, $currentDate;
-    }
-} 
-elseif (isset($_POST['delete_subtopic'])) {
-    // Get the ID from the URL
-    $id = $_POST['delete_id'];
-    $sql = "UPDATE subtopics SET isActive = 0 WHERE id = $id";
-    $query = mysqli_query($con, $sql);
-    if ($query) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        // If the delete operation is successful, you can redirect to a success page
-        header("location: $mainlink" . "./admin/subtopic");
-        // exit();
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
     // Close the database connection
     mysqli_close($conn);
+} elseif (isset($_POST['subtopic_manage'])) {
+    $topic = $_POST['topic'];
+    $subtopic = $_POST['subtopic'];
+    $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,isActive) VALUES('$topic','$subtopic',1)");
 
-// Admin Subtopic Management ends
+    if ($insert_query) {
+        header("location: $mainlink" . "./admin/subtopic");
+        // echo "hii";
+    } else {
+        echo "not done";
+        echo $topic, $subtopic, $currentDate;
+    }
+} elseif (isset($_POST['delete_subtopic'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "UPDATE subtopics SET isActive = 0 WHERE id = $id";
+    $query = mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "./admin/subtopic");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
 
-} 
-// Admin Subtopic Management Ends
-
-
-// Admin Course Management Start
-elseif (isset($_POST['course_manage'])) {
+    // Close the database connection
+    mysqli_close($conn);
+} elseif (isset($_POST['course_manage'])) {
     $topic = $_POST['topic'];
     $subtopic = $_POST['subtopic'];
     $courseName = $_POST['courseName'];
@@ -217,32 +163,17 @@ elseif (isset($_POST['course_manage'])) {
     // $insert_query = mysqli_query($con, "INSERT INTO courses(topicID ,subTopicId ,courseName,courseCost,bannerImage,uploadfile,video,courseDesc,learn,summary,requirements) VALUES('$topic','$subtopic','$courseName','$price','$imageFileName','$uploadFileName','$videoFileName','$desc','$wyl','$summary','$requirements')");
 
     if ($insert_course) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "admin/manageCourse");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        header("location: $mainlink" . "admin/manageCourse");
-
         echo "not done";
     }
-} 
-elseif (isset($_POST['checking_course_btn'])) {
-    $courseId = $_POST['courseId'];
+} elseif (isset($_POST['checking_course_btn'])) {
+    $courseId = $_POST['course_id'];
     $result_array = [];
 
-    // Use JOIN to fetch related data from other tables
-    $query = "SELECT c.*, t.topicName, st.subTopicName
-              FROM courses c
-              JOIN topics t ON c.topicID = t.Id
-              JOIN subtopics st ON c.subTopicId = st.id
-              WHERE c.id = $courseId";
-
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `courses` WHERE id = $courseId";
     $query_run = mysqli_query($con, $query);
-
     if (mysqli_num_rows($query_run) > 0) {
         foreach ($query_run as $row) {
             array_push($result_array, $row);
@@ -252,108 +183,7 @@ elseif (isset($_POST['checking_course_btn'])) {
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} 
-elseif (isset($_POST['update_course'])) {
-    $courseId = $_POST['courseId'];
-    // $topicName = $_POST['topicName'];
-    // $subtopic = $_POST['subtopic'];
-    $price = $_POST['price'];
-    // $description-$_POST['description'];
-    // $wyl-$_POST['wyl'];
-    $courseName = $_POST['courseName'];
-
-    $date = date("Y-m-d H:i:s");
-    $maxUploadFileSize = 10 * 1024 * 1024;
-    $maxVideoFileSize = 100 * 1024 * 1024;
-
-    // Check if uploadfile is provided in the form
-    if (isset($_FILES['uploadfile'])) {
-        $uploadFile = $_FILES['uploadfile'];
-        $uploadFileName = $uploadFile['name'];
-
-        // Process and move the upload file to your desired location
-        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
-    } else {
-        // If not provided, keep the existing value
-
-        $uploadFileName = ''; // Assuming it's a string field in the database
-    }
-
-    // Check if video is provided in the form
-    if (isset($_FILES['video'])) {
-        $videoFile = $_FILES['video'];
-        $videoFileName = $videoFile['name'];
-
-        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
-    } else {
-        // If not provided, keep the existing value
-        $videoFileName = ''; // Assuming it's a string field in the database
-    }
-
-    // Update the database, considering the file values
-    $update = "UPDATE courses SET courseName='$courseName',courseCost='$price'";
-
-    if (!empty($uploadFileName)) {
-        $update .= " uploadFile='$uploadFileName',";
-    }
-
-    if (!empty($videoFileName)) {
-        $update .= " video='$videoFileName',";
-    }
-
-    // $update .= " modifiedOn='$date' WHERE id='$courseId'";
-
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/manageCourse");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        header("location: $mainlink" . "admin/manageCourse");
-        echo "not working";
-    }
-}
-elseif (isset($_POST['deleteCourse'])) {
-    // Get the ID from the URL
-    $id = $_POST['delete_id'];
-
-    // Check for a valid database connection
-    if ($con->connect_error) {
-        die("Connection failed: " . $con->connect_error);
-    }
-
-    // Perform the delete operation using prepared statements
-    $sql = "UPDATE courses SET isActive = 0 WHERE id = ?";
-    $stmt = $con->prepare($sql);
-    $stmt->bind_param("i", $id);
-
-    if ($stmt->execute()) {
-        // Deletion successful
-        $_SESSION['status'] = "Deleted Successfully";
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "./admin/manageCourse");
-        exit();
-    } else {
-        // Error during deletion
-        $_SESSION['status'] = "Something Went Wrong";
-        $_SESSION['status_code'] = "error";
-        echo "Error: " . $stmt->error;
-    }
-
-    // Close the prepared statement and database connection
-    $stmt->close();
-    $con->close();
-} 
-// Admin Course Management Ends
-
-
-// Admin Newsletter Management Starts
-elseif (isset($_POST['subscription_manage'])) {
+} elseif (isset($_POST['subscription_manage'])) {
     $subscription = $_POST['subscription'];
     $type = $_POST['type'];
     $price = $_POST['price'];
@@ -363,18 +193,11 @@ elseif (isset($_POST['subscription_manage'])) {
     $insert_query = mysqli_query($con, "INSERT INTO subscriptions_1(subscription, type, price, duration,courseName) VALUES('$subscription','$type','$price','$duration','$courseName')");
 
     if ($insert_query) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "./admin/manageSubscriptions");
+        header("location: $mainlink" . "manageSubscriptions");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "not done";
     }
-} 
-elseif (isset($_POST['checking_subscription_btn'])) {
+} elseif (isset($_POST['checking_subscription_btn'])) {
     $subscriptionId = $_POST['subscription_id'];
     $result_array = [];
 
@@ -390,8 +213,7 @@ elseif (isset($_POST['checking_subscription_btn'])) {
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} 
-elseif (isset($_POST['update_subscription'])) {
+} elseif (isset($_POST['update_subscription'])) {
     $id = $_POST['subscription_id'];
     $name = $_POST['editname'];
     $type = $_POST['edittype'];
@@ -403,21 +225,386 @@ elseif (isset($_POST['update_subscription'])) {
     $query = mysqli_query($con, $update);
 
     if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "./admin/manageSubscriptions");
+        header("location: $mainlink" . "manageSubscriptions");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
+        echo "not working";
+    }
+} elseif (isset($_POST['blog_manage'])) {
+    // Process the form data as needed
+    $title = $_POST['title'];
+    if (isset($_FILES['image'])) {
+        $imageFile = $_FILES['image'];
+        $imageFileName = $imageFile['name'];
+        // Process and move the image file to your desired location
+        move_uploaded_file($imageFile['tmp_name'], '../assets/images/blog/' . $imageFileName);
+    }
+    $writer = $_POST['writer'];
+    $desc = $_POST['desc'];
+    // $category = $_POST['category'];
+    // $created_on = $_POST['created_on'];
 
-        $_SESSION['status_code'] = "error";
+    // Insert the blog into the database and get the blog ID
+    $insert_query = mysqli_query($con, "INSERT INTO blogs(blogTitle, bannerImage, writer, description,createdOn) VALUES('$title','$imageFileName','$writer','$desc',NOW())");
 
-        header("location: $mainlink" . "./admin/manageSubscriptions");
+    // Get the ID of the newly inserted blog
+    $blogId = mysqli_insert_id($con);
 
+    // Check if tags have been provided
+    if (isset($_POST['tags'])) {
+        $tags = $_POST['tags'];
+
+        // Split the comma-separated tags string into an array
+        $tagsArray = explode(',', $tags);
+
+        foreach ($tagsArray as $tag) {
+            $tag = mysqli_real_escape_string($con, trim($tag)); // Remove leading/trailing whitespace
+            $insertTagQuery = "INSERT INTO blogtag (name, blog_id) VALUES ('$tag', $blogId)";
+            mysqli_query($con, $insertTagQuery);
+        }
+
+        header("location: $mainlink" . "./admin/blog");
+    } else {
+        echo "Tag insertion failed";
+    }
+} elseif (isset($_POST['checking_edit_btn'])) {
+    $blogId = $_POST['blog_id'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `blogs` WHERE id = $blogId";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    } else {
+        //echo $return = "<h5>No Record Found</h5>";
+    }
+} elseif (isset($_POST['update'])) {
+    $id = $_POST['blog_id'];
+    $title = mysqli_real_escape_string($con, $_POST['editTitle']);
+    $writer = mysqli_real_escape_string($con, $_POST['editWriter']);
+    $description = mysqli_real_escape_string($con, $_POST['editDescription']);
+
+    if (isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
+        // Handle the new image upload
+        $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
+
+        // Debugging for file path
+        $imagePath = "../assets/images/blog/" . $newImage;
+        echo "Image Path: $imagePath<br>";
+
+        // Move the uploaded image to the destination folder
+        move_uploaded_file($_FILES['editImage']['tmp_name'], $imagePath);
+
+        // Update the database with the new image filename
+        $update = "UPDATE blogs SET blogTitle='$title', writer ='$writer', description='$description', bannerImage='$newImage' WHERE id='$id'";
+    } else {
+        // No new image uploaded, keep the old image
+        $update = "UPDATE blogs SET blogTitle='$title', writer ='$writer', description='$description' WHERE id='$id'";
+    }
+
+    // Debugging for SQL query
+    echo "SQL Query: $update<br>";
+
+    $query = mysqli_query($con, $update);
+
+    if ($query) {
+        header("location: $mainlink" . "admin/blog");
+    } else {
+        echo "Query Error: " . mysqli_error($con);
+    }
+}
+
+
+if (isset($_POST['delete_blog'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+
+    // Create a database connection (adjust these settings according to your database)
+
+    // Check the database connection
+    // UPDATE orderdetails SET status = 1 WHERE id = $co_id
+    // Perform the delete operation using the ID (replace "your_table" with your table name)
+    $sql = "UPDATE blogs SET isActive = 0 WHERE id = $id";
+    $query = mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "admin/blog");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+} elseif (isset($_POST['freeResources_manage'])) {
+    $heading = $_POST['heading'];
+    $title = $_POST['title'];
+    if (isset($_FILES['image'])) {
+        $imageFile = $_FILES['image'];
+        $imageFileName = $imageFile['name'];
+        // Process and move the image file to your desired location
+        move_uploaded_file($imageFile['tmp_name'], '../assets/images/freeResource/' . $imageFileName);
+    }
+    // $writer = $_POST['writer'];
+    $desc = $_POST['desc'];
+
+    $insert_query = mysqli_query($con, "INSERT INTO freeresources(resourcesName, title, bannerImage, description, createdOn) VALUES('$heading', '$title', '$imageFileName','$desc',NOW())");
+
+    if ($insert_query) {
+        header("location: $mainlink" . "admin/freeResources");
+    } else {
+        echo "not done";
+    }
+} elseif (isset($_POST['checking_resource_btn'])) {
+    $resource_id = $_POST['resourceId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `freeresources` WHERE id = $resource_id";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    } else {
+        //echo $return = "<h5>No Record Found</h5>";
+    }
+} else {
+    //echo $return = "<h5>No Record Found</h5>";
+}
+
+if (isset($_POST['update_resources'])) {
+
+    $id = $_POST['resourceId'];
+    $resourcename = mysqli_real_escape_string($con, $_POST['resourses_name']);
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $description = mysqli_real_escape_string($con, $_POST['description']);
+
+    if (isset($_FILES['banner_image']['tmp_name']) && !empty($_FILES['banner_image']['tmp_name'])) {
+        // Handle the new image upload
+        $newImage = mysqli_real_escape_string($con, $_FILES['banner_image']['name']);
+        // Debugging for file path
+        $imagePath = "../assets/images/freeResource/" . $newImage;
+        echo "Image Path: $imagePath<br>";
+
+        // Move the uploaded image to the destination folder
+        move_uploaded_file($_FILES['banner_image']['tmp_name'], $imagePath);
+
+        $update = "UPDATE freeresources SET resourcesName='$resourcename', title='$title', bannerImage='$imagePath', description='$description' WHERE id='$id'";
+    } else {
+        // No new image uploaded, keep the old image
+        $update = "UPDATE freeresources SET resourcesName='$resourcename', title ='$title', description='$description' WHERE id='$id'";
+    }
+
+    // Debugging for SQL query
+    echo "SQL Query: $update<br>";
+
+    $query = mysqli_query($con, $update);
+
+    if ($query) {
+        header("location: $mainlink" . "admin/freeResources");
+    } else {
+        echo "Update failed: " . mysqli_error($con);
+        exit; // Terminate script if update fails
+    }
+} elseif (isset($_POST['affiliate_manage'])) {
+    $name = $_POST['name'];
+    $details = $_POST['details'];
+    $contactdetails = $_POST['contactdetails'];
+    $contactPerson = $_POST['contactPerson'];
+    $address = $_POST['address'];
+
+
+    $insert_query = mysqli_query($con, "INSERT INTO affiliates(companyName, details, contactDetail, contactPerson, address) VALUES('$name', '$details', '$contactdetails','$contactPerson','$address')");
+
+    if ($insert_query) {
+        header("location: $mainlink" . "affiliate");
+    } else {
+        echo "not done";
+    }
+} elseif (isset($_POST['checking_affiliate_btn'])) {
+    $affiliateId = $_POST['affiliateId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `affiliates` WHERE id = $affiliateId";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    } else {
+        //echo $return = "<h5>No Record Found</h5>";
+    }
+} elseif (isset($_POST['update_affiliate'])) {
+    $id = $_POST['affiliateId'];
+    $company_name = $_POST['company_name'];
+    $details = $_POST['details'];
+    $contact_details = $_POST['contact_details'];
+    $contact_person = $_POST['contact_person'];
+    $address = $_POST['address'];
+
+    $update = "UPDATE affiliates set companyName='$company_name', details ='$details', contactDetail='$contact_details', contactPerson='$contact_person', address='$address' WHERE id='$id'";
+    $query = mysqli_query($con, $update);
+
+    if ($query) {
+        header("location: $mainlink" . "affiliate");
+    } else {
+        echo "not working";
+    }
+} elseif (isset($_POST['career_manage'])) {
+    $title = $_POST['title'];
+    $exp = $_POST['exp'];
+    $desc = $_POST['desc'];
+
+    $insert_query = mysqli_query($con, "INSERT INTO careers(Title, Experience, Description) VALUES('$title', '$exp', '$desc')");
+
+    if ($insert_query) {
+        header("location: $mainlink" . "admin/career");
+    } else {
+        echo "not done";
+    }
+} elseif (isset($_POST['checking_career_btn'])) {
+    $careerId = $_POST['careerId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `careers` WHERE id = $careerId";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    } else {
+        //echo $return = "<h5>No Record Found</h5>";
+    }
+} elseif (isset($_POST['update_career'])) {
+    $id = $_POST['careerId'];
+    $title = $_POST['title'];
+    $yoe = $_POST['yoe'];
+    $description = $_POST['description'];
+
+
+    $update = "UPDATE careers set Title='$title', Experience ='$yoe', Description='$description' WHERE id='$id'";
+    $query = mysqli_query($con, $update);
+
+    if ($query) {
+        header("location: $mainlink" . "admin/career");
+    } else {
         echo "not working";
     }
 }
-elseif (isset($_POST['sending_email'])) {
+if (isset($_POST['delete_career'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "UPDATE careers SET isActive = 0  WHERE Id = $id";
+    $query = mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "admin/career");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // Close the database connection
+    mysqli_close($conn);
+} elseif (isset($_POST['apply_job'])) {
+    $name = $_POST['name'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $exp = $_POST['experience'];
+    $careerId = $_POST['CareerId'];
+
+    // Process file upload
+    $cvpath = '';
+    if (isset($_FILES['cv'])) {
+        $imageFile = $_FILES['cv'];
+        $cvpath = '../assets/upload/' . $imageFile['name'];
+        // Process and move the image file to your desired location
+        move_uploaded_file($imageFile['tmp_name'], $cvpath);
+    }
+
+    // Insert data into the database
+    $insertQuery = "INSERT INTO careersapplications (Name, Phone, Email, Experience, Attachment, CareerId,CreatedOn) 
+                    VALUES ('$name', '$phone', '$email', '$exp', '$cvpath', '$careerId',NOW())";
+
+    if (mysqli_query($con, $insertQuery)) {
+        header("location: $mainlink" . "career");
+
+    } else {
+        echo "failed";
+    }
+} elseif (isset($_POST['corporateGovernance_manage'])) {
+    $title = $_POST['title'];
+    if (isset($_FILES['image'])) {
+        $imageFile = $_FILES['image'];
+        $imageFileName = $imageFile['name'];
+        // Process and move the image file to your desired location
+        move_uploaded_file($imageFile['tmp_name'], 'upload/image/' . $imageFileName);
+    }
+    $name = $_POST['name'];
+
+    $insert_query = mysqli_query($con, "INSERT INTO corporategovernance(title, image, name) VALUES('$title', '$imageFileName', '$name')");
+
+    if ($insert_query) {
+        header("location: $mainlink" . "corporateGovernance");
+    } else {
+        echo "not done";
+    }
+} elseif (isset($_POST['checking_cg_btn'])) {
+    $careerId = $_POST['cgId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT * FROM `corporategovernance` WHERE id = $careerId";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
+        }
+    } else {
+        //echo $return = "<h5>No Record Found</h5>";
+    }
+} elseif (isset($_POST['update_cg'])) {
+    $id = $_POST['cgId'];
+    $title = $_POST['title'];
+    $name = $_POST['name'];
+    $image = $_POST['image'];
+
+    // Check if a new image has been uploaded
+    if (isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
+        // Handle the new image upload
+        $newImage = $_FILES['image']['name'];
+        $imagePath = "upload/image/" . $newImage; // Update with your actual image upload path
+        move_uploaded_file($_FILES['image']['tmp_name'], $imagePath);
+    } else {
+        // No new image uploaded, keep the old image
+        $imagePath = $_POST['oldImage']; // This should be the path to the old image
+    }
+
+    $update = "UPDATE corporategovernance SET Title='$title', name='$name', image='$imagePath' WHERE id='$id'";
+    $query = mysqli_query($con, $update);
+
+    if ($query) {
+        header("location: $mainlink" . "corporateGovernance");
+    } else {
+        echo "not working";
+    }
+}
+if (isset($_POST['sending_email'])) {
     $des = $_POST['descriptions'];
 
     // Check if a file was uploaded
@@ -496,594 +683,7 @@ elseif (isset($_POST['sending_email'])) {
     } else {
         echo "No file was uploaded or an error occurred during the upload.";
     }
-}
-// Admin Newsletter Management Ends
-
-
-// Admin Blog Management starts
-elseif (isset($_POST['blog_manage'])) {
-    // Process the form data as needed
-    $title = $_POST['title'];
-    if (isset($_FILES['image'])) {
-        $imageFile = $_FILES['image'];
-        $imageFileName = $imageFile['name'];
-        // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], '../assets/images/blog/' . $imageFileName);
-    }
-    $writer = $_POST['writer'];
-    $desc = $_POST['desc'];
-    // $category = $_POST['category'];
-    // $created_on = $_POST['created_on'];
-
-    // Insert the blog into the database and get the blog ID
-    $insert_query = mysqli_query($con, "INSERT INTO blogs(blogTitle, bannerImage, writer, description,createdOn) VALUES('$title','$imageFileName','$writer','$desc',NOW())");
-
-    // Get the ID of the newly inserted blog
-    $blogId = mysqli_insert_id($con);
-
-    // Check if tags have been provided
-    if (isset($_POST['tags'])) {
-        $tags = $_POST['tags'];
-
-        // Split the comma-separated tags string into an array
-        $tagsArray = explode(',', $tags);
-
-        foreach ($tagsArray as $tag) {
-            $tag = mysqli_real_escape_string($con, trim($tag)); // Remove leading/trailing whitespace
-            $insertTagQuery = "INSERT INTO blogtag (name, blog_id) VALUES ('$tag', $blogId)";
-            mysqli_query($con, $insertTagQuery);
-        }
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "./admin/blog");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Tag insertion failed";
-    }
-} 
-elseif (isset($_POST['checking_edit_btn'])) {
-    $blogId = $_POST['blog_id'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `blogs` WHERE id = $blogId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} 
-elseif (isset($_POST['update'])) {
-    $id = $_POST['blog_id'];
-    $title = mysqli_real_escape_string($con, $_POST['editTitle']);
-    $writer = mysqli_real_escape_string($con, $_POST['editWriter']);
-    $description = mysqli_real_escape_string($con, $_POST['editDescription']);
-
-    if (isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
-        // Handle the new image upload
-        $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
-
-        // Debugging for file path
-        $imagePath = "../assets/images/blog/" . $newImage;
-        echo "Image Path: $imagePath<br>";
-
-        // Move the uploaded image to the destination folder
-        move_uploaded_file($_FILES['editImage']['tmp_name'], $imagePath);
-
-        // Update the database with the new image filename
-        $update = "UPDATE blogs SET blogTitle='$title', writer ='$writer', description='$description', bannerImage='$newImage' WHERE id='$id'";
-    } else {
-        // No new image uploaded, keep the old image
-        $update = "UPDATE blogs SET blogTitle='$title', writer ='$writer', description='$description' WHERE id='$id'";
-    }
-
-    // Debugging for SQL query
-    echo "SQL Query: $update<br>";
-
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/blog");
-    } else {
-        echo "Query Error: " . mysqli_error($con);
-    }
-}
-elseif (isset($_POST['delete_blog'])) {
-    // Get the ID from the URL
-    $id = $_POST['delete_id'];
-    // Perform the delete operation using the ID (replace "your_table" with your table name)
-    $sql = "UPDATE blogs SET isActive = 0 WHERE id = $id";
-    $query = mysqli_query($con, $sql);
-    if ($query) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        // If the delete operation is successful, you can redirect to a success page
-        header("location: $mainlink" . "admin/blog");
-        // exit();
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
-
-    // Close the database connection
-    mysqli_close($conn);
-} 
-// Admin Blog Management Ends
-
-
-// Admin FreeResouse Management starts
-elseif (isset($_POST['freeResources_manage'])) {
-    $heading = $_POST['heading'];
-    $title = $_POST['title'];
-    if (isset($_FILES['image'])) {
-        $imageFile = $_FILES['image'];
-        $imageFileName = $imageFile['name'];
-        // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], '../assets/images/freeResource/' . $imageFileName);
-    }
-    // $writer = $_POST['writer'];
-    $desc = $_POST['desc'];
-
-    $insert_query = mysqli_query($con, "INSERT INTO freeresources(resourcesName, title, bannerImage, description, createdOn) VALUES('$heading', '$title', '$imageFileName','$desc',NOW())");
-
-    if ($insert_query) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/freeResources");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "not done";
-    }
-} 
-elseif (isset($_POST['checking_resource_btn'])) {
-    $resource_id = $_POST['resourceId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `freeresources` WHERE id = $resource_id";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} 
-elseif (isset($_POST['update_resources'])) {
-
-    $id = $_POST['resourceId'];
-    $resourcename = mysqli_real_escape_string($con, $_POST['resourses_name']);
-    $title = mysqli_real_escape_string($con, $_POST['title']);
-    $description = mysqli_real_escape_string($con, $_POST['description']);
-
-    if (isset($_FILES['banner_image']['tmp_name']) && !empty($_FILES['banner_image']['tmp_name'])) {
-        // Handle the new image upload
-        $newImage = mysqli_real_escape_string($con, $_FILES['banner_image']['name']);
-        // Debugging for file path
-        $imagePath = "../assets/images/freeResource/" . $newImage;
-        echo "Image Path: $imagePath<br>";
-
-        // Move the uploaded image to the destination folder
-        move_uploaded_file($_FILES['banner_image']['tmp_name'], $imagePath);
-
-        $update = "UPDATE freeresources SET resourcesName='$resourcename', title='$title', bannerImage='$imagePath', description='$description' WHERE id='$id'";
-    } else {
-        // No new image uploaded, keep the old image
-        $update = "UPDATE freeresources SET resourcesName='$resourcename', title ='$title', description='$description' WHERE id='$id'";
-    }
-
-    // Debugging for SQL query
-    echo "SQL Query: $update<br>";
-
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/freeResources");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Update failed: " . mysqli_error($con);
-        exit; // Terminate script if update fails
-    }
-} 
-elseif (isset($_POST['delete_resources'])) {
-    // Get the ID from the URL
-    $id = $_POST['delete_id'];
-    // Perform the delete operation using the ID (replace "your_table" with your table name)
-    $sql = "UPDATE freeresources SET isActive = 0 WHERE id = $id";
-    $query = mysqli_query($con, $sql);
-    if ($query) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        // If the delete operation is successful, you can redirect to a success page
-        header("location: $mainlink" . "./admin/freeResources");
-        // exit();
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
-
-    // Close the database connection
-    mysqli_close($conn);
-}
-// Admin FreeResouse Management Ends
-
-
-// Admin Affiliated Management Starts
-elseif (isset($_POST['affiliate_manage'])) {
-    $name = $_POST['name'];
-    $details = $_POST['details'];
-    $contactdetails = $_POST['contactdetails'];
-    $contactPerson = $_POST['contactPerson'];
-    $address = $_POST['address'];
-
-
-    $insert_query = mysqli_query($con, "INSERT INTO affiliates(companyName, details, contactDetail, contactPerson, address) VALUES('$name', '$details', '$contactdetails','$contactPerson','$address')");
-
-    if ($insert_query) {
-        header("location: $mainlink" . "affiliate");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "not done";
-    }
-} 
-elseif (isset($_POST['checking_affiliate_btn'])) {
-    $affiliateId = $_POST['affiliateId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `affiliates` WHERE id = $affiliateId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} 
-elseif (isset($_POST['update_affiliate'])) {
-    $id = $_POST['affiliateId'];
-    $company_name = $_POST['company_name'];
-    $details = $_POST['details'];
-    $contact_details = $_POST['contact_details'];
-    $contact_person = $_POST['contact_person'];
-    $address = $_POST['address'];
-
-    $update = "UPDATE affiliates set companyName='$company_name', details ='$details', contactDetail='$contact_details', contactPerson='$contact_person', address='$address' WHERE id='$id'";
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "affiliate");
-    } else {
-        echo "not working";
-    }
-} 
-// Admin Affiliated Management Ends
-
-
-// Admin Career Management Starts
-elseif (isset($_POST['career_manage'])) {
-    $title = $_POST['title'];
-    $exp = $_POST['exp'];
-    $desc = $_POST['desc'];
-
-    $insert_query = mysqli_query($con, "INSERT INTO careers(Title, Experience, Description) VALUES('$title', '$exp', '$desc')");
-
-    if ($insert_query) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/career");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "not done";
-    }
-} 
-elseif (isset($_POST['checking_career_btn'])) {
-    $careerId = $_POST['careerId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `careers` WHERE id = $careerId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} 
-elseif (isset($_POST['update_career'])) {
-    $id = $_POST['careerId'];
-    $title = $_POST['title'];
-    $yoe = $_POST['yoe'];
-    $description = $_POST['description'];
-
-
-    $update = "UPDATE careers set Title='$title', Experience ='$yoe', Description='$description' WHERE id='$id'";
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/career");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "not working";
-    }
-}
-elseif (isset($_POST['delete_career'])) {
-    // Get the ID from the URL
-    $id = $_POST['delete_id'];
-    $sql = "UPDATE careers SET isActive = 0  WHERE Id = $id";
-    $query = mysqli_query($con, $sql);
-    if ($query) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        // If the delete operation is successful, you can redirect to a success page
-        header("location: $mainlink" . "admin/career");
-        // exit();
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
-
-    // Close the database connection
-    mysqli_close($conn);
-}
-// Admin Career Management Ends
-
-
-// Admin Job Management starts
-elseif (isset($_POST['apply_job'])) {
-    $name = $_POST['name'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $exp = $_POST['experience'];
-    $careerId = $_POST['CareerId'];
-
-    // Process file upload
-    $cvpath = '';
-    if (isset($_FILES['cv'])) {
-        $imageFile = $_FILES['cv'];
-        $cvpath = '../assets/upload/' . $imageFile['name'];
-        // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], $cvpath);
-    }
-
-    // Insert data into the database
-    $insertQuery = "INSERT INTO careersapplications (Name, Phone, Email, Experience, Attachment, CareerId,CreatedOn) 
-                    VALUES ('$name', '$phone', '$email', '$exp', '$cvpath', '$careerId',NOW())";
-
-    if (mysqli_query($con, $insertQuery)) {
-
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "career");
-
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "failed";
-    }
-} 
-// Admin Job Management Ends
-
-
-// Admin CorporateGovernance_manage start
-elseif (isset($_POST['corporateGovernance_manage'])) {
-    $title = $_POST['title'];
-    if (isset($_FILES['image'])) {
-        $imageFile = $_FILES['image'];
-        $imageFileName = $imageFile['name'];
-        // Process and move the image file to your desired location
-        move_uploaded_file($imageFile['tmp_name'], 'upload/image/' . $imageFileName);
-    }
-    $name = $_POST['name'];
-
-    $insert_query = mysqli_query($con, "INSERT INTO corporategovernance(title, image, name) VALUES('$title', '$imageFileName', '$name')");
-
-    if ($insert_query) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "corporateGovernance");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "not done";
-    }
-} 
-elseif (isset($_POST['checking_cg_btn'])) {
-    $careerId = $_POST['cgId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `corporategovernance` WHERE id = $careerId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} 
-elseif (isset($_POST['update_cg'])) {
-    $id = $_POST['cgId'];
-    $title = $_POST['title'];
-    $name = $_POST['name'];
-    $image = $_POST['image'];
-
-    // Check if a new image has been uploaded
-    if (isset($_FILES['image']['tmp_name']) && !empty($_FILES['image']['tmp_name'])) {
-        // Handle the new image upload
-        $newImage = $_FILES['image']['name'];
-        $imagePath = "upload/image/" . $newImage; // Update with your actual image upload path
-        move_uploaded_file($_FILES['image']['tmp_name'], $imagePath);
-    } else {
-        // No new image uploaded, keep the old image
-        $imagePath = $_POST['oldImage']; // This should be the path to the old image
-    }
-
-    $update = "UPDATE corporategovernance SET Title='$title', name='$name', image='$imagePath' WHERE id='$id'";
-    $query = mysqli_query($con, $update);
-
-    if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "corporateGovernance");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "not working";
-    }
-}
-// Admin CorporateGovernance_manage Ends
-
-
-// Admin Contact Details Management Starts
-elseif (isset($_POST['contact_details'])) {
-
-    $email = $_POST['email'];
-    $phone = $_POST['phone_no'];
-    $address = $_POST['address'];
-
-    $currentDate = date("Y-m-d H:i:s");
-
-    $insert_query1 = mysqli_query($con, "INSERT INTO contact_details(email, phone_no, address, created_on) VALUES('$email','$phone','$address','$currentDate')");
-
-    if ($insert_query1) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/contactdetails");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Error: " . mysqli_error($con);
-    }
-} 
-elseif (isset($_POST['checking_edit_contacts_btn'])) {
-    $contactId = $_POST['contactId'];
-    $result_array = [];
-
-    // Prepare and execute a query to fetch the blog data by ID
-    $query = "SELECT * FROM `contact_details` WHERE id = $contactId";
-    $query_run = mysqli_query($con, $query);
-    if (mysqli_num_rows($query_run) > 0) {
-        foreach ($query_run as $row) {
-            array_push($result_array, $row);
-            header('Content-type: application/json');
-            echo json_encode($result_array);
-        }
-    } else {
-        //echo $return = "<h5>No Record Found</h5>";
-    }
-} 
-elseif (isset($_POST['update_contactDetaills'])) {
-    $id = $_POST['contatId'];
-    $email = $_POST['editEmail'];
-    $phone = $_POST['editPhone'];
-    $address = $_POST['editAddress'];
-
-
-    $update_contact = "UPDATE contact_details SET email = '$email', phone_no = '$phone', address = '$address' WHERE id='$id'";
-    $query = mysqli_query($con, $update_contact);
-
-    if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "admin/contactdetails");
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "not working";
-    }
-}
-elseif (isset($_POST['delete_contact'])) {
-    // Get the ID from the URL
-    $id = $_POST['delete_id'];
-    $sql = "UPDATE contact_details SET status = 0  WHERE id = $id";
-    $query = mysqli_query($con, $sql);
-    if ($query) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        // If the delete operation is successful, you can redirect to a success page
-        header("location: $mainlink" . "admin/contactdetails");
-        // exit();
-    } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
-    }
-
-    // Close the database connection
-    mysqli_close($conn);
-}
-// Admin Contact Details Management Starts
-
-
-// Admin Chapter Management start
-elseif (isset($_POST['chapter_manage'])) {
+} elseif (isset($_POST['chapter_manage'])) {
     $topicName = $_POST['topic'];
     $subtopicName = $_POST['subtopic'];
     $courseName = $_POST['courseName'];
@@ -1093,34 +693,27 @@ elseif (isset($_POST['chapter_manage'])) {
         $uploadFile = $_FILES['uploadfile'];
         $uploadFileName = $uploadFile['name'];
         // Process and move the upload file to your desired location
-        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+        move_uploaded_file($uploadFile['tmp_name'], '../uploads/files/' . $uploadFileName);
     }
 
     if (isset($_FILES['video'])) {
         $videoFile = $_FILES['video'];
         $videoFileName = $videoFile['name'];
         // Process and move the video file to your desired location
-        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+        move_uploaded_file($videoFile['tmp_name'], '../uploads/videos/' . $videoFileName);
     }
 
 
     $insert_chapters = mysqli_query($con, "INSERT INTO chapters(topicID,subTopicId,courseId,chapterName,chapterContent,uploadfile,video,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$chapterContent','$uploadFileName','$videoFileName',1)");
 
     if ($insert_chapters) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
-        header("location: $mainlink" . "./admin/manageChapter");
+        header("location: $mainlink" . "admin/manageChapter");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "not done";
     }
 
 
-} 
-elseif (isset($_POST['checking_chapters_btn'])) {
+} elseif (isset($_POST['checking_chapters_btn'])) {
     $chapterId = $_POST['chapterId'];
     $result_array = [];
 
@@ -1157,8 +750,7 @@ elseif (isset($_POST['checking_chapters_btn'])) {
         //echo $return = "<h5>No Record Found</h5>";
     }
 
-} 
-elseif (isset($_POST['update_chapter'])) {
+} elseif (isset($_POST['update_chapter'])) {
     $chapterId = $_POST['chapterId'];
     $chapterName = $_POST['chapter'];
     $date = date("Y-m-d H:i:s");
@@ -1171,10 +763,9 @@ elseif (isset($_POST['update_chapter'])) {
         $uploadFileName = $uploadFile['name'];
 
         // Process and move the upload file to your desired location
-        move_uploaded_file($uploadFile['tmp_name'], 'upload/file/' . $uploadFileName);
+        move_uploaded_file($uploadFile['tmp_name'], '../uploads/files/' . $uploadFileName);
     } else {
         // If not provided, keep the existing value
-
         $uploadFileName = ''; // Assuming it's a string field in the database
     }
 
@@ -1183,7 +774,7 @@ elseif (isset($_POST['update_chapter'])) {
         $videoFile = $_FILES['video'];
         $videoFileName = $videoFile['name'];
 
-        move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
+        move_uploaded_file($videoFile['tmp_name'], '../uploads/videos/' . $videoFileName);
     } else {
         // If not provided, keep the existing value
         $videoFileName = ''; // Assuming it's a string field in the database
@@ -1205,40 +796,23 @@ elseif (isset($_POST['update_chapter'])) {
     $query = mysqli_query($con, $update);
 
     if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "admin/manageChapter");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "not working";
     }
-} 
-elseif (isset($_POST['deleteChapter'])) {
+} elseif (isset($_POST['deleteChapter'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql = "UPDATE chapters SET isActive = 0 WHERE Id = $id";
     $query = mysqli_query($con, $sql);
     if ($query) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "admin/manageChapter");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
     mysqli_close($conn);
-}
-// Admin Chapter Management Ends
-
-// Admin Assessment Management start
-elseif (isset($_POST['assessment_manage'])) {
+} elseif (isset($_POST['assessment_manage'])) {
     $courseName = $_POST['courseName'];
     $assessmentName = $_POST['assessmentName'];
     $question = $_POST['question'];
@@ -1270,40 +844,35 @@ elseif (isset($_POST['assessment_manage'])) {
             echo "Failed to insert assessment.";
         }
     }
-} 
-elseif (isset($_POST['checking_assessment_btn'])) {
+} elseif (isset($_POST['checking_assessment_btn'])) {
     $assessmentId = $_POST['assessmentId'];
     $result_array = [];
 
     // Prepare and execute a query to fetch the blog data by ID
     $query = "SELECT 
-    topics.Id AS topic_id,
-    topics.topicName,
-    subtopics.Id AS subtopic_id,
-    subtopics.subtopicName,
     courses.id AS course_id,
     courses.courseName,
-    chapters.id AS chapter_id,
-    chapters.chapterName,
-    assessment.id AS assessment_id,
-    assessment.questions,
-    assessment.a,
-    assessment.b,
-    assessment.c,
-    assessment.d,
-    assessment.correctAnswer
+    assessment.id as assessment_id,
+    assessment.assessmentName,
+    questions.id as questions_id,
+    questions.questionsName,
+    questions.a,
+    questions.b,
+    questions.c,
+    questions.d,
+    questions.correctAnswer
     FROM
-    topics
+    courses
     JOIN
-    subtopics ON topics.Id = subtopics.topicId
+    assessment ON courses.id = assessment.courseId
     JOIN
-    courses ON subtopics.Id = courses.subTopicId
-    JOIN
-    chapters ON courses.id = chapters.courseId
-    JOIN 
-    assessment ON chapters.id = assessment.chapterId
+    questions ON assessment.id = questions.assessmentId
+    -- JOIN
+    -- chapters ON courses.id = chapters.courseId
+    -- JOIN 
+    -- assessment ON chapters.id = assessment.chapterId
     WHERE
-    assessment.id = $assessmentId";
+  questions.id = $assessmentId";
     // $query = "SELECT * FROM `chapters` WHERE id = $chapterId";
     $query_run = mysqli_query($con, $query);
     if (mysqli_num_rows($query_run) > 0) {
@@ -1315,9 +884,8 @@ elseif (isset($_POST['checking_assessment_btn'])) {
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} 
-elseif (isset($_POST['update_assessment'])) {
-    $assessmentId = $_POST['assessmentId'];
+} elseif (isset($_POST['update_assessment'])) {
+    $questionsId = $_POST['questionsId'];
     $questions = $_POST['questions'];
     $optionA = $_POST['optionA'];
     $optionB = $_POST['optionB'];
@@ -1325,54 +893,37 @@ elseif (isset($_POST['update_assessment'])) {
     $optionD = $_POST['optionD'];
     $correctAns = $_POST['correctAnswer'];
 
-    $update = "UPDATE assessment SET 
-                questions='$questions',
+    $update = "UPDATE questions SET 
+                questionsName='$questions',
                 a='$optionA',
                 b='$optionB',
                 c='$optionC',
                 d='$optionD',
                 correctAnswer='$correctAns',
                 modifiedOn=NOW() 
-                WHERE id='$assessmentId'";
+                WHERE id='$questionsId'";
 
     $query = mysqli_query($con, $update);
 
     if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
-
         header("location: $mainlink" . "admin/manageAssessment");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "Error: " . mysqli_error($con);
     }
-} 
-elseif (isset($_POST['deleteAssesment'])) {
+} elseif (isset($_POST['deleteAssesment'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql1 = "UPDATE assessment SET isActive = 0 WHERE id = $id";
+    $sql1 = "UPDATE questions SET isActive= 0 WHERE id = $id";
     $query1 = mysqli_query($con, $sql1);
     if ($query1) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "admin/manageAssessment");
+        exit();
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
-    mysqli_close($con);
-}
-// Admin Assessment Management Ends
-
-// Admin Student Management start
-elseif (isset($_POST['deleteStudent'])) {
+    // mysqli_close($con);
+} elseif (isset($_POST['deleteStudent'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql2 = "UPDATE students SET isActive = 0 WHERE id = $id";
@@ -1380,42 +931,23 @@ elseif (isset($_POST['deleteStudent'])) {
     if ($query2) {
         header("location: $mainlink" . "admin/manageStudents");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
     mysqli_close($con);
-}
-// Admin Student Management start
-
-
-// Admin Company User Management start
-elseif (isset($_POST['deletebulk'])) {
+} elseif (isset($_POST['deletebulk'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql3 = "UPDATE company SET isActive = 0 WHERE id = $id";
     $query3 = mysqli_query($con, $sql3);
     if ($query3) {
-        $_SESSION['status'] = "Deleted Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "admin/manageBulkRegistration");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
     mysqli_close($con);
-}
-// Admin Company User Management Ends
-
-
-// Admin UserManagement Starts
-elseif (isset($_POST['user_manage'])) {
+} elseif (isset($_POST['user_manage'])) {
     $name = $_POST['name'];
     $phoneNumber = $_POST['phoneNumber'];
     $userType = $_POST['userType'];
@@ -1427,17 +959,15 @@ elseif (isset($_POST['user_manage'])) {
     $insert_query = mysqli_query($con, "INSERT INTO users(Name,Email,Phone,Address,UserType,UserId,Password) VALUES('$name','$email','$phoneNumber','$address','$userType','$uid','$pwd')");
 
     if ($insert_query) {
-        $_SESSION['status'] = "Inserted Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "admin/manageUser");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "not done";
     }
 }
+
+// End Inserting User
+
+// Start Fetching User
 elseif (isset($_POST['checking_user_btn'])) {
     $userId = $_POST['userId'];
     $result_array = [];
@@ -1454,8 +984,7 @@ elseif (isset($_POST['checking_user_btn'])) {
     } else {
         ////echo $return = "<h5>No Record Found</h5>";
     }
-} 
-elseif (isset($_POST['update_user'])) {
+} elseif (isset($_POST['update_user'])) {
     $id = $_POST['user_id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -1466,417 +995,322 @@ elseif (isset($_POST['update_user'])) {
     $query = mysqli_query($con, $update_topic);
 
     if ($query) {
-        $_SESSION['status'] = "Updated Successfully";
-
-        $_SESSION['status_code'] = "success";
         header("location: $mainlink" . "admin/manageUser");
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "not working";
     }
 }
-// Admin UserManagement Starts
 
+//  Inserting Home
+elseif (isset($_POST['insert_home'])) {
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $desc_text = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    $desc = strip_tags($desc_text);
 
+    $select_query = mysqli_query($con, "SELECT * FROM home");
+    $fetch_home_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
 
-// Admin Web Pages functionality Starts
-    // Admin - Home Insert Functionality start
-    elseif (isset($_POST['insert_home'])) {
-        $title = $_POST['title'];
-        $desc = $_POST['desc'];
+    if ($row_count > 0) {
+        // Existing record, update operation
+        if (isset($_FILES['bannerImage']) && $_FILES['bannerImage']['error'] === UPLOAD_ERR_OK) {
+            // Case 1: New image is uploaded
+            $imageFile = $_FILES['bannerImage'];
+            $imageFileName = $imageFile['name'];
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/home/' . $trimmed_banner_name);
 
+            // Delete old image file
+            $oldBannerName = $fetch_home_rows['bannerImage'];
+            unlink('../assets/images/home/' . $oldBannerName);
+        } else {
+            // Case 2: No new image uploaded, use the existing banner name
+            $trimmed_banner_name = $fetch_home_rows['bannerImage'];
+        }
 
+        $update_query = mysqli_query($con, "UPDATE home SET Title='$title', Description='$desc', bannerImage='$trimmed_banner_name', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
+
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
+        }
+    } else {
+        // New record, insert operation
         if (isset($_FILES['bannerImage'])) {
             $imageFile = $_FILES['bannerImage'];
             $imageFileName = $imageFile['name'];
-            // Process and move the image file to your desired location
-            move_uploaded_file($imageFile['tmp_name'], '../assets/images/home/' . $imageFileName);
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/home/' . $trimmed_banner_name);
         }
-        // $name = $_POST['name'];
 
-        $insert_query = mysqli_query($con, "INSERT INTO home(Title, Description, bannerImage, createdOn) VALUES('$title','$desc','$imageFileName',NOW())");
+        $insert_query = mysqli_query($con, "INSERT INTO home(id,Title, Description, bannerImage, createdOn, createdBy) VALUES(1,'$title','$desc','$trimmed_banner_name',NOW(), '$admin_name')");
 
         if ($insert_query) {
-            $_SESSION['status'] = "Inserted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/home");
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
         } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "not done";
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
         }
     }
-    elseif (isset($_POST['checking_edit_home_btn'])) {
-        $homeId = $_POST['homeId'];
-        $result_array = [];
 
-        // Prepare and execute a query to fetch the blog data by ID
-        $query = "SELECT * FROM `home` WHERE id = $homeId";
-        $query_run = mysqli_query($con, $query);
-        if (mysqli_num_rows($query_run) > 0) {
-            foreach ($query_run as $row) {
-                array_push($result_array, $row);
-                header('Content-type: application/json');
-                echo json_encode($result_array);
-            }
-        } else {
-            ////echo $return = "<h5>No Record Found</h5>";
-        }
-    } 
-    elseif (isset($_POST['update_home'])) {
-        $id = $_POST['homeId'];
-        echo $id;
-        exit();
-        $title = mysqli_real_escape_string($con, $_POST['editTitle']);
-        $description = mysqli_real_escape_string($con, $_POST['editDesc']);
+    // Redirect to the appropriate page
+    header("location: $mainlink" . "./admin/home");
+    exit();
 
-
-        if (isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
-            // Handle the new image upload
-            $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
-
-            // Debugging for file path
-            $imagePath = "../assets/images/home/" . $newImage;
-            echo "Image Path: $imagePath<br>";
-            // exit();
-            // Move the uploaded image to the destination folder
-            move_uploaded_file($_FILES['editImage']['tmp_name'], $imagePath);
-
-            // Update the database with the new image filename
-            $update = "UPDATE home SET Title='$title', Description='$description', bannerImage='$newImage' WHERE id='$id'";
-        } else {
-            // No new image uploaded, keep the old image
-            $update = "UPDATE home SET Title='$title', Description='$description' WHERE id='$id'";
-        }
-
-        // Debugging for SQL query
-        echo "SQL Query: $update<br>";
-        exit();
-        $query = mysqli_query($con, $update);
-
-        if ($query) {
-            $_SESSION['status'] = "Updated Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/home");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Query Error: " . mysqli_error($con);
-        }
-    } 
-    elseif (isset($_POST['delete_home'])) {
-        // Get the ID from the URL
-        $id = $_POST['delete_id'];
-        $sql3 = "UPDATE home SET isActive = 0 WHERE id = $id";
-        $query3 = mysqli_query($con, $sql3);
-        if ($query3) {
-            $_SESSION['status'] = "Deleted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/home");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Error: " . $sql . "<br>" . mysqli_error($con);
-        }
-
-        mysqli_close($con);
+} elseif (isset($_POST['delete_home'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql3 = "DELETE from home";
+    $query3 = mysqli_query($con, $sql3);
+    if ($query3) {
+        header("location: $mainlink" . "./admin/home");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
-    // Admin - Home Insert Functionality End
+    mysqli_close($con);
+} elseif (isset($_POST['insert_about'])) {
+    $title = mysqli_real_escape_string($con, $_POST['title']);
+    $desc_text = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    $desc = strip_tags($desc_text);
+    $select_query = mysqli_query($con, "SELECT * FROM about");
+    $fetch_about_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
 
+    if ($row_count > 0) {
+        // Existing record, update operation
+        if (isset($_FILES['bannerImage']) && $_FILES['bannerImage']['error'] === UPLOAD_ERR_OK) {
+            // Case 1: New image is uploaded
+            $imageFile = $_FILES['bannerImage'];
+            $imageFileName = $imageFile['name'];
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/about/' . $trimmed_banner_name);
+            $oldBannerName = $fetch_about_rows['bannerImage'];
+            unlink('../assets/images/about/' . $oldBannerName);
+        } else {
+            // Case 2: No new image uploaded, use the existing banner name
+            $trimmed_banner_name = $fetch_about_rows['bannerImage'];
+        }
+        $update_query = mysqli_query($con, "UPDATE about SET Title='$title', Description='$desc', bannerImage='$trimmed_banner_name', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
 
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
 
-    // Admin - About Insert Functionality start
-    elseif (isset($_POST['insert_about'])) {
-        $title = $_POST['title'];
-        $desc = $_POST['desc'];
-
-
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
+        }
+    } else {
+        // New record, insert operation
         if (isset($_FILES['bannerImage'])) {
             $imageFile = $_FILES['bannerImage'];
             $imageFileName = $imageFile['name'];
-            // Process and move the image file to your desired location
-            move_uploaded_file($imageFile['tmp_name'], '../assets/images/about/' . $imageFileName);
+            $trimmed_banner_name = str_replace(" ", "", $imageFileName);
+            move_uploaded_file($imageFile['tmp_name'], '../assets/images/about/' . $trimmed_banner_name);
         }
-        // $name = $_POST['name'];
 
-        $insert_query = mysqli_query($con, "INSERT INTO about(Title, Description, bannerImage, createdOn) VALUES('$title','$desc','$imageFileName',NOW())");
+        $insert_query = mysqli_query($con, "INSERT INTO about(id,Title, Description, bannerImage, createdOn, createdBy) VALUES(1,'$title','$desc','$trimmed_banner_name',NOW(), '$admin_name')");
 
         if ($insert_query) {
-            $_SESSION['status'] = "Inserted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/about");
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
         } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "not done";
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
         }
     }
-    elseif (isset($_POST['checking_edit_about_btn'])) {
-        $aboutId = $_POST['aboutId'];
-        $result_array = [];
 
-        // Prepare and execute a query to fetch the blog data by ID
-        $query = "SELECT * FROM `about` WHERE Id = $aboutId";
-        $query_run = mysqli_query($con, $query);
-        if (mysqli_num_rows($query_run) > 0) {
-            foreach ($query_run as $row) {
-                array_push($result_array, $row);
-                header('Content-type: application/json');
-                echo json_encode($result_array);
-            }
-        } else {
-            ////echo $return = "<h5>No Record Found</h5>";
-        }
-    } 
-    elseif (isset($_POST['update_about'])) {
-        $id = $_POST['aboutId'];
-        $title = mysqli_real_escape_string($con, $_POST['editTitle']);
-        $description = mysqli_real_escape_string($con, $_POST['editDesc']);
-
-
-        if (isset($_FILES['editImage']['tmp_name']) && !empty($_FILES['editImage']['tmp_name'])) {
-            // Handle the new image upload
-            $newImage = mysqli_real_escape_string($con, $_FILES['editImage']['name']);
-
-            // Debugging for file path
-            $imagePath = "../assets/images/about/" . $newImage;
-            echo "Image Path: $imagePath<br>";
-
-            // Move the uploaded image to the destination folder
-            move_uploaded_file($_FILES['editImage']['tmp_name'], $imagePath);
-
-            // Update the database with the new image filename
-            $update = "UPDATE about SET Title='$title', Description='$description', bannerImage='$newImage' WHERE id='$id'";
-        } else {
-            // No new image uploaded, keep the old image
-            $update = "UPDATE about SET Title='$title', Description='$description' WHERE id='$id'";
-        }
-
-        // Debugging for SQL query
-        echo "SQL Query: $update<br>";
-
-        $query = mysqli_query($con, $update);
-
-        if ($query) {
-            $_SESSION['status'] = "Updated Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/about");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Query Error: " . mysqli_error($con);
-        }
-    } 
-    elseif (isset($_POST['delete_about'])) {
-        // Get the ID from the URL
-        $id = $_POST['delete_id'];
-        $sql3 = "UPDATE about SET isActive = 0 WHERE id = $id";
-        $query3 = mysqli_query($con, $sql3);
-        if ($query3) {
-            $_SESSION['status'] = "Deleted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/about");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Error: " . $sql . "<br>" . mysqli_error($con);
-        }
-
-        mysqli_close($con);
+    // Redirect to the appropriate page
+    header("location: $mainlink" . "./admin/about");
+    exit();
+} elseif (isset($_POST['delete_about'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql3 = "DELETE from about";
+    $query3 = mysqli_query($con, $sql3);
+    if ($query3) {
+        header("location: $mainlink" . "./admin/about");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
-    // Admin - About Insert Functionality Ends
+
+    // mysqli_close($con);
+}
+// Contact Details Page Crud
+elseif (isset($_POST['contact_details'])) {
+    $email = mysqli_real_escape_string($con, $_POST['email']);
+    $phone = mysqli_real_escape_string($con, $_POST['phone_no']);
+    $address_text = mysqli_real_escape_string($con, $_POST['address']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    $address = strip_tags($address_text);
 
 
+    $select_query = mysqli_query($con, "SELECT * FROM contact_details");
+    $fetch_contact_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
+    if ($row_count > 0) {
 
-    // Admin - Privacy Functionality start
-    elseif (isset($_POST['insert_privacy'])) {
-        $heading = $_POST['heading'];
-        $title = $_POST['title'];
-        $desc = $_POST['desc'];
+        $update_query = mysqli_query($con, "UPDATE contact_details SET email='$email', phone_no='$phone', address='$address', modify_on=NOW(), modify_by='$admin_name' WHERE id=1");
 
-        $insert_query = mysqli_query($con, "INSERT INTO privacy(Heading, Title, Description,createdOn) VALUES('$heading','$title','$desc',NOW())");
+        if ($update_query) {
+
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
+        }
+    } else {
+        $insert_query = mysqli_query($con, "INSERT INTO contact_details(id,email, phone_no, address, created_on, created_by) VALUES(1,'$email','$phone','$address',NOW(), '$admin_name')");
 
         if ($insert_query) {
-            $_SESSION['status'] = "Inserted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/privacypolicy");
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
         } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "not done";
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
         }
+
     }
-    elseif (isset($_POST['checking_edit_privacy_btn'])) {
-        $privacyId = $_POST['privacyId'];
-        $result_array = [];
-
-        // Prepare and execute a query to fetch the blog data by ID
-        $query = "SELECT * FROM `privacy` WHERE Id = $privacyId";
-        $query_run = mysqli_query($con, $query);
-        if (mysqli_num_rows($query_run) > 0) {
-            foreach ($query_run as $row) {
-                array_push($result_array, $row);
-                header('Content-type: application/json');
-                echo json_encode($result_array);
-            }
-        } else {
-            ////echo $return = "<h5>No Record Found</h5>";
-        }
-
-    } 
-    elseif (isset($_POST['update_privcy'])) {
-        $id = $_POST['privacyId'];
-        $heading = mysqli_real_escape_string($con, $_POST['editHeading']);
-        $title = mysqli_real_escape_string($con, $_POST['editTitle']);
-        $description = mysqli_real_escape_string($con, $_POST['editDesc']);
+    header("location: $mainlink" . "./admin/contactdetails");
+    exit();
 
 
-
-        // No new image uploaded, keep the old image
-        $update = "UPDATE privacy SET Heading ='$heading', Title='$title', Description='$description' WHERE id='$id'";
-
-
-        // Debugging for SQL query
-        // echo "SQL Query: $update<br>";
-
-        $query = mysqli_query($con, $update);
-
-        if ($query) {
-            $_SESSION['status'] = "Updated Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/privacypolicy");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Query Error: " . mysqli_error($con);
-        }
-    } 
-    elseif (isset($_POST['delete_privacy'])) {
-        // Get the ID from the URL
-        $id = $_POST['delete_id'];
-        $sql3 = "UPDATE privacy SET isActive = 0 WHERE id = $id";
-        $query3 = mysqli_query($con, $sql3);
-        if ($query3) {
-            $_SESSION['status'] = "Deleted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/privacy");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Error: " . $sql . "<br>" . mysqli_error($con);
-        }
-
-        mysqli_close($con);
+}
+if (isset($_POST['delete_contact'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql = "DELETE FROM contact_details";
+    $query = mysqli_query($con, $sql);
+    if ($query) {
+        // If the delete operation is successful, you can redirect to a success page
+        header("location: $mainlink" . "admin/contactdetails");
+        // exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
-    // Admin - Privacy Functionality End
+
+    // Close the database connection
+    mysqli_close($conn);
+}
+
+// Inserting Privacy
+elseif (isset($_POST['insert_privacy'])) {
+    // $heading = $_POST['heading'];
+    // $title = $_POST['title'];
+
+    $desc = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    // $desc = strip_tags($desc_text);
 
 
+    $select_query = mysqli_query($con, "SELECT * FROM privacy");
+    $fetch_privacy_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
 
-    // Admin - Terms&conditions Functionality start
-    elseif (isset($_POST['insert_terms'])) {
-        $heading = $_POST['heading'];
-        $desc = $_POST['Desc'];
+    if ($row_count > 0) {
+        $update_query = mysqli_query($con, "UPDATE privacy SET Description='$desc', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
 
-        $insert_query = mysqli_query($con, "INSERT INTO terms(Heading, Description,createdOn) VALUES('$heading','$desc',NOW())");
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
+        }
+    } else {
+        $insert_query = mysqli_query($con, "INSERT INTO privacy(id,Description,createdOn, createdBy) VALUES(1,'$desc',NOW(),'$admin_name')");
 
         if ($insert_query) {
-            $_SESSION['status'] = "Inserted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/terms");
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
         } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "not done";
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
         }
     }
-    elseif (isset($_POST['checking_edit_terms_btn'])) {
-        $termsId = $_POST['termsId'];
-        $result_array = [];
-
-        // Prepare and execute a query to fetch the blog data by ID
-        $query = "SELECT * FROM `terms` WHERE Id = $termsId";
-        $query_run = mysqli_query($con, $query);
-        if (mysqli_num_rows($query_run) > 0) {
-            foreach ($query_run as $row) {
-                array_push($result_array, $row);
-                header('Content-type: application/json');
-                echo json_encode($result_array);
-            }
-        } else {
-            ////echo $return = "<h5>No Record Found</h5>";
-        }
-
-    } 
-    elseif (isset($_POST['update_terms'])) {
-        $id = $_POST['termsId'];
-        $heading = mysqli_real_escape_string($con, $_POST['editheading']);
-        $description = mysqli_real_escape_string($con, $_POST['editDesc']);
 
 
-
-        // No new image uploaded, keep the old image
-        $update = "UPDATE terms SET Heading ='$heading', Description='$description' WHERE id='$id'";
-
-
-        // Debugging for SQL query
-        // echo "SQL Query: $update<br>";
-
-        $query = mysqli_query($con, $update);
-
-        if ($query) {
-            $_SESSION['status'] = "Updated Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/terms");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Query Error: " . mysqli_error($con);
-        }
-    } 
-    elseif (isset($_POST['delete_terms'])) {
-        // Get the ID from the URL
-        $id = $_POST['delete_id'];
-        $sql3 = "UPDATE terms SET isActive = 0 WHERE id = $id";
-        $query3 = mysqli_query($con, $sql3);
-        if ($query3) {
-            $_SESSION['status'] = "Deleted Successfully";
-
-            $_SESSION['status_code'] = "success";
-            header("location: $mainlink" . "./admin/terms");
-        } else {
-            $_SESSION['status'] = "Something Went Wrong";
-
-            $_SESSION['status_code'] = "error";
-            echo "Error: " . $sql . "<br>" . mysqli_error($con);
-        }
-
-        mysqli_close($con);
+    header("location: $mainlink" . "./admin/privacy");
+    exit();
+}
+elseif (isset($_POST['delete_privacy'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql3 = "DELETE FROM privacy";
+    $query3 = mysqli_query($con, $sql3);
+    if ($query3) {
+        header("location: $mainlink" . "./admin/privacy");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
-    // Admin - Terms&conditions Functionality Ends
+
+    mysqli_close($con);
+}
+// Inserting Termsa
+elseif (isset($_POST['insert_terms'])) {
+    // $heading = $_POST['heading'];
+    // $title = $_POST['title'];
+
+    $desc = mysqli_real_escape_string($con, $_POST['desc']);
+    $admin_name = mysqli_real_escape_string($con, $_POST['admin_name']);
+    // $desc = strip_tags($desc_text);
+
+
+    $select_query = mysqli_query($con, "SELECT * FROM terms");
+    $fetch_terms_rows = mysqli_fetch_assoc($select_query);
+    $row_count = mysqli_num_rows($select_query);
+
+    if ($row_count > 0) {
+        $update_query = mysqli_query($con, "UPDATE terms SET Description='$desc', modifyOn=NOW(), modifyBy='$admin_name' WHERE id=1");
+
+        if ($update_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Updated";
+
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
+        }
+    } else {
+        $insert_query = mysqli_query($con, "INSERT INTO terms(id,Description,createdOn, createdBy) VALUES(1,'$desc',NOW(),'$admin_name')");
+
+        if ($insert_query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully Inserted";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Inserted";
+        }
+    }
+
+
+    header("location: $mainlink" . "./admin/terms");
+    exit();
+}
+elseif (isset($_POST['delete_terms'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql3 = "DELETE FROM terms";
+    $query3 = mysqli_query($con, $sql3);
+    if ($query3) {
+        header("location: $mainlink" . "./admin/terms");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    mysqli_close($con);
+}
+
 
     elseif(isset($_POST['checking_assessment_creation_btn'])){
         $chapterAssessmentCreationId = $_POST['chapterAssessmentCreationId'];
@@ -1993,7 +1427,6 @@ if (isset($_GET['topicId'])) {
         echo json_encode($subtopics);
 
     } else {
-
         // Handle the case where the query fails
         echo "Error: " . mysqli_error($con);
     }
@@ -2013,9 +1446,6 @@ if (isset($_POST['delete_user'])) {
         header("location: $mainlink" . "admin/manageUser");
         // exit();
     } else {
-        $_SESSION['status'] = "Something Went Wrong";
-
-        $_SESSION['status_code'] = "error";
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 

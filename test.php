@@ -1,188 +1,270 @@
+
 <?php
-include("db_config.php");
-if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id'])) {
-    $roleId = $_SESSION['role_id'];
-    $role = $_SESSION['role'];
-    print_r($role);
-    $query_fetch_wishlist = mysqli_query($con, "SELECT
-w.id,
-w.userId,
-w.role,
-w.courseId,
-w.courseName,
-w.price,
-w.image,
-CASE
-    WHEN w.role = 'company' THEN c.companyName  
-    WHEN w.role = 'students' THEN s.name  
-    ELSE NULL  
-END AS name
-FROM
-wishlist w
-LEFT JOIN
-company c ON w.userId = c.id AND w.role = 'company'
-LEFT JOIN
-students s ON w.userId = s.id AND w.role = 'students' WHERE w.userId = $roleId");
+include('includes/header.php');
+include('includes/sidebar.php');
+include('../core/listgrid.php');
+
+?>
 
 
-}else{
-    $roleId = "";
-}
+<!-- Main Content Panel -->
+<div class="content-wrapper">
+    <div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                <h4 class="card-title">Terms & Conditions List</h4>
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>S.no</th>
+                                <th hidden></th>
+                                <th>Heading</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            if($fetch_terms_query)
+                            {
+                                $i = 1;
+                                while($row=mysqli_fetch_assoc($fetch_terms_query))
+                                {
+                                    $id = $row['id'];
+                                    $heading=$row['Heading'];
+                                    $desc = $row['Description'];
+                                    
+                                    
+                                    ?>
+                                <tr>
+                                    <td><?= $i;?></td>
+                                    <td class="edit_id" hidden><?= $id; ?>
+                                    <td><?= $heading; ?></td>
+                                    <td><?= $desc; ?></td>
+                                    
+                                    <td>
+                                        <button type="submit" class="btn btn-primary me-2 p-2 edit-button"  data-bs-toggle="modal" data-bs-target="#edittermsmodal"
+                                        data-id="<?= $id; ?>">Edit</button>
+                                        <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteHomeModal"  data-id="<?= $id; ?>">Delete</button>
 
-$fetch_home_query = mysqli_query($con, "SELECT * FROM home where isActive =1");
-$fetch_about_query = mysqli_query($con, "SELECT * FROM about where isActive =1");
-$fetch_privacy_query = mysqli_query($con, "SELECT * FROM privacy where isActive =1");
-$fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1");
-// regarding Blog - Comment Data ( site & admin) start**
-$query_fetch_blog_comment = mysqli_query($con,"SELECT * FROM comments_blog where isactive=1");
-$query_fetch_blog_comment_admin_grid = mysqli_query($con,"SELECT * FROM comments_blog");
-
-$query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.email, companyusers.password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
-
-
-// regarding Blog - Comment Data ( site & admin) end**
-// regarding Blog - Comment Data ( site & admin) end****
-// regarding course - review Data ( site & admin) start****
-$query_fetch_course_review = mysqli_query($con,"SELECT * FROM comment_course_review where isactive=1");
-$query_fetch_course_review_admin_grid = mysqli_query($con,"SELECT * FROM comment_course_review");
-// regarding course - review Data ( site & admin) end****
-
-$fetch_testimonials_query = mysqli_query($con,"SELECT students.name,company.companyName,testinomonials.*
-FROM testinomonials
-LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'students'
-LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
-$fetch_list_students_query = mysqli_query($con, "SELECT * FROM students where isActive=1");
-$categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
-$careerQuery = mysqli_query($con, "SELECT * FROM careers where isActive=1");
-$fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1");
-$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where status=1");
-$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where status=1");
-$fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
-
-if(isset($_SESSION['role_id']) && !empty($_SESSION['role_id']) && isset($_SESSION['role']) && !empty($_SESSION['role'])){
-    
-}
-
-$fetch_list_order_query = mysqli_query($con, "SELECT od.id,
-o.paymentstatus,
-o.orderdate,
-c.courseDesc,
-c.courseName,
-s.name
-FROM orderdetails AS od
-JOIN `orders` AS o ON od.orderId = o.id
-JOIN courses AS c ON od.courseId = c.id
-JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid'");
-
-$fetch_list_order_details_query = mysqli_query($con, "SELECT od.id,od.createdOn,
-o.paymentstatus,
-o.orderdate,
-c.courseDesc,
-c.courseName,
-s.name
-FROM orderdetails AS od
-JOIN `orders` AS o ON od.orderId = o.id
-JOIN courses AS c ON od.courseId = c.id
-JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid' AND od.status=1");
-
-$fetch_list_student_query = mysqli_query($con, "SELECT * FROM students where isActive = 1");
-$fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");
-$fetch_list_subtopic_query = mysqli_query($con, "SELECT * FROM subtopics where isActive=1");
-$fetch_list_join_topics_subtopic_query = mysqli_query($con, "SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId WHERE subtopics.isActive = 1");
-$fetch_list_join_topics_subtopic_course_query = mysqli_query($con, "SELECT 
-topics.Id AS topic_id,
-topics.topicName,
-subtopics.Id AS subtopic_id,
-subtopics.subTopicName,
-courses.id AS course_id,
-courses.courseName,
-courses.courseCost,
-courses.courseDesc,
-courses.bannerImage,
-courses.uploadfile,
-courses.learn,
-courses.requirements,
-courses.tag,
-courses.video
-FROM 
-topics
-JOIN 
-subtopics ON topics.Id = subtopics.topicId
-JOIN 
-courses ON subtopics.Id = courses.subTopicId ORDER By courses.id DESC");
-// fetch chepter data
-$fetch_list_join_topics_subtopics_course_chapters_query = mysqli_query($con, "SELECT 
-topics.Id AS topic_id,
-topics.topicName,
-subtopics.Id AS subtopic_id,
-subtopics.subtopicName,
-courses.id AS course_id,
-courses.courseName,
-chapters.id AS chapter_id,
-chapters.chapterName,
-chapters.uploadFile,
-chapters.video,
-chapters.chapterContent
-FROM
-topics
-JOIN
-subtopics ON topics.Id = subtopics.topicId
-JOIN
-courses ON subtopics.Id = courses.subTopicId
-JOIN
-chapters ON courses.id = chapters.courseId
-WHERE
-chapters.isActive = 1
-ORDER BY
-chapters.id DESC");
-
-$fetch_list_join_topics_subtopics_course_chapters_assessments_query = mysqli_query($con, "SELECT 
-courses.id AS course_id,
-courses.courseName,
-assessment.id AS assessment_id,
-assessment.assessmentName,
-questions.id AS question_id,
-questions.questionsName,
-questions.a,
-questions.b,
-questions.c,
-questions.d,
-questions.isActive,
-CASE questions.correctAnswer
-    WHEN 'a' THEN questions.a
-    WHEN 'b' THEN questions.b
-    WHEN 'c' THEN questions.c
-    WHEN 'd' THEN questions.d
-    ELSE NULL
-END AS correctAnswer
-FROM
-courses JOIN assessment ON assessment.courseId = courses.id
-JOIN questions ON assessment.id = questions.assessmentId
-WHERE
-questions.isActive = 1");
-
-$fetch_list_query_subscription = mysqli_query($con, "SELECT * FROM subscriptions_1");
-
-// $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");
-
-$fetch_list_blog_query = mysqli_query($con, "SELECT * FROM blogs where isActive = 1");
-
-$fetch_list_freeResources_query = mysqli_query($con, "SELECT * FROM freeresources where isActive = 1");
-
-$fetch_list_affiliate_query = mysqli_query($con, "SELECT * FROM affiliates where isActive = 1");
-
-$fetch_list_careers_query = mysqli_query($con, "SELECT * FROM careers where IsActive = 1");
-
-$fetch_list_company_query = mysqli_query($con, "SELECT * FROM company Where isActive = 1");
-
-$fetch_list_corporategovernance_query = mysqli_query($con, "SELECT * FROM corporategovernance where isActive = 1");
-
-$fetch_testimonial_sql = mysqli_query($con, "SELECT students.name,company.companyName,students.profile_img,company.profile,testinomonials.*
-FROM testinomonials
-LEFT JOIN students ON testinomonials.subscribedId = students.id AND testinomonials.subscribedBy = 'students'
-LEFT JOIN company ON testinomonials.subscribedId = company.id AND testinomonials.subscribedBy = 'company'");
+                                    </td>
+                                </tr>
 
 
-// $fetch_list=mysqli_fetch_assoc($fetch_list_query);
-// $users_name=$fetch_list['Name'];
-// echo $users_name;
+                                <?php
+                            $i++;
+                                }
+                                
+                            }else {
+                                echo "Query failed!";
+                            }
+                            ?>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Terms & Conditions Page</h4>
+                    <form class="forms-sample" method="POST" action="../core/admin_functions.php">
+                    <div class="form-group">
+                            <label for="heading">Heading</label>
+                            <input type="text" class="form-control" name="heading"
+                                placeholder="Enter Heading">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="desc">Description</label>
+                            <textarea  name="Desc" class="mySummernote">
+                            </textarea>    
+                        </div>
+                        
+
+                        <button type="submit" class="btn btn-primary me-2" name="insert_terms">Submit</button>
+                        <button class="btn btn-light">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+ <!-- Modal for editing blog content -->
+ <div class="modal fade" id="edittermsmodal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editBlogModalLabel">Edit Terms & Conditions</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="../core/admin_functions.php" >
+                        <div class="modal-body">
+                            <!-- Form for editing the blog content -->
+
+                            <input type="hidden" id="termsId" name="termsId">
+                            <div class="form-group">
+                                <label for="editTitle">Heading</label>
+                                <input type="text" class="form-control" id="editheading" name="editheading">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editDescription">Description</label>
+                                <textarea  name="editDesc" id="editAddress" class="mySummernote">
+                            </textarea>    
+                        </div>                           
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="saveChanges" name="update_terms">Save
+                                Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteHomeModal" tabindex="-1" role="dialog"
+            aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="../core/admin_functions.php" method="POST">
+                        <div class="modal-body">
+
+                            <input type="hidden" id="delete_id" name="delete_id">
+                            Are you sure you want to delete this record?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger" name="delete_terms"
+                                id="delete_home">Delete</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+<!-- Main Content ends -->
+<script>
+        $(document).ready(function() {
+            $('.edit-button').on('click', function() {
+                var termsId = $(this).closest('tr').find('.edit_id').text();
+                console.log(termsId);
+                $.ajax({
+                    type: 'POST',
+                    url: '../core/admin_functions.php', // Replace with the URL of your server-side script
+                    data: {
+                        'checking_edit_terms_btn': true,
+                        'termsId': termsId,
+                    },
+                    // dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        $.each(response, function(key, value) {
+                            $('#editheading').val(value['Heading']);
+                            $('#editAddress').summernote('code', value['Description']);
+                            $('#termsId').val(value['id']);
+                        });
+                    }
+                });
+            });
+        });
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        
+        <script>
+        $(document).ready(function() {
+            $('.delete-button').on('click', function(e) {
+                e.preventDefault();
+                var blogId = $(this).closest('tr').find('.edit_id').text();
+
+                console.log(blogId);
+                $('#delete_id').val(blogId);
+                $('#deleteBlogModal').modal('show');
+
+            });
+        });
+        </script>
+<!-- Main Content ends -->
+
+<?php
+
+include('includes/footer.php');
+
+?>
+
+
+<!-- asdasasdasdsad -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Validation</title>
+  <!-- Bootstrap CSS (for styling, you can adjust it based on your needs) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    /* Add your own styling here */
+    .form-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+      <label>Company Email&nbsp;<span class="required">*</span></label>
+      <input type="email"
+             class="woocommerce-Input woocommerce-Input--text input-text form-control"
+             name="email" id="emailInput" autocomplete="password" value="" required>
+      <span id="errorEmail" style="color: red;"></span>
+    </p>
+    <button class="btn btn-primary">Submit</button>
+  </div>
+
+  <script>
+    var emailInput = document.getElementById('emailInput');
+    var errorEmail = document.getElementById('errorEmail');
+
+    emailInput.addEventListener('blur', function () {
+      validateEmail();
+    });
+
+    function validateEmail() {
+      var emailValue = emailInput.value.trim();
+      var commonDomainPattern = /^(.+)@(gmail\.com|yahoo\.com|yahoo\.co.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com)$/i;
+
+      if (emailValue === '') {
+        errorEmail.textContent = 'Email is required.';
+      } else if (!commonDomainPattern.test(emailValue) || emailValue.includes(',')) {
+        errorEmail.textContent = 'Enter a valid email address.';
+      } else {
+        errorEmail.textContent = ''; // Clear error message if validation passed
+        // Additional logic to submit the form or take further actions
+      }
+    }
+  </script>
+
+  <!-- Bootstrap JS (Popper.js and Bootstrap JS) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

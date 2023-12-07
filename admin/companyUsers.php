@@ -169,7 +169,7 @@ include('includes/sidebar.php');
                 var freeze_id = $('#freeze_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data:{
                       'freeze_id' : freeze_id,   
                     },
@@ -187,7 +187,7 @@ include('includes/sidebar.php');
                 var unfreeze_id = $('#unfreeze_id').val();
                 $.ajax({
                     type: 'POST',
-                    url: '../core/functions.php',
+                    url: '../core/admin_functions.php',
                     data:{
                       'unfreeze_id' : unfreeze_id,   
                     },

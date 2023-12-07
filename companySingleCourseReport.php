@@ -3,7 +3,7 @@ include("includes/header.php");
 $courseId = $_GET['co_id'];
 $userRole = $_SESSION['role'];
 $user_id = $_SESSION['role_id'];
-$fetch_single_course_report = mysqli_query($con,"SELECT
+$fetch_single_course_report = mysqli_query($con, "SELECT
 companyusers.email,
 COUNT(assessmentresult.id) as counter,
 GROUP_CONCAT(CONCAT(assessmentresult.acquiredScore, '/', assessmentresult.totalScore) ORDER BY assessmentresult.id) AS scores
@@ -20,7 +20,7 @@ companyusers.id, companyusers.email
 ORDER BY
 assessmentresult.id");
 
-$fetch_chapter_assessment_order = mysqli_query($con,"SELECT COUNT(*) as count FROM chaptersassessmentorders  WHERE courseId = $courseId AND type = 'assessments'");
+$fetch_chapter_assessment_order = mysqli_query($con, "SELECT COUNT(*) as count FROM chaptersassessmentorders  WHERE courseId = $courseId AND type = 'assessments'");
 $chapter_assessment_data = mysqli_fetch_array($fetch_chapter_assessment_order);
 $assessmentCount = $chapter_assessment_data['count'];
 
@@ -30,13 +30,47 @@ $courseName = $course['courseName'];
 
 ?>
 
+<!--search overlay start-->
+<div class="search-wrap">
+    <div class="overlay">
+        <form action="" class="search-form">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-9">
+                        <h3>Search Your keyword</h3>
+                        <input type="text" class="form-control" placeholder="Search...">
+                    </div>
+                    <div class="col-md-2 col-3 text-right">
+                        <div class="search_toggle toggle-wrap d-inline-block">
+                            <img class="search-close" src="assets/images/close.png"
+                                srcset="assets/images/close%402x.png 2x" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--search overlay end-->
+
+
+<section class="page-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="page-header-content">
+                    <h1>Individual Course Report</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <div class="page-wrapper">
     <div class="container">
         <div class="row">
-            <div>
-                <div class="thank-you-message">Assessment Result For Course <?= $courseName ?></div>
-                <div class="table-container">
+            <div class="col-md-12">
+                <div class="table-container px-3">
                     <table class="score-table">
                         <thead>
                             <tr>
@@ -54,7 +88,7 @@ $courseName = $course['courseName'];
                                     $userName = $singleCourseData["email"];
                                     $count = $singleCourseData["counter"];
                                     $assessmentStatus = $singleCourseData["scores"];
-                                    $courseCompletionStatus = ($assessmentCount == $count) ?"Complete":"Incomplete";
+                                    $courseCompletionStatus = ($assessmentCount == $count) ? "Complete" : "Incomplete";
                                     ?>
                                     <tr>
                                         <td>
@@ -85,7 +119,7 @@ $courseName = $course['courseName'];
 
 
 
-<style>
+<!-- <style>
     .page-wrapper {
         display: flex;
         align-items: center;
@@ -150,7 +184,7 @@ $courseName = $course['courseName'];
     .button:hover {
         background-color: #e9770e;
     }
-</style>
+</style> -->
 
 
 

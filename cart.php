@@ -4,6 +4,8 @@ include("includes/header.php");
 if (isset($_SESSION['role_id'])) {
     $role_id = $_SESSION['role_id'];
 	$role = $_SESSION['role'];
+}else{
+    $role="";
 }
 ?>
 <!--search overlay start-->
@@ -183,7 +185,7 @@ if (isset($_SESSION['role_id'])) {
                                                         column3.appendChild(increaseButton);
 
                                                         row.appendChild(column3);
-                                                        if(role == 'students'){
+                                                        if(role == 'students' || role == ""){
                                                             $('.product-quantity').hide();
                                                             $(column3).hide();
                                                         }
