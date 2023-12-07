@@ -1878,7 +1878,102 @@ elseif (isset($_POST['update_user'])) {
     }
     // Admin - Terms&conditions Functionality Ends
 
+    elseif(isset($_POST['checking_assessment_creation_btn'])){
+        $chapterAssessmentCreationId = $_POST['chapterAssessmentCreationId'];
+    $result_array = [];
+    
+    $query = "SELECT 
+    topics.Id as tId,
+    topics.topicName, 
+    subtopics.id as sId,
+    subtopics.subTopicName, 
+    courses.id as cId,
+    courses.courseName,
+    chaptersassessmentorders.id AS chapter_assessment_order_id,
+    chaptersassessmentorders.type,
+    CASE
+        WHEN chaptersassessmentorders.type = 'chapters' THEN chapters.chapterName
+        WHEN chaptersassessmentorders.type = 'assessments' THEN assessment.assessmentName
+        ELSE NULL 
+    END AS names,
+    CASE
+        WHEN chaptersassessmentorders.type = 'chapters' THEN chapters.id
+        WHEN chaptersassessmentorders.type = 'assessments' THEN assessment.id
+        ELSE NULL 
+    END AS caId
+    FROM 
+    chaptersassessmentorders
+    JOIN 
+    topics ON chaptersassessmentorders.topicId = topics.id
+    JOIN 
+    subtopics ON chaptersassessmentorders.subTopicId = subtopics.id
+    JOIN 
+    courses ON chaptersassessmentorders.courseId = courses.id
+    LEFT JOIN 
+    chapters ON chaptersassessmentorders.typeId = chapters.id AND chaptersassessmentorders.type = 'chapters'
+    LEFT JOIN 
+    assessment ON chaptersassessmentorders.typeId = assessment.id AND chaptersassessmentorders.type = 'assessments'
+    WHERE
+    chaptersassessmentorders.courseId = $chapterAssessmentCreationId;
+    ";
+    
+    $query_run = mysqli_query($con, $query);
+    
+    while ($queryData = mysqli_fetch_assoc($query_run)) {
+        $result_array[] = $queryData;
+    }
+    
+    // Echo the JSON-encoded array after the loop is completed
+    echo json_encode($result_array);
+    
+        
+    
+        // if (mysqli_num_rows($query_run) > 0) {
+        //     foreach ($query_run as $row) {
+        //         array_push($result_array, $row);
+        //         header('Content-type: application/json');
+        //         echo json_encode($result_array);
+        //     }
+        // } else {
+        //     //echo $return = "<h5>No Record Found</h5>";
+        // }
+    
+       
+    
+    
+    
+    
+    
+    }
 
+    // Pradip Code Insert
+elseif (isset($_POST['assessment_creation'])) {
+    // Retrieve selected rows data
+    $selectedRows = $_POST['selectedRows'];
+
+    // Initialize an array to store query values
+    $insertValues = [];
+
+    // Loop through the selected rows and prepare data for insertion
+    foreach ($selectedRows as $row) {
+        $topicId = $row['topicId'];
+        $subtopicId = $row['subtopicId'];
+        $courseNameId = $row['courseId'];
+        $srNo = $row['Sr. No'];
+        $name = $row['radioButtonValue'];
+        $chapterId = $row['chapterId'];
+
+        $deleteQuery = mysqli_query($con, "DELETE FROM chaptersassessmentorders WHERE courseId = $courseNameId");
+
+        if($deleteQuery){
+            $insertValues[] = "('$topicId', '$subtopicId', '$courseNameId', '$srNo', '$name', '$chapterId', '1')";
+            $insertQuery = "INSERT INTO chaptersassessmentorders (topicId, subTopicId, courseId, serialNumber, type, typeId, isActive)
+              VALUES " . implode(', ', $insertValues);
+
+        $insertResult = mysqli_query($con, $insertQuery);
+        }
+    }
+}
 
 if (isset($_GET['topicId'])) {
     // Assuming you have a function to fetch subtopics based on topicId
@@ -2055,5 +2150,21 @@ if (isset($_POST['delete_course_review_id'])) {
     header('Content-Type: application/json');
     echo json_encode($response);
 }
+
+// Pradip Chapter Assessment Order data delete
+if (isset($_POST['deleteAssesmentCreation'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql1 = "UPDATE chaptersassessmentorders SET isActive = 0 WHERE courseId = $id";
+    $query1 = mysqli_query($con, $sql1);
+    if ($query1) {
+        header("location: $mainlink" . "admin/caoGrid");
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    mysqli_close($con);
+}
+
 // blog_comments functionality ( for admin side) Ends
 ?>

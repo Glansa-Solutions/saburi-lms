@@ -103,6 +103,26 @@ if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id']) && isset($_SESSI
     }
 }
 
+// Pradip Chapters Assessment Order Query
+
+$fetch_list_join_topics_subtopics_course_type_typeName_assessments_query = mysqli_query($con, "SELECT 
+topics.topicName, 
+subtopics.subTopicName, 
+courses.courseName,
+chaptersassessmentorders.courseId
+FROM 
+topics 
+INNER JOIN 
+subtopics ON topics.id = subtopics.topicId 
+INNER JOIN 
+courses ON subtopics.id = courses.subTopicId 
+INNER JOIN 
+chaptersassessmentorders ON courses.id = chaptersassessmentorders.courseId
+WHERE 
+chaptersassessmentorders.isActive = 1
+GROUP BY 
+chaptersassessmentorders.courseId;
+");
 
 
 $fetch_list_order_details_query = mysqli_query($con, "SELECT od.id,od.createdOn,
