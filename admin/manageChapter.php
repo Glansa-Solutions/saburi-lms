@@ -80,7 +80,8 @@ include('../core/listgrid.php');
 
                 <div class="card-body">
                     <h4 class="card-title">Add Chapter</h4>
-                    <form action="../core/admin_functions.php" class="col-md-12 " method="POST" enctype="multipart/form-data">
+                    <form action="../core/admin_functions.php" class="col-md-12 " method="POST"
+                        enctype="multipart/form-data">
                         <div class="col-md-12 d-flex">
                             <div class="col-md-6 p-3">
                                 <div class="form-group">

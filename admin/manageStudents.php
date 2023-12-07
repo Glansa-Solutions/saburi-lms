@@ -1,7 +1,6 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
-include('../core/listgrid.php');
 ?>
 
 <div class="content-wrapper">
