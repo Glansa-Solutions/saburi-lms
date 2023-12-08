@@ -6,12 +6,12 @@ if (isset($_POST["finishClick"])) {
     $password = $_POST['pwd'];
     $courseId = $_POST['courseId'];
     $courseContentId = $_POST['courseContentId'];
-
+    $orderId = $_POST['orderId'];
     // Assuming $con is a valid database connection
     $update_course_status = mysqli_query($con, "UPDATE courselogin SET status = 0 WHERE username = '$userId' AND pwd = '$password' AND courseid = $courseId AND course_contentid = $courseContentId");
 
     if ($update_course_status) {
-        echo 'thankyou';
+        echo 'thankyou?oid='.$orderId;
         exit();
     } else {
         // Query failed, log the error or handle it accordingly

@@ -178,8 +178,8 @@ if (isset($_GET['c_id'])) {
 
                         <label class="d-block mb-4">
                             <span class="form-label d-block">Phone</span>
-                            <input required name="phone" type="phone" class="form-control"
-                                placeholder="Enter Your number" />
+                            <input required name="phone" type="number" class="form-control"
+                                placeholder="Enter Your number" maxlength="10" />
                         </label>
 
                         <label class="d-block mb-4">
@@ -225,6 +225,100 @@ if (isset($_GET['c_id'])) {
     </div>
 </div>
 </div>
+
+<style>
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.querySelector('form');
+        var submitButton = document.querySelector('button[type="submit"]');
+
+        function displayError(inputElement, errorMessage) {
+            // Remove existing error message, if any
+            var existingError = inputElement.nextElementSibling;
+            if (existingError && existingError.classList.contains('error-message')) {
+                existingError.remove();
+            }
+
+            // Create a new error message element
+            var errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.textContent = errorMessage;
+
+            // Insert the error message below the input element
+            inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+        }
+
+        function removeError(inputElement) {
+            // Remove existing error message, if any
+            var existingError = inputElement.nextElementSibling;
+            if (existingError && existingError.classList.contains('error-message')) {
+                existingError.remove();
+            }
+        }
+
+        function validateName() {
+            var name = document.getElementsByName('name')[0].value.trim();
+            if (name === '') {
+                displayError(document.getElementsByName('name')[0], 'Please enter your name.');
+                return false;
+            }
+            if (/.*\d.*/.test(name)) {
+                displayError(document.getElementsByName('name')[0], 'Name should not contain numbers.');
+                return false;
+            }
+            removeError(document.getElementsByName('name')[0]);
+            return true;
+        }
+
+        function validatePhone() {
+            var phone = document.getElementsByName('phone')[0].value.trim();
+            if (phone === '' || !/^\d{10}$/.test(phone)) {
+                displayError(document.getElementsByName('phone')[0], 'Please enter a valid phone number.');
+                return false;
+            }
+            removeError(document.getElementsByName('phone')[0]);
+            return true;
+        }
+
+        function validateEmail() {
+            var email = document.getElementsByName('email')[0].value.trim();
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === '' || !emailRegex.test(email)) {
+                displayError(document.getElementsByName('email')[0], 'Please enter a valid email address.');
+                return false;
+            }
+            removeError(document.getElementsByName('email')[0]);
+            return true;
+        }
+
+        function validateForm() {
+            var isNameValid = validateName();
+            var isPhoneValid = validatePhone();
+            var isEmailValid = validateEmail();
+
+            return isNameValid && isPhoneValid && isEmailValid;
+        }
+
+        submitButton.addEventListener('click', function (event) {
+            // Validate the form before submitting
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+
+        document.getElementsByName('name')[0].addEventListener('blur', validateName);
+        document.getElementsByName('phone')[0].addEventListener('blur', validatePhone);
+        document.getElementsByName('email')[0].addEventListener('blur', validateEmail);
+    });
+</script>
+
 
 
 <?php

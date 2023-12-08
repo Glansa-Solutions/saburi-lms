@@ -257,7 +257,8 @@ if ($fetch_user_contact_details_query) {
     }
 
     $(document).ready(function () {
-        updateCartCount(); // Call this on page load to set the initial cart count
+        updateCartCount();
+		updateWishlistCount();
     });
 
     function getCartItems() {
@@ -274,64 +275,77 @@ if ($fetch_user_contact_details_query) {
     // Wishlist
 
     $('.add_to_wishlist_button').click(function (e) {
-        e.preventDefault();
-        // alert("asdasd");
+    e.preventDefault();
 
-        var roleId = <?php echo json_encode($role_id); ?> || '';
-        var role = <?php echo json_encode($role); ?> || '';
+    var roleId = <?php echo json_encode($role_id); ?> || '';
+    var role = <?php echo json_encode($role); ?> || '';
 
-        if (roleId && role) {
-            var product_id = $(this).data('product-id');
-            var product_name = $(this).data('product-name');
-            var product_price = $(this).data('product-price');
-            var product_image = $(this).data('product-image');
-            // console.log(role);
+    if (roleId && role) {
+        var product_id = $(this).data('product-id');
+        var product_name = $(this).data('product-name');
+        var product_price = $(this).data('product-price');
+        var product_image = $(this).data('product-image');
 
-            var selectedQuantity = 1;
-            var wishlistItem = {
-                user_id: roleId,
-                id: product_id,
-                name: product_name,
-                price: product_price,
-                image: product_image,
-                role: role,
-                'add_to_wishlist_button': true,
-            };
+        var selectedQuantity = 1;
+        var wishlistItem = {
+            user_id: roleId,
+            id: product_id,
+            name: product_name,
+            price: product_price,
+            image: product_image,
+            role: role,
+            'add_to_wishlist_button': true,
+        };
 
+        $.ajax({
+            type: 'POST',
+            url: "./core/wishlistFunctionality.php",
+            data: wishlistItem,
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: response,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
 
-            // Check if there is an existing cart in local storage
-            // var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            $.ajax({
-                type: 'POST',
-                url: "./core/wishlistFunctionality.php",
-                data: wishlistItem,
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: response,
-                        showConfirmButton: false,
-                        timer: 2000 // Hide the message after 3 seconds
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
-                }
-            })
+                // Update wishlist count on success
+                updateWishlistCount();
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: "Please Login First",
+            showConfirmButton: false,
+            timer: 2000
+        });
+    }
+});
 
-
-
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: "Please Login First",
-                showConfirmButton: false,
-                timer: 2000 // Hide the message after 3 seconds
-            });
-
+// Function to update wishlist count
+function updateWishlistCount() {
+    // Make an AJAX request to get the updated wishlist count
+    $.ajax({
+        type: 'GET',
+        url: './core/getWishlistCount.php',
+		data:{
+			userId:roleId,
+			role: role
+		},
+        success: function (count) {
+            // Update the HTML element with the new wishlist count
+            $('#wishlist-count-container').text(count);
+        },
+        error: function (xhr, status, error) {
+            console.error('AJAX Error:', status, error);
         }
-
-
     });
+}
+
     // *************Script for login and register pages - validations ***********//
     //***********  script for eye- password show hide starts************//
     var passwordInput = document.getElementById('login-password');

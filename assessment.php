@@ -7,13 +7,14 @@ $userRole = $_SESSION['role'];
 $user_id = $_SESSION['role_id'];
 $userId = $_SESSION['mail'];
 $password = $_SESSION['pass'];
+$orderId = $_SESSION['orderId'];
 
 $fetch_course_list = mysqli_query($con, "SELECT * FROM courses WHERE id = '$courseId'");
 $course_list_data = mysqli_fetch_array($fetch_course_list);
-$fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE courseid = $courseId AND username = '$userId' AND pwd = '$password' AND status =1");
+$fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE courseid = $courseId AND username = '$userId' AND orderId = $orderId AND status =1");
 $courseLogin = mysqli_fetch_array($fetch_course_login);
 $coursecontentId = $courseLogin['course_contentid'];
-
+$orderId = $courseLogin['orderid'];
 // print_r($coursecontentId);
 $fetch_order_wise_data = mysqli_query($con, "SELECT * FROM `chaptersassessmentorders` WHERE courseId =$courseId AND id >= $coursecontentId  LIMIT 2");
 while ($data = mysqli_fetch_array($fetch_order_wise_data)) {
@@ -190,7 +191,7 @@ if ($type === 'assessments') {
                 ?>
                 <button type="submit" class="btn btn-warning" data-assessmentid="<?= $assessmentId ?>"
                     data-courseid="<?= $courseId ?>" data-userrole="<?= $userRole ?>" data-userid="<?= $user_id ?>"
-                    data-next-id="<?= $nextId ?>" id="assessmentSubmit">Submit</button>
+                    data-next-id="<?= $nextId ?>" data-orderid="<?= $orderId ?>" id="assessmentSubmit" >Submit</button>
                 <button class="btn btn-danger">Cancel</button>
             </form>
             <div id="correctAnswersContainer" style="display: none;">
@@ -259,6 +260,7 @@ if ($type === 'assessments') {
             var userid = $(this).data('userid');
             var courseid = $(this).data('courseid');
             var assessmentid = $(this).data('assessmentid');
+            var orderId = $(this).data('orderid');
             // Collect selected answers
             var selectedAnswers = {};
 
@@ -302,7 +304,8 @@ if ($type === 'assessments') {
                     courseid: courseid,
                     assessmentid: assessmentid,
                     totalScore: totalQuestions,
-                    acquiredScore: score
+                    acquiredScore: score,
+                    orderId:orderId
                 },
                 success: function (data) {
                     Swal.fire({

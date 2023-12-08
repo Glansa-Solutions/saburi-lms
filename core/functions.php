@@ -884,11 +884,7 @@ if (isset($_POST['sending_email'])) {
     $optionD = $_POST['optionD'];
     $correctAnswer = $_POST['correctAns'];
 
-    $result = mysqli_query($con, "SELECT * FROM assessment WHERE courseId = '$courseName' AND assessmentName = '$assessmentName'");
-    $row_count = mysqli_num_rows($result);
-    if ($row_count > 0) {
-        echo json_encode("Can not add already having same name in id");
-    } else {
+     
         $insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
 
         if ($insert_assessment) {
@@ -905,7 +901,7 @@ if (isset($_POST['sending_email'])) {
         } else {
             echo "Failed to insert assessment.";
         }
-    }
+        
 } elseif (isset($_POST['checking_assessment_btn'])) {
     $assessmentId = $_POST['assessmentId'];
     $result_array = [];
@@ -1026,6 +1022,8 @@ if (isset($_POST['sending_email'])) {
         echo "not done";
     }
 }
+
+    
 
 // End Inserting User
 

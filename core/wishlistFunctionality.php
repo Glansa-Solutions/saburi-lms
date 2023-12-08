@@ -25,9 +25,9 @@ if (isset($_POST['add_to_wishlist_button'])) {
     } else {
         // Record does not exist, proceed with the insertion
         $insert_query = mysqli_query($con, "INSERT INTO wishlist (userId, role, courseId, courseName, price, image, createdBy, isActive) VALUES ('$userId', '$role', '$courseId', '$courseName', '$price', '$image', '$userId', '$isActive')");
+        
 
         if ($insert_query) {
-            // Insertion successful, provide a success response
             echo json_encode('Added to wishlist');
         } else {
             // Insertion failed, provide an error response

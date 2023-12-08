@@ -556,6 +556,152 @@ include("includes/header.php");
     });
     </script>
 
+
+<style>
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.querySelector('form');
+        var submitButton = document.querySelector('button[name="update_student_register"]');
+
+        function displayError(inputElement, errorMessage) {
+            // Remove existing error message, if any
+            var existingError = inputElement.nextElementSibling;
+            if (existingError && existingError.classList.contains('error-message')) {
+                existingError.remove();
+            }
+
+            // Create a new error message element
+            var errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.textContent = errorMessage;
+
+            // Insert the error message below the input element
+            inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+        }
+
+        function removeError(inputElement) {
+            // Remove existing error message, if any
+            var existingError = inputElement.nextElementSibling;
+            if (existingError && existingError.classList.contains('error-message')) {
+                existingError.remove();
+            }
+        }
+
+        function validateFullName() {
+            var fullName = document.getElementById('fullNmae').value.trim();
+            if (fullName === '') {
+                displayError(document.getElementById('fullNmae'), 'Please enter your full name.');
+                return false;
+            }
+            removeError(document.getElementById('fullNmae'));
+            return true;
+        }
+
+        function validateDOB() {
+            var dob = document.getElementById('DOB').value.trim();
+            if (dob === '') {
+                displayError(document.getElementById('DOB'), 'Please enter your date of birth.');
+                return false;
+            }
+            removeError(document.getElementById('DOB'));
+            return true;
+        }
+
+        function validateAddress() {
+            var address = document.getElementById('address').value.trim();
+            if (address === '') {
+                displayError(document.getElementById('address'), 'Please enter your address.');
+                return false;
+            }
+            removeError(document.getElementById('address'));
+            return true;
+        }
+
+        function validatePincode() {
+            var pincode = document.getElementById('state').value.trim();
+            if (pincode === '') {
+                displayError(document.getElementById('state'), 'Please enter your pincode.');
+                return false;
+            }
+            removeError(document.getElementById('state'));
+            return true;
+        }
+
+        function validatePhoneNumber() {
+            var phoneNumber = document.getElementById('phoneNumber').value.trim();
+            if (phoneNumber === '') {
+                displayError(document.getElementById('phoneNumber'), 'Please enter your phone number.');
+                return false;
+            }
+            removeError(document.getElementById('phoneNumber'));
+            return true;
+        }
+
+        function validateEmail() {
+            var email = document.getElementById('email').value.trim();
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === '' || !emailRegex.test(email)) {
+                displayError(document.getElementById('email'), 'Please enter a valid email address.');
+                return false;
+            }
+            removeError(document.getElementById('email'));
+            return true;
+        }
+
+        function validateIdProofDetails() {
+            var idProofDetails = document.getElementById('idProofDetails').value.trim();
+            if (idProofDetails === '') {
+                displayError(document.getElementById('idProofDetails'), 'Please enter your ID proof details.');
+                return false;
+            }
+            removeError(document.getElementById('idProofDetails'));
+            return true;
+        }
+
+        function validateForm() {
+            var isFullNameValid = validateFullName();
+            var isDOBValid = validateDOB();
+            var isAddressValid = validateAddress();
+            var isPincodeValid = validatePincode();
+            var isPhoneNumberValid = validatePhoneNumber();
+            var isEmailValid = validateEmail();
+            var isIdProofDetailsValid = validateIdProofDetails();
+
+            return (
+                isFullNameValid &&
+                isDOBValid &&
+                isAddressValid &&
+                isPincodeValid &&
+                isPhoneNumberValid &&
+                isEmailValid &&
+                isIdProofDetailsValid
+            );
+        }
+
+        submitButton.addEventListener('click', function (event) {
+            // Validate the form before submitting
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+
+        document.getElementById('fullNmae').addEventListener('blur', validateFullName);
+        document.getElementById('DOB').addEventListener('blur', validateDOB);
+        document.getElementById('address').addEventListener('blur', validateAddress);
+        document.getElementById('state').addEventListener('blur', validatePincode);
+        document.getElementById('phoneNumber').addEventListener('blur', validatePhoneNumber);
+        document.getElementById('email').addEventListener('blur', validateEmail);
+        document.getElementById('idProofDetails').addEventListener('blur', validateIdProofDetails);
+    });
+</script>
+
     <?php
     include("includes/footer.php");
     ?>
