@@ -413,7 +413,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Add Testimonial
                                         </a>
-                                        <a href="<?= $mainlink ?>companyCourseReport" class="dropdown-item">
+                                        <a href="<?= $mainlink ?>companyCourseReport" style="display:<?= ($role=="company")?'':'none'; ?>"class="dropdown-item">
                                             <i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Company Course Report

@@ -56,7 +56,7 @@ $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
 $careerQuery = mysqli_query($con, "SELECT * FROM careers where isActive=1");
 $fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1");
 $fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where status=1");
-$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where status=1");
+$fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where isactive=1");
 $fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
 
 if (isset($_SESSION['role_id']) && !empty($_SESSION['role_id']) && isset($_SESSION['role']) && !empty($_SESSION['role'])) {
