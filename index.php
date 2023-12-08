@@ -34,8 +34,8 @@ include("includes/header.php");
                     <h1>
                         <?= $banner_Description ?>
                     </h1>
-                    <a href="#" class="btn btn-main"><i class="fa fa-list-ul mr-2"></i>our Courses </a>
-                    <a href="#" class="btn btn-tp ">get Started <i class="fa fa-angle-right ml-2"></i></a>
+                    <a href="<?=$mainlink ?>courselist" class="btn btn-main"><i class="fa fa-list-ul mr-2"></i>our Courses </a>
+                    <a href="<?=$mainlink ?>courselist" class="btn btn-tp ">get Started <i class="fa fa-angle-right ml-2"></i></a>
                 </div>
             </div>
         </div> <!-- / .row -->
@@ -133,23 +133,23 @@ include("includes/header.php");
                                 <div class="course-price ">₹
                                     <?php echo $row['courseCost']; ?>
                                 </div>
-                                <h4><a href="#">
+                                <h4><a href="course_single?course_id=<?php echo $row['id']; ?>">
                                         <?php echo $row['courseName']; ?>
                                     </a></h4>
-                                <div class="rating">
+                                <!-- <div class="rating">
                                     <?php for ($i = 0; $i < 5; $i++): ?>
                                         <a href="#"><i class="fa fa-star"></i></a>
                                     <?php endfor; ?>
                                     <span>(5.00)</span>
-                                </div>
+                                </div> -->
                                 <p>
-                                    <?php echo substr($row['courseDesc'], 0, 100); ?>
+                                    <?php echo substr($row['courseDesc'], 0, 100); ?>...
                                 </p>
                                 <div class="course-footer d-lg-flex align-items-center justify-content-between">
-                                    <div class="course-meta">
+                                    <!-- <div class="course-meta">
                                         <span class="course-student"><i class="bi bi-group"></i>340</span>
                                         <span class="course-duration"><i class="bi bi-badge3"></i>82 Lessons</span>
-                                    </div>
+                                    </div> -->
                                     <div class="buy-btn"><a href="course_single?course_id=<?php echo $row['id']; ?>"
                                             class="btn btn-main-2 btn-small">Details</a></div>
                                 </div>

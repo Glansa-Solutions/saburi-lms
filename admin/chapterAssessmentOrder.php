@@ -6,9 +6,9 @@ include('includes/sidebar.php');
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Bind a change event to the topic select
-        $('#topic').change(function() {
+        $('#topic').change(function () {
             var topicId = $(this).val();
             if (topicId) {
                 // Make an AJAX request to fetch subtopics for the selected topic
@@ -18,7 +18,7 @@ include('includes/sidebar.php');
                         topicId: topicId
                     },
                     method: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         // Populate the subtopic select with the retrieved data
                         $('#subtopic').html(data);
                     }
@@ -28,7 +28,7 @@ include('includes/sidebar.php');
                 $('#subtopic').html('<option>select subtopic name</option>');
             }
         });
-        $('#subtopic').change(function() {
+        $('#subtopic').change(function () {
             var subtopicId = $(this).val();
             if (subtopicId) {
                 $.ajax({
@@ -37,7 +37,7 @@ include('includes/sidebar.php');
                         subtopicId: subtopicId
                     },
                     method: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         $('#courseName').html(data);
                     }
                 })
@@ -45,7 +45,7 @@ include('includes/sidebar.php');
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Initialize an array to store selected values
         var selectedRows = [];
 
@@ -56,7 +56,7 @@ include('includes/sidebar.php');
 
 
         // Add a row to the table on "Add" button click
-        $('#addTable').click(function() {
+        $('#addTable').click(function () {
             // Get the selected values
             var topicId = $('#topic').val();
             var subtopicId = $('#subtopic').val();
@@ -75,7 +75,7 @@ include('includes/sidebar.php');
 
             // Check if all required values are selected
             if (radioButtonValue && chapterName) {
-                var alreadyExists = selectedRows.some(function(row) {
+                var alreadyExists = selectedRows.some(function (row) {
                     return (
                         row.courseId == courseId &&
                         row.chapterId == chapterId &&
@@ -124,7 +124,7 @@ include('includes/sidebar.php');
             }
         });
 
-        $('#submitTable').click(function() {
+        $('#submitTable').click(function () {
             var data = arrayAdd();
             // console.log(arrayAdd());
             // Make an AJAX request to send the selected rows to the server
@@ -136,7 +136,7 @@ include('includes/sidebar.php');
                     selectedRows: data,
                     assessment_creation: true,
                 },
-                success: function(response) {
+                success: function (response) {
                     // Handle the response from the server if needed
                     // console.log(response, "");
                 }
@@ -164,7 +164,7 @@ include('includes/sidebar.php');
                     'chapterAssessmentCreationId': chapterAssessmentCreationId,
                 },
                 // dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     // console.log(response, "hii");
 
                     var jsonResponse = JSON.parse(response);
@@ -182,56 +182,57 @@ include('includes/sidebar.php');
 
                         var desiredValue = res.tId;
                         var subtopicId = res.sId;
+                        var courseId = res.cId
 
-                        $('#topic option').each(function() {
-
-                            // console.log($(this).val(), "$(this).val()", desiredValue, "subtopicId")
-
-                            if ($(this).val() == desiredValue) {
-                                $(this).prop('selected', true);
-                                // Trigger the change event to execute the associated event handler
-                                $('#topic').change();
-                                return false; // Exit the loop once the desired option is found
+                        $('#topic').val(desiredValue);
+                        $('#topic').change();
+                        $.ajax({
+                            url: '../core/chepterTopicFunctions.php',
+                            data: {
+                                topicId: desiredValue
+                            },
+                            method: 'GET',
+                            success: function (data) {
+                                $('#subtopic').html(data);
+                                $('#subtopic').val(subtopicId);
+                                $('#subtopic').change();
+                                $.ajax({
+                                    url: '../core/cheptersubFunctions.php',
+                                    data: {
+                                        subtopicId: subtopicId
+                                    },
+                                    method: 'GET',
+                                    success: function (data) {
+                                        $('#courseName').html(data);
+                                        $('#courseName').val(courseId);
+                                        $('#courseName').change();
+                                    }
+                                });
                             }
                         });
 
-                        var subtopic = $('#subtopic');
-
-                        // Check if the element is found
-                        if (subtopic.length > 0) {
-                            subtopic.find('option').each(function() {
-                                var optionValue = $(this).val();
-                                console.log(optionValue);
-                            });
-                        } else {
-                            console.log("Dropdown element not found.");
-                        }
 
 
+                        // $('#topic option').each(function () {
+
+                        //     if ($(this).val() == desiredValue) {
+                        //         $(this).prop('selected', true);
+                        //         $('#topic').change();
+                        //         return false;
+                        //     }
+                        // });
 
 
-                        //$('#subtopic option').each(function() {
-                        (subtopic).each(function() {
-                            // Check if the current option's value matches the desired subtopic value
-                            //    console.log($(this).val());
-                            if ($(this).val() == subtopicId) {
-                                // Select the option
-                                // 
-                                $(this).prop('selected', true);
-                                // Trigger the change event to execute the associated event handler
-                                var sub = $('#subtopic').change();
+                        // $('#subtopic option').each(function() {
+                        //     if ($(this).val() == subtopicId) {
+                        //         $(this).prop('selected', true);
+                        //         var sub = $('#subtopic').change();
 
-                                console.log(sub, "sub")
-                                // Exit the loop once the desired option is found
-                                return false;
-                            }
-                        });
-
-                        //     // Set the selected value for the 'subtopic' dropdown
-                        //  var sub =  $('#subtopic').find('option[value="' + res.sId + '"]').prop('selected', true);
-                        //  console.log(sub,"var")
-                        //     // Trigger the change event for 'subtopic'
-                        //     $('#subtopic').change();
+                        //         console.log(sub, "sub")
+                        //         // Exit the loop once the desired option is found
+                        //         return false;
+                        //     }
+                        // });
 
                     }
                     console.log(selectedRows, "selectedRows");
@@ -249,15 +250,15 @@ include('includes/sidebar.php');
 
 
         // Reset the table on "Reset" button click
-        $('#resetTable').click(function() {
+        $('#resetTable').click(function () {
             selectedRows = []; // Clear the array
             $('#dataTable tbody').empty();
         });
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Bind a change event to the radio buttons
-        $('input[name="optradio"]').change(function() {
+        $('input[name="optradio"]').change(function () {
             var selectedOption = $(this).val();
             var courseId = $('#courseName').val(); // Assuming you have a dropdown with id 'topic' for selecting the course
 
@@ -270,7 +271,7 @@ include('includes/sidebar.php');
                         action: 'getChapters'
                     },
                     method: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         console.log(data);
                         // Populate the chapter select with the retrieved data
                         $('#chapter').html(data);
@@ -285,7 +286,7 @@ include('includes/sidebar.php');
                         action: 'getAssessments'
                     },
                     method: 'GET',
-                    success: function(data) {
+                    success: function (data) {
                         // Populate the assessment select with the retrieved data
                         $('#chapter').html(data);
                     }
@@ -333,12 +334,12 @@ include('includes/sidebar.php');
                                 <select class="form-control" class="topic" name="topic" id="topic">
                                     <option value="">Select Topic Name</option>
                                     <?php
-                                    if ($fetch_list_topic_query) {
+                                    if($fetch_list_topic_query) {
                                         // $i = 1;
-                                        while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
-                                    ?>
+                                        while($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
+                                            ?>
                                             <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
-                                    <?php
+                                            <?php
                                         }
                                     } else {
                                         echo "Query failed!";
@@ -350,11 +351,13 @@ include('includes/sidebar.php');
                         <div class="col-md-6">
                             <div class="ms-4 mt-4">
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="selectopt" name="optradio" value="chapters">
+                                    <input type="radio" class="form-check-input" id="selectopt" name="optradio"
+                                        value="chapters">
                                     <label class="form-check-label" for="chapters">Chapter</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="radio" class="form-check-input" id="selectopt" name="optradio" value="assessments">
+                                    <input type="radio" class="form-check-input" id="selectopt" name="optradio"
+                                        value="assessments">
                                     <label class="form-check-label" for="assessments">Assessment</label>
                                 </div>
                             </div>
@@ -388,7 +391,8 @@ include('includes/sidebar.php');
                         </div>
                         <div class="col-md-6 mt-4">
                             <div class="form-group">
-                                <button type="button" class="btn btn-primary me-2" id="addTable" name="addTable">ADD</button>
+                                <button type="button" class="btn btn-primary me-2" id="addTable"
+                                    name="addTable">ADD</button>
                                 <!-- <button class="btn btn-light">Cancel</button> -->
                             </div>
                         </div>
@@ -410,7 +414,8 @@ include('includes/sidebar.php');
                             <div class="form-group">
                                 <button type="button" class="btn btn-warning" id="resetTable">Reset</button>
                                 <!-- <button type="submit" style="color:white;text-decoration:none"  ></button> -->
-                                <a class="btn btn-success" id="submitTable" name="assessment_creation" href="caoGrid">submit</a>
+                                <a class="btn btn-success" id="submitTable" name="assessment_creation"
+                                    href="caoGrid">submit</a>
                             </div>
                         </div>
                     </div>

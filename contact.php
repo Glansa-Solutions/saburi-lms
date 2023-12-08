@@ -2,8 +2,8 @@
 include("includes/header.php");
 include("core/listgrid.php");
 
-if ($fetch_user_contact_details_query) {
-    while ($row = mysqli_fetch_assoc($fetch_user_contact_details_query)) {
+if($fetch_user_contact_details_query) {
+    while($row = mysqli_fetch_assoc($fetch_user_contact_details_query)) {
         $id = $row['id'];
         $email = $row['email'];
         $phone_no = $row['phone_no'];
@@ -48,7 +48,7 @@ if ($fetch_user_contact_details_query) {
                         </li>
                         <li class="list-inline-item">/</li>
                         <li class="list-inline-item">
-                        <?= $filename; ?>
+                            <?= $filename; ?>
                         </li>
                     </ul>
                 </div>
@@ -111,7 +111,7 @@ if ($fetch_user_contact_details_query) {
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" name="email" id="email" class="form-control"
+                                <input type="email" name="email" id="email" class="form-control"
                                     placeholder="Email Address">
                                 <input type="hidden" id="email" name="admin_email" placeholder="Enter Your Email"
                                     class="form-control" value="<?= $email; ?>">
@@ -147,6 +147,123 @@ if ($fetch_user_contact_details_query) {
         </div>
     </div>
 </section>
+<style>
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-top: 4px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.querySelector('form');
+        var submitButton = document.querySelector('button[type="submit"]');
+
+        function displayError(inputElement, errorMessage) {
+            // Remove existing error message, if any
+            var existingError = inputElement.nextElementSibling;
+            if (existingError && existingError.classList.contains('error-message')) {
+                existingError.remove();
+            }
+
+            // Create a new error message element
+            var errorElement = document.createElement('div');
+            errorElement.classList.add('error-message');
+            errorElement.textContent = errorMessage;
+
+            // Insert the error message below the input element
+            inputElement.parentNode.insertBefore(errorElement, inputElement.nextSibling);
+        }
+
+        function removeError(inputElement) {
+            // Remove existing error message, if any
+            var existingError = inputElement.nextElementSibling;
+            if (existingError && existingError.classList.contains('error-message')) {
+                existingError.remove();
+            }
+        }
+
+        function validateName() {
+            var name = document.getElementById('name').value.trim();
+            if (name === '') {
+                displayError(document.getElementById('name'), 'Please enter your name.');
+                return false;
+            }
+            // Check if the name contains any numbers
+            if (/.*\d.*/.test(name)) {
+                displayError(document.getElementById('name'), 'Name should not contain numbers.');
+                return false;
+            }
+            removeError(document.getElementById('name'));
+            return true;
+        }
+
+        function validateEmail() {
+            var email = document.getElementById('email').value.trim();
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (email === '' || !emailRegex.test(email)) {
+                displayError(document.getElementById('email'), 'Please enter a valid email address.');
+                return false;
+            }
+            removeError(document.getElementById('email'));
+            return true;
+        }
+
+        function validateSubject() {
+            var subject = document.getElementById('subject').value.trim();
+            if (subject === '') {
+                displayError(document.getElementById('subject'), 'Please enter the subject.');
+                return false;
+            }
+            removeError(document.getElementById('subject'));
+            return true;
+        }
+
+        function validateMessage() {
+            var message = document.getElementById('message').value.trim();
+            if (message === '') {
+                displayError(document.getElementById('message'), 'Please enter your message.');
+                return false;
+            }
+            removeError(document.getElementById('message'));
+            return true;
+        }
+
+        function validateForm() {
+            var isNameValid = validateName();
+            var isEmailValid = validateEmail();
+            var isSubjectValid = validateSubject();
+            var isMessageValid = validateMessage();
+
+            if (!isNameValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
+                Swal.fire({
+                    icon: 'error',
+                    title: "Please fill in all required fields.",
+                    showConfirmButton: false,
+                    timer: 2000
+                }); 
+                return false;
+            }
+
+            return true;
+        }
+
+        submitButton.addEventListener('click', function (event) {
+            // Validate the form before submitting
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+
+        document.getElementById('name').addEventListener('blur', validateName);
+        document.getElementById('email').addEventListener('blur', validateEmail);
+        document.getElementById('subject').addEventListener('blur', validateSubject);
+        document.getElementById('message').addEventListener('blur', validateMessage);
+    });
+</script>
+
+
 
 <?php
 include("includes/footer.php");

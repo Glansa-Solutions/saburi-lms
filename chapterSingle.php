@@ -3,10 +3,12 @@ include("includes/header.php");
     $courseId = $_SESSION['course_id'];
     $userId = $_SESSION['mail'];
     $password = $_SESSION['pass'];
+    $orderId = $_SESSION['orderId'];
 
-    $fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE courseid = $courseId AND username = '$userId' AND pwd = '$password' AND status =1");
+    $fetch_course_login = mysqli_query($con, "SELECT * FROM courselogin WHERE courseid = $courseId AND username = '$userId' AND orderid = $orderId AND status =1");
     $courseLogin = mysqli_fetch_array($fetch_course_login);
     $coursecontentId = $courseLogin['course_contentid'];
+    // $orderId = $courseLogin['orderid'];
     $fetch_order_wise_data = mysqli_query($con,"SELECT * FROM `chaptersassessmentorders` WHERE courseId =$courseId AND id >= $coursecontentId  LIMIT 2");
     while($data = mysqli_fetch_array($fetch_order_wise_data)){
         $rows[] = $data;
@@ -91,7 +93,7 @@ if ($type === 'chapters') {
                     <button class="btn btn-saburi rounded-0" id="nextButton" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-next-id="<?= $nextId ?>">Next</button>
                     <?php
                     }else{?>
-                    <button class="btn btn-saburi rounded-0 finishClick" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>">Finish</button>
+                    <button class="btn btn-saburi rounded-0 finishClick" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-orderid = "<?=$orderId ?>">Finish</button>
                     <?php
                     }?>
                 </div>
@@ -195,6 +197,7 @@ $('.finishClick').on('click', function(){
     var userName = $(this).data('username');
     var pwd= $(this).data('password');
     var courseId = $(this).data('courseid');
+    var orderId = $(this).data('orderid');
     var courseContentId = $(this).data('coursecontentid');
     console.log("ho");
     $.ajax({
@@ -205,9 +208,11 @@ $('.finishClick').on('click', function(){
             pwd:pwd,
             courseId:courseId,
             courseContentId:courseContentId,
+            orderId:orderId,
             'finishClick': true
         },
         success:function(data){
+            console.log(data);  
             window.location.href = data;
         }
     });

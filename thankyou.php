@@ -3,8 +3,10 @@ include("includes/header.php");
 $courseId = $_SESSION['course_id'];
 $userRole = $_SESSION['role'];
 $user_id = $_SESSION['role_id'];
-$fetch_assessment_result = mysqli_query($con, "SELECT courses.courseName, assessment.assessmentName, assessmentresult.* FROM courses INNER JOIN assessment ON courses.id = assessment.courseId INNER JOIN assessmentresult ON assessment.id = assessmentresult.assessmentId WHERE assessmentresult.userRole = '$userRole' AND assessmentresult.userId = $user_id AND assessmentresult.courseId = $courseId");
+$orderId = $_GET['oid'];
+$fetch_assessment_result = mysqli_query($con, "SELECT courses.courseName, assessment.assessmentName, assessmentresult.* FROM courses INNER JOIN assessment ON courses.id = assessment.courseId INNER JOIN assessmentresult ON assessment.id = assessmentresult.assessmentId WHERE assessmentresult.userRole = '$userRole' AND assessmentresult.userId = $user_id AND assessmentresult.courseId = $courseId AND assessmentresult.orderId = $orderId");
 
+// print_r($orderId);
 
 ?>
 
