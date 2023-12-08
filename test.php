@@ -157,6 +157,9 @@ include('../core/listgrid.php');
             </div>
         </div>
 <!-- Main Content ends -->
+
+
+Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi nostrum itaque quisquam corporis libero error corrupti beatae quidem eos pariatur!
 <script>
         $(document).ready(function() {
             $('.edit-button').on('click', function() {
