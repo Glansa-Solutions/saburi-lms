@@ -812,39 +812,98 @@ if (isset($_POST['sending_email'])) {
     }
 
     mysqli_close($conn);
-} elseif (isset($_POST['assessment_manage'])) {
-    $courseName = $_POST['courseName'];
-    $assessmentName = $_POST['assessmentName'];
-    $question = $_POST['question'];
-    $optionA = $_POST['optionA'];
-    $optionB = $_POST['optionB'];
-    $optionC = $_POST['optionC'];
-    $optionD = $_POST['optionD'];
-    $correctAnswer = $_POST['correctAns'];
+} 
+// elseif (isset($_POST['assessment_manage'])) {
+//     $courseName = $_POST['courseName'];
+//     $assessmentName = $_POST['assessmentName'];
+//     $question = $_POST['question'];
+//     $optionA = $_POST['optionA'];
+//     $optionB = $_POST['optionB'];
+//     $optionC = $_POST['optionC'];
+//     $optionD = $_POST['optionD'];
+//     $correctAnswer = $_POST['correctAns'];
 
-    $result = mysqli_query($con, "SELECT * FROM assessment WHERE courseId = '$courseName' AND assessmentName = '$assessmentName'");
-    $row_count = mysqli_num_rows($result);
-    if ($row_count > 0) {
-        echo json_encode("Can not add already having same name in id");
-    } else {
-        $insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
+//     $result = mysqli_query($con, "SELECT * FROM assessment WHERE courseId = '$courseName' AND assessmentName = '$assessmentName'");
+//     $row_count = mysqli_num_rows($result);
+//     if ($row_count > 0) {
+//         echo json_encode("Can not add already having same name in id");
+//     } else {
+//         $insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
 
-        if ($insert_assessment) {
-            $assessmentId = $con->insert_id;
-            // echo $assessmentId;
-            // Insert data into the 'questions' table
-            $insertedQuestions = mysqli_query($con, "INSERT INTO questions (assessmentId, questionsName, a, b, c, d, correctAnswer, isActive) VALUES ('$assessmentId', '$question', '$optionA', '$optionB', '$optionC', '$optionD', '$correctAnswer', 1)");
+//         if ($insert_assessment) {
+//             $assessmentId = $con->insert_id;
+//             // echo $assessmentId;
+//             // Insert data into the 'questions' table
+//             $insertedQuestions = mysqli_query($con, "INSERT INTO questions (assessmentId, questionsName, a, b, c, d, correctAnswer, isActive) VALUES ('$assessmentId', '$question', '$optionA', '$optionB', '$optionC', '$optionD', '$correctAnswer', 1)");
 
-            if ($insertedQuestions) {
-                header("location: $mainlink" . "admin/manageAssessment");
-            } else {
-                echo "Failed to insert questions.";
-            }
-        } else {
-            echo "Failed to insert assessment.";
+//             if ($insertedQuestions) {
+//                 header("location: $mainlink" . "admin/manageAssessment");
+//             } else {
+//                 echo "Failed to insert questions.";
+//             }
+//         } else {
+//             echo "Failed to insert assessment.";
+//         }
+//     }
+// } 
+elseif (isset($_POST['checking_assessment_btn'])) {
+    $assessmentId = $_POST['assessmentId'];
+    $result_array = [];
+
+    // Prepare and execute a query to fetch the blog data by ID
+    $query = "SELECT 
+    courses.id AS course_id,
+    courses.courseName,
+    assessment.id as assessment_id,
+    assessment.assessmentName
+FROM
+    courses
+JOIN
+    assessment ON courses.id = assessment.courseId
+WHERE
+    assessment.id = $assessmentId";
+    // $query = "SELECT * FROM `chapters` WHERE id = $chapterId";
+    $query_run = mysqli_query($con, $query);
+    if (mysqli_num_rows($query_run) > 0) {
+        foreach ($query_run as $row) {
+            array_push($result_array, $row);
+            header('Content-type: application/json');
+            echo json_encode($result_array);
         }
+    } else {
+        //echo $return = "<h5>No Record Found</h5>";
     }
-} elseif (isset($_POST['checking_assessment_btn'])) {
+} elseif (isset($_POST['update_assessment'])) {
+    $assessmentName = $_POST['assessmentName'];
+    $assessmentId = $_POST['assessmentId'];
+
+    $update = "UPDATE assessment SET 
+                assessmentName='$assessmentName',
+                modifiedOn=NOW() 
+                WHERE id='$assessmentId'";
+
+    $query = mysqli_query($con, $update);
+
+    if ($query) {
+        header("location: $mainlink" . "admin/assessmentManage");
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+} elseif (isset($_POST['deleteAssesment'])) {
+    // Get the ID from the URL
+    $id = $_POST['delete_id'];
+    $sql1 = "UPDATE assessment SET isActive= 0 WHERE id = $id";
+    $query1 = mysqli_query($con, $sql1);
+    if ($query1) {
+        header("location: $mainlink" . "admin/assessmentManage");
+        exit();
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    }
+
+    // mysqli_close($con);
+}
+elseif (isset($_POST['checking_questions'])) {
     $assessmentId = $_POST['assessmentId'];
     $result_array = [];
 
@@ -884,7 +943,10 @@ if (isset($_POST['sending_email'])) {
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} elseif (isset($_POST['update_assessment'])) {
+}
+
+elseif (isset($_POST['update_questions'])) {
+    $assessmentId = $_POST['assessmentId'];
     $questionsId = $_POST['questionsId'];
     $questions = $_POST['questions'];
     $optionA = $_POST['optionA'];
@@ -906,24 +968,42 @@ if (isset($_POST['sending_email'])) {
     $query = mysqli_query($con, $update);
 
     if ($query) {
-        header("location: $mainlink" . "admin/manageAssessment");
+        $fetchQuestions = mysqli_query($con,"SELECT * FROM questions WHERE id = '$questionsId'");
+        if($fetchQuestions){
+            $questionsData = mysqli_fetch_array($fetchQuestions);
+            $aId = $questionsData["assessmentId"];
+            header("location: {$mainlink}admin/questionsManage?aid={$aId}");
+        }
+        
     } else {
         echo "Error: " . mysqli_error($con);
     }
-} elseif (isset($_POST['deleteAssesment'])) {
+}
+
+
+elseif (isset($_POST['deleteQuestions'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql1 = "UPDATE questions SET isActive= 0 WHERE id = $id";
     $query1 = mysqli_query($con, $sql1);
     if ($query1) {
-        header("location: $mainlink" . "admin/manageAssessment");
-        exit();
+        $fetchQuestions = mysqli_query($con,"SELECT * FROM questions WHERE id = '$id'");
+        if($fetchQuestions){
+            $questionsData = mysqli_fetch_array($fetchQuestions);
+            $aId = $questionsData["assessmentId"];
+            header("location: {$mainlink}admin/questionsManage?aid={$aId}");
+        }
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
     // mysqli_close($con);
-} elseif (isset($_POST['deleteStudent'])) {
+}
+
+
+// Questions End
+
+elseif (isset($_POST['deleteStudent'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql2 = "UPDATE students SET isActive = 0 WHERE id = $id";
@@ -1360,24 +1440,6 @@ elseif (isset($_POST['delete_terms'])) {
     // Echo the JSON-encoded array after the loop is completed
     echo json_encode($result_array);
     
-        
-    
-        // if (mysqli_num_rows($query_run) > 0) {
-        //     foreach ($query_run as $row) {
-        //         array_push($result_array, $row);
-        //         header('Content-type: application/json');
-        //         echo json_encode($result_array);
-        //     }
-        // } else {
-        //     //echo $return = "<h5>No Record Found</h5>";
-        // }
-    
-       
-    
-    
-    
-    
-    
     }
 
     // Pradip Code Insert
@@ -1596,5 +1658,55 @@ if (isset($_POST['deleteAssesmentCreation'])) {
     mysqli_close($con);
 }
 
+
 // blog_comments functionality ( for admin side) Ends
+
+
+
+// Assessment functionality Start
+
+
+// Insert of assessment 
+
+if (isset($_POST['assessment_manage'])) {
+    $courseName = $_POST['courseName'];
+    $assessmentName = $_POST['assessmentName'];
+
+    $result = mysqli_query($con, "SELECT * FROM assessment WHERE courseId = '$courseName' AND assessmentName = '$assessmentName'");
+    $row_count = mysqli_num_rows($result);
+    if ($row_count > 0) {
+        echo json_encode("Can not add already having same name in id");
+    } else {
+        $insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
+        header("location: $mainlink" . "admin/assessmentManage");
+    }
+} 
+
+
+
+// Questions Insert
+
+if (isset($_POST['questions_manage'])) {
+    $assessmentId = $_POST['assessment_id'];
+    $questions = $_POST['question'];
+    $optionA = $_POST['optionA'];
+    $optionB = $_POST['optionB'];
+    $optionC = $_POST['optionC'];
+    $optionD = $_POST['optionD'];
+    $correctAns = $_POST['correctAns'];
+
+
+    $insertQuestions = mysqli_query($con,"INSERT INTO questions(assessmentId, questionsName, a, b, c, d, correctAnswer, isActive) VALUES ('$assessmentId', '$questions', '$optionA', '$optionB', '$optionC', '$optionD', '$correctAns',1)");
+
+    if($insertQuestions){
+        $id = $con->insert_id;
+        $fetchQuestions = mysqli_query($con,"SELECT * FROM questions WHERE id = '$id'");
+        if($fetchQuestions){
+            $questionsData = mysqli_fetch_array($fetchQuestions);
+            $aId = $questionsData["assessmentId"];
+            header("location: {$mainlink}admin/questionsManage?aid={$aId}");
+        }
+        header("location: {$mainlink}admin/questionsManage?aid={$assessmentId}");
+    }
+}
 ?>

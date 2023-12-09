@@ -24,7 +24,7 @@ while ($data = mysqli_fetch_array($fetch_order_wise_data)) {
 $type = $rows[0]['type'];
 $typeId = $rows[0]['typeId'];
 $serialNumber = $rows[0]['serialNumber'];
-$nextId = $rows[1]['id'];
+$nextId = isset($rows[1]['id']) ? $rows[1]['id'] : '';
 // ob_start();
 $fetch_assessment_data = mysqli_query($con,"SELECT * FROM assessment where id = $typeId");
 $fetch_assessment_number = mysqli_query($con, "SELECT count(*) AS count FROM assessment WHERE courseId = $courseId");
@@ -197,9 +197,16 @@ if ($type === 'assessments') {
             <div id="correctAnswersContainer" style="display: none;">
                 <h3>Correct Answers:</h3>
                 <ul id="correctAnswersList"></ul>
-                <button class="btn btn-saburi rounded-0" id="nextButton" data-coursecontentid="<?= $coursecontentId ?>"
-                    data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password ?>"
-                    data-next-id="<?= $nextId ?>">Next</button>
+                <?php
+                    if($nextId){
+                        
+                    ?>
+                    <button class="btn btn-saburi rounded-0" id="nextButton" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-next-id="<?= $nextId ?>">Next</button>
+                    <?php
+                    }else{?>
+                    <button class="btn btn-saburi rounded-0 finishClick" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-orderid = "<?=$orderId ?>">Finish</button>
+                    <?php
+                    }?>
             </div>
         </div>
         <div class="col-lg-4">
@@ -362,6 +369,32 @@ if ($type === 'assessments') {
                 }
             });
         })
+
+        $('.finishClick').on('click', function(){
+    var userName = $(this).data('username');
+    var pwd= $(this).data('password');
+    var courseId = $(this).data('courseid');
+    var orderId = $(this).data('orderid');
+    var courseContentId = $(this).data('coursecontentid');
+    console.log("ho");
+    $.ajax({
+        url:'./core/finishChapter.php',
+        type:'POST',
+        data:{
+            userName:userName,
+            pwd:pwd,
+            courseId:courseId,
+            courseContentId:courseContentId,
+            orderId:orderId,
+            'finishClick': true
+        },
+        success:function(data){
+            console.log(data);  
+            window.location.href = data;
+        }
+    });
+});
+
     });
 </script>
 

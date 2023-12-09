@@ -55,7 +55,7 @@ include("../core/db_config.php");
                             Courses</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= $mainlink; ?>admin/manageChapter">Manage
                             Chapters</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= $mainlink; ?>admin/manageAssessment">Manage
+                    <li class="nav-item"><a class="nav-link" href="<?= $mainlink; ?>admin/assessmentManage">Manage
                             Assessment</a></li>
                             <li class="nav-item"><a class="nav-link" href="<?= $mainlink; ?>admin/caoGrid">
                             Assessment Chapter Order</a></li>

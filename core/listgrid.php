@@ -212,6 +212,8 @@ JOIN questions ON assessment.id = questions.assessmentId
 WHERE
 questions.isActive = 1");
 
+$fetch_assessment_query = mysqli_query($con, "SELECT courses.courseName, courses.id as courseId, assessment.assessmentName, assessment.id as assessmentId FROM courses INNER JOIN assessment ON assessment.courseId = courses.id WHERE assessment.isActive = 1");
+
 $fetch_list_query_subscription = mysqli_query($con, "SELECT * FROM subscriptions_1");
 
 // $fetch_list_join_topics_subtopic_query=mysqli_query($con,"SELECT * FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId;");

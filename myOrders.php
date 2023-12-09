@@ -93,7 +93,7 @@ include("includes/header.php");
                                                         <td><?= $i;?></td>
                                                         <td class="edit_id" hidden><?= $id; ?>
                                                         <td><?= $courseName; ?></td>
-                                                        <td><?= $courseDesc; ?></td>
+                                                        <td><?= strlen($courseDesc) > 100 ? substr($courseDesc, 0, 100) . '...' : $courseDesc; ?></td>
                                                     
                                                         <td>
                                                             <a href="course_single?order_id=<?= $id; ?>" class="btn btn-primary text-white me-2 p-2 add-to-cart-button">View Course</a>

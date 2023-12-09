@@ -49,6 +49,8 @@ RewriteRule ^admin/commentsCourse admin/commentsCourse.php [L]
 RewriteRule ^admin/companyUsers admin/companyUsers.php [L]
 RewriteRule ^admin/chapterAssessmentOrder admin/chapterAssessmentOrder.php [L]
 RewriteRule ^admin/caoGrid admin/caoGrid.php [L]
+RewriteRule ^admin/assessmentManage admin/assessmentManage.php [L]
+RewriteRule ^admin/q admin/questionsManage.php [L]
 
 
 
