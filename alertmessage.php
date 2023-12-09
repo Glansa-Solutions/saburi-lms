@@ -1,5 +1,48 @@
-<?php include("includes/header.php");
+<?php
+session_start();
+
 ?>
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description"
+        content="edutim,coaching, distant learning, education html, health coaching, kids education, language school, learning online html, live training, online courses, online training, remote training, school html theme, training, university html, virtual training  ">
+
+    <meta name="author" content="themeturn.com">
+
+    <title>Saburi LMS</title>
+
+    <!-- Mobile Specific Meta-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- bootstrap.min css -->
+    <link rel="stylesheet" href="assets/vendors/bootstrap/bootstrap.css">
+    <!-- Iconfont Css -->
+    <link rel="stylesheet" href="assets/vendors/fontawesome/css/all.css">
+    <link rel="stylesheet" href="assets/vendors/bicon/css/bicon.min.css">
+    <link rel="stylesheet" href="assets/vendors/themify/themify-icons.css">
+    <!-- animate.css -->
+    <link rel="stylesheet" href="assets/vendors/animate-css/animate.css">
+    <!-- WooCOmmerce CSS -->
+    <link rel="stylesheet" href="assets/vendors/woocommerce/woocommerce-layouts.css">
+    <link rel="stylesheet" href="assets/vendors/woocommerce/woocommerce-small-screen.css">
+    <link rel="stylesheet" href="assets/vendors/woocommerce/woocommerce.css">
+    <!-- Owl Carousel  CSS -->
+    <link rel="stylesheet" href="assets/vendors/owl/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/vendors/owl/assets/owl.theme.default.min.css">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <!-- <script src="./js/jquery-3.6.0.min.js"></script> -->
+    <!-- Swal -->
+
+</head>
 
 <section class="about-section section-padding about-2" id="alert">
     <div class="container">
@@ -72,9 +115,9 @@
                     icon: 'success',
                     title: response,
                     showConfirmButton: false,
-                    timer: 2000 
+                    timer: 2000
                 });
-                window.location.href= "log_reg";
+                window.location.href = "log_reg";
             },
             error: function (xhr, status, error) {
                 console.error("AJAX Error:", status, error);
@@ -82,4 +125,28 @@
         });
     });
 </script>
-<?php include("includes/footer.php"); ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="./core/action.js"></script>
+<!-- 
+    Essential Scripts
+    =====================================-->
+
+<!-- Main jQuery -->
+<script src="assets/vendors/jquery/jquery.js"></script>
+<!-- Bootstrap 4.5 -->
+<script src="assets/vendors/bootstrap/bootstrap.js"></script>
+<!-- Counterup -->
+<script src="assets/vendors/counterup/waypoint.js"></script>
+<script src="assets/vendors/counterup/jquery.counterup.min.js"></script>
+<script src="assets/vendors/jquery.isotope.js"></script>
+<script src="assets/vendors/imagesloaded.js"></script>
+<!--  Owlk Carousel-->
+<script src="assets/vendors/owl/owl.carousel.min.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

@@ -37,17 +37,8 @@ include('includes/login_header.php');
                   class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN
                 </button>
               </div>
-              <div class="my-2 d-flex justify-content-between align-items-center">
-                <div class="form-check">
-                  <label class="form-check-label text-muted">
-                    <input type="checkbox" class="form-check-input">
-                    Keep me signed in
-                  </label>
-                </div>
-                <a class="auth-link text-black" href="<?= $mainlink; ?>admin/forgotPassword">Forgot password?</a>
-              </div>
               <div class="text-center mt-4 fw-light">
-                Don't have an account? <a href="register.html" class="text-primary">Create</a>
+                <a class="auth-link text-black" href="<?= $mainlink; ?>admin/forgotPassword">Forgot password?</a>
               </div>
             </form>
           </div>

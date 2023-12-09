@@ -177,6 +177,18 @@ if ($fetch_user_contact_details_query) {
 
     // console.log(roleId);
     $(document).ready(function () {
+        $('form').submit(function (event) {
+            // Iterate through all required input fields
+            $('input[required]').each(function () {
+                // Check if the field is empty
+                if ($(this).val().trim() === '') {
+                    // Prevent form submission and display an error message (you can customize this part)
+                    alert('Please fill in all required fields.');
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
         // Get the quantity input element
         quantityInput = $('#quantity');
         userId = sessionStorage.getItem("roleId");
@@ -258,7 +270,7 @@ if ($fetch_user_contact_details_query) {
 
     $(document).ready(function () {
         updateCartCount();
-		updateWishlistCount();
+        updateWishlistCount();
     });
 
     function getCartItems() {
@@ -275,76 +287,76 @@ if ($fetch_user_contact_details_query) {
     // Wishlist
 
     $('.add_to_wishlist_button').click(function (e) {
-    e.preventDefault();
+        e.preventDefault();
 
-    var roleId = <?php echo json_encode($role_id); ?> || '';
-    var role = <?php echo json_encode($role); ?> || '';
+        var roleId = <?php echo json_encode($role_id); ?> || '';
+        var role = <?php echo json_encode($role); ?> || '';
 
-    if (roleId && role) {
-        var product_id = $(this).data('product-id');
-        var product_name = $(this).data('product-name');
-        var product_price = $(this).data('product-price');
-        var product_image = $(this).data('product-image');
+        if (roleId && role) {
+            var product_id = $(this).data('product-id');
+            var product_name = $(this).data('product-name');
+            var product_price = $(this).data('product-price');
+            var product_image = $(this).data('product-image');
 
-        var selectedQuantity = 1;
-        var wishlistItem = {
-            user_id: roleId,
-            id: product_id,
-            name: product_name,
-            price: product_price,
-            image: product_image,
-            role: role,
-            'add_to_wishlist_button': true,
-        };
+            var selectedQuantity = 1;
+            var wishlistItem = {
+                user_id: roleId,
+                id: product_id,
+                name: product_name,
+                price: product_price,
+                image: product_image,
+                role: role,
+                'add_to_wishlist_button': true,
+            };
 
+            $.ajax({
+                type: 'POST',
+                url: "./core/wishlistFunctionality.php",
+                data: wishlistItem,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+
+                    // Update wishlist count on success
+                    updateWishlistCount();
+                },
+                error: function (xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: "Please Login First",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    });
+
+    // Function to update wishlist count
+    function updateWishlistCount() {
+        // Make an AJAX request to get the updated wishlist count
         $.ajax({
-            type: 'POST',
-            url: "./core/wishlistFunctionality.php",
-            data: wishlistItem,
-            success: function (response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: response,
-                    showConfirmButton: false,
-                    timer: 2000
-                });
-
-                // Update wishlist count on success
-                updateWishlistCount();
+            type: 'GET',
+            url: './core/getWishlistCount.php',
+            data: {
+                userId: roleId,
+                role: role
+            },
+            success: function (count) {
+                // Update the HTML element with the new wishlist count
+                $('#wishlist-count-container').text(count);
             },
             error: function (xhr, status, error) {
                 console.error('AJAX Error:', status, error);
             }
         });
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: "Please Login First",
-            showConfirmButton: false,
-            timer: 2000
-        });
     }
-});
-
-// Function to update wishlist count
-function updateWishlistCount() {
-    // Make an AJAX request to get the updated wishlist count
-    $.ajax({
-        type: 'GET',
-        url: './core/getWishlistCount.php',
-		data:{
-			userId:roleId,
-			role: role
-		},
-        success: function (count) {
-            // Update the HTML element with the new wishlist count
-            $('#wishlist-count-container').text(count);
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX Error:', status, error);
-        }
-    });
-}
 
     // *************Script for login and register pages - validations ***********//
     //***********  script for eye- password show hide starts************//
@@ -382,6 +394,11 @@ function updateWishlistCount() {
 
     // ************showing the message alert script starts*************//
     document.addEventListener("DOMContentLoaded", function () {
+        var inputFields = document.querySelectorAll('input');
+
+        inputFields.forEach(function (input) {
+            input.setAttribute('required', true);
+        });
         var messageContainer = document.getElementById('message-container');
         var statusMessage = document.getElementById('status-message');
 
@@ -456,11 +473,11 @@ function updateWishlistCount() {
         if (selectedDate > currentDate) {
             errorText.textContent = 'Future dates are not allowed';
             document.getElementById("dateOfBirth").value = ""; // Reset the value
-        }else{
+        } else {
             errorText.textContent = '';
         }
     }
-    
+
     // *************Script for login and register pages - validations ends ***********//
 
 </script>

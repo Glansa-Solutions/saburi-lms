@@ -99,22 +99,22 @@ include('../core/listgrid.php');
                     <form class="forms-sample" id="entry_form" method="POST" action="../core/admin_functions.php">
                         <div class="form-group">
                             <label for="title">Email</label>
-                            <input type="email" id="emailInput" class="form-control" name="email"
+                            <input required type="email" id="emailInput" class="form-control" name="email"
                                 placeholder="Enter Email">
                             <span id="errorEmail" style="color: red;"></span>
-                            <input type="hidden" id="admin_name" name="admin_name" value=<?= $name; ?>>
+                            <input required type="hidden" id="admin_name" name="admin_name" value=<?= $name; ?>>
                         </div>
                         <div class="form-group">
                             <label for="image">phone Number</label>
-                            <input type="text" class="form-control" onkeypress="return isNumber(event)"
+                            <input required type="text" class="form-control" onkeypress="return isNumber(event)"
                                 oninput="validatePhoneNumber()" value="" id="phoneNumber" name="phone_no">
                             <span id="errorPhn" style="color: red;"></span>
                         </div>
-
+Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolorum facilis amet libero veritatis, modi ipsam corporis illo sunt, ad nobis vitae quis cumque eum magni id quam quo in?
                         <div class="form-group">
                             <label for="desc">Address</label>
                             <div name="editAddress">
-                                <textarea name="address" id="editAddress" class="mySummernote"></textarea>
+                                <textarea required name="address" id="editAddress" class="mySummernote"></textarea>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" id="insert_update"
@@ -141,7 +141,7 @@ include('../core/listgrid.php');
             <form action="../core/admin_functions.php" method="POST">
                 <div class="modal-body">
 
-                    <input type="hidden" id="delete_id" name="delete_id">
+                    <input required type="hidden" id="delete_id" name="delete_id">
                     Are you sure you want to delete this record?
                 </div>
                 <div class="modal-footer">
