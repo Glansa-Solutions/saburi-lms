@@ -485,7 +485,8 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
 
         function validateEmail() {
             var emailValue = emailInput.value.trim();
-            var commonDomainPattern = /^(.+)@(gmail\.com|yahoo\.com|yahoo\.co.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com)$/i;
+            var commonDomainPattern = /^(.+)@((?!.*\.{2})[a-zA-Z0-9-]+\.[a-zA-Z]{2,})(gmail\.com|yahoo\.com|yahoo\.co\.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com)$/i;
+
 
             if (emailValue === '') {
                 errorEmail.textContent = 'Email is required.';
