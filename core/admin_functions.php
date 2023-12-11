@@ -133,8 +133,10 @@ if (isset($_POST['login_admin'])) {
     $price = $_POST['price'];
     $summary = $_POST['Summary'];
     $desc = $_POST['description'];
-    $wyl = $_POST['wyl'];
-    $requirements = $_POST['req'];
+    $wyl = $_POST['learn'];
+    $requirements = $_POST['requirements'];
+    $duration = $_POST['durations'];
+    $tags = $_POST['tags'];
     // Handle image upload
     if (isset($_FILES['image'])) {
         $imageFile = $_FILES['image'];
@@ -159,7 +161,7 @@ if (isset($_POST['login_admin'])) {
         move_uploaded_file($videoFile['tmp_name'], 'upload/video/' . $videoFileName);
     }
 
-    $insert_course = mysqli_query($con, "INSERT INTO courses(topicID,subTopicId,courseName,courseCost,courseDesc,learn,summary,requirements,bannerImage,uploadfile,video) VALUES('$topic','$subtopic','$courseName','$price','$desc','$wyl','$summary','$requirements','$imageFileName','$uploadFileName','$videoFileName')");
+    $insert_course = mysqli_query($con, "INSERT INTO courses(topicID,subTopicId,courseName,courseCost,courseDesc,learn,duration,requirements,bannerImage,uploadfile,video,tag) VALUES('$topic','$subtopic','$courseName','$price','$desc','$wyl','$duration','$requirements','$imageFileName','$uploadFileName','$videoFileName','$tags')");
     // $insert_query = mysqli_query($con, "INSERT INTO courses(topicID ,subTopicId ,courseName,courseCost,bannerImage,uploadfile,video,courseDesc,learn,summary,requirements) VALUES('$topic','$subtopic','$courseName','$price','$imageFileName','$uploadFileName','$videoFileName','$desc','$wyl','$summary','$requirements')");
 
     if ($insert_course) {

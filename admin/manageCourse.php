@@ -58,23 +58,44 @@ include('../core/listgrid.php');
                                 <input type="number" class="form-control" name="price" placeholder="Enter Price">
                             </div>
                             <div class="form-group">
-                                <label for="image">Image</label>
-                                <input type="file" class="form-control-file" name="image" accept="image/*">
+                                <label for="courseName">Tags</label>
+                                <input type="text" class="form-control" name="tags"
+                                    placeholder="Enter tags for this course">
                             </div>
                             <div class="form-group">
-                                <label for="uploadfile">Upload File</label>
-                                <input type="file" class="form-control-file" name="uploadfile">
-                            </div>
-                            <div class="form-group">
-                                <label for="image">Upload Video</label>
-                                <input type="file" class="form-control-file" name="video" accept="video/*">
+                                <label for="banner_desc">What will you learn?</label>
+                                <div id="editor">
+                                    <textarea name="learn" class="mySummernote">Welcome to Saburi LMS</textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
+                                <label for="image">Image</label>
+                                <input type="file" class="form-control" name="image" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <label for="uploadfile">Upload File</label>
+                                <input type="file" class="form-control" name="uploadfile">
+                            </div>
+                            <div class="form-group">
+                                <label for="image">Upload Video</label>
+                                <input type="file" class="form-control" name="video" accept="video/*">
+                            </div>
+                            <div class="form-group">
+                                <label for="courseName">Requirements</label>
+                                <input type="text" class="form-control" name="requirements"
+                                    placeholder="Enter what is required for learning this course">
+                            </div>
+                            <div class="form-group">
+                                <label for="courseName">Course Duration</label>
+                                <input type="text" class="form-control" name="durations"
+                                    placeholder="Enter course duration in days">
+                            </div>
+                            <div class="form-group">
                                 <label for="banner_desc">Description</label>
                                 <div id="editor">
-                                    <textarea  name="desc" class="mySummernote">Welcome to Saburi LMS</textarea>
+                                    <textarea name="description" class="mySummernote">Welcome to Saburi LMS</textarea>
                                 </div>
                             </div>
 
@@ -150,7 +171,8 @@ include('../core/listgrid.php');
                                                 <?= $video; ?>
                                             </td>
                                             <td>
-                                                <button type="submit" class="btn btn-primary me-2 p-2">Edit</button>
+                                                <button type="submit" class="btn btn-primary me-2 p-2" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal" data-id="<?= $id ?>">Edit</button>
                                                 <button class="btn btn-danger p-2">Delete</button>
                                             </td>
                                         </tr>
@@ -166,10 +188,138 @@ include('../core/listgrid.php');
                     </div>
                 </div>
             </div>
+            <!-- Edit Modal -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editBlogModalLabel">Edit Courses</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="POST" action="./functions/functions.php" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <!-- Form for editing the blog content -->
+
+                                <input type="hidden" id="course_id" name="course_id">
+                                <div class="row">
+                                    <div class="col-md-12 grid-margin stretch-card ">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <!-- <h4 class="card-title">Add Courses Details</h4> -->
+                                                <!-- <form class="forms-sample row" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="topic"> Topic Name</label>
+                                                            <input type="hidden" class="form-control" name="name"
+                                                                placeholder="Enter Name" id="editrow">
+                                                            <select class="form-control" name="topic" id="topic">
+
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="courseName">Course Name</label>
+                                                            <input type="text" class="form-control" id="courseName"
+                                                                name="courseName" placeholder="Enter Course Name">
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="image">Image</label>
+                                                            <input type="file" class="form-control-file" id="image"
+                                                                name="image" accept="image/*">
+                                                            <input type="hidden" id="oldImage" name="oldImage"
+                                                                width="100" height="100" />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="editTitle">Existing Image</label><br>
+                                                            <!-- <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
+                                                            <img src="" id="output" name="output" width="100"
+                                                                height="100" />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="image">Upload Video</label>
+                                                            <input type="file" class="form-control-file" id="video"
+                                                                name="video" accept="video/*">
+                                                            <input type="hidden" id="oldImage" name="oldImage"
+                                                                width="100" height="100" />
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label for="editTitle">Existing Image</label><br>
+                                                            <!-- <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
+                                                            <img src="" id="output" name="output" width="100"
+                                                                height="100" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="subtopic">Sub Topic Name</label>
+                                                            <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
+                                                            <select class="form-control" name="subtopic" id="subtopic">
+                                                                <option> select subtopic name</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="price">Price</label>
+                                                            <input type="number" class="form-control" id="price"
+                                                                name="price" placeholder="Enter Price">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="uploadfile">Upload File</label>
+                                                            <input type="file" class="form-control-file" id="uploadfile"
+                                                                name="uploadfile">
+                                                            <input type="hidden" id="oldImage" name="oldImage"
+                                                                width="100" height="100" />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="editTitle">Existing Image</label><br>
+                                                            <!-- <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
+                                                            <img src="" id="output" name="output" width="100"
+                                                                height="100" />
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="banner_desc">Description</label>
+                                                            <!-- <textarea class="richtext" name="desc"> -->
+                                                            <textarea id="inputTextLearn" class="richtext" rows="4"
+                                                                cols="50" placeholder="Enter a value"></textarea>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary update_sb_tpc" name="update_sb_tpc">Update
+                                    Changes</button>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Edit Modal end -->
         </div>
     </div>
 </div>
 <!-- Main Content ends -->
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
