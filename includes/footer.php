@@ -34,12 +34,12 @@ if ($fetch_user_contact_details_query) {
             </div>
             <div class="col-lg-6">
                 <div class="subscribe-form">
-                    <!-- <form action="" method="POST"> -->
+                    <form action="./core/allmailfun.php" method="POST">
                     <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
                     <input type="hidden" class="form-control" name="page" id="page" value="<?= $filename ?>">
                     <button class="btn btn-main" name="send_email" id="submit_nl">Send Newsletter<i
                             class="fa fa-angle-right ml-2"></i></button>
-                    <!-- </form> -->
+                    </form>
                     <script>
                         $(document).ready(function () {
                             $('#submit_nl').on('click', function () {
