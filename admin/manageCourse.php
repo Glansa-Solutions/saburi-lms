@@ -19,8 +19,8 @@ include('../core/listgrid.php');
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="topic"> Topic Name</label>
-                                <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                <select class="form-control" name="topic" id="topic">
+                                <!-- <input required type="text" class="form-control" name="name" placeholder="Enter Name"> -->
+                                <select required class="form-control" name="topic" id="topic">
                                     <option value=""> Select Topic Name</option>
                                     <?php
 
@@ -43,23 +43,23 @@ include('../core/listgrid.php');
                             </div>
                             <div class="form-group">
                                 <label for="subtopic">Sub Topic Name</label>
-                                <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                <select class="form-control" name="subtopic" id="subtopic">
+                                <!-- <input required type="text" class="form-control" name="name" placeholder="Enter Name"> -->
+                                <select required class="form-control" name="subtopic" id="subtopic">
                                     <option> select subtopic name</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Course Name</label>
-                                <input type="text" class="form-control" name="courseName"
+                                <input required type="text" class="form-control" name="courseName"
                                     placeholder="Enter Course Name">
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="number" class="form-control" name="price" placeholder="Enter Price">
+                                <input required type="number" class="form-control" name="price" placeholder="Enter Price">
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Tags</label>
-                                <input type="text" class="form-control" name="tags"
+                                <input required type="text" class="form-control" name="tags"
                                     placeholder="Enter tags for this course">
                             </div>
                             <div class="form-group">
@@ -72,24 +72,24 @@ include('../core/listgrid.php');
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="image">Image</label>
-                                <input type="file" class="form-control" name="image" accept="image/*">
+                                <input required type="file" class="form-control" name="image" accept="image/*">
                             </div>
                             <div class="form-group">
                                 <label for="uploadfile">Upload File</label>
-                                <input type="file" class="form-control" name="uploadfile">
+                                <input required type="file" class="form-control" name="uploadfile">
                             </div>
                             <div class="form-group">
                                 <label for="image">Upload Video</label>
-                                <input type="file" class="form-control" name="video" accept="video/*">
+                                <input required type="file" class="form-control" name="video" accept="video/*">
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Requirements</label>
-                                <input type="text" class="form-control" name="requirements"
+                                <input required type="text" class="form-control" name="requirements"
                                     placeholder="Enter what is required for learning this course">
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Course Duration</label>
-                                <input type="text" class="form-control" name="durations"
+                                <input required type="text" class="form-control" name="durations"
                                     placeholder="Enter course duration in days">
                             </div>
                             <div class="form-group">
@@ -203,7 +203,7 @@ include('../core/listgrid.php');
                             <div class="modal-body">
                                 <!-- Form for editing the blog content -->
 
-                                <input type="hidden" id="course_id" name="course_id">
+                                <input required type="hidden" id="course_id" name="course_id">
                                 <div class="row">
                                     <div class="col-md-12 grid-margin stretch-card ">
                                         <div class="card">
@@ -214,46 +214,46 @@ include('../core/listgrid.php');
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="topic"> Topic Name</label>
-                                                            <input type="hidden" class="form-control" name="name"
+                                                            <input required type="hidden" class="form-control" name="name"
                                                                 placeholder="Enter Name" id="editrow">
-                                                            <select class="form-control" name="topic" id="topic">
+                                                            <select required class="form-control" name="topic" id="topic">
 
                                                             </select>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
-                                                            <input type="text" class="form-control" id="courseName"
+                                                            <input required type="text" class="form-control" id="courseName"
                                                                 name="courseName" placeholder="Enter Course Name">
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="image">Image</label>
-                                                            <input type="file" class="form-control-file" id="image"
+                                                            <input required type="file" class="form-control-file" id="image"
                                                                 name="image" accept="image/*">
-                                                            <input type="hidden" id="oldImage" name="oldImage"
+                                                            <input required type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="editTitle">Existing Image</label><br>
-                                                            <!-- <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
+                                                            <!-- <input required type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
                                                             <img src="" id="output" name="output" width="100"
                                                                 height="100" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="image">Upload Video</label>
-                                                            <input type="file" class="form-control-file" id="video"
+                                                            <input required type="file" class="form-control-file" id="video"
                                                                 name="video" accept="video/*">
-                                                            <input type="hidden" id="oldImage" name="oldImage"
+                                                            <input required type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />
                                                         </div>
 
 
                                                         <div class="form-group">
                                                             <label for="editTitle">Existing Image</label><br>
-                                                            <!-- <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
+                                                            <!-- <input required type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
                                                             <img src="" id="output" name="output" width="100"
                                                                 height="100" />
                                                         </div>
@@ -261,27 +261,27 @@ include('../core/listgrid.php');
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="subtopic">Sub Topic Name</label>
-                                                            <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                                            <select class="form-control" name="subtopic" id="subtopic">
+                                                            <!-- <input required type="text" class="form-control" name="name" placeholder="Enter Name"> -->
+                                                            <select required class="form-control" name="subtopic" id="subtopic">
                                                                 <option> select subtopic name</option>
                                                             </select>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="price">Price</label>
-                                                            <input type="number" class="form-control" id="price"
+                                                            <input required type="number" class="form-control" id="price"
                                                                 name="price" placeholder="Enter Price">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Upload File</label>
-                                                            <input type="file" class="form-control-file" id="uploadfile"
+                                                            <input required type="file" class="form-control-file" id="uploadfile"
                                                                 name="uploadfile">
-                                                            <input type="hidden" id="oldImage" name="oldImage"
+                                                            <input required type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="editTitle">Existing Image</label><br>
-                                                            <!-- <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
+                                                            <!-- <input required type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
                                                             <img src="" id="output" name="output" width="100"
                                                                 height="100" />
                                                         </div>
