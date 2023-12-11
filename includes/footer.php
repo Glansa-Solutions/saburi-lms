@@ -34,12 +34,12 @@ if ($fetch_user_contact_details_query) {
             </div>
             <div class="col-lg-6">
                 <div class="subscribe-form">
-                    <!-- <form action="" method="POST"> -->
+                    <form action="./core/allmailfun.php" method="POST">
                     <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
                     <input type="hidden" class="form-control" name="page" id="page" value="<?= $filename ?>">
                     <button class="btn btn-main" name="send_email" id="submit_nl">Send Newsletter<i
                             class="fa fa-angle-right ml-2"></i></button>
-                    <!-- </form> -->
+                    </form>
                     <script>
                         $(document).ready(function () {
                             $('#submit_nl').on('click', function () {
@@ -177,18 +177,18 @@ if ($fetch_user_contact_details_query) {
 
     // console.log(roleId);
     $(document).ready(function () {
-        $('form').submit(function (event) {
-            // Iterate through all required input fields
-            $('input[required]').each(function () {
-                // Check if the field is empty
-                if ($(this).val().trim() === '') {
-                    // Prevent form submission and display an error message (you can customize this part)
-                    alert('Please fill in all required fields.');
-                    event.preventDefault();
-                    return false;
-                }
-            });
-        });
+        // $('form').submit(function (event) {
+        //     // Iterate through all required input fields
+        //     $('input[required]').each(function () {
+        //         // Check if the field is empty
+        //         if ($(this).val().trim() === '') {
+        //             // Prevent form submission and display an error message (you can customize this part)
+        //             alert('Please fill in all required fields.');
+        //             event.preventDefault();
+        //             return false;
+        //         }
+        //     });
+        // });
         // Get the quantity input element
         quantityInput = $('#quantity');
         userId = sessionStorage.getItem("roleId");

@@ -26,7 +26,7 @@ $result = mysqli_query($con, $query);
 
 
 if ($result) {
-    $options = '<option>select subtopic name</option>';
+    $options = '<option value="">select subtopic name</option>';
     while ($row = mysqli_fetch_assoc($result)) {
         $options .= "<option value='{$row['Id']}'>{$row['subtopicName']}</option>";
     }

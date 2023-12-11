@@ -64,7 +64,7 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="questions">Write your question here</label>
-                                        <input type="text" class="form-control" name="question" id="question">
+                                        <input type="text" class="form-control" name="question" id="question" required>
                                         <input type="hidden" name="assessment_id" 
                                         value="<?= $assessmentId; ?>" id="">
                                     </div>
@@ -73,32 +73,32 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="questions">Write Option A</label>
-                                        <input type="text" class="form-control" name="optionA" id="optionA">
+                                        <input type="text" class="form-control" name="optionA" id="optionA" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="questions">Write Option B</label>
-                                        <input type="text" class="form-control" name="optionB" id="optionB">
+                                        <input type="text" class="form-control" name="optionB" id="optionB" required>
                                     </div>
                                 </div>    
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="questions">Write Option C</label>
-                                        <input type="text" class="form-control" name="optionC" id="optionC">
+                                        <input type="text" class="form-control" name="optionC" id="optionC" required>
                                     </div>  
                                 </div>    
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="questions">Write Option D</label>
-                                        <input type="text" class="form-control" name="optionD" id="optionD">
+                                        <input type="text" class="form-control" name="optionD" id="optionD" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="questions">Select Correct Answer</label>
-                                        <select class="form-control" name="correctAns">
-                                            <option>Choose the correct Answer</option>
+                                        <select class="form-control" name="correctAns" required>
+                                            <option value="">Choose the correct Answer</option>
                                             <option value="a">Option A</option>
                                             <option value="b">Option B</option>
                                             <option value="c">Option C</option>

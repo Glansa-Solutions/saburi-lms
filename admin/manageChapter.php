@@ -87,7 +87,7 @@ include('../core/listgrid.php');
                                 <div class="form-group">
                                     <label for="topic"> Topic Name</label>
                                     <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                    <select class="form-control" class="topic" name="topic" id="topic">
+                                    <select class="form-control" class="topic" name="topic" id="topic" required>
                                         <option value=""> Select Topic Name</option>
                                         <?php
                                         if ($fetch_list_topic_query) {

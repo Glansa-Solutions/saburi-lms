@@ -47,8 +47,8 @@ $result = $con->query($sql);
                     <h4 class="card-title">Career Page</h4>
                       <div class="form-group">
                         <label for="categorySelect">Category</label>   
-                        <select class="form-control" id="categorySelect" name="category">
-                            <option>Select Category</option>
+                        <select class="form-control" id="categorySelect" name="category" required>
+                            <option value="">Select Category</option>
                         <?php
                                 while ($row = $result->fetch_assoc()) {
                                     echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
@@ -62,17 +62,17 @@ $result = $con->query($sql);
 
                         <div class="form-group">
                             <label for="title">Designation</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Title ">
+                            <input type="text" class="form-control" name="title" placeholder="Enter Title " required>
                         </div>
                         <div class="form-group">
                             <label for="exp">Years of Experience</label>
                             <input type="number" class="form-control" name="exp"
-                                placeholder="Enter Years of Experience">
+                                placeholder="Enter Years of Experience" required>
                         </div>
                         <div class="form-group">
                             <label for="desc">Description</label>
                             <div id="editor">
-                            <textarea class="mySummernote" name="desc">
+                            <textarea class="mySummernote" name="desc" required>
                             </textarea>
                             </div>
                         </div>

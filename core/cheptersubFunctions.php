@@ -8,7 +8,7 @@ $courseQuery = "SELECT id, courseName FROM courses WHERE subTopicId = $subTopicI
 $courseList = mysqli_query($con, $courseQuery);
 
 if ($courseList) {
-    $courseoptions = '<option>select subtopic name</option>';
+    $courseoptions = '<option value="">select subtopic name</option>';
     while ($row = mysqli_fetch_assoc($courseList)) {
         $courseoptions .= "<option value='{$row['id']}'>{$row['courseName']}</option>";
     }

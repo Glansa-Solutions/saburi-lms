@@ -108,7 +108,7 @@ include('../core/listgrid.php');
 
                             <label for="desc">Your Description Here</label>
                             <div name="editAddress">
-                                <textarea name="desc" id="editAddress" class="mySummernote"></textarea>
+                                <textarea name="desc" id="editAddress" class="mySummernote" required></textarea>
                             </div>
                         </div>
 
