@@ -110,7 +110,6 @@ include('../core/listgrid.php');
                                 oninput="validatePhoneNumber()" value="" id="phoneNumber" name="phone_no">
                             <span id="errorPhn" style="color: red;"></span>
                         </div>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates dolorum facilis amet libero veritatis, modi ipsam corporis illo sunt, ad nobis vitae quis cumque eum magni id quam quo in?
                         <div class="form-group">
                             <label for="desc">Address</label>
                             <div name="editAddress">
