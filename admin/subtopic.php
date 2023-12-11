@@ -14,7 +14,7 @@ include('../core/listgrid.php');
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Topic Name</label>
-                                <select class="form-control" name="topic">
+                                <select class="form-control" name="topic" required>
                                     <option value=""> Select Topic Name</option>
                                     <?php
                                     
@@ -36,7 +36,7 @@ include('../core/listgrid.php');
                             </div>
                             <div class="form-group">
                                 <label for="name"> Sub Topic Name</label>
-                                <input type="text" class="form-control" name="subtopic" placeholder="Enter Sub Topic Name">
+                                <input type="text" class="form-control" name="subtopic" placeholder="Enter Sub Topic Name" required>
                             </div>
                         </div>
                         <div>
@@ -109,13 +109,14 @@ include('../core/listgrid.php');
 
                                                 <label for="name">Topic Name</label>
                                                 <input type="hidden" class="form-control" name="name" placeholder="Enter Name" id="editrow">
-                                                <select class="form-control" name="topic" id="topic">
+                                                <select class="form-control" name="topic" id="topic" required>
+                                                <option value=""> Select Topic Name</option>
 
                                                 </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="details">Sub Topic Name</label>
-                                                <input type="text" class="form-control" name="subtopic" id="subtopic_name">
+                                                <input type="text" class="form-control" name="subtopic" id="subtopic_name" required>
                                             </div>
 
                                         </div>
@@ -173,7 +174,7 @@ include('../core/listgrid.php');
             console.log(rowid);
 
             $.ajax({
-                url: '../core/edit_subTopic.php', // Replace with the actual server-side script
+                url: '../core/edit_subTopic.php', 
                 data: {
                     sub_topic_id: rowid
                 },
@@ -185,7 +186,7 @@ include('../core/listgrid.php');
                 }
             });
             $.ajax({
-                url: '../core/subTopic_modalData.php', // Replace with the actual server-side script
+                url: '../core/subTopic_modalData.php', 
                 data: {
                     sub_topic_name: rowid
                 },
@@ -197,15 +198,61 @@ include('../core/listgrid.php');
                     // $('#subtopic_name').html(data);
                 }
             });
-
+ 
 
         });
-        $('.update_sb_tpc').on('click', function() {
-            var sb_tp_id = $('#editrow').val();
-            var tp_id = $('#topic').val();
-            var sub_tp_name = $('#subtopic_name').val();
+        // $('.update_sb_tpc').on('click', function() {
+        //     var sb_tp_id = $('#editrow').val();
+        //     var tp_id = $('#topic').val();
+        //     var sub_tp_name = $('#subtopic_name').val();
+            
+        //     console.log("Topic Name: " + tp_id + ", Sub Topic Name: " + sub_tp_name);
+        //     $.ajax({
+        //         url: '../core/subTopic_modalData.php',
+        //         data: {
+        //             updated_subtopic_name: sub_tp_name,
+        //             updated_topic_id: tp_id,
+        //             sb_tp_id: sb_tp_id
+        //         },
+        //         method: 'POST',
+        //         success: function(data) {
+        //             console.log("Response from server:", data);
 
-            console.log("Topic Name: " + tp_id + ", Sub Topic Name: " + sub_tp_name);
+        //             // header('location:subtopic')
+
+        //             // Reload the page after a successful update
+
+        //             // location.href = location.href + '?refresh=' + new Date().getTime();
+        //             window.location.reload();
+
+        //         }
+        //     });
+        // });
+
+        $('.update_sb_tpc').on('click', function() {
+        // Get values from the inputs
+        var sb_tp_id = $('#editrow').val();
+        var tp_id = $('#topic').val();
+        var sub_tp_name = $('#subtopic_name').val();
+
+        // Clear existing validation messages
+        $('.validation-message').remove();
+
+        // Check if the Topic Name is empty
+        if (tp_id === "") {
+            // Display validation message below the Topic Name input
+            $('#topic').after('<span class="validation-message text-danger">Topic Name is required.</span>');
+        }
+
+        // Check if the Sub Topic Name is empty
+        if (sub_tp_name === "") {
+            // Display validation message below the Sub Topic Name input
+            $('#subtopic_name').after('<span class="validation-message text-danger">Sub Topic Name is required.</span>');
+        }
+
+        // Check if both Topic Name and Sub Topic Name are not empty
+        if (tp_id !== "" && sub_tp_name !== "") {
+            // Proceed with the AJAX request for updating changes
             $.ajax({
                 url: '../core/subTopic_modalData.php',
                 data: {
@@ -216,17 +263,12 @@ include('../core/listgrid.php');
                 method: 'POST',
                 success: function(data) {
                     console.log("Response from server:", data);
-
-                    // header('location:subtopic')
-
                     // Reload the page after a successful update
-
-                    // location.href = location.href + '?refresh=' + new Date().getTime();
                     window.location.reload();
-
                 }
             });
-        });
+        }
+    });
 
     });
 </script>

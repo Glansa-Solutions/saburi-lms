@@ -43,7 +43,7 @@ if ($fetch_user_contact_details_query) {
                     <script>
                         $(document).ready(function () {
                             $('#submit_nl').on('click', function () {
-                                var email_id_nl = ('#email').val();
+                                var email_id_nl = $('#email').val();
                                 alert(email_id_nl);
                             });
                         });
