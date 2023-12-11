@@ -177,18 +177,18 @@ if ($fetch_user_contact_details_query) {
 
     // console.log(roleId);
     $(document).ready(function () {
-        $('form').submit(function (event) {
-            // Iterate through all required input fields
-            $('input[required]').each(function () {
-                // Check if the field is empty
-                if ($(this).val().trim() === '') {
-                    // Prevent form submission and display an error message (you can customize this part)
-                    alert('Please fill in all required fields.');
-                    event.preventDefault();
-                    return false;
-                }
-            });
-        });
+        // $('form').submit(function (event) {
+        //     // Iterate through all required input fields
+        //     $('input[required]').each(function () {
+        //         // Check if the field is empty
+        //         if ($(this).val().trim() === '') {
+        //             // Prevent form submission and display an error message (you can customize this part)
+        //             alert('Please fill in all required fields.');
+        //             event.preventDefault();
+        //             return false;
+        //         }
+        //     });
+        // });
         // Get the quantity input element
         quantityInput = $('#quantity');
         userId = sessionStorage.getItem("roleId");
