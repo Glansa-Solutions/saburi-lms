@@ -42,7 +42,7 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
         <div class="col-md-12 grid-margin stretch-card ">
 
             <div class="card">
-
+            <h4 class="card-title p-3">Manage Questions</h4>
                 <div class="card-body">
                     <form action="../core/admin_functions.php" class=" " method="POST" enctype="multipart/form-data">
                         
