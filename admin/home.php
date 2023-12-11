@@ -116,7 +116,7 @@ include('../core/listgrid.php');
                                 <label for="banner_image">Current Image</label>
                                 <div class="col-md-12">
                                     <div class="container">
-                                        <img id="dynamicImage" class="img-fluid w-50" alt="Dynamic Image">
+                                        <img id="dynamicImage" class="img-fluid w-50" alt="Dynamic Image" required>
                                     </div>
                                 </div>
                             </div>
