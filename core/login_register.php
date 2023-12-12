@@ -328,9 +328,21 @@ elseif (isset($_POST['registerCompany'])) {
             </html>";
             $mail->send();
             // header('location: ');
-            header("location: sessions.php?login_id=$insertedId");
-            echo 'Message has been sent';
-            echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
+            echo '<script>
+                    setTimeout(function() {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "You have successfully registered. Kindly check your registered email for further details",
+                        }).then(function(){
+                            window.location.href = "sessions.php?login_id=' . $insertedId . '";
+                        });
+                    }, 100);
+                </script>';
+
+            // echo 'Message has been sent';
+            // echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

@@ -162,7 +162,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Select Country&nbsp;<span class="required">*</span></label>
                                             <select class="form-control" name="country" class='countryList' id="countryList"
                                                 required>
-                                                <option>Choose Country..</option>
+                                                <option value="">Choose Country..</option>
                                                 <!-- <option> -->
                                                 <?php
                                                 $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");
