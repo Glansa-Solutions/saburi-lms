@@ -13,7 +13,7 @@ include('../core/listgrid.php');
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Topic Name</label>
-                                <input type="text" class="form-control" name="topic" placeholder="Enter Topic Name">
+                                <input type="text" class="form-control" name="topic" placeholder="Enter Topic Name" required>
                             </div>
                         </div>
                         <div>
@@ -88,7 +88,7 @@ include('../core/listgrid.php');
                     <input type ="hidden" id="topicId" name="topicId">
                       <div class="form-group">
                         <label for="editTitle">Topic Name</label>
-                        <input type="text" class="form-control" id="topic_name" name="topic_name">
+                        <input type="text" class="form-control" id="topic_name" name="topic_name" required>
                     </div>
                     
                 
