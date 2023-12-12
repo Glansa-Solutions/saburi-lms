@@ -532,17 +532,31 @@ if (isset($_POST['delete_career'])) {
     $cvpath = '';
     if (isset($_FILES['cv'])) {
         $imageFile = $_FILES['cv'];
-        $cvpath = '../assets/upload/' . $imageFile['name'];
+        $cvpath = '../uploads/' . $imageFile['name'];
         // Process and move the image file to your desired location
         move_uploaded_file($imageFile['tmp_name'], $cvpath);
     }
+
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
 
     // Insert data into the database
     $insertQuery = "INSERT INTO careersapplications (Name, Phone, Email, Experience, Attachment, CareerId,CreatedOn) 
                     VALUES ('$name', '$phone', '$email', '$exp', '$cvpath', '$careerId',NOW())";
 
     if (mysqli_query($con, $insertQuery)) {
-        header("location: $mainlink" . "career");
+        echo '<script>
+        var mainlink = "' . $mainlink . '";
+        setTimeout(function() {
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Inserted successfully, and an email has been sent.",
+            }).then(function(){
+                window.location.href = mainlink + "career";
+            });
+        }, 100);
+      </script>';
+
 
     } else {
         echo "failed";

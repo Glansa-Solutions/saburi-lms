@@ -7,6 +7,8 @@ use PHPMailer\PHPMailer\Exception;
 // $con = mysqli_connect($host, $username, $password, $db);
 // Fetch CountryList
 
+echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
+
 $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");
 // $countryId = [];
 if (isset($_GET['selectedCountryId'])) {
@@ -92,7 +94,7 @@ if (isset($_POST['registerCompany'])) {
         require("../assets/vendors/PHPMailer/Exception.php");
         $mail = new PHPMailer(true);
 
-        echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
+        
 
         try {
             //Server settings
@@ -118,7 +120,7 @@ if (isset($_POST['registerCompany'])) {
                         Swal.fire({
                             icon: "success",
                             title: "Success!",
-                            text: "Inserted successfully, and an email has been sent.",
+                            text: "Successfully applied for job",
                         }).then(function(){
                             window.location.href = "../contact";
                         });
@@ -142,8 +144,22 @@ if (isset($_POST['registerCompany'])) {
     $insert_query = mysqli_query($con, "INSERT INTO newsletter(email,created_on) VALUES('$email','$currentDate')");
 
     if ($insert_query) {
-        echo json_encode("Thank you for subscribing Saburi-LMS");
-        header("location: ../$page_name");
+        echo '<script>
+        var mainlink = "' . $page_name . '";
+        setTimeout(function() {
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: "Thank you for subscribing to Saburi-LMS. Our team will contact you soon.",
+            }).then(function(){
+                window.location.href = "../" + mainlink;
+            });
+        }, 100);
+      </script>';
+
+
+        // echo json_encode("Thank you for subscribing Saburi-LMS");
+        // header("location: ../$page_name");
     } else {
         echo "Failed to insert data.";
     }

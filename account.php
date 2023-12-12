@@ -335,7 +335,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Email&nbsp;<span class="required">*</span></label>
                                             <input type="email"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="email" id="emailInput" autocomplete="password" value="" required>
+                                                name="email" id="email" autocomplete="password" value="" required>
                                             <span id="errorEmail" style="color: red;"></span>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
