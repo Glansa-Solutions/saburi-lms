@@ -353,7 +353,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                             $wishlistcount = mysqli_fetch_array($wishlist);
                                             ?>
                                             <span id="wishlist-count">
-                                                <?= $wishlistcount['count'] ?>
+                                                
                                             </span>
                                         <?php } ?>
                                     </span>

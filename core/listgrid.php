@@ -55,7 +55,7 @@ $fetch_list_students_query = mysqli_query($con, "SELECT * FROM students where is
 $categoryQuery = mysqli_query($con, "SELECT * FROM careercategory");
 $careerQuery = mysqli_query($con, "SELECT * FROM careers where isActive=1");
 $fetch_list_query = mysqli_query($con, "SELECT * FROM users where IsActive = 1");
-$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where status=1");
+$fetch_user_contact_query = mysqli_query($con, "SELECT * FROM contact where isActive = 1");
 $fetch_user_contact_details_query = mysqli_query($con, "SELECT * FROM contact_details where isActive=1");
 $fetch_user_newsletter_query = mysqli_query($con, "SELECT * FROM newsletter");
 

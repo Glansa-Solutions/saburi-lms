@@ -35,10 +35,10 @@ if ($fetch_user_contact_details_query) {
             <div class="col-lg-6">
                 <div class="subscribe-form">
                     <form action="./core/allmailfun.php" method="POST">
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
-                    <input type="hidden" class="form-control" name="page" id="page" value="<?= $filename ?>">
-                    <button class="btn btn-main" name="send_email" id="submit_nl">Send Newsletter<i
-                            class="fa fa-angle-right ml-2"></i></button>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email Address">
+                        <input type="hidden" class="form-control" name="page" id="page" value="<?= $filename ?>">
+                        <button class="btn btn-main" name="send_email" id="submit_nl">Send Newsletter<i
+                                class="fa fa-angle-right ml-2"></i></button>
                     </form>
                     <script>
                         $(document).ready(function () {
@@ -286,11 +286,44 @@ if ($fetch_user_contact_details_query) {
 
     // Wishlist
 
+   // Declare roleId and role globally so that they can be accessed in other functions
+   var roleId = <?php echo json_encode($role_id); ?> || '';
+var role = <?php echo json_encode($role); ?> || '';
+
+// Function to update wishlist count
+function updateWishlistCount(roleId, role) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: 'GET',
+            url: 'core/getWishlistCount.php',
+            data: {
+                userId: encodeURIComponent(roleId),
+                role: encodeURIComponent(role)
+            },
+            success: function (response) {
+                var responseObject = JSON.parse(response);
+                var count = responseObject.count || 0;
+                console.log('updateWishlistCount - Response:', response);
+                $('#wishlist-count-container').text(count);
+                $('#wishlist-count').text(count);
+                resolve(); // Resolve the promise
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                reject(error); // Reject the promise
+            }
+        });
+    });
+}
+
+// Document ready function
+$(document).ready(function () {
+    // Call the updateWishlistCount function when the page loads
+    updateWishlistCount(roleId, role);
+
+    // Add to wishlist button click event
     $('.add_to_wishlist_button').click(function (e) {
         e.preventDefault();
-
-        var roleId = <?php echo json_encode($role_id); ?> || '';
-        var role = <?php echo json_encode($role); ?> || '';
 
         if (roleId && role) {
             var product_id = $(this).data('product-id');
@@ -321,8 +354,10 @@ if ($fetch_user_contact_details_query) {
                         timer: 2000
                     });
 
-                    // Update wishlist count on success
-                    updateWishlistCount();
+                    // Chain the promise after the AJAX request
+                    updateWishlistCount(roleId, role).then(function () {
+                        // Code to execute after the wishlist count is updated
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX Error:', status, error);
@@ -337,26 +372,13 @@ if ($fetch_user_contact_details_query) {
             });
         }
     });
+});
 
-    // Function to update wishlist count
-    function updateWishlistCount() {
-        // Make an AJAX request to get the updated wishlist count
-        $.ajax({
-            type: 'GET',
-            url: './core/getWishlistCount.php',
-            data: {
-                userId: roleId,
-                role: role
-            },
-            success: function (count) {
-                // Update the HTML element with the new wishlist count
-                $('#wishlist-count-container').text(count);
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-            }
-        });
-    }
+
+
+
+    // ... rest of your JavaScript code
+
 
     // *************Script for login and register pages - validations ***********//
     //***********  script for eye- password show hide starts************//
