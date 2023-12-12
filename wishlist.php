@@ -3,9 +3,9 @@ include("includes/header.php");
 
 if (isset($_SESSION['role_id'])) {
     $role_id = $_SESSION['role_id'];
-	$role = $_SESSION['role'];
-}else{
-    $role="";
+    $role = $_SESSION['role'];
+} else {
+    $role = "";
 }
 ?>
 <!--search overlay start-->
@@ -71,57 +71,81 @@ if (isset($_SESSION['role_id'])) {
                                                 <div class="conainter">
                                                     <div class="col-lg-12 d-flex">
                                                         <div class="col-md-4 justify-content-center align-items-center">
-                                                            
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <form class="woocommerce-cart-form" action="" method="">
-                                        <div class="wishlist-card row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-                                                    <?php
-                                                        if ($query_fetch_wishlist) {
-                                                            while ($row = mysqli_fetch_assoc($query_fetch_wishlist)) {
-                                                                $id = $row['id'];
-                                                                $userId = $row['userId'];
-                                                                $role = $row['role'];
-                                                                $courseId = $row['courseId'];
-                                                                $courseName = $row['courseName'];
-                                                                $price = $row['price'];
-                                                                $image = $row['image'];
-                                                    ?>
-                                                    <div class="col">
-                                                        <div class="card">
-                                                            <img src="./uploads/images/<?= $image ?>" class="card-img-top" alt="<?= $courseName ?>">
-                                                            <div class="card-body">
-                                                                <div class="bi bi-cross remove" data-id="<?= $id ?>"></div>
-                                                                <h5 class="card-title"><?= $courseName ?></h5>
-                                                                <p class="card-text">Price: &#8377; <?= $price ?></p>
-                                                            </div>
-                                                            <div class="card-footer">
-                                                                <a href="#" class="btn btn-main btn-block move_to_cart add_to_cart_button"
-                                                                    data-product-id="<?= $courseId ?>" data-product-name="<?= $courseName ?>"
-                                                                    data-product-price="<?= $price ?>" data-product-image="<?= $image ?>" data-id="<?= $id ?>">
-                                                                    Add To Cart
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <?php
+                                            <form class="woocommerce-cart-form" action="" method="">
+                                                <div class="container">
+                                                    <div
+                                                        class="wishlist-card row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                                                        <?php
+                                                        if ($role && $role != "" && $role_id && $role_id != "") {
+                                                            // User is logged in, display wishlist data
+                                                            if ($query_fetch_wishlist) {
+                                                                while ($row = mysqli_fetch_assoc($query_fetch_wishlist)) {
+                                                                    $id = $row['id'];
+                                                                    $userId = $row['userId'];
+                                                                    $role = $row['role'];
+                                                                    $courseId = $row['courseId'];
+                                                                    $courseName = $row['courseName'];
+                                                                    $price = $row['price'];
+                                                                    $image = $row['image'];
+                                                                    ?>
+                                                                    <div class="col">
+                                                                        <div class="card">
+                                                                            <img src="./uploads/images/<?= $image ?>"
+                                                                                class="card-img-top" alt="<?= $courseName ?>">
+                                                                            <div class="card-body">
+                                                                                <div class="bi bi-cross remove"
+                                                                                    data-id="<?= $id ?>">
+                                                                                </div>
+                                                                                <h5 class="card-title">
+                                                                                    <?= $courseName ?>
+                                                                                </h5>
+                                                                                <p class="card-text">Price: &#8377;
+                                                                                    <?= $price ?>
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="card-footer">
+                                                                                <a href="#"
+                                                                                    class="btn btn-main btn-block move_to_cart add_to_cart_button"
+                                                                                    data-product-id="<?= $courseId ?>"
+                                                                                    data-product-name="<?= $courseName ?>"
+                                                                                    data-product-price="<?= $price ?>"
+                                                                                    data-product-image="<?= $image ?>"
+                                                                                    data-id="<?= $id ?>">
+                                                                                    Add To Cart
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <?php
+                                                                }
+                                                            } else {
+                                                                echo "Query failed!";
                                                             }
                                                         } else {
-                                                            echo "Query failed!";
+                                                            // User is not logged in, display "Please Login" message
+                                                            echo '<div class="alert alert-info d-flex align-items-center justify-content-center" role="alert">
+                                                                    Please login to see your wishlist data.
+                                                                </div>';
+
                                                         }
-                                                    ?>
+                                                        ?>
+
+                                                    </div>
                                                 </div>
 
-                                        </form>
-                                    </div>
+                                            </form>
+                                        </div>
 
-                                </div>
-                            </div><!-- .entry-content -->
+                                    </div>
+                                </div><!-- .entry-content -->
                     </article>
                 </div>
-                
+
 
 
             </div>
@@ -133,169 +157,169 @@ if (isset($_SESSION['role_id'])) {
 <script>
 
 
-$(document).ready(function () {
-    var roleId = <?php echo json_encode($role_id); ?> || '';
-var role = <?php echo json_encode($role); ?> || '';
-    $('.move_to_cart').on('click', function(){
-        var id = $(this).data('id');
-        $.ajax({
-        type:"POST",
-        url:"./core/wishlistFunctionality.php",
-        data:{'move_to_cart':true,
-            id:id        
-        },
-        context: this,
-        success:function(response){
-            Swal.fire({
-						icon: 'success',
-						title: response,
-						showConfirmButton: false,
-						timer: 2000
-					});
+    $(document).ready(function () {
+        var roleId = <?php echo json_encode($role_id); ?> || '';
+        var role = <?php echo json_encode($role); ?> || '';
+        $('.move_to_cart').on('click', function () {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "POST",
+                url: "./core/wishlistFunctionality.php",
+                data: {
+                    'move_to_cart': true,
+                    id: id
+                },
+                context: this,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
                     updateWishlistCount(roleId, role);
                     $(this).closest('.card').remove();
-        },
-        
-    });
-    });
+                },
 
-    $('.remove').on('click', function () {
-    var id = $(this).data('id'); // Assuming 'id' is the correct attribute name
-
-    $.ajax({
-        type: "POST",
-        url: "./core/wishlistFunctionality.php",
-        data: {
-            'remove': true,
-            'id': [id] // Send 'id' as an array
-        },
-        context: this, // Set the context to 'this' for the success callback
-        success: function (response) {
-            Swal.fire({
-                icon: 'success',
-                title: response,
-                showConfirmButton: false,
-                timer: 2000
             });
-            updateWishlistCount(roleId, role)
-            $(this).closest('.col').remove(); // Now 'this' refers to the clicked element
-        }
-    });
-});
-
-function updateWishlistCount(roleId, role) {
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            type: 'GET',
-            url: 'core/getWishlistCount.php',
-            data: {
-                userId: encodeURIComponent(roleId),
-                role: encodeURIComponent(role)
-            },
-            success: function (response) {
-                var responseObject = JSON.parse(response);
-                var count = responseObject.count || 0;
-                console.log('updateWishlistCount - Response:', response);
-                $('#wishlist-count-container').text(count);
-                $('#wishlist-count').text(count);
-                resolve(); // Resolve the promise
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-                reject(error); // Reject the promise
-            }
         });
+
+        $('.remove').on('click', function () {
+            var id = $(this).data('id'); // Assuming 'id' is the correct attribute name
+
+            $.ajax({
+                type: "POST",
+                url: "./core/wishlistFunctionality.php",
+                data: {
+                    'remove': true,
+                    'id': [id] // Send 'id' as an array
+                },
+                context: this, // Set the context to 'this' for the success callback
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: response,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                    updateWishlistCount(roleId, role)
+                    $(this).closest('.col').remove(); // Now 'this' refers to the clicked element
+                }
+            });
+        });
+
+        function updateWishlistCount(roleId, role) {
+            return new Promise(function (resolve, reject) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'core/getWishlistCount.php',
+                    data: {
+                        userId: encodeURIComponent(roleId),
+                        role: encodeURIComponent(role)
+                    },
+                    success: function (response) {
+                        var responseObject = JSON.parse(response);
+                        var count = responseObject.count || 0;
+                        console.log('updateWishlistCount - Response:', response);
+                        $('#wishlist-count-container').text(count);
+                        $('#wishlist-count').text(count);
+                        resolve(); // Resolve the promise
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
+                        reject(error); // Reject the promise
+                    }
+                });
+            });
+        }
+
+
     });
-}
 
-    
-});
-    
-//     $(document).ready(function () {
-//     // Load wishlist from localStorage
-//     var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-//     console.log(wishlist);
-//     updateWishlist();
+    //     $(document).ready(function () {
+    //     // Load wishlist from localStorage
+    //     var wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    //     console.log(wishlist);
+    //     updateWishlist();
 
-//     // Event delegation for the remove button
-//     $('.wishlist-card').on('click', '.remove', function () {
-//         var indexToRemove = $(this).closest('.card').index();
-//         wishlist.splice(indexToRemove, 1); // Remove item from wishlist array
-//         localStorage.setItem('wishlist', JSON.stringify(wishlist)); // Update localStorage
-//         updateWishlist(); // Update the displayed wishlist
-//     });
+    //     // Event delegation for the remove button
+    //     $('.wishlist-card').on('click', '.remove', function () {
+    //         var indexToRemove = $(this).closest('.card').index();
+    //         wishlist.splice(indexToRemove, 1); // Remove item from wishlist array
+    //         localStorage.setItem('wishlist', JSON.stringify(wishlist)); // Update localStorage
+    //         updateWishlist(); // Update the displayed wishlist
+    //     });
 
-//     function createCard(row) {
-//     var card = $('<div class="card"></div>');  // Create a new card element
-//     var cardBody = $('<div class="card-body"></div>');  // Create a new card body element
+    //     function createCard(row) {
+    //     var card = $('<div class="card"></div>');  // Create a new card element
+    //     var cardBody = $('<div class="card-body"></div>');  // Create a new card body element
 
-//     // Concatenate the HTML content instead of overwriting it
-//     cardBody.html(
-//         '<img src="./uploads/images/' + row.image + '" alt="' + row.name + '">' +
-//         '<div class="bi bi-cross remove"></div>' +
-//         '<h3>' + row.name + '</h3>' +
-//         '<p>Price: &#8377;' + row.price + '</p>' +
-//         '<p>Quantity: ' + row.quantity + '</p>'
-//     );
+    //     // Concatenate the HTML content instead of overwriting it
+    //     cardBody.html(
+    //         '<img src="./uploads/images/' + row.image + '" alt="' + row.name + '">' +
+    //         '<div class="bi bi-cross remove"></div>' +
+    //         '<h3>' + row.name + '</h3>' +
+    //         '<p>Price: &#8377;' + row.price + '</p>' +
+    //         '<p>Quantity: ' + row.quantity + '</p>'
+    //     );
 
-//     var cardFooter = $('<div class="card-footer"></div>');  // Create a new card footer element
-//     cardFooter.html(`
-//         <a href="" class="btn btn-main btn-block add_to_cart_button"
-//             data-product-id="${row.id}" data-product-name="${row.name}"
-//             data-product-price="${row.price}" data-product-image="${row.image}">
-//             Add To Cart
-//         </a>
-//     `);
+    //     var cardFooter = $('<div class="card-footer"></div>');  // Create a new card footer element
+    //     cardFooter.html(`
+    //         <a href="" class="btn btn-main btn-block add_to_cart_button"
+    //             data-product-id="${row.id}" data-product-name="${row.name}"
+    //             data-product-price="${row.price}" data-product-image="${row.image}">
+    //             Add To Cart
+    //         </a>
+    //     `);
 
-//     card.append(cardBody);
-//     card.append(cardFooter);
+    //     card.append(cardBody);
+    //     card.append(cardFooter);
 
-//     return card;
-// }
+    //     return card;
+    // }
 
 
 
 
-//     function updateWishlist() {
-//         $('.wishlist-card').empty(); // Clear the existing wishlist
+    //     function updateWishlist() {
+    //         $('.wishlist-card').empty(); // Clear the existing wishlist
 
-//         $.each(wishlist, function (index, row) {
-//             var card = createCard(row);
-//             $('.wishlist-card').append(card);
-//         });
+    //         $.each(wishlist, function (index, row) {
+    //             var card = createCard(row);
+    //             $('.wishlist-card').append(card);
+    //         });
 
-//         // Update wishlist count
-//         $('#wishlist-container').text(wishlist.length);
-//     }
-// });
+    //         // Update wishlist count
+    //         $('#wishlist-container').text(wishlist.length);
+    //     }
+    // });
 
 </script>
 <style>
     .wishlist-container {
-    max-width: 800px;
-    margin: auto;
-}
+        max-width: 800px;
+        margin: auto;
+    }
 
 
-.card {
-    margin-bottom: 20px;
-    transition: transform 0.3s ease-in-out;
-}
+    .card {
+        margin-bottom: 20px;
+        transition: transform 0.3s ease-in-out;
+    }
 
-.card:hover {
-    transform: scale(1.05);
-}
+    .card:hover {
+        transform: scale(1.05);
+    }
 
-.remove {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-    color: black;
-    background-color:"gray";
-}
-
+    .remove {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 20px;
+        color: black;
+        background-color: "gray";
+    }
 </style>
 
 <?php
