@@ -134,6 +134,8 @@ if (isset($_SESSION['role_id'])) {
 
 
 $(document).ready(function () {
+    var roleId = <?php echo json_encode($role_id); ?> || '';
+var role = <?php echo json_encode($role); ?> || '';
     $('.move_to_cart').on('click', function(){
         var id = $(this).data('id');
         $.ajax({
@@ -150,6 +152,7 @@ $(document).ready(function () {
 						showConfirmButton: false,
 						timer: 2000
 					});
+                    updateWishlistCount(roleId, role);
                     $(this).closest('.card').remove();
         },
         
@@ -174,12 +177,36 @@ $(document).ready(function () {
                 showConfirmButton: false,
                 timer: 2000
             });
+            updateWishlistCount(roleId, role)
             $(this).closest('.col').remove(); // Now 'this' refers to the clicked element
         }
     });
 });
 
-
+function updateWishlistCount(roleId, role) {
+    return new Promise(function (resolve, reject) {
+        $.ajax({
+            type: 'GET',
+            url: 'core/getWishlistCount.php',
+            data: {
+                userId: encodeURIComponent(roleId),
+                role: encodeURIComponent(role)
+            },
+            success: function (response) {
+                var responseObject = JSON.parse(response);
+                var count = responseObject.count || 0;
+                console.log('updateWishlistCount - Response:', response);
+                $('#wishlist-count-container').text(count);
+                $('#wishlist-count').text(count);
+                resolve(); // Resolve the promise
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                reject(error); // Reject the promise
+            }
+        });
+    });
+}
 
     
 });
