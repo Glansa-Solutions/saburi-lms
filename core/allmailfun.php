@@ -92,6 +92,8 @@ if (isset($_POST['registerCompany'])) {
         require("../assets/vendors/PHPMailer/Exception.php");
         $mail = new PHPMailer(true);
 
+        echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
+
         try {
             //Server settings
             $mail->isSMTP(); //Send using SMTP
@@ -111,9 +113,20 @@ if (isset($_POST['registerCompany'])) {
             $mail->Body = 'Name: ' . $name . '<br>Email: ' . $email;
 
             $mail->send();
-            header("location: ../contact");
+            echo '<script>
+                    setTimeout(function() {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Success!",
+                            text: "Inserted successfully, and an email has been sent.",
+                        }).then(function(){
+                            window.location.href = "../contact";
+                        });
+                    }, 100);
+                </script>';
+            // header("location: ../contact");
 
-            echo "Inserted successfully, and an email has been sent.";
+            
         } catch (Exception $e) {
             echo "Inserted successfully, but email sending failed. Error: {$mail->ErrorInfo}";
         }

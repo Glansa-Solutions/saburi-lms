@@ -261,6 +261,9 @@ if($fetch_user_contact_details_query) {
         document.getElementById('subject').addEventListener('blur', validateSubject);
         document.getElementById('message').addEventListener('blur', validateMessage);
     });
+
+
+    
 </script>
 
 
