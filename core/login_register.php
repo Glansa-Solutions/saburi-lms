@@ -3,6 +3,7 @@
 // session_start();
 include("db_config.php");
 
+
 // function for generating randome password
 function generateRandomPassword()
 {
@@ -179,8 +180,21 @@ if (isset($_POST['registerStudent'])) {
                 </body>
                 </html>";
             $mail->send();
-            echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
-            header("location: ../logout_session");
+            echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
+            echo '<script>
+            setTimeout(function() {
+                Swal.fire({
+                    icon: "success",
+                    title: "Success!",
+                    text: "You have successfully registered, Kindly check you registered mail for further details",
+                }).then(function(){
+                    window.location.href = "../logout_session";
+                });
+            }, 100);
+          </script>';
+
+            // echo "<script>alert('');</script>";
+            // header("location: ../logout_session");
             // echo 'Message has been sent';
 
         } catch (Exception $e) {

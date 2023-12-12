@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 // $con = mysqli_connect($host, $username, $password, $db);
 // Fetch CountryList
 
-echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
+    echo '<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>';
 
 $fetchCountries = mysqli_query($con, "SELECT * FROM awt_countries");
 // $countryId = [];

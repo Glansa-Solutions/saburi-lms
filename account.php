@@ -335,7 +335,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                                             <label>Email&nbsp;<span class="required">*</span></label>
                                             <input type="email"
                                                 class="woocommerce-Input woocommerce-Input--text input-text form-control"
-                                                name="email" id="email" autocomplete="password" value="" required>
+                                                name="email" id="emailInput" autocomplete="password" value="" required>
                                             <span id="errorEmail" style="color: red;"></span>
                                         </p>
                                         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
@@ -452,6 +452,7 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
                     selectedCountryId: countryId // Pass the selected countryId as a parameter
                 },
                 success: function (response) {
+                    console.log(response);
                     // Handle the response from the server if needed
                     var states = JSON.parse(response);
                     $('#stateList').empty();
@@ -485,28 +486,34 @@ if (isset($_SESSION['alert_message']) && (isset($_SESSION['incorrect_pass_id']) 
 
         function validateEmail() {
             var emailValue = emailInput.value.trim();
-            var commonDomainPattern = /^(.+)@((?!.*\.{2})[a-zA-Z0-9-]+\.[a-zA-Z]{2,})(gmail\.com|yahoo\.com|yahoo\.co\.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com)$/i;
-
-
+            var allowedDomainsPattern = /^(.+)@(gmail\.com|yahoo\.com|yahoo\.co\.in|glansa\.com|glansa\.in|outlook\.com|iCloud\.com|live\.com|mail\.com)$/i;
+        
             if (emailValue === '') {
                 errorEmail.textContent = 'Email is required.';
-            } else if (!commonDomainPattern.test(emailValue) || emailValue.includes(',')) {
-                errorEmail.textContent = 'Enter a valid email address.';
+            } else if (!allowedDomainsPattern.test(emailValue)) {
+                errorEmail.textContent = 'Enter a valid email address from the allowed domains.';
             } else {
                 errorEmail.textContent = ''; // Clear error message if validation passed
                 var enteredEmail = emailInput.value;
-                var roleHerePop = roleHere.value;
+                var roleHerePop = roleHere ? roleHere.value : ''; // Ensure roleHere is defined
+                var registerButton = document.getElementById('yourRegisterButtonId'); // Replace with your actual button ID
+        
                 // AJAX request to validate email on the server
                 $.ajax({
                     method: 'GET',
                     url: 'core/validate_email_in_reg.php',
                     data: {
                         entered_mail: emailValue,
-                        role: roleHerePop, // Assuming roleHerePop is defined somewhere in your code
+                        role: roleHerePop,
                     },
                     success: function (response) {
                         errorEmail.textContent = response;
-                        registerButton.disabled = (response === 'Email already exists');
+                        // Clear the error message if the email is valid
+                        if (response !== 'Email already exists') {
+                            errorEmail.textContent = '';
+                            registerButton.disabled = true;
+                        }
+                        //registerButton.disabled = (response === 'Email already exists');
                     },
                     error: function (xhr, status, error) {
                         console.error("AJAX request failed: " + error);
