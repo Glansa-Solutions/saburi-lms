@@ -20,21 +20,21 @@ include('../core/listgrid.php');
                     <div class="form-group">
                             <label for="heading">Heading</label>
                             <input type="text" class="form-control" name="heading"
-                                placeholder="Enter Heading">
+                                placeholder="Enter Heading" required>
                         </div>
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" name="title"
-                                placeholder="Enter Title ">
+                                placeholder="Enter Title " required>
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" name="image" accept="image/*">
+                            <input type="file" class="form-control-file" name="image" accept="image/*" required>
                         </div>
                        
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea class="mySummernote" name="desc">
+                            <textarea class="mySummernote" name="desc" required>
                                         Welcome to Saburi LMS
                                     </textarea>
                         </div>
@@ -124,26 +124,26 @@ include('../core/listgrid.php');
                             <input type="hidden" id="resourceId" name="resourceId">
                             <div class="form-group">
                                 <label for="editTitle">Resources Name</label>
-                                <input type="text" class="form-control" id="resourses_name" name="resourses_name">
+                                <input type="text" class="form-control" id="resourses_name" name="resourses_name" required>
                             </div>
                             <div class="form-group">
                                 <label for="editTitle">Title</label>
-                                <input type="text" class="form-control" id="title" name="title">
+                                <input type="text" class="form-control" id="title" name="title" required>
                             </div>
                             <div class="form-group">
                                 <label for="editTitle">Banner Image</label>
-                                <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image">
+                                <input type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image" required>
                                 <input type="hidden" id="oldImage" name="oldImage" width="80" height="80" />
                             </div>
 
                             <div class="form-group">
                                 <label for="editTitle">Existing Image</label><br>
-                                <img src="" id="output" name="output" width="80" height="80" />
+                                <img src="" id="output" name="output" width="80" height="80" required />
                             </div>
 
                             <div class="form-group">
                                 <label for="editTitle">Description</label>
-                                <textarea id="edit" name="description">
+                                <textarea id="edit" name="description" required>
                                         Welcome to Saburi LMS
                                     </textarea>
                             </div>

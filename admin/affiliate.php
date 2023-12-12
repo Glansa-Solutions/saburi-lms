@@ -21,29 +21,29 @@ include('includes/sidebar.php');
                       <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" name="name"
-                                placeholder="Enter Name">
+                                placeholder="Enter Name" required>
                         </div>
                         <div class="form-group">
                             <label for="details">Details</label>
                             <input type="text" class="form-control" name="details"
-                                placeholder="Enter Details ">
+                                placeholder="Enter Details " required>
                         </div>
                         <div class="form-group">
                             <label for="contactdetails">Contact Details</label>
                             <input type="text" class="form-control" name="contactdetails"
-                                placeholder="Enter Contact Details ">
+                                placeholder="Enter Contact Details " required>
                         </div>
                       </div>
                        <div class="col-md-6">
                        <div class="form-group">
                             <label for="contactPerson">Contact Person</label>
                             <input type="text" class="form-control" name="contactPerson"
-                                placeholder="Enter Contact Person ">
+                                placeholder="Enter Contact Person " required>
                         </div>
                         <div class="form-group">
                             <label for="address">Address</label>
                             <input type="text" class="form-control " name="address"
-                                placeholder="Enter Address ">
+                                placeholder="Enter Address " required>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" name="affiliate_manage">Submit</button>
                         <button class="btn btn-light">Cancel</button>

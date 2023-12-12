@@ -17,15 +17,15 @@ include('includes/sidebar.php');
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Subscription Name</label>
-                                <input type="text" class="form-control" name="subscription" placeholder="Enter Subscription Name">
+                                <input type="text" class="form-control" name="subscription" placeholder="Enter Subscription Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="type">Type</label>
-                                <input type="text" class="form-control" name="type" placeholder="Enter Type">
+                                <input type="text" class="form-control" name="type" placeholder="Enter Type" required>
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="number" class="form-control" name="price" placeholder="Enter Price">
+                                <input type="number" class="form-control" name="price" placeholder="Enter Price" required>
                             </div>
                             
                             <!-- <div class="form-group">
@@ -44,11 +44,11 @@ include('includes/sidebar.php');
                             
                         <div class="form-group">
                                 <label for="duration">Duration</label>
-                                <input type="text" class="form-control" name="duration" placeholder="Enter Duration">
+                                <input type="text" class="form-control" name="duration" placeholder="Enter Duration" required>
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Course Name</label>
-                                <input type="text" class="form-control" name="courseName" placeholder="Enter Course Name">
+                                <input type="text" class="form-control" name="courseName" placeholder="Enter Course Name" required>
                             </div>
                             <div>
                             <button type="submit" class="btn btn-primary me-2" name="subscription_manage">Submit</button>

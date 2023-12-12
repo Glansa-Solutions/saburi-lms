@@ -100,20 +100,20 @@ include('../core/listgrid.php');
                         <div class="form-group">
                             <label for="title">Email</label>
                             <input required type="email" id="emailInput" class="form-control" name="email"
-                                placeholder="Enter Email">
-                            <span id="errorEmail" style="color: red;"></span>
+                                placeholder="Enter Email" required>
+                            <!-- <span id="errorEmail" style="color: red;"></span> -->
                             <input required type="hidden" id="admin_name" name="admin_name" value=<?= $name; ?>>
                         </div>
                         <div class="form-group">
                             <label for="image">phone Number</label>
                             <input required type="text" class="form-control" onkeypress="return isNumber(event)"
-                                oninput="validatePhoneNumber()" value="" id="phoneNumber" name="phone_no">
+                                oninput="validatePhoneNumber()" value="" id="phoneNumber" name="phone_no" required>
                             <span id="errorPhn" style="color: red;"></span>
                         </div>
                         <div class="form-group">
                             <label for="desc">Address</label>
                             <div name="editAddress">
-                                <textarea required name="address" id="editAddress" class="mySummernote"></textarea>
+                                <textarea required name="address" id="editAddress" class="mySummernote" required></textarea>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" id="insert_update"

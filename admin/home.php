@@ -103,7 +103,7 @@ include('../core/listgrid.php');
                         <div class="form-group">
                             <label for="banner_desc">Description</label>
                             <div name="editAddress">
-                                <textarea name="desc" id="editAddress" class="mySummernote"></textarea>
+                                <textarea name="desc" id="editAddress" class="mySummernote" required></textarea>
                             </div>
                         </div>
                         <div class="images d-flex justify-content-between">

@@ -17,18 +17,18 @@ include('../core/listgrid.php');
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name">Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Enter Name">
+                                <input type="text" class="form-control" name="name" placeholder="Enter Name" required>
                             </div>
                             <div class="form-group">
                                 <label for="phoneNumber">Phone Number</label>
                                 <input type="text" class="form-control" name="phoneNumber"
-                                    placeholder="Enter Phone Number">
+                                    placeholder="Enter Phone Number" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="userType">User Type</label>
-                                <select class="form-control" name="userType">
-                                    <option value=-1>--select one--</option>
+                                <select class="form-control" name="userType" required>
+                                    <option value="">--select one--</option>
                                     <option value="admin">Admin</option>
                                     <option value="student">Student</option>
                                     <option value="company">Company</option>
@@ -38,16 +38,16 @@ include('../core/listgrid.php');
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="userId">Email</label>
-                                <input type="email" class="form-control" name="email" placeholder="Enter Email Address">
+                                <input type="email" class="form-control" name="email" placeholder="Enter Email Address" required>
                             </div>
                             <div class="form-group">
                                 <label for="userId">User ID</label>
-                                <input type="text" class="form-control" name="user_id" placeholder="Enter user id">
+                                <input type="text" class="form-control" name="user_id" placeholder="Enter user id" required>
                             </div>
                             <div class="form-group">
                                 <label for="pwd">Password</label>
                                 <div class="input-group">
-                                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password">
+                                    <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Password" required>
                                     <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="fas fa-eye" id="showPassword"></i>
@@ -59,7 +59,7 @@ include('../core/listgrid.php');
                             <div class="form-group">
                                 <label for="address">Address</label>
                                 <textarea type="text" class="form-control" name="address"
-                                    placeholder="Enter Address"> </textarea>
+                                    placeholder="Enter Address" required> </textarea>
                             </div>
 
 

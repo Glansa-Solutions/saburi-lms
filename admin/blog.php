@@ -60,30 +60,30 @@ li {
                         enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Title</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Blog Title">
+                            <input type="text" class="form-control" name="title" placeholder="Enter Blog Title" required>
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" id="image" name="image" accept="image/*">
+                            <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
                         </div>
                         <div class="form-group">
                             <label for="writer">Writer</label>
-                            <input type="text" class="form-control" name="writer" placeholder="Enter Writer Name">
+                            <input type="text" class="form-control" name="writer" placeholder="Enter Writer Name" required>
                         </div>
 
                         <div class="form-group">
                             <label for="desc">Description</label>
                             <div id="editor">
-                                <textarea class="mySummernote" name="desc"></textarea>
+                                <textarea class="mySummernote" name="desc" required></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="container">
                                 <label for="desc">Tags</label>
-                                <input type="text" id="tags" name="tags" class="form-control" placeholder="Add a tag">
+                                <input type="text" id="tags" name="tags" class="form-control" placeholder="Add a tag" required>
                                 <div id="taglist"></div>
                                 <div class="tag-container" id="selectedTagsContainer"></div>
-                                <input type="hidden" id="selectedTags" name="selectedTags">
+                                <input type="hidden" id="selectedTags" name="selectedTags" required>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" name="blog_manage">Submit</button>
@@ -182,16 +182,16 @@ li {
                             <input type="hidden" id="blog_id" name="blog_id">
                             <div class="form-group">
                                 <label for="editTitle">Title</label>
-                                <input type="text" class="form-control" id="editTitle" name="editTitle">
+                                <input type="text" class="form-control" id="editTitle" name="editTitle" required>
                             </div>
                             <div class="form-group">
                                 <label for="editWriter">Writer</label>
-                                <input type="text" class="form-control" id="editWriter" name="editWriter">
+                                <input type="text" class="form-control" id="editWriter" name="editWriter" required>
                             </div>
                             <div class="form-group">
                                 <label for="editImage">Image</label>
                                 <input type="file" class="form-control" onchange="loadFile(event)" id="editImage"
-                                    name="editImage">
+                                    name="editImage" required>
 
                                 <input type="hidden" id="oldImage" name="oldImage" width="80" height="80" />
                             </div>
@@ -199,12 +199,12 @@ li {
                             <div class="form-group">
                                 <label for="editTitle">Existing Image</label><br>
 
-                                <img src="" id="output" name="output" width="80" height="80" />
+                                <img src="" id="output" name="output" width="80" height="80" required/>
                             </div>
 
                             <div class="form-group">
                                 <label for="editDescription">Description</label>
-                                <textarea  id="edit">
+                                <textarea  id="edit" required>
 
                             </textarea>
                                 <!-- <div id="editor">

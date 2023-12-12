@@ -16,14 +16,14 @@ include('includes/sidebar.php');
                             <div class="form-group">
                                 <label for="name">Upload Attachment</label>
                                 <input type="file" name="uploads" class="form-control"
-                                    accept=".jpg, .jpeg, .png, .gif, .xls, .xlsx, .doc, .docx">
+                                    accept=".jpg, .jpeg, .png, .gif, .xls, .xlsx, .doc, .docx" required>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="banner_desc">Description</label>
                                 <div id="editor">
-                                    <textarea class="mySummernote" name="descriptions"></textarea>
+                                    <textarea class="mySummernote" name="descriptions" required></textarea>
                                 </div>
                             </div>
                         </div>

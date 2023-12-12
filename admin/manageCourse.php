@@ -43,59 +43,59 @@ include('../core/listgrid.php');
                             </div>
                             <div class="form-group">
                                 <label for="subtopic">Sub Topic Name</label>
-                                <!-- <input required type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                <select required class="form-control" name="subtopic" id="subtopic">
+                                <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
+                                <select class="form-control" name="subtopic" id="subtopic">
                                     <option> select subtopic name</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Course Name</label>
-                                <input required type="text" class="form-control" name="courseName"
+                                <input type="text" class="form-control" name="courseName"
                                     placeholder="Enter Course Name">
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input required type="number" class="form-control" name="price" placeholder="Enter Price">
+                                <input type="number" class="form-control" name="price" placeholder="Enter Price">
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Tags</label>
-                                <input required type="text" class="form-control" name="tags"
+                                <input type="text" class="form-control" name="tags"
                                     placeholder="Enter tags for this course">
                             </div>
                             <div class="form-group">
                                 <label for="banner_desc">What will you learn?</label>
                                 <div id="editor">
-                                    <textarea name="learn" class="mySummernote">Welcome to Saburi LMS</textarea>
+                                    <textarea name="learn" class="mySummernote" required>Welcome to Saburi LMS</textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="image">Image</label>
-                                <input required type="file" class="form-control" name="image" accept="image/*">
+                                <input type="file" class="form-control" name="image" accept="image/*">
                             </div>
                             <div class="form-group">
                                 <label for="uploadfile">Upload File</label>
-                                <input required type="file" class="form-control" name="uploadfile">
+                                <input type="file" class="form-control" name="uploadfile">
                             </div>
                             <div class="form-group">
                                 <label for="image">Upload Video</label>
-                                <input required type="file" class="form-control" name="video" accept="video/*">
+                                <input type="file" class="form-control" name="video" accept="video/*">
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Requirements</label>
-                                <input required type="text" class="form-control" name="requirements"
+                                <input type="text" class="form-control" name="requirements"
                                     placeholder="Enter what is required for learning this course">
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Course Duration</label>
-                                <input required type="text" class="form-control" name="durations"
+                                <input type="text" class="form-control" name="durations"
                                     placeholder="Enter course duration in days">
                             </div>
                             <div class="form-group">
                                 <label for="banner_desc">Description</label>
                                 <div id="editor">
-                                    <textarea name="description" class="mySummernote">Welcome to Saburi LMS</textarea>
+                                    <textarea name="description" class="mySummernote" required>Welcome to Saburi LMS</textarea>
                                 </div>
                             </div>
 

@@ -103,20 +103,20 @@ include('../core/listgrid.php');
                         <div class="form-group">
                             <label for="banner_desc">Description</label>
                             <div name="editAddress">
-                                <textarea name="desc" id="editAddress" class="mySummernote"></textarea>
+                                <textarea name="desc" id="editAddress" class="mySummernote" required></textarea>
                             </div>
                         </div>
                         <div class="images d-flex justify-content-between">
                             <div class="form-group">
                                 <label for="banner_image">Banner Image</label>
                                 <input type="file" name="bannerImage" class="form-control-file" id="banner_image"
-                                    accept="image/*">
+                                    accept="image/*" required>
                             </div>
                             <div class="form-group">
                                 <label for="banner_image">Current Image</label>
                                 <div class="col-md-12">
                                     <div class="container">
-                                        <img id="dynamicImage" class="img-fluid w-50" alt="Dynamic Image">
+                                        <img id="dynamicImage" class="img-fluid w-50" alt="Dynamic Image" required>
                                     </div>
                                 </div>
                             </div>

@@ -98,7 +98,7 @@ include('includes/sidebar.php');
                                     <div class="form-group">
                                         <label for="topic"> Topic Name</label>
                                         <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                        <select class="form-control" class="topic" name="topic" id="topic">
+                                        <select class="form-control topic" name="topic" id="topic" required>
                                             <option value="">Select Topic Name</option>
                                             <?php
                                             if ($fetch_list_topic_query) {
@@ -122,15 +122,15 @@ include('includes/sidebar.php');
                                 <div class="col-md-6">
                                     <div class="form-group">                                    
                                         <label for="courseName">Subtopic Name</label>
-                                        <select class="form-control" name="subtopic" id="subtopic">
-                                            <option> select subtopic name</option>
+                                        <select class="form-control" name="subtopic" id="subtopic" required>
+                                            <option value=""> select subtopic name</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">                                    
                                         <label for="courseName">Course Name</label>
-                                        <select class="form-control" name="courseName" id="courseName">
+                                        <select class="form-control" name="courseName" id="courseName" required>
                                             <option> Select Course name</option>
                                         </select>
                                     </div>
@@ -138,12 +138,12 @@ include('includes/sidebar.php');
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="chapter">Assessment Name</label>
-                                        <input type="text" class="form-control" name="assessmentName" id="assessmentName">
+                                        <input type="text" class="form-control" name="assessmentName" id="assessmentName" required>
                                     </div>
                                 </div>
                                <div class="col-md-6">                                
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary me-2" name="assessment_manage">Submit</button>
+                                        <button type="submit" class="btn btn-primary me-2 submit_validation" name="assessment_manage">Submit</button>
                                         <button class="btn btn-light">Cancel</button>
                                     </div>
                                 </div>
@@ -265,7 +265,7 @@ include('includes/sidebar.php');
                                                         <div class="form-group">
                                                             <label for="assessment">Assessment Name</label>
                                                             <input type="text" class="form-control" id="assessment_name"
-                                                                name="assessmentName" placeholder="Enter Assessment Name">
+                                                                name="assessmentName" placeholder="Enter Assessment Name" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -361,6 +361,51 @@ include('includes/sidebar.php');
         });
     });
 </script>
+<!-- <script>
+   $(document).ready(function () {
+    $('.submit_validation').on('click', function (e) {
+        // Validate Topic Name
+        var topic = $('#topic').val();
+        
+        if (!topic) {
+            e.preventDefault(); // Prevent the form from submitting
+            $('#topic').siblings('.error-message').remove();
+            $('#topic').after('<span class="error-message">Please select a Topic Name.</span>');
+            return;
+        }
+
+        // Validate Subtopic Name
+        var subtopic = $('#subtopic').val();
+
+        console.log(subtopic, "subtopic")
+        if (subtopic === "") {
+            e.preventDefault(); // Prevent the form from submitting
+            $('#subtopic').siblings('.error-message').remove();
+            $('#subtopic').after('<span class="error-message">Please select a Subtopic Name.</span>');
+            return;
+        }
+
+        // Validate Course Name
+        var courseName = $('#courseName').val();
+        if (!courseName) {
+            e.preventDefault(); // Prevent the form from submitting
+            $('#courseName').siblings('.error-message').remove();
+            $('#courseName').after('<span class="error-message">Please select a Course Name.</span>');
+            return;
+        }
+
+        // Validate Assessment Name
+        var assessmentName = $('#assessmentName').val();
+        if (!assessmentName) {
+            e.preventDefault(); // Prevent the form from submitting
+            $('#assessmentName').siblings('.error-message').remove();
+            $('#assessmentName').after('<span class="error-message">Please enter an Assessment Name.</span>');
+            return;
+        }
+    });
+});
+
+</script> -->
 
 
 
