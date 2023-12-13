@@ -340,9 +340,6 @@ elseif (isset($_POST['registerCompany'])) {
                         });
                     }, 100);
                 </script>';
-
-            // echo 'Message has been sent';
-            // echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

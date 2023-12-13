@@ -1,7 +1,7 @@
 <?php
 include('includes/header.php');
 include('includes/sidebar.php');
-include('../core/listgrid.php');
+// include('../core/listgrid.php');
 ?>
 
 <div class="content-wrapper">
@@ -11,7 +11,7 @@ include('../core/listgrid.php');
                 <div class="card-body">
                     <h4 class="card-title">Student List Report</h4>
                     <div class="table-responsive">
-                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <table id="example" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>S.no</th>
@@ -27,7 +27,6 @@ include('../core/listgrid.php');
                                     <th>Email</th>
                                     <th>Id Proof</th>
                                     <th>ID Proof Details</th>
-                                    <!-- <th>Action</th>  -->
 
                                 </tr>
                             </thead>
@@ -42,7 +41,7 @@ include('../core/listgrid.php');
                                     $dob = $row['DOB'];
                                     $address = $row['address'];
                                     $dist = $row['district'];
-                                    $state = $row['state'];
+                                    $state = $row['stateName'];
                                     $pincode = $row['pincode'];
                                     $gender = $row['gender'];
                                     $user_phone = $row['phoneNumber'];
@@ -64,12 +63,6 @@ include('../core/listgrid.php');
                                     <td><?= $email; ?></td>
                                     <td><?= $idProof; ?></td>
                                     <td><?= $idProofDetails; ?></td>
-                                    <!-- <td>
-                                        <button type="submit" class="btn btn-primary me-2 p-2 edit-button"  data-bs-toggle="modal" data-bs-target="#editmodal"
-                                        data-id="<?= $id; ?>">Edit</button>
-                                        <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal"  data-id="<?= $id; ?>">Delete</button>
-
-                                    </td> -->
                                 </tr>
 
 

@@ -40,6 +40,18 @@ $query_fetch_blog_comment_admin_grid = mysqli_query($con, "SELECT * FROM comment
 $query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.email, companyusers.password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
 
 
+// Reports on Course list
+$fetch_course_list_report = mysqli_query($con, "SELECT
+topics.topicName,
+subtopics.subTopicName,
+courses.courseName
+FROM
+topics
+INNER JOIN
+subtopics ON topics.Id = subtopics.topicId
+INNER JOIN
+courses ON subtopics.id = courses.subTopicId");
+
 // regarding Blog - Comment Data ( site & admin) end**
 // regarding Blog - Comment Data ( site & admin) end****
 // regarding course - review Data ( site & admin) start****
@@ -136,7 +148,8 @@ JOIN `orders` AS o ON od.orderId = o.id
 JOIN courses AS c ON od.courseId = c.id
 JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid' AND od.status=1");
 
-$fetch_list_student_query = mysqli_query($con, "SELECT * FROM students where isActive = 1");
+$fetch_list_student_query = mysqli_query($con, "SELECT students.*, awt_states.name as stateName FROM students INNER JOIN awt_states ON students.state = awt_states.id");
+
 $fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");
 $fetch_list_subtopic_query = mysqli_query($con, "SELECT * FROM subtopics where isActive=1");
 $fetch_list_join_topics_subtopic_query = mysqli_query($con, "SELECT topics.topicName,subtopics.id,subtopics.subTopicName FROM subtopics INNER JOIN topics ON topics.Id = subtopics.topicId WHERE subtopics.isActive = 1");

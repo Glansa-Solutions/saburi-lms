@@ -14,17 +14,37 @@ include('includes/sidebar.php');
                             <thead>
                                 <tr>
                                     <th>S.no</th>
+                                    <th>Topic Name</th>
+                                    <th>Sub Topic Name</th>
                                     <th>Course Name</th>
-                                    <th>Status</th>
+                                    <!-- <th>No. of chapters</th> -->
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>xyz</td>
-                                    <td>1</td>   
-                                </tr>
+                                <?php
+                                if ($fetch_course_list_report) {
+                                    $i =0;
+                                    while ($row = mysqli_fetch_array($fetch_course_list_report)) {
+                                        $i++;
+                                        ?>
+                                        <tr>
+                                            <td><?= $i?></td>
+                                            <td>
+                                                <?php echo $row['topicName']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['subTopicName']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['courseName']; ?>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                }
+                                ?>
                             </tbody>
+
                         </table>
                     </div>
                 </div>
