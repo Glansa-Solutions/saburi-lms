@@ -26,17 +26,19 @@ include('includes/sidebar.php');
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
                                 if ($query_fetch_company_users) {
                                     $i = 1;
                                     while ($row = mysqli_fetch_assoc($query_fetch_company_users)) {
                                         $id = $row['id'];
                                         $companyName = $row['companyName'];
-                                        $userName = $row['UserId'];
-                                        $password = $row['Password'];
+                                        $userName = $row['email'];
+                                        $password = $row['password'];
                                         $courseName = $row['courseName'];
                                         $validity = $row['ValidTill'];
                                         $isActive = $row['IsActive'];
+                                        $session_active = $row['session_id'];
+
                                         ?>
                                         <tr>
                                             <td>
@@ -45,7 +47,21 @@ include('includes/sidebar.php');
                                             <td>
                                                 <?= $companyName; ?>
                                             </td>
-                                            <td>
+                                            <?php
+                                            if ($session_active == 0) {
+                                                $color = "red";
+                                                $status = "offline";
+                                            } else {
+                                                $color = "green";
+                                                $status = "Online";
+                                            }
+                                            ?>
+                                            
+                                            <td><sup class="status" style="color:
+                                                        <?= $color; ?>
+                                                    ;font-weight:800;">
+                                                    <?= $status; ?>
+                                                </sup>
                                                 <?= $userName; ?>
                                             </td>
                                             <td>
@@ -58,22 +74,21 @@ include('includes/sidebar.php');
                                                 <?= $validity; ?>
                                             </td>
                                             <td>
-                                                <?php 
-                                                if($isActive == 1){
+                                                <?php
+                                                if ($isActive == 1) {
                                                     ?>
-                                                
-                                                <button class="btn btn-danger p-2 freeze-button" data-bs-toggle="modal"
-                                                    data-bs-target="#freezeModal"
-                                                    data-company-id="<?= $id ?>">Freeze</button>
+
+                                                    <button class="btn btn-danger p-2 freeze-button" data-bs-toggle="modal"
+                                                        data-bs-target="#freezeModal" data-company-id="<?= $id ?>">Freeze</button>
                                                     <?php
-                                                    }else{
-                                                        ?>
-                                                        <button class="btn btn-success p-2 unfreeze-button" data-bs-toggle="modal"
-                                                    data-bs-target="#unfreezeModal"
-                                                    data-company-id="<?= $id ?>">Unfreeze</button>
-                                                   <?php
-                                                    }
+                                                } else {
                                                     ?>
+                                                    <button class="btn btn-success p-2 unfreeze-button" data-bs-toggle="modal"
+                                                        data-bs-target="#unfreezeModal"
+                                                        data-company-id="<?= $id ?>">Unfreeze</button>
+                                                    <?php
+                                                }
+                                                ?>
                                             </td>
                                         </tr>
                                         <?php
@@ -103,7 +118,7 @@ include('includes/sidebar.php');
                                     <div class="modal-body">
 
                                         <input type="hidden" id="freeze_id" name="freeze_id">
-                                            <span>Are you sure you want to freeze this account?</span>
+                                        <span>Are you sure you want to freeze this account?</span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -130,7 +145,7 @@ include('includes/sidebar.php');
                                     <div class="modal-body">
 
                                         <input type="hidden" id="unfreeze_id" name="unfreeze_id">
-                                            <span>Are you sure you want to unfreeze this account?</span>
+                                        <span>Are you sure you want to unfreeze this account?</span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -152,16 +167,16 @@ include('includes/sidebar.php');
     <!-- Main Content ends -->
     <script>
         $(document).ready(function () {
-           
+
             $('.freeze-button').on('click', function () {
                 var id = $(this).data('company-id');
-                $('#freeze_id').val(id);  // Use the correct ID "delete_id"
+                $('#freeze_id').val(id); // Use the correct ID "delete_id"
                 // alert(view_comment);
             });
 
             $('.unfreeze-button').on('click', function () {
                 var id = $(this).data('company-id');
-                $('#unfreeze_id').val(id);  // Use the correct ID "delete_id"
+                $('#unfreeze_id').val(id); // Use the correct ID "delete_id"
                 // alert(view_comment);
             });
             $('#freeze_user').on('click', function () {
@@ -170,13 +185,13 @@ include('includes/sidebar.php');
                 $.ajax({
                     type: 'POST',
                     url: '../core/admin_functions.php',
-                    data:{
-                      'freeze_id' : freeze_id,   
+                    data: {
+                        'freeze_id': freeze_id,
                     },
-                    success:function(response){
+                    success: function (response) {
                         window.location.reload();
                     },
-                    error: function(xhr, status, error){
+                    error: function (xhr, status, error) {
                         console.error('AJAX Error:', status, error);
                     }
                 });
@@ -188,18 +203,18 @@ include('includes/sidebar.php');
                 $.ajax({
                     type: 'POST',
                     url: '../core/admin_functions.php',
-                    data:{
-                      'unfreeze_id' : unfreeze_id,   
+                    data: {
+                        'unfreeze_id': unfreeze_id,
                     },
-                    success:function(response){
+                    success: function (response) {
                         window.location.reload();
                     },
-                    error: function(xhr, status, error){
+                    error: function (xhr, status, error) {
                         console.error('AJAX Error:', status, error);
                     }
                 });
             });
-           
+
 
         });
     </script>

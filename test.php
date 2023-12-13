@@ -69,7 +69,7 @@ include('../core/listgrid.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Terms & Conditions Page</h4>
-                    <form class="forms-sample" method="POST" action="../core/admin_functions.php">
+                    <form class="forms-sample" id="entry_form"method="POST" action="../core/admin_functions.php">
                     <div class="form-group">
                             <label for="heading">Heading</label>
                             <input type="text" class="form-control" name="heading"
@@ -78,13 +78,13 @@ include('../core/listgrid.php');
 
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea  name="Desc" class="mySummernote">
+                            <textarea  name="Desc" id="editAddress" class="mySummernote">
                             </textarea>    
                         </div>
                         
 
                         <button type="submit" class="btn btn-primary me-2" name="insert_terms">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                     </form>
                 </div>
             </div>

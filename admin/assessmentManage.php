@@ -144,7 +144,7 @@ include('includes/sidebar.php');
                                <div class="col-md-6">                                
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary me-2 submit_validation" name="assessment_manage">Submit</button>
-                                        <button class="btn btn-light">Cancel</button>
+                                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                                     </div>
                                 </div>
                             </div>                        
@@ -247,7 +247,7 @@ include('includes/sidebar.php');
                                         <div class="card">
                                             <div class="card-body">
                                                 <!-- <h4 class="card-title">Add Courses Details</h4> -->
-                                                <!-- <form class="forms-sample row" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
+                                                <!-- <form class="forms-sample" id="entry_form" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
                                                 <div class="row">
                                                     <div class="col-md-6">
 

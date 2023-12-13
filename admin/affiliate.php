@@ -16,7 +16,7 @@ include('includes/sidebar.php');
                         You can Write the content for about page.
                     </p> -->
                    
-                    <form class="forms-sample row" action="functions/functions" method="POST">
+                    <form class="forms-sample row" id="entry_form" action="functions/functions" method="POST">
                       <div class="col-md-6">
                       <div class="form-group">
                             <label for="name">Name</label>
@@ -46,7 +46,7 @@ include('includes/sidebar.php');
                                 placeholder="Enter Address " required>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" name="affiliate_manage">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                        </div>
                     </form>
                 </div>

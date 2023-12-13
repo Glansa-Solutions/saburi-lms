@@ -111,15 +111,15 @@ include('functions/phpfunctions.php');
 
                                 <div class="form-group">
                                     <label for="image">Image</label>
-                                    <input type="file" class="form-control-file" name="image" accept="image/*">
+                                    <input type="file" class="form-control" name="image" accept="image/*">
                                 </div>
                                 <div class="form-group">
                                     <label for="uploadfile">Upload File</label>
-                                    <input type="file" class="form-control-file" name="uploadfile">
+                                    <input type="file" class="form-control" name="uploadfile">
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Upload Video</label>
-                                    <input type="file" class="form-control-file" name="video" accept="video/*">
+                                    <input type="file" class="form-control" name="video" accept="video/*">
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -174,7 +174,7 @@ include('functions/phpfunctions.php');
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary me-2" name="course_manage">Submit</button>
-                            <button class="btn btn-light">Cancel</button>
+                            <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                         </div>
 
                     </form>
@@ -313,7 +313,7 @@ include('functions/phpfunctions.php');
                                         <div class="card">
                                             <div class="card-body">
                                                 <!-- <h4 class="card-title">Add Courses Details</h4> -->
-                                                <!-- <form class="forms-sample row" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
+                                                <!-- <form class="forms-sample" id="entry_form" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -333,7 +333,7 @@ include('functions/phpfunctions.php');
 
                                                         <div class="form-group">
                                                             <label for="image">Image</label>
-                                                            <input type="file" class="form-control-file" id="image"
+                                                            <input type="file" class="form-control" id="image"
                                                                 name="image" accept="image/*">
                                                             <input type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />
@@ -348,7 +348,7 @@ include('functions/phpfunctions.php');
 
                                                         <div class="form-group">
                                                             <label for="image">Upload Video</label>
-                                                            <input type="file" class="form-control-file" id="video"
+                                                            <input type="file" class="form-control" id="video"
                                                                 name="video" accept="video/*">
                                                             <input type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />
@@ -377,7 +377,7 @@ include('functions/phpfunctions.php');
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Upload File</label>
-                                                            <input type="file" class="form-control-file" id="uploadfile"
+                                                            <input type="file" class="form-control" id="uploadfile"
                                                                 name="uploadfile">
                                                             <input type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />

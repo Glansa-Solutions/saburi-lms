@@ -249,7 +249,7 @@ include('includes/sidebar.php');
                       </label>
                     </div> -->
                         <button type="submit" class="btn btn-primary me-2">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                         </form>
                     </div>
                 </div>
@@ -299,7 +299,7 @@ include('includes/sidebar.php');
                                 </label>
                             </div>
                             <button type="submit" class="btn btn-primary me-2">Submit</button>
-                            <button class="btn btn-light">Cancel</button>
+                            <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                         </form>
                     </div>
                 </div>
