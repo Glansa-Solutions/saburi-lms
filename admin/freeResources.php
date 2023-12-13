@@ -16,7 +16,7 @@ include('../core/listgrid.php');
                         You can Write the content for about page.
                     </p> -->
                    
-                    <form class="forms-sample" action="../core/admin_functions.php" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" id="entry_form" action="../core/admin_functions.php" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                             <label for="heading">Heading</label>
                             <input type="text" class="form-control" name="heading"
@@ -29,18 +29,20 @@ include('../core/listgrid.php');
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" name="image" accept="image/*" required>
+                            <input type="file" class="form-control" name="image" accept="image/*" required>
                         </div>
                        
                         <div class="form-group">
                             <label for="desc">Description</label>
-                            <textarea class="mySummernote" name="desc" required>
-                                        Welcome to Saburi LMS
+                            <textarea id="editAddress" class="mySummernote" name="desc" required>
+                                        
                                     </textarea>
                         </div>
                        
                         <button type="submit" class="btn btn-primary me-2" name="freeResources_manage">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <!-- <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button> -->
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
+
                     </form>
                 </div>
             </div>
@@ -143,8 +145,8 @@ include('../core/listgrid.php');
 
                             <div class="form-group">
                                 <label for="editTitle">Description</label>
-                                <textarea id="edit" name="description" required>
-                                        Welcome to Saburi LMS
+                                <textarea id="editAddress" class="mySummernote" id="edit" name="description" required>
+                                        
                                     </textarea>
                             </div>
                         </div>

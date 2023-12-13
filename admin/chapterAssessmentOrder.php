@@ -393,7 +393,7 @@ include('includes/sidebar.php');
                             <div class="form-group">
                                 <button type="button" class="btn btn-primary me-2" id="addTable"
                                     name="addTable">ADD</button>
-                                <!-- <button class="btn btn-light">Cancel</button> -->
+                                <!-- <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button> -->
                             </div>
                         </div>
                         <!-- Add this table to display selected values -->

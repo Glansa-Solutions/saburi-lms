@@ -9,7 +9,7 @@ include('../core/listgrid.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Topic Details</h4>
-                    <form class="forms-sample row" action="../core/admin_functions.php" method="POST">
+                    <form class="forms-sample" id="entry_form" action="../core/admin_functions.php" method="POST">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Topic Name</label>
@@ -18,7 +18,7 @@ include('../core/listgrid.php');
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary me-2" name="topic_manage">Submit</button>
-                            <button type="reset" class="btn btn-light" >Cancel</button>
+                            <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                         </div>
                     </form>
                 </div>

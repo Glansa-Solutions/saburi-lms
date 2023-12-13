@@ -17,7 +17,7 @@ $result = $con->query($sql);
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Career Page</h4>
-                    <form class="forms-sample" action="functions/functions" method="POST">
+                    <form class="forms-sample" id="entry_form"action="functions/functions" method="POST">
                         <div class="form-row d-flex">
                             <div class="form-group col-md-10">
                                 <label for="title">Category</label>
@@ -43,7 +43,7 @@ $result = $con->query($sql);
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                <form class="forms-sample" action="../core/admin_functions.php" method="POST">
+                <form class="forms-sample" id="entry_form"action="../core/admin_functions.php" method="POST">
                     <h4 class="card-title">Career Page</h4>
                       <div class="form-group">
                         <label for="categorySelect">Category</label>   
@@ -72,12 +72,12 @@ $result = $con->query($sql);
                         <div class="form-group">
                             <label for="desc">Description</label>
                             <div id="editor">
-                            <textarea class="mySummernote" name="desc" required>
+                            <textarea id="editAddress" class="mySummernote" name="desc" required>
                             </textarea>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" name="career_manage">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                     </form>
                 </div>
             </div>

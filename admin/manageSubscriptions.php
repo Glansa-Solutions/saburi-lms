@@ -13,7 +13,7 @@ include('includes/sidebar.php');
                         <p class="card-description">
                             Basic form layout
                         </p> -->
-                    <form class="forms-sample row" action="functions/functions" method="POST">
+                    <form class="forms-sample row" id="entry_form" action="functions/functions" method="POST">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"> Subscription Name</label>
@@ -52,7 +52,7 @@ include('includes/sidebar.php');
                             </div>
                             <div>
                             <button type="submit" class="btn btn-primary me-2" name="subscription_manage">Submit</button>
-                            <button type="reset" class="btn btn-light">Cancel</button>
+                            <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                             </div>
 
                         </div>

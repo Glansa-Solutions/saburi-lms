@@ -14,7 +14,7 @@ include('../core/listgrid.php');
                         <p class="card-description">
                             Basic form layout
                         </p> -->
-                    <form class="forms-sample row" action="../core/admin_functions.php" method="POST"
+                    <form class="forms-sample row" id="entry_form" action="../core/admin_functions.php" method="POST"
                         enctype="multipart/form-data">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -65,7 +65,7 @@ include('../core/listgrid.php');
                             <div class="form-group">
                                 <label for="banner_desc">What will you learn?</label>
                                 <div id="editor">
-                                    <textarea name="learn" class="mySummernote" required>Welcome to Saburi LMS</textarea>
+                                    <textarea name="learn" id="editAddress" class="mySummernote" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -95,14 +95,14 @@ include('../core/listgrid.php');
                             <div class="form-group">
                                 <label for="banner_desc">Description</label>
                                 <div id="editor">
-                                    <textarea name="description" class="mySummernote" required>Welcome to Saburi LMS</textarea>
+                                    <textarea name="description" id="editAddress" class="mySummernote" required></textarea>
                                 </div>
                             </div>
 
                         </div>
                         <div>
                             <button type="submit" class="btn btn-primary me-2" name="course_manage">Submit</button>
-                            <button type="reset" class="btn btn-light">Cancel</button>
+                            <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                         </div>
                     </form>
                 </div>
@@ -209,7 +209,7 @@ include('../core/listgrid.php');
                                         <div class="card">
                                             <div class="card-body">
                                                 <!-- <h4 class="card-title">Add Courses Details</h4> -->
-                                                <!-- <form class="forms-sample row" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
+                                                <!-- <form class="forms-sample" id="entry_form" action="functions/functions" method="POST" enctype="multipart/form-data"> -->
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group">
@@ -229,7 +229,7 @@ include('../core/listgrid.php');
 
                                                         <div class="form-group">
                                                             <label for="image">Image</label>
-                                                            <input required type="file" class="form-control-file" id="image"
+                                                            <input required type="file" class="form-control" id="image"
                                                                 name="image" accept="image/*">
                                                             <input required type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />
@@ -244,7 +244,7 @@ include('../core/listgrid.php');
 
                                                         <div class="form-group">
                                                             <label for="image">Upload Video</label>
-                                                            <input required type="file" class="form-control-file" id="video"
+                                                            <input required type="file" class="form-control" id="video"
                                                                 name="video" accept="video/*">
                                                             <input required type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />
@@ -273,7 +273,7 @@ include('../core/listgrid.php');
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Upload File</label>
-                                                            <input required type="file" class="form-control-file" id="uploadfile"
+                                                            <input required type="file" class="form-control" id="uploadfile"
                                                                 name="uploadfile">
                                                             <input required type="hidden" id="oldImage" name="oldImage"
                                                                 width="100" height="100" />

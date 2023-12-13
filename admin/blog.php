@@ -56,7 +56,7 @@ li {
                         You can Write the content for about page.
                     </p> -->
 
-                    <form class="forms-sample" action="../core/admin_functions.php" method="POST"
+                    <form class="forms-sample" id="entry_form"action="../core/admin_functions.php" method="POST"
                         enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Title</label>
@@ -64,7 +64,7 @@ li {
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                         </div>
                         <div class="form-group">
                             <label for="writer">Writer</label>
@@ -74,7 +74,7 @@ li {
                         <div class="form-group">
                             <label for="desc">Description</label>
                             <div id="editor">
-                                <textarea class="mySummernote" name="desc" required></textarea>
+                                <textarea id="editAddress" class="mySummernote" name="desc" required></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -87,7 +87,7 @@ li {
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary me-2" name="blog_manage">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                     </form>
                 </div>
             </div>

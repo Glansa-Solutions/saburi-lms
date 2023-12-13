@@ -25,14 +25,14 @@ include('includes/sidebar.php');
                     <div class="row2 d-flex">
                         <div class="form-group">
                             <label for="banner_desc">Main Description</label>
-                            <textarea class="mySummernote">
-                            Welcome to Saburi LMS
+                            <textarea id="editAddress" class="mySummernote">
+                            
                                     </textarea>
                         </div>
                         <div class="form-group px-4">
                             <label for="banner_desc">Short Description</label>
-                            <textarea class="mySummernote">
-                            Welcome to Saburi LMS
+                            <textarea id="editAddress" class="mySummernote">
+                            
                                     </textarea>
                         </div>
                     </div>

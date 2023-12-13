@@ -37,7 +37,7 @@ $fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1")
 $query_fetch_blog_comment = mysqli_query($con, "SELECT * FROM comments_blog where isactive=1");
 $query_fetch_blog_comment_admin_grid = mysqli_query($con, "SELECT * FROM comments_blog");
 
-$query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.email, companyusers.password, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
+$query_fetch_company_users = mysqli_query($con, "SELECT companyusers.id, company.companyName, companyusers.email, companyusers.password, companyusers.session_id, courses.courseName,companyusers.ValidTill, companyusers.IsActive FROM company INNER JOIN companyusers on company.id = companyusers.companyId INNER JOIN courses ON courses.id = companyusers.CourseId");
 
 
 // Reports on Course list

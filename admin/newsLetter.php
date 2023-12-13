@@ -10,7 +10,7 @@ include('includes/sidebar.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">NewsLetter</h4>
-                    <form class="forms-sample row" action="../core/allmailfun.php" method="POST"
+                    <form class="forms-sample" id="entry_form" action="../core/allmailfun.php" method="POST"
                         enctype="multipart/form-data">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -23,7 +23,7 @@ include('includes/sidebar.php');
                             <div class="form-group">
                                 <label for="banner_desc">Description</label>
                                 <div id="editor">
-                                    <textarea class="mySummernote" name="descriptions" required></textarea>
+                                    <textarea id="editAddress" class="mySummernote" name="descriptions" required></textarea>
                                 </div>
                             </div>
                         </div>

@@ -16,7 +16,7 @@ include('includes/sidebar.php');
                         You can Write the content for about page.
                     </p> -->
                    
-                    <form class="forms-sample" action="functions/functions" method="POST" enctype="multipart/form-data">
+                    <form class="forms-sample" id="entry_form"action="functions/functions" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" name="title"
@@ -24,7 +24,7 @@ include('includes/sidebar.php');
                         </div> `
                         <div class="form-group"> 
                             <label for="image">Image</label>
-                            <input type="file" class="form-control-file" name="image" accept="image/*">
+                            <input type="file" class="form-control" name="image" accept="image/*">
                         </div>
                         <div class="form-group">
                             <label for="neme">Name</label>
@@ -32,7 +32,7 @@ include('includes/sidebar.php');
                                 placeholder="Enter Name">
                         </div>
                         <button type="submit" class="btn btn-primary me-2" name="corporateGovernance_manage">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
+                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                     </form>
                 </div>
             </div>
