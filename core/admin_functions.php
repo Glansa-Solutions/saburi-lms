@@ -48,9 +48,15 @@ if (isset($_POST['login_admin'])) {
     $insert_query = mysqli_query($con, "INSERT INTO topics(topicName,createdOn,isActive) VALUES('$topic','$currentDate',1)");
 
     if ($insert_query) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfull inserted";
         header("location: $mainlink" . "./admin/topic");
+
     } else {
-        echo "not done";
+        $_SESSION['status']="danger";
+        $_SESSION['message']="not inserted";
+        header("location: $mainlink" . "./admin/topic");
+
     }
     // Topic Management end 
 
