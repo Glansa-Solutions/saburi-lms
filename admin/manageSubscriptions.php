@@ -52,7 +52,7 @@ include('includes/sidebar.php');
                             </div>
                             <div>
                             <button type="submit" class="btn btn-primary me-2" name="subscription_manage">Submit</button>
-                            <button class="btn btn-light">Cancel</button>
+                            <button type="reset" class="btn btn-light">Cancel</button>
                             </div>
 
                         </div>

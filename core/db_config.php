@@ -7,6 +7,6 @@ $username="root";
 
 $con = mysqli_connect($host, $username, $password, $db);
 
-$mainlink="http://localhost/saburi-lms/";
+$mainlink="http://localhost:8080/saburi-lms/";
 
 ?>

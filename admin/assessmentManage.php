@@ -144,7 +144,7 @@ include('includes/sidebar.php');
                                <div class="col-md-6">                                
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary me-2 submit_validation" name="assessment_manage">Submit</button>
-                                        <button class="btn btn-light">Cancel</button>
+                                        <button type="reset" class="btn btn-light">Cancel</button>
                                     </div>
                                 </div>
                             </div>                        
