@@ -49,12 +49,12 @@ if (isset($_POST['login_admin'])) {
 
     if ($insert_query) {
         $_SESSION['status']="success";
-        $_SESSION['message']="Successfull inserted";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "./admin/topic");
 
     } else {
         $_SESSION['status']="danger";
-        $_SESSION['message']="not inserted";
+        $_SESSION['message']="Not inserted";
         header("location: $mainlink" . "./admin/topic");
 
     }
@@ -111,11 +111,14 @@ if (isset($_POST['login_admin'])) {
     $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,isActive) VALUES('$topic','$subtopic',1)");
 
     if ($insert_query) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "./admin/subtopic");
         // echo "hii";
     } else {
-        echo "not done";
-        echo $topic, $subtopic, $currentDate;
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not inserted";
+        header("location: $mainlink" . "./admin/subtopic");
     }
 } elseif (isset($_POST['delete_subtopic'])) {
     // Get the ID from the URL
@@ -171,9 +174,13 @@ if (isset($_POST['login_admin'])) {
     // $insert_query = mysqli_query($con, "INSERT INTO courses(topicID ,subTopicId ,courseName,courseCost,bannerImage,uploadfile,video,courseDesc,learn,summary,requirements) VALUES('$topic','$subtopic','$courseName','$price','$imageFileName','$uploadFileName','$videoFileName','$desc','$wyl','$summary','$requirements')");
 
     if ($insert_course) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "admin/manageCourse");
     } else {
-        echo "not done";
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not inserted";
+        header("location: $mainlink" . "admin/manageCourse");
     }
 } elseif (isset($_POST['checking_course_btn'])) {
     $courseId = $_POST['course_id'];

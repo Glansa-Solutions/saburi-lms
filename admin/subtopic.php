@@ -13,11 +13,23 @@ include('../core/listgrid.php');
                     <form class="forms-sample" id="entry_form" action="../core/admin_functions.php" method="POST">
                         <div class="col-md-6">
                             <div class="form-group">
+                                <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+                                    $status = $_SESSION['status'];
+                                    $message = $_SESSION['message'];
+                                ?>
+                                    <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+                                        <strong>
+                                            <?= $message; ?>
+                                        </strong>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php unset($_SESSION['message']);
+                                } ?>
                                 <label for="name"> Topic Name</label>
                                 <select class="form-control" name="topic" required>
                                     <option value=""> Select Topic Name</option>
                                     <?php
-                                    
+
                                     if ($fetch_list_topic_query) {
                                         // $i = 1;
                                         while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
@@ -66,7 +78,7 @@ include('../core/listgrid.php');
                             if ($fetch_list_join_topics_subtopic_query) {
                                 $i = 1;
                                 while ($row = mysqli_fetch_assoc($fetch_list_join_topics_subtopic_query)) {
-                                // var_dump($row);
+                                    // var_dump($row);
                             ?>
                                     <tr>
                                         <td><?= $i; ?></td>
@@ -110,7 +122,7 @@ include('../core/listgrid.php');
                                                 <label for="name">Topic Name</label>
                                                 <input type="hidden" class="form-control" name="name" placeholder="Enter Name" id="editrow">
                                                 <select class="form-control" name="topic" id="topic" required>
-                                                <option value=""> Select Topic Name</option>
+                                                    <option value=""> Select Topic Name</option>
 
                                                 </select>
                                             </div>
@@ -152,15 +164,15 @@ include('../core/listgrid.php');
             </div>
             <form action="../core/admin_functions.php" method="POST">
 
-            <div class="modal-body">
+                <div class="modal-body">
 
-                <input type="hidden" id="delete_id" name="delete_id">
-                Are you sure you want to delete this record?
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-danger" name="delete_subtopic" id="delete_subtopic">Delete</button>
-            </div>
+                    <input type="hidden" id="delete_id" name="delete_id">
+                    Are you sure you want to delete this record?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger" name="delete_subtopic" id="delete_subtopic">Delete</button>
+                </div>
         </div>
     </div>
 </div>
@@ -174,7 +186,7 @@ include('../core/listgrid.php');
             console.log(rowid);
 
             $.ajax({
-                url: '../core/edit_subTopic.php', 
+                url: '../core/edit_subTopic.php',
                 data: {
                     sub_topic_id: rowid
                 },
@@ -186,7 +198,7 @@ include('../core/listgrid.php');
                 }
             });
             $.ajax({
-                url: '../core/subTopic_modalData.php', 
+                url: '../core/subTopic_modalData.php',
                 data: {
                     sub_topic_name: rowid
                 },
@@ -198,14 +210,14 @@ include('../core/listgrid.php');
                     // $('#subtopic_name').html(data);
                 }
             });
- 
+
 
         });
         // $('.update_sb_tpc').on('click', function() {
         //     var sb_tp_id = $('#editrow').val();
         //     var tp_id = $('#topic').val();
         //     var sub_tp_name = $('#subtopic_name').val();
-            
+
         //     console.log("Topic Name: " + tp_id + ", Sub Topic Name: " + sub_tp_name);
         //     $.ajax({
         //         url: '../core/subTopic_modalData.php',
@@ -230,63 +242,62 @@ include('../core/listgrid.php');
         // });
 
         $('.update_sb_tpc').on('click', function() {
-        // Get values from the inputs
-        var sb_tp_id = $('#editrow').val();
-        var tp_id = $('#topic').val();
-        var sub_tp_name = $('#subtopic_name').val();
+            // Get values from the inputs
+            var sb_tp_id = $('#editrow').val();
+            var tp_id = $('#topic').val();
+            var sub_tp_name = $('#subtopic_name').val();
 
-        // Clear existing validation messages
-        $('.validation-message').remove();
+            // Clear existing validation messages
+            $('.validation-message').remove();
 
-        // Check if the Topic Name is empty
-        if (tp_id === "") {
-            // Display validation message below the Topic Name input
-            $('#topic').after('<span class="validation-message text-danger">Topic Name is required.</span>');
-        }
+            // Check if the Topic Name is empty
+            if (tp_id === "") {
+                // Display validation message below the Topic Name input
+                $('#topic').after('<span class="validation-message text-danger">Topic Name is required.</span>');
+            }
 
-        // Check if the Sub Topic Name is empty
-        if (sub_tp_name === "") {
-            // Display validation message below the Sub Topic Name input
-            $('#subtopic_name').after('<span class="validation-message text-danger">Sub Topic Name is required.</span>');
-        }
+            // Check if the Sub Topic Name is empty
+            if (sub_tp_name === "") {
+                // Display validation message below the Sub Topic Name input
+                $('#subtopic_name').after('<span class="validation-message text-danger">Sub Topic Name is required.</span>');
+            }
 
-        // Check if both Topic Name and Sub Topic Name are not empty
-        if (tp_id !== "" && sub_tp_name !== "") {
-            // Proceed with the AJAX request for updating changes
-            $.ajax({
-                url: '../core/subTopic_modalData.php',
-                data: {
-                    updated_subtopic_name: sub_tp_name,
-                    updated_topic_id: tp_id,
-                    sb_tp_id: sb_tp_id
-                },
-                method: 'POST',
-                success: function(data) {
-                    console.log("Response from server:", data);
-                    // Reload the page after a successful update
-                    window.location.reload();
-                }
-            });
-        }
-    });
+            // Check if both Topic Name and Sub Topic Name are not empty
+            if (tp_id !== "" && sub_tp_name !== "") {
+                // Proceed with the AJAX request for updating changes
+                $.ajax({
+                    url: '../core/subTopic_modalData.php',
+                    data: {
+                        updated_subtopic_name: sub_tp_name,
+                        updated_topic_id: tp_id,
+                        sb_tp_id: sb_tp_id
+                    },
+                    method: 'POST',
+                    success: function(data) {
+                        console.log("Response from server:", data);
+                        // Reload the page after a successful update
+                        window.location.reload();
+                    }
+                });
+            }
+        });
 
     });
 </script>
 
 
 <script>
+    $(document).ready(function() {
+        $('.delete-button').on('click', function(e) {
+            e.preventDefault();
+            var deleteId = $(this).data('id');
 
-$(document).ready(function() {
-    $('.delete-button').on('click', function(e) {
-        e.preventDefault();
-        var deleteId = $(this).data('id');
+            console.log(deleteId);
+            $('#delete_id').val(deleteId);
+            $('#deleteModal').modal('show');
 
-        console.log(deleteId);
-        $('#delete_id').val(deleteId);
-        $('#deleteModal').modal('show'); 
-    
+        });
     });
-});
 </script>
 
 

@@ -14,10 +14,22 @@ include('../core/listgrid.php');
                         <p class="card-description">
                             Basic form layout
                         </p> -->
-                    <form class="forms-sample row" id="entry_form" action="../core/admin_functions.php" method="POST"
-                        enctype="multipart/form-data">
+                    <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+                        $status = $_SESSION['status'];
+                        $message = $_SESSION['message'];
+                    ?>
+                        <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+                            <strong>
+                                <?= $message; ?>
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php unset($_SESSION['message']);
+                    } ?>
+                    <form class="forms-sample row" id="entry_form" action="../core/admin_functions.php" method="POST" enctype="multipart/form-data">
                         <div class="col-md-6">
                             <div class="form-group">
+
                                 <label for="topic"> Topic Name</label>
                                 <!-- <input required type="text" class="form-control" name="name" placeholder="Enter Name"> -->
                                 <select required class="form-control" name="topic" id="topic">
@@ -26,14 +38,14 @@ include('../core/listgrid.php');
 
                                     if ($fetch_list_topic_query) {
                                         // $i = 1;
-                                    
+
                                         while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
 
                                             echo $topic_id;
-                                            ?>
+                                    ?>
 
                                             <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
-                                            <?php
+                                    <?php
                                         }
                                     } else {
                                         echo "Query failed!";
@@ -50,8 +62,7 @@ include('../core/listgrid.php');
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Course Name</label>
-                                <input type="text" class="form-control" name="courseName"
-                                    placeholder="Enter Course Name">
+                                <input type="text" class="form-control" name="courseName" placeholder="Enter Course Name">
                             </div>
                             <div class="form-group">
                                 <label for="price">Price</label>
@@ -59,8 +70,7 @@ include('../core/listgrid.php');
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Tags</label>
-                                <input type="text" class="form-control" name="tags"
-                                    placeholder="Enter tags for this course">
+                                <input type="text" class="form-control" name="tags" placeholder="Enter tags for this course">
                             </div>
                             <div class="form-group">
                                 <label for="banner_desc">What will you learn?</label>
@@ -84,13 +94,11 @@ include('../core/listgrid.php');
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Requirements</label>
-                                <input type="text" class="form-control" name="requirements"
-                                    placeholder="Enter what is required for learning this course">
+                                <input type="text" class="form-control" name="requirements" placeholder="Enter what is required for learning this course">
                             </div>
                             <div class="form-group">
                                 <label for="courseName">Course Duration</label>
-                                <input type="text" class="form-control" name="durations"
-                                    placeholder="Enter course duration in days">
+                                <input type="text" class="form-control" name="durations" placeholder="Enter course duration in days">
                             </div>
                             <div class="form-group">
                                 <label for="banner_desc">Description</label>
@@ -141,7 +149,7 @@ include('../core/listgrid.php');
                                         $img = $row['bannerImage'];
                                         $file = $row['uploadfile'];
                                         $video = $row['video'];
-                                        ?>
+                                ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
@@ -171,12 +179,11 @@ include('../core/listgrid.php');
                                                 <?= $video; ?>
                                             </td>
                                             <td>
-                                                <button type="submit" class="btn btn-primary me-2 p-2" data-bs-toggle="modal"
-                                                    data-bs-target="#editModal" data-id="<?= $id ?>">Edit</button>
+                                                <button type="submit" class="btn btn-primary me-2 p-2" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $id ?>">Edit</button>
                                                 <button class="btn btn-danger p-2">Delete</button>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                         $i++;
                                     }
                                 } else {
@@ -189,8 +196,7 @@ include('../core/listgrid.php');
                 </div>
             </div>
             <!-- Edit Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -214,8 +220,7 @@ include('../core/listgrid.php');
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="topic"> Topic Name</label>
-                                                            <input required type="hidden" class="form-control" name="name"
-                                                                placeholder="Enter Name" id="editrow">
+                                                            <input required type="hidden" class="form-control" name="name" placeholder="Enter Name" id="editrow">
                                                             <select required class="form-control" name="topic" id="topic">
 
                                                             </select>
@@ -223,39 +228,32 @@ include('../core/listgrid.php');
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
-                                                            <input required type="text" class="form-control" id="courseName"
-                                                                name="courseName" placeholder="Enter Course Name">
+                                                            <input required type="text" class="form-control" id="courseName" name="courseName" placeholder="Enter Course Name">
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="image">Image</label>
-                                                            <input required type="file" class="form-control" id="image"
-                                                                name="image" accept="image/*">
-                                                            <input required type="hidden" id="oldImage" name="oldImage"
-                                                                width="100" height="100" />
+                                                            <input required type="file" class="form-control" id="image" name="image" accept="image/*">
+                                                            <input required type="hidden" id="oldImage" name="oldImage" width="100" height="100" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="editTitle">Existing Image</label><br>
                                                             <!-- <input required type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
-                                                            <img src="" id="output" name="output" width="100"
-                                                                height="100" />
+                                                            <img src="" id="output" name="output" width="100" height="100" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="image">Upload Video</label>
-                                                            <input required type="file" class="form-control" id="video"
-                                                                name="video" accept="video/*">
-                                                            <input required type="hidden" id="oldImage" name="oldImage"
-                                                                width="100" height="100" />
+                                                            <input required type="file" class="form-control" id="video" name="video" accept="video/*">
+                                                            <input required type="hidden" id="oldImage" name="oldImage" width="100" height="100" />
                                                         </div>
 
 
                                                         <div class="form-group">
                                                             <label for="editTitle">Existing Image</label><br>
                                                             <!-- <input required type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
-                                                            <img src="" id="output" name="output" width="100"
-                                                                height="100" />
+                                                            <img src="" id="output" name="output" width="100" height="100" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -268,29 +266,24 @@ include('../core/listgrid.php');
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="price">Price</label>
-                                                            <input required type="number" class="form-control" id="price"
-                                                                name="price" placeholder="Enter Price">
+                                                            <input required type="number" class="form-control" id="price" name="price" placeholder="Enter Price">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Upload File</label>
-                                                            <input required type="file" class="form-control" id="uploadfile"
-                                                                name="uploadfile">
-                                                            <input required type="hidden" id="oldImage" name="oldImage"
-                                                                width="100" height="100" />
+                                                            <input required type="file" class="form-control" id="uploadfile" name="uploadfile">
+                                                            <input required type="hidden" id="oldImage" name="oldImage" width="100" height="100" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="editTitle">Existing Image</label><br>
                                                             <!-- <input required type="file" class="form-control" onchange="loadFile(event)" id="banner_image" name="banner_image"> -->
-                                                            <img src="" id="output" name="output" width="100"
-                                                                height="100" />
+                                                            <img src="" id="output" name="output" width="100" height="100" />
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="banner_desc">Description</label>
                                                             <!-- <textarea class="richtext" name="desc"> -->
-                                                            <textarea id="inputTextLearn" class="richtext" rows="4"
-                                                                cols="50" placeholder="Enter a value"></textarea>
+                                                            <textarea id="inputTextLearn" class="richtext" rows="4" cols="50" placeholder="Enter a value"></textarea>
                                                         </div>
 
 
@@ -323,17 +316,19 @@ include('../core/listgrid.php');
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Bind a change event to the topic select
-        $('#topic').change(function () {
+        $('#topic').change(function() {
             var topicId = $(this).val();
             if (topicId) {
                 // Make an AJAX request to fetch subtopics for the selected topic
                 $.ajax({
                     url: '../core/chepterTopicFunctions.php', // Replace with the actual server-side script
-                    data: { topicId: topicId },
+                    data: {
+                        topicId: topicId
+                    },
                     method: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         // Populate the subtopic select with the retrieved data
                         console.log(data);
                         $('#subtopic').html(data);
