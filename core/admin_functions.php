@@ -78,19 +78,58 @@ if (isset($_POST['login_admin'])) {
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} elseif (isset($_POST['update_topic'])) {
+}
+elseif (isset($_POST['update_topic'])) {
     $id = $_POST['topicId'];
-    $topic_name = $_POST['topic_name'];
+    $new_topic_name = $_POST['topic_name'];
 
-    $update_topic = "UPDATE topics set topicName='$topic_name' WHERE Id='$id'";
-    $query = mysqli_query($con, $update_topic);
+    // Fetch the existing topic name from the database
+    $fetch_existing_topic_query = mysqli_query($con, "SELECT topicName FROM topics WHERE Id='$id'");
+    $existing_topic_row = mysqli_fetch_assoc($fetch_existing_topic_query);
+    $existing_topic_name = $existing_topic_row['topicName'];
 
-    if ($query) {
-        header("location: $mainlink" . "./admin/topic");
+    // Check if the new topic name is different from the existing one
+    if ($new_topic_name != $existing_topic_name) {
+        // Update the topic name
+        $update_topic = "UPDATE topics SET topicName='$new_topic_name' WHERE Id='$id'";
+        $query = mysqli_query($con, $update_topic);
+
+        if ($query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully updated";
+            header("location: $mainlink" . "./admin/topic");
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Update failed";
+            header("location: $mainlink" . "./admin/topic");
+        }
     } else {
-        echo "not working";
+        // If the new topic name is the same as the existing one, set an error message
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Topic name is the same. Update aborted.";
+        header("location: $mainlink" . "./admin/topic");
     }
-} elseif (isset($_POST['delete_topic'])) {
+}
+
+
+//  elseif (isset($_POST['update_topic'])) {
+//     $id = $_POST['topicId'];
+//     $topic_name = $_POST['topic_name'];
+
+//     $update_topic = "UPDATE topics set topicName='$topic_name' WHERE Id='$id'";
+//     $query = mysqli_query($con, $update_topic);
+
+//     if ($query) {
+//         $_SESSION['status']="success";
+//         $_SESSION['message']="Successfully inserted";
+//         header("location: $mainlink" . "./admin/topic");
+//     } else {
+//         $_SESSION['status']="danger";
+//         $_SESSION['message']="Not inserted";
+//         echo "not working";
+//     }
+// }
+ elseif (isset($_POST['delete_topic'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql = "DELETE FROM topics WHERE Id = $id";
