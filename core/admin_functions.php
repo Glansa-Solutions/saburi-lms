@@ -736,9 +736,13 @@ if (isset($_POST['sending_email'])) {
     $insert_chapters = mysqli_query($con, "INSERT INTO chapters(topicID,subTopicId,courseId,chapterName,chapterContent,uploadfile,video,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$chapterContent','$uploadFileName','$videoFileName',1)");
 
     if ($insert_chapters) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "admin/manageChapter");
     } else {
-        echo "not done";
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not inserted";
+        header("location: $mainlink" . "admin/manageChapter");
     }
 
 
@@ -1707,6 +1711,18 @@ if (isset($_POST['assessment_manage'])) {
         echo json_encode("Can not add already having same name in id");
     } else {
         $insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
+         if($insert_assessment){
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully inserted";
+            header("location: $mainlink" . "admin/assessmentManage");
+            exit;
+         }else{
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not inserted";
+            header("location: $mainlink" . "admin/assessmentManage");
+            exit;
+         }
+
         header("location: $mainlink" . "admin/assessmentManage");
     }
 } 

@@ -5,9 +5,9 @@ include('../core/listgrid.php');
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Bind a change event to the topic select
-        $('#topic').change(function () {
+        $('#topic').change(function() {
             var topicId = $(this).val();
             if (topicId) {
                 // Make an AJAX request to fetch subtopics for the selected topic
@@ -17,7 +17,7 @@ include('../core/listgrid.php');
                         topicId: topicId
                     },
                     method: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         // Populate the subtopic select with the retrieved data
                         $('#subtopic').html(data);
                     }
@@ -28,34 +28,34 @@ include('../core/listgrid.php');
             }
         });
 
-        $('#subtopic').change(function () {
+        $('#subtopic').change(function() {
             var subtopicId = $(this).val();
-            if(subtopicId){
+            if (subtopicId) {
                 $.ajax({
-                url:'../core/cheptersubFunctions.php',
-                data: {
-                    subtopicId:subtopicId
-                },
-                method:'GET',
-                success:function(data){
-                    $('#courseName').html(data);
-                }
-            })
+                    url: '../core/cheptersubFunctions.php',
+                    data: {
+                        subtopicId: subtopicId
+                    },
+                    method: 'GET',
+                    success: function(data) {
+                        $('#courseName').html(data);
+                    }
+                })
             }
         });
-        $('#courseName').change(function () {
+        $('#courseName').change(function() {
             var courseId = $(this).val();
-            if(courseId){
+            if (courseId) {
                 $.ajax({
-                url:'../core/chepterFunctions.php',
-                data: {
-                    courseId:courseId
-                },
-                method:'GET',
-                success:function(data){
-                    $('#chapter').html(data);
-                }
-            })
+                    url: '../core/chepterFunctions.php',
+                    data: {
+                        courseId: courseId
+                    },
+                    method: 'GET',
+                    success: function(data) {
+                        $('#chapter').html(data);
+                    }
+                })
             }
         });
     });
@@ -93,105 +93,105 @@ include('../core/listgrid.php');
 
                 <div class="card-body">
                     <form action="../core/admin_functions.php" class=" " method="POST" enctype="multipart/form-data">
-                        
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="topic"> Topic Name</label>
-                                        <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                        <select class="form-control" class="topic" name="topic" id="topic">
-                                            <option value="">Select Topic Name</option>
-                                            <?php
-                                            if ($fetch_list_topic_query) {
-                                                // $i = 1;
-                                                
-                                                while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
 
-                                                    echo $topic_id;
-                                                    ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="topic"> Topic Name</label>
+                                    <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
+                                    <select class="form-control" class="topic" name="topic" id="topic">
+                                        <option value="">Select Topic Name</option>
+                                        <?php
+                                        if ($fetch_list_topic_query) {
+                                            // $i = 1;
 
-                                                    <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
-                                                    <?php
-                                                }
-                                            } else {
-                                                echo "Query failed!";
+                                            while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
+
+                                                echo $topic_id;
+                                        ?>
+
+                                                <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
+                                        <?php
                                             }
-                                            ?>
-                                        </select>
-                                    </div>
+                                        } else {
+                                            echo "Query failed!";
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">                                    
-                                        <label for="courseName">Subtopic Name</label>
-                                        <select class="form-control" name="subtopic" id="subtopic">
-                                            <option> select subtopic name</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="courseName">Subtopic Name</label>
+                                    <select class="form-control" name="subtopic" id="subtopic">
+                                        <option> select subtopic name</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">                                    
-                                        <label for="courseName">Course Name</label>
-                                        <select class="form-control" name="courseName" id="courseName">
-                                            <option> Select Course name</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="courseName">Course Name</label>
+                                    <select class="form-control" name="courseName" id="courseName">
+                                        <option> Select Course name</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="chapter">Assessment Name</label>
-                                        <input type="text" class="form-control" name="assessmentName" id="assessmentName">
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="chapter">Assessment Name</label>
+                                    <input type="text" class="form-control" name="assessmentName" id="assessmentName">
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="questions">Write your question here</label>
-                                        <input type="text" class="form-control" name="question" id="question">
-                                    </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="questions">Write your question here</label>
+                                    <input type="text" class="form-control" name="question" id="question">
                                 </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option A</label>
-                                        <input type="text" class="form-control" name="optionA" id="optionA">
-                                    </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option A</label>
+                                    <input type="text" class="form-control" name="optionA" id="optionA">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option B</label>
-                                        <input type="text" class="form-control" name="optionB" id="optionB">
-                                    </div>
-                                </div>    
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option C</label>
-                                        <input type="text" class="form-control" name="optionC" id="optionC">
-                                    </div>  
-                                </div>    
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option D</label>
-                                        <input type="text" class="form-control" name="optionD" id="optionD">
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option B</label>
+                                    <input type="text" class="form-control" name="optionB" id="optionB">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Select Correct Answer</label>
-                                        <select class="form-control" name="correctAns">
-                                            <option>Choose the correct Answer</option>
-                                            <option value="a">Option A</option>
-                                            <option value="b">Option B</option>
-                                            <option value="c">Option C</option>
-                                            <option value="d">Option D</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option C</label>
+                                    <input type="text" class="form-control" name="optionC" id="optionC">
                                 </div>
-                               <div class="col-md-6">                                
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary me-2" name="assessment_manage">Submit</button>
-                                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option D</label>
+                                    <input type="text" class="form-control" name="optionD" id="optionD">
                                 </div>
-                            </div>                        
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Select Correct Answer</label>
+                                    <select class="form-control" name="correctAns">
+                                        <option>Choose the correct Answer</option>
+                                        <option value="a">Option A</option>
+                                        <option value="b">Option B</option>
+                                        <option value="c">Option C</option>
+                                        <option value="d">Option D</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary me-2" name="assessment_manage">Submit</button>
+                                    <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div>
                             
                         </div> -->
@@ -237,8 +237,8 @@ include('../core/listgrid.php');
                                         $optionC = $row['c'];
                                         $optionD = $row['d'];
                                         $correctAns = $row['correctAnswer'];
-                                        
-                                        ?>
+
+                                ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
@@ -271,16 +271,14 @@ include('../core/listgrid.php');
                                                 <?= $correctAns; ?>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary p-2 edit-button"
-                                                    data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $id ?>">
+                                                <button type="button" class="btn btn-primary p-2 edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $id ?>">
                                                     edit
                                                 </button>
 
-                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal" data-id="<?= $id ?>">Delete</button>
+                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $id ?>">Delete</button>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                         $i++;
                                     }
                                 } else {
@@ -297,8 +295,7 @@ include('../core/listgrid.php');
 
 
             <!-- Edit Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -323,58 +320,50 @@ include('../core/listgrid.php');
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
-                                                            <input type="text" class="form-control" id="course"
-                                                                name="courseName" placeholder="Enter Course Name" readonly>
-                                                                <input type="hidden" class="form-control" name="questionsId"
-                                                                placeholder="Enter Name" id="questionsId">
+                                                            <input type="text" class="form-control" id="course" name="courseName" placeholder="Enter Course Name" readonly>
+                                                            <input type="hidden" class="form-control" name="questionsId" placeholder="Enter Name" id="questionsId">
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="questions">Questions</label>
-                                                            <input type="text" class="form-control" id="questions"
-                                                                name="questions" >
+                                                            <input type="text" class="form-control" id="questions" name="questions">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="optionB">Option B</label>
-                                                            <input type="text" class="form-control" id="OptionB"
-                                                                name="optionB" >
+                                                            <input type="text" class="form-control" id="OptionB" name="optionB">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="optionB">Option D</label>
-                                                            <input type="text" class="form-control" id="OptionD"
-                                                                name="optionD" >
+                                                            <input type="text" class="form-control" id="OptionD" name="optionD">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="assessment">Assessment Name</label>
-                                                            <input type="text" class="form-control" id="assessment_name"
-                                                                name="assessmentName" placeholder="Enter Assessment Name" readonly>
+                                                            <input type="text" class="form-control" id="assessment_name" name="assessmentName" placeholder="Enter Assessment Name" readonly>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Option A</label>
-                                                            <input type="text" class="form-control" id="OptionA"
-                                                                name="optionA">
-                                                           
+                                                            <input type="text" class="form-control" id="OptionA" name="optionA">
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Option C</label>
-                                                            <input type="text" class="form-control" id="OptionC"
-                                                                name="optionC">
-                                                            
+                                                            <input type="text" class="form-control" id="OptionC" name="optionC">
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Correct Answer</label>
                                                             <!-- <input type="text" class="form-control" id="correctAns"
                                                                 name="correctAnswer"> -->
-                                                                <select class="form-control" name="correctAnswer" id="correctAns" >
-                                                                    <option>Choose the correct Answer</option>
-                                                                    <option data-option="" value="a">Option A</option>
-                                                                    <option value="b">Option B</option>
-                                                                    <option value="c">Option C</option>
-                                                                    <option value="d">Option D</option>
-                                                                </select>
-                                                            
+                                                            <select class="form-control" name="correctAnswer" id="correctAns">
+                                                                <option>Choose the correct Answer</option>
+                                                                <option data-option="" value="a">Option A</option>
+                                                                <option value="b">Option B</option>
+                                                                <option value="c">Option C</option>
+                                                                <option value="d">Option D</option>
+                                                            </select>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -402,8 +391,7 @@ include('../core/listgrid.php');
 </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -429,8 +417,8 @@ include('../core/listgrid.php');
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.edit-button').on('click', function () {
+    $(document).ready(function() {
+        $('.edit-button').on('click', function() {
             // console.log('hii');
             var assessmentId = $(this).closest('tr').find('.edit_id').text();
             console.log(assessmentId);
@@ -442,9 +430,9 @@ include('../core/listgrid.php');
                     'assessmentId': assessmentId,
                 },
                 // dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     console.log(response);
-                    $.each(response, function (key, value) {
+                    $.each(response, function(key, value) {
                         $('#course').val(value['courseName']);
                         $('#assessment_name').val(value['assessmentName']);
                         $('#questionsId').val(value['questions_id']);
@@ -464,8 +452,8 @@ include('../core/listgrid.php');
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('.delete-button').on('click', function (e) {
+    $(document).ready(function() {
+        $('.delete-button').on('click', function(e) {
             e.preventDefault();
             var asses_id = $(this).closest('tr').find('.edit_id').text();
 

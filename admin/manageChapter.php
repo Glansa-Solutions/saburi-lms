@@ -7,9 +7,9 @@ include('../core/listgrid.php');
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Bind a change event to the topic select
-        $('#topic').change(function () {
+        $('#topic').change(function() {
             var topicId = $(this).val();
             if (topicId) {
                 // Make an AJAX request to fetch subtopics for the selected topic
@@ -19,7 +19,7 @@ include('../core/listgrid.php');
                         topicId: topicId
                     },
                     method: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         // Populate the subtopic select with the retrieved data
                         $('#subtopic').html(data);
                     }
@@ -30,7 +30,7 @@ include('../core/listgrid.php');
             }
         });
 
-        $('#subtopic').change(function () {
+        $('#subtopic').change(function() {
             var subtopicId = $(this).val();
             if (subtopicId) {
                 $.ajax({
@@ -39,7 +39,7 @@ include('../core/listgrid.php');
                         subtopicId: subtopicId
                     },
                     method: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         $('#courseName').html(data);
                     }
                 })
@@ -73,15 +73,24 @@ include('../core/listgrid.php');
 </style>
 
 <div class="content-wrapper">
+    <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+        $status = $_SESSION['status'];
+        $message = $_SESSION['message'];
+    ?>
+        <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+            <strong>
+                <?= $message; ?>
+            </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['message']);
+    } ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card ">
-
             <div class="card">
-
                 <div class="card-body">
                     <h4 class="card-title">Add Chapter</h4>
-                    <form action="../core/admin_functions.php" class="col-md-12 " method="POST"
-                        enctype="multipart/form-data">
+                    <form action="../core/admin_functions.php" class="col-md-12 " method="POST" enctype="multipart/form-data">
                         <div class="col-md-12 d-flex">
                             <div class="col-md-6 p-3">
                                 <div class="form-group">
@@ -92,14 +101,14 @@ include('../core/listgrid.php');
                                         <?php
                                         if ($fetch_list_topic_query) {
                                             // $i = 1;
-                                        
+
                                             while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
 
                                                 echo $topic_id;
-                                                ?>
+                                        ?>
 
                                                 <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
-                                                <?php
+                                        <?php
                                             }
                                         } else {
                                             echo "Query failed!";
@@ -134,8 +143,7 @@ include('../core/listgrid.php');
                                 </div>
                                 <div class="form-group">
                                     <label for="chapter">Chapter Name</label>
-                                    <input type="text" class="form-control" name="chapter"
-                                        placeholder="Enter Chapter Name" id="chapterName">
+                                    <input type="text" class="form-control" name="chapter" placeholder="Enter Chapter Name" id="chapterName">
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Upload Video</label>
@@ -198,7 +206,7 @@ include('../core/listgrid.php');
                                         $video = $row['video'];
                                         $chapterContent = $row['chapterContent'];
 
-                                        ?>
+                                ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
@@ -228,16 +236,14 @@ include('../core/listgrid.php');
                                                 <?= $video; ?>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary p-2 edit-button"
-                                                    data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $id ?>">
+                                                <button type="button" class="btn btn-primary p-2 edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $id ?>">
                                                     edit
                                                 </button>
 
-                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal" data-id="<?= $id ?>">Delete</button>
+                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $id ?>">Delete</button>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                         $i++;
                                     }
                                 } else {
@@ -254,8 +260,7 @@ include('../core/listgrid.php');
 
 
             <!-- Edit Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -279,28 +284,22 @@ include('../core/listgrid.php');
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="topic"> Topic Name</label>
-                                                            <input type="hidden" class="form-control" name="chapterId"
-                                                                placeholder="Enter Name" id="chapterId">
+                                                            <input type="hidden" class="form-control" name="chapterId" placeholder="Enter Name" id="chapterId">
                                                             <!-- <select class="form-control" name="topic" id="topic">
 
                                                                 </select> -->
-                                                            <input type="text" class="form-control" name="topic"
-                                                                id="topicName" readonly>
+                                                            <input type="text" class="form-control" name="topic" id="topicName" readonly>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
-                                                            <input type="text" class="form-control" id="course"
-                                                                name="courseName" placeholder="Enter Course Name"
-                                                                readonly>
+                                                            <input type="text" class="form-control" id="course" name="courseName" placeholder="Enter Course Name" readonly>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="image">Upload Video</label>
-                                                            <input type="file" class="form-control" id="video"
-                                                                name="video" accept="video/*">
-                                                            <input type="hidden" id="oldImage" name="oldImage"
-                                                                width="100" height="100" />
+                                                            <input type="file" class="form-control" id="video" name="video" accept="video/*">
+                                                            <input type="hidden" id="oldImage" name="oldImage" width="100" height="100" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -310,20 +309,16 @@ include('../core/listgrid.php');
                                                             <!-- <select class="form-control" name="subtopic" id="subtopic">
                                                                 <option> select subtopic name</option>
                                                             </select> -->
-                                                            <input type="text" class="form-control" name="subtopic"
-                                                                id="subtopicName" readonly>
+                                                            <input type="text" class="form-control" name="subtopic" id="subtopicName" readonly>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="chapter">Chapter Name</label>
-                                                            <input type="text" class="form-control" id="chapter"
-                                                                name="chapter" placeholder="Enter Chapter Name">
+                                                            <input type="text" class="form-control" id="chapter" name="chapter" placeholder="Enter Chapter Name">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Upload File</label>
-                                                            <input type="file" class="form-control" id="uploadfile"
-                                                                name="uploadfile">
-                                                            <input type="hidden" id="oldImage" name="oldImage"
-                                                                width="100" height="100" />
+                                                            <input type="file" class="form-control" id="uploadfile" name="uploadfile">
+                                                            <input type="hidden" id="oldImage" name="oldImage" width="100" height="100" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -336,8 +331,7 @@ include('../core/listgrid.php');
 
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary update_chapter"
-                                    name="update_chapter">Update
+                                <button type="submit" class="btn btn-primary update_chapter" name="update_chapter">Update
                                     Changes</button>
                             </div>
                     </div>
@@ -352,8 +346,7 @@ include('../core/listgrid.php');
 </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -378,8 +371,8 @@ include('../core/listgrid.php');
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.edit-button').on('click', function () {
+    $(document).ready(function() {
+        $('.edit-button').on('click', function() {
             // console.log('hii');
             var chapterId = $(this).closest('tr').find('.edit_id').text();
             // console.log(courseId);
@@ -392,9 +385,9 @@ include('../core/listgrid.php');
                     'chapterId': chapterId,
                 },
                 // dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     console.log(response);
-                    $.each(response, function (key, value) {
+                    $.each(response, function(key, value) {
                         $('#topicName').val(value['topicName']);
                         $('#subtopicName').val(value['subtopicName']);
                         $('#course').val(value['courseName']);
@@ -412,8 +405,8 @@ include('../core/listgrid.php');
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('.delete-button').on('click', function (e) {
+    $(document).ready(function() {
+        $('.delete-button').on('click', function(e) {
             e.preventDefault();
             var course_id = $(this).closest('tr').find('.edit_id').text();
 
