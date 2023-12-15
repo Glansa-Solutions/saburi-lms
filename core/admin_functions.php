@@ -965,31 +965,78 @@ WHERE
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} elseif (isset($_POST['update_assessment'])) {
+} 
+// elseif (isset($_POST['update_assessment'])) {
+//     $assessmentName = $_POST['assessmentName'];
+//     $assessmentId = $_POST['assessmentId'];
+    
+
+//     $update = "UPDATE assessment SET 
+//                 assessmentName='$assessmentName',
+//                 modifiedOn=NOW() 
+//                 WHERE id='$assessmentId'";
+
+//     $query = mysqli_query($con, $update);
+
+//     if ($query) {
+//         header("location: $mainlink" . "admin/assessmentManage");
+//     } else {
+//         echo "Error: " . mysqli_error($con);
+//     }
+// } 
+
+elseif (isset($_POST['update_assessment'])) {
     $assessmentName = $_POST['assessmentName'];
     $assessmentId = $_POST['assessmentId'];
 
-    $update = "UPDATE assessment SET 
-                assessmentName='$assessmentName',
-                modifiedOn=NOW() 
-                WHERE id='$assessmentId'";
+    // Fetch the existing assessment name from the database
+    $fetchExistingAssessmentQuery = mysqli_query($con, "SELECT assessmentName FROM assessment WHERE id = '$assessmentId'");
+    $existingAssessmentRow = mysqli_fetch_assoc($fetchExistingAssessmentQuery);
+    $existingAssessmentName = $existingAssessmentRow['assessmentName'];
 
-    $query = mysqli_query($con, $update);
+    // Check if the assessment name is different from the existing one
+    if ($assessmentName != $existingAssessmentName) {
+        // If changed, update the record
+        $update = "UPDATE assessment SET 
+                    assessmentName='$assessmentName',
+                    modifiedOn=NOW() 
+                    WHERE id='$assessmentId'";
 
-    if ($query) {
-        header("location: $mainlink" . "admin/assessmentManage");
+        $query = mysqli_query($con, $update);
+
+        if ($query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully updated";
+            header("location: $mainlink" . "admin/assessmentManage");
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Update failed: " . mysqli_error($con);
+            header("location: $mainlink" . "admin/assessmentManage");
+        }
     } else {
-        echo "Error: " . mysqli_error($con);
+        // If not changed, set a "danger" status
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "No changes detected. Update aborted.";
     }
-} elseif (isset($_POST['deleteAssesment'])) {
+
+    header("location: $mainlink" . "admin/assessmentManage");
+    exit();
+}
+
+elseif (isset($_POST['deleteAssesment'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql1 = "UPDATE assessment SET isActive= 0 WHERE id = $id";
     $query1 = mysqli_query($con, $sql1);
     if ($query1) {
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "Successfully deleted";
         header("location: $mainlink" . "admin/assessmentManage");
         exit();
     } else {
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Not deleted.";
+        header("location: $mainlink" . "admin/assessmentManage");
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
@@ -1101,8 +1148,13 @@ elseif (isset($_POST['deleteStudent'])) {
     $sql2 = "UPDATE students SET isActive = 0 WHERE id = $id";
     $query2 = mysqli_query($con, $sql2);
     if ($query2) {
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "Successfully deleted";
         header("location: $mainlink" . "admin/manageStudents");
     } else {
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Not deleted.";
+        header("location: $mainlink" . "admin/manageStudents");
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
@@ -1113,8 +1165,13 @@ elseif (isset($_POST['deleteStudent'])) {
     $sql3 = "UPDATE company SET isActive = 0 WHERE id = $id";
     $query3 = mysqli_query($con, $sql3);
     if ($query3) {
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "Successfully deleted";
         header("location: $mainlink" . "admin/manageBulkRegistration");
     } else {
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Not deleted.";
+        header("location: $mainlink" . "admin/manageBulkRegistration");
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
