@@ -829,6 +829,8 @@ if (isset($_POST['sending_email'])) {
     $maxUploadFileSize = 10 * 1024 * 1024;
     $maxVideoFileSize = 100 * 1024 * 1024;
 
+     // Fetch the existing topic name from the database
+
     // Check if uploadfile is provided in the form
     if (isset($_FILES['uploadfile'])) {
         $uploadFile = $_FILES['uploadfile'];

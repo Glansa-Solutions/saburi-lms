@@ -273,9 +273,23 @@ include('../core/listgrid.php');
                         sb_tp_id: sb_tp_id
                     },
                     method: 'POST',
-                    success: function(data) {
-                        console.log("Response from server:", data);
-                        // Reload the page after a successful update
+                    // success: function(data) {
+                    //     console.log("Response from server:", data);
+                    //     // Reload the page after a successful update
+                    //     window.location.reload();
+                    // }
+                    success: function(response) {
+                        if (response === "success") {
+                            // Sub Topic Name successfully updated
+                            alert("Successfully updated!");
+                        } else if (response === "no_changes") {
+                            // Sub Topic Name not changed
+                            alert("No changes made.");
+                        } else {
+                            // Update failed
+                            alert("Update failed. Please try again.");
+                        }
+                        // Reload the page after a successful update or handle as needed
                         window.location.reload();
                     }
                 });
