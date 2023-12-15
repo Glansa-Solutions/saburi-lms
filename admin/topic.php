@@ -9,6 +9,19 @@ include('../core/listgrid.php');
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Topic Details</h4>
+                    <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+                        $status = $_SESSION['status'];
+                        $message = $_SESSION['message'];
+                        ?>
+                        <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show"
+                            role="alert">
+                            <strong>
+                                <?= $message; ?>
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        <?php unset($_SESSION['message']);
+                    } ?>
                     <form class="forms-sample" id="entry_form" action="../core/admin_functions.php" method="POST">
                         <div class="col-md-6">
                             <div class="form-group">

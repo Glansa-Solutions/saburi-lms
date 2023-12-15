@@ -48,9 +48,15 @@ if (isset($_POST['login_admin'])) {
     $insert_query = mysqli_query($con, "INSERT INTO topics(topicName,createdOn,isActive) VALUES('$topic','$currentDate',1)");
 
     if ($insert_query) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "./admin/topic");
+
     } else {
-        echo "not done";
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not inserted";
+        header("location: $mainlink" . "./admin/topic");
+
     }
     // Topic Management end 
 
@@ -72,19 +78,58 @@ if (isset($_POST['login_admin'])) {
     } else {
         //echo $return = "<h5>No Record Found</h5>";
     }
-} elseif (isset($_POST['update_topic'])) {
+}
+elseif (isset($_POST['update_topic'])) {
     $id = $_POST['topicId'];
-    $topic_name = $_POST['topic_name'];
+    $new_topic_name = $_POST['topic_name'];
 
-    $update_topic = "UPDATE topics set topicName='$topic_name' WHERE Id='$id'";
-    $query = mysqli_query($con, $update_topic);
+    // Fetch the existing topic name from the database
+    $fetch_existing_topic_query = mysqli_query($con, "SELECT topicName FROM topics WHERE Id='$id'");
+    $existing_topic_row = mysqli_fetch_assoc($fetch_existing_topic_query);
+    $existing_topic_name = $existing_topic_row['topicName'];
 
-    if ($query) {
-        header("location: $mainlink" . "./admin/topic");
+    // Check if the new topic name is different from the existing one
+    if ($new_topic_name != $existing_topic_name) {
+        // Update the topic name
+        $update_topic = "UPDATE topics SET topicName='$new_topic_name' WHERE Id='$id'";
+        $query = mysqli_query($con, $update_topic);
+
+        if ($query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully updated";
+            header("location: $mainlink" . "./admin/topic");
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Update failed";
+            header("location: $mainlink" . "./admin/topic");
+        }
     } else {
-        echo "not working";
+        // If the new topic name is the same as the existing one, set an error message
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Topic name is the same. Update aborted.";
+        header("location: $mainlink" . "./admin/topic");
     }
-} elseif (isset($_POST['delete_topic'])) {
+}
+
+
+//  elseif (isset($_POST['update_topic'])) {
+//     $id = $_POST['topicId'];
+//     $topic_name = $_POST['topic_name'];
+
+//     $update_topic = "UPDATE topics set topicName='$topic_name' WHERE Id='$id'";
+//     $query = mysqli_query($con, $update_topic);
+
+//     if ($query) {
+//         $_SESSION['status']="success";
+//         $_SESSION['message']="Successfully inserted";
+//         header("location: $mainlink" . "./admin/topic");
+//     } else {
+//         $_SESSION['status']="danger";
+//         $_SESSION['message']="Not inserted";
+//         echo "not working";
+//     }
+// }
+ elseif (isset($_POST['delete_topic'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
     $sql = "DELETE FROM topics WHERE Id = $id";
@@ -105,11 +150,14 @@ if (isset($_POST['login_admin'])) {
     $insert_query = mysqli_query($con, "INSERT INTO subtopics (topicId,subTopicName,isActive) VALUES('$topic','$subtopic',1)");
 
     if ($insert_query) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "./admin/subtopic");
         // echo "hii";
     } else {
-        echo "not done";
-        echo $topic, $subtopic, $currentDate;
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not inserted";
+        header("location: $mainlink" . "./admin/subtopic");
     }
 } elseif (isset($_POST['delete_subtopic'])) {
     // Get the ID from the URL
@@ -165,9 +213,13 @@ if (isset($_POST['login_admin'])) {
     // $insert_query = mysqli_query($con, "INSERT INTO courses(topicID ,subTopicId ,courseName,courseCost,bannerImage,uploadfile,video,courseDesc,learn,summary,requirements) VALUES('$topic','$subtopic','$courseName','$price','$imageFileName','$uploadFileName','$videoFileName','$desc','$wyl','$summary','$requirements')");
 
     if ($insert_course) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "admin/manageCourse");
     } else {
-        echo "not done";
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not inserted";
+        header("location: $mainlink" . "admin/manageCourse");
     }
 } elseif (isset($_POST['checking_course_btn'])) {
     $courseId = $_POST['course_id'];
@@ -723,9 +775,13 @@ if (isset($_POST['sending_email'])) {
     $insert_chapters = mysqli_query($con, "INSERT INTO chapters(topicID,subTopicId,courseId,chapterName,chapterContent,uploadfile,video,isActive) VALUES('$topicName','$subtopicName','$courseName','$chapterName','$chapterContent','$uploadFileName','$videoFileName',1)");
 
     if ($insert_chapters) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully inserted";
         header("location: $mainlink" . "admin/manageChapter");
     } else {
-        echo "not done";
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not inserted";
+        header("location: $mainlink" . "admin/manageChapter");
     }
 
 
@@ -772,6 +828,11 @@ if (isset($_POST['sending_email'])) {
     $date = date("Y-m-d H:i:s");
     $maxUploadFileSize = 10 * 1024 * 1024;
     $maxVideoFileSize = 100 * 1024 * 1024;
+
+     // Fetch the existing topic name from the database
+    $fetch_existing_topic_query = mysqli_query($con, "SELECT topicName FROM topics WHERE Id='$id'");
+    $existing_topic_row = mysqli_fetch_assoc($fetch_existing_topic_query);
+    $existing_topic_name = $existing_topic_row['topicName'];
 
     // Check if uploadfile is provided in the form
     if (isset($_FILES['uploadfile'])) {
@@ -1080,22 +1141,58 @@ elseif (isset($_POST['checking_user_btn'])) {
     } else {
         ////echo $return = "<h5>No Record Found</h5>";
     }
-} elseif (isset($_POST['update_user'])) {
+} 
+// elseif (isset($_POST['update_user'])) {
+//     $id = $_POST['user_id'];
+//     $name = $_POST['name'];
+//     $email = $_POST['email'];
+//     $phone = $_POST['phone'];
+//     $address = $_POST['address'];
+
+//     $update_topic = "UPDATE users set Name = '$name',Email = '$email',Phone = '$phone',Address = '$address' WHERE id='$id'";
+//     $query = mysqli_query($con, $update_topic);
+
+//     if ($query) {
+//         header("location: $mainlink" . "admin/manageUser");
+//     } else {
+//         echo "not working";
+//     }
+// }
+
+elseif (isset($_POST['update_user'])) {
     $id = $_POST['user_id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
 
-    $update_topic = "UPDATE users set Name = '$name',Email = '$email',Phone = '$phone',Address = '$address' WHERE id='$id'";
-    $query = mysqli_query($con, $update_topic);
+    // Fetch the existing user details from the database
+    $fetchExistingUserQuery = mysqli_query($con, "SELECT Name, Email, Phone, Address FROM users WHERE id = '$id'");
+    $existingUserRow = mysqli_fetch_assoc($fetchExistingUserQuery);
 
-    if ($query) {
-        header("location: $mainlink" . "admin/manageUser");
+    // Check if any value is different from the existing one
+    if ($name != $existingUserRow['Name'] || $email != $existingUserRow['Email'] || $phone != $existingUserRow['Phone'] || $address != $existingUserRow['Address']) {
+        // If changed, update the record
+        $update_user = "UPDATE users SET Name = '$name', Email = '$email', Phone = '$phone', Address = '$address' WHERE id='$id'";
+        $query = mysqli_query($con, $update_user);
+
+        if ($query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully updated";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Update failed: " . mysqli_error($con);
+        }
     } else {
-        echo "not working";
+        // If not changed, still set a "success" status
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "No changes detected. Update aborted.";
     }
+
+    header("location: $mainlink" . "admin/manageUser");
+    exit();
 }
+
 
 //  Inserting Home
 elseif (isset($_POST['insert_home'])) {
@@ -1703,6 +1800,18 @@ if (isset($_POST['assessment_manage'])) {
         echo json_encode("Can not add already having same name in id");
     } else {
         $insert_assessment = mysqli_query($con, "INSERT INTO assessment(courseId, assessmentName, isActive) VALUES('$courseName', '$assessmentName', 1)");
+         if($insert_assessment){
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully inserted";
+            header("location: $mainlink" . "admin/assessmentManage");
+            exit;
+         }else{
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not inserted";
+            header("location: $mainlink" . "admin/assessmentManage");
+            exit;
+         }
+
         header("location: $mainlink" . "admin/assessmentManage");
     }
 } 

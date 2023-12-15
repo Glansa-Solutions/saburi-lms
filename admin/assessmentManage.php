@@ -4,9 +4,9 @@ include('includes/sidebar.php');
 ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Bind a change event to the topic select
-        $('#topic').change(function () {
+        $('#topic').change(function() {
             var topicId = $(this).val();
             if (topicId) {
                 // Make an AJAX request to fetch subtopics for the selected topic
@@ -16,7 +16,7 @@ include('includes/sidebar.php');
                         topicId: topicId
                     },
                     method: 'GET',
-                    success: function (data) {
+                    success: function(data) {
                         // Populate the subtopic select with the retrieved data
                         $('#subtopic').html(data);
                     }
@@ -27,34 +27,34 @@ include('includes/sidebar.php');
             }
         });
 
-        $('#subtopic').change(function () {
+        $('#subtopic').change(function() {
             var subtopicId = $(this).val();
-            if(subtopicId){
+            if (subtopicId) {
                 $.ajax({
-                url:'../core/cheptersubFunctions.php',
-                data: {
-                    subtopicId:subtopicId
-                },
-                method:'GET',
-                success:function(data){
-                    $('#courseName').html(data);
-                }
-            })
+                    url: '../core/cheptersubFunctions.php',
+                    data: {
+                        subtopicId: subtopicId
+                    },
+                    method: 'GET',
+                    success: function(data) {
+                        $('#courseName').html(data);
+                    }
+                })
             }
         });
-        $('#courseName').change(function () {
+        $('#courseName').change(function() {
             var courseId = $(this).val();
-            if(courseId){
+            if (courseId) {
                 $.ajax({
-                url:'../core/chepterFunctions.php',
-                data: {
-                    courseId:courseId
-                },
-                method:'GET',
-                success:function(data){
-                    $('#chapter').html(data);
-                }
-            })
+                    url: '../core/chepterFunctions.php',
+                    data: {
+                        courseId: courseId
+                    },
+                    method: 'GET',
+                    success: function(data) {
+                        $('#chapter').html(data);
+                    }
+                })
             }
         });
     });
@@ -85,69 +85,81 @@ include('includes/sidebar.php');
 </style>
 
 <div class="content-wrapper">
+    <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+        $status = $_SESSION['status'];
+        $message = $_SESSION['message'];
+    ?>
+        <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+            <strong>
+                <?= $message; ?>
+            </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['message']);
+    } ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card ">
 
             <div class="card">
-            <h4 class="card-title p-3">Manage Assessment</h4>
+                <h4 class="card-title p-3">Manage Assessment</h4>
                 <div class="card-body">
                     <form action="../core/admin_functions.php" class=" " method="POST" enctype="multipart/form-data">
-                        
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="topic"> Topic Name</label>
-                                        <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
-                                        <select class="form-control topic" name="topic" id="topic" required>
-                                            <option value="">Select Topic Name</option>
-                                            <?php
-                                            if ($fetch_list_topic_query) {
-                                                // $i = 1;
-                                                
-                                                while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
 
-                                                    echo $topic_id;
-                                                    ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="topic"> Topic Name</label>
+                                    <!-- <input type="text" class="form-control" name="name" placeholder="Enter Name"> -->
+                                    <select class="form-control topic" name="topic" id="topic" required>
+                                        <option value="">Select Topic Name</option>
+                                        <?php
+                                        if ($fetch_list_topic_query) {
+                                            // $i = 1;
 
-                                                    <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
-                                                    <?php
-                                                }
-                                            } else {
-                                                echo "Query failed!";
+                                            while ($row = mysqli_fetch_assoc($fetch_list_topic_query)) {
+
+                                                echo $topic_id;
+                                        ?>
+
+                                                <option value=<?= $row['Id']; ?>> <?= $row['topicName']; ?></option>
+                                        <?php
                                             }
-                                            ?>
-                                        </select>
-                                    </div>
+                                        } else {
+                                            echo "Query failed!";
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">                                    
-                                        <label for="courseName">Subtopic Name</label>
-                                        <select class="form-control" name="subtopic" id="subtopic" required>
-                                            <option value=""> select subtopic name</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="courseName">Subtopic Name</label>
+                                    <select class="form-control" name="subtopic" id="subtopic" required>
+                                        <option value=""> select subtopic name</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">                                    
-                                        <label for="courseName">Course Name</label>
-                                        <select class="form-control" name="courseName" id="courseName" required>
-                                            <option> Select Course name</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="courseName">Course Name</label>
+                                    <select class="form-control" name="courseName" id="courseName" required>
+                                        <option> Select Course name</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="chapter">Assessment Name</label>
-                                        <input type="text" class="form-control" name="assessmentName" id="assessmentName" required>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="chapter">Assessment Name</label>
+                                    <input type="text" class="form-control" name="assessmentName" id="assessmentName" required>
                                 </div>
-                               <div class="col-md-6">                                
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary me-2 submit_validation" name="assessment_manage">Submit</button>
-                                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary me-2 submit_validation" name="assessment_manage">Submit</button>
+                                    <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                                 </div>
-                            </div>                        
+                            </div>
+                        </div>
                         <!-- <div>
                             
                         </div> -->
@@ -182,8 +194,8 @@ include('includes/sidebar.php');
                                         $course_name = $row['courseName'];
                                         $courseId = $row['courseId'];
                                         $assessmentId = $row['assessmentId'];
-                                        
-                                        ?>
+
+                                ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
@@ -198,19 +210,17 @@ include('includes/sidebar.php');
                                                 <?= $assessmentName; ?>
                                             </td>
                                             <td>
-                                                <a href="questionsManage?aid=<?=$assessmentId ?>" class="btn btn-success p-2">
+                                                <a href="questionsManage?aid=<?= $assessmentId ?>" class="btn btn-success p-2">
                                                     Add Qusetions
                                                 </a>
-                                                <button type="button" class="btn btn-primary p-2 edit-button"
-                                                    data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $assessmentId ?>">
+                                                <button type="button" class="btn btn-primary p-2 edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $assessmentId ?>">
                                                     edit
                                                 </button>
 
-                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal" data-id="<?= $assessmentId ?>">Delete</button>
+                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $assessmentId ?>">Delete</button>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                         $i++;
                                     }
                                 } else {
@@ -227,8 +237,7 @@ include('includes/sidebar.php');
 
 
             <!-- Edit Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -253,19 +262,16 @@ include('includes/sidebar.php');
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
-                                                            <input type="text" class="form-control" id="course"
-                                                                name="courseName" placeholder="Enter Course Name" readonly>
-                                                                <input type="hidden" class="form-control" name="assessmentId"
-                                                                placeholder="Enter Name" id="assessmentId">
+                                                            <input type="text" class="form-control" id="course" name="courseName" placeholder="Enter Course Name" readonly>
+                                                            <input type="hidden" class="form-control" name="assessmentId" placeholder="Enter Name" id="assessmentId">
                                                         </div>
 
-                                                        
+
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="assessment">Assessment Name</label>
-                                                            <input type="text" class="form-control" id="assessment_name"
-                                                                name="assessmentName" placeholder="Enter Assessment Name" required>
+                                                            <input type="text" class="form-control" id="assessment_name" name="assessmentName" placeholder="Enter Assessment Name" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -293,8 +299,7 @@ include('includes/sidebar.php');
 </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -320,8 +325,8 @@ include('includes/sidebar.php');
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.edit-button').on('click', function () {
+    $(document).ready(function() {
+        $('.edit-button').on('click', function() {
             // console.log('hii');
             var assessmentId = $(this).closest('tr').find('.edit_id').text();
             console.log(assessmentId);
@@ -333,9 +338,9 @@ include('includes/sidebar.php');
                     'assessmentId': assessmentId,
                 },
                 // dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     console.log(response);
-                    $.each(response, function (key, value) {
+                    $.each(response, function(key, value) {
                         $('#course').val(value['courseName']);
                         $('#assessment_name').val(value['assessmentName']);
                         $('#assessmentId').val(value['assessment_id']);
@@ -349,8 +354,8 @@ include('includes/sidebar.php');
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('.delete-button').on('click', function (e) {
+    $(document).ready(function() {
+        $('.delete-button').on('click', function(e) {
             e.preventDefault();
             var asses_id = $(this).closest('tr').find('.edit_id').text();
 
