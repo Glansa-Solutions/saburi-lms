@@ -830,6 +830,9 @@ if (isset($_POST['sending_email'])) {
     $maxVideoFileSize = 100 * 1024 * 1024;
 
      // Fetch the existing topic name from the database
+    $fetch_existing_topic_query = mysqli_query($con, "SELECT topicName FROM topics WHERE Id='$id'");
+    $existing_topic_row = mysqli_fetch_assoc($fetch_existing_topic_query);
+    $existing_topic_name = $existing_topic_row['topicName'];
 
     // Check if uploadfile is provided in the form
     if (isset($_FILES['uploadfile'])) {
@@ -1138,22 +1141,58 @@ elseif (isset($_POST['checking_user_btn'])) {
     } else {
         ////echo $return = "<h5>No Record Found</h5>";
     }
-} elseif (isset($_POST['update_user'])) {
+} 
+// elseif (isset($_POST['update_user'])) {
+//     $id = $_POST['user_id'];
+//     $name = $_POST['name'];
+//     $email = $_POST['email'];
+//     $phone = $_POST['phone'];
+//     $address = $_POST['address'];
+
+//     $update_topic = "UPDATE users set Name = '$name',Email = '$email',Phone = '$phone',Address = '$address' WHERE id='$id'";
+//     $query = mysqli_query($con, $update_topic);
+
+//     if ($query) {
+//         header("location: $mainlink" . "admin/manageUser");
+//     } else {
+//         echo "not working";
+//     }
+// }
+
+elseif (isset($_POST['update_user'])) {
     $id = $_POST['user_id'];
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $address = $_POST['address'];
 
-    $update_topic = "UPDATE users set Name = '$name',Email = '$email',Phone = '$phone',Address = '$address' WHERE id='$id'";
-    $query = mysqli_query($con, $update_topic);
+    // Fetch the existing user details from the database
+    $fetchExistingUserQuery = mysqli_query($con, "SELECT Name, Email, Phone, Address FROM users WHERE id = '$id'");
+    $existingUserRow = mysqli_fetch_assoc($fetchExistingUserQuery);
 
-    if ($query) {
-        header("location: $mainlink" . "admin/manageUser");
+    // Check if any value is different from the existing one
+    if ($name != $existingUserRow['Name'] || $email != $existingUserRow['Email'] || $phone != $existingUserRow['Phone'] || $address != $existingUserRow['Address']) {
+        // If changed, update the record
+        $update_user = "UPDATE users SET Name = '$name', Email = '$email', Phone = '$phone', Address = '$address' WHERE id='$id'";
+        $query = mysqli_query($con, $update_user);
+
+        if ($query) {
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully updated";
+        } else {
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Update failed: " . mysqli_error($con);
+        }
     } else {
-        echo "not working";
+        // If not changed, still set a "success" status
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "No changes detected. Update aborted.";
     }
+
+    header("location: $mainlink" . "admin/manageUser");
+    exit();
 }
+
 
 //  Inserting Home
 elseif (isset($_POST['insert_home'])) {

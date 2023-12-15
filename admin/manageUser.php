@@ -4,6 +4,18 @@ include('includes/sidebar.php');
 include('../core/listgrid.php');
 ?>
 <div class="content-wrapper">
+    <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+        $status = $_SESSION['status'];
+        $message = $_SESSION['message'];
+    ?>
+        <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+            <strong>
+                <?= $message; ?>
+            </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['message']);
+    } ?>
     <div class="row">
         <!-- <div class="col-md-12 grid-margin stretch-card ">
             <div class="card">
@@ -101,7 +113,7 @@ include('../core/listgrid.php');
                                         $user_email = $row['Email'];
                                         $user_phone = $row['Phone'];
                                         $user_address = $row['Address'];
-                                        ?>
+                                ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
@@ -121,21 +133,16 @@ include('../core/listgrid.php');
                                                 <?= $user_address; ?>
                                             </td>
                                             <td>
-                                                <button type="submit" class="btn btn-primary me-2 p-2 edit-button"
-                                                    data-bs-toggle="modal" data-bs-target="#editmodal"
-                                                    data-id="<?= $id; ?>">Edit</button>
-                                                <button type="submit" class="btn btn-danger p-2 delete-button"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                                    data-id="<?= $id; ?>">Delete</button>
+                                                <button type="submit" class="btn btn-primary me-2 p-2 edit-button" data-bs-toggle="modal" data-bs-target="#editmodal" data-id="<?= $id; ?>">Edit</button>
+                                                <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $id; ?>">Delete</button>
 
                                             </td>
                                         </tr>
 
 
-                                        <?php
+                                <?php
                                         $i++;
                                     }
-
                                 } else {
                                     echo "Query failed!";
                                 }
@@ -150,8 +157,7 @@ include('../core/listgrid.php');
     </div>
 </div>
 
-<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -200,8 +206,7 @@ include('../core/listgrid.php');
 </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -227,8 +232,8 @@ include('../core/listgrid.php');
 
 
 <script>
-    $(document).ready(function () {
-        $('.edit-button').on('click', function () {
+    $(document).ready(function() {
+        $('.edit-button').on('click', function() {
             var userId = $(this).closest('tr').find('.edit_id').text();
             // console.log(userId);
             $.ajax({
@@ -239,9 +244,9 @@ include('../core/listgrid.php');
                     'userId': userId,
                 },
                 // dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     console.log(response);
-                    $.each(response, function (key, value) {
+                    $.each(response, function(key, value) {
 
                         // Populate the input elements with data received from the server
                         $('#name').val(value['Name']);
@@ -256,11 +261,10 @@ include('../core/listgrid.php');
             });
         });
     });
-
 </script>
 <script>
-    $(document).ready(function () {
-        $('.delete-button').on('click', function (e) {
+    $(document).ready(function() {
+        $('.delete-button').on('click', function(e) {
             e.preventDefault();
             var userId = $(this).closest('tr').find('.edit_id').text();
 
