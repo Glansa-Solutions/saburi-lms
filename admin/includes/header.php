@@ -1,4 +1,5 @@
 <?php
+$filename = pathinfo(basename($_SERVER['SCRIPT_NAME']), PATHINFO_FILENAME);
 include("../core/admin_functions.php");
 include("../core/db_config.php");
 include("../core/data_list_grid.php");

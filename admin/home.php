@@ -172,7 +172,6 @@ include('../core/listgrid.php');
 
             $('#banner_title').val(title);
             $('#editAddress').summernote('code', desc);
-            // $('#banner_image').val(bannerImage);
             $('#dynamicImage').attr('src', '../assets/images/home/' + bannerImage);
 
         });

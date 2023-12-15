@@ -1119,7 +1119,16 @@ elseif (isset($_POST['insert_home'])) {
 
             // Delete old image file
             $oldBannerName = $fetch_home_rows['bannerImage'];
-            unlink('../assets/images/home/' . $oldBannerName);
+            if ($oldBannerName = $fetch_home_rows['bannerImage']) {
+                $_SESSION['status'] = "danger";
+                $_SESSION['message'] = "Image Already Existed";
+    
+            } else {
+                $_SESSION['status'] = "success";
+                $_SESSION['message'] = "New Image Uploaded";
+                unlink('../assets/images/home/' . $oldBannerName);
+            }
+            
         } else {
             // Case 2: No new image uploaded, use the existing banner name
             $trimmed_banner_name = $fetch_home_rows['bannerImage'];
