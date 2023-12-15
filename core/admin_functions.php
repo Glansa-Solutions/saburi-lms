@@ -171,9 +171,14 @@ elseif (isset($_POST['update_topic'])) {
     $query = mysqli_query($con, $sql);
     if ($query) {
         // If the delete operation is successful, you can redirect to a success page
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully deleted";
         header("location: $mainlink" . "./admin/subtopic");
         // exit();
     } else {
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Deleted failed";
+        header("location: $mainlink" . "./admin/subtopic");
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
@@ -888,8 +893,13 @@ if (isset($_POST['sending_email'])) {
     $sql = "UPDATE chapters SET isActive = 0 WHERE Id = $id";
     $query = mysqli_query($con, $sql);
     if ($query) {
+        $_SESSION['status']="success";
+        $_SESSION['message']="Successfully deleted";
         header("location: $mainlink" . "admin/manageChapter");
     } else {
+        $_SESSION['status']="danger";
+        $_SESSION['message']="Not deleted";
+        header("location: $mainlink" . "admin/manageChapter");
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
