@@ -1119,25 +1119,123 @@ elseif (isset($_POST['update_questions'])) {
     }
 }
 
+// elseif (isset($_POST['update_questions'])) {
+//     $assessmentId = $_POST['assessmentId'];
+//     $questionsId = $_POST['questionsId'];
+//     $questions = $_POST['questions'];
+//     $optionA = $_POST['optionA'];
+//     $optionB = $_POST['optionB'];
+//     $optionC = $_POST['optionC'];
+//     $optionD = $_POST['optionD'];
+//     $correctAns = $_POST['correctAnswer'];
+
+//     // Fetch existing values from the database
+//     $fetchQuestions = mysqli_query($con, "SELECT * FROM questions WHERE id = '$questionsId'");
+
+//     // Check if the query was successful
+//     if ($fetchQuestions) {
+//         $questionsData = mysqli_fetch_array($fetchQuestions);
+//         $existingQuestions = $questionsData["questionsName"];
+//         $existingOptionA = $questionsData["a"];
+//         $existingOptionB = $questionsData["b"];
+//         $existingOptionC = $questionsData["c"];
+//         $existingOptionD = $questionsData["d"];
+//         $existingCorrectAns = $questionsData["correctAnswer"];
+
+//         // Check if any of the values are different from the existing values
+//         if (
+//             $questions != $existingQuestions ||
+//             $optionA != $existingOptionA ||
+//             $optionB != $existingOptionB ||
+//             $optionC != $existingOptionC ||
+//             $optionD != $existingOptionD ||
+//             $correctAns != $existingCorrectAns
+//         ) {
+//             // If there are changes, perform the update
+//             $update = "UPDATE questions SET 
+//                         questionsName='$questions',
+//                         a='$optionA',
+//                         b='$optionB',
+//                         c='$optionC',
+//                         d='$optionD',
+//                         correctAnswer='$correctAns',
+//                         modifiedOn=NOW() 
+//                         WHERE id='$questionsId'";
+
+//             $query = mysqli_query($con, $update);
+
+//             // Check if any row was affected by the update
+//             if ($query) {
+//                 // If affected, get the assessmentId and redirect with success message
+//                 $aId = $questionsData["assessmentId"];
+//                 $_SESSION['status'] = "success";
+//                 $_SESSION['message'] = "Successfully updated";
+//                 header("location: {$mainlink}admin/questionsManage?aid={$aId}");
+//             } else {
+//                 // If no row was affected, set a "danger" status with an error message
+//                 $_SESSION['status'] = "danger";
+//                 $_SESSION['message'] = "Update failed: " . mysqli_error($con);
+//             }
+//         } else {
+//             // If no changes were made, display a different message
+//             $_SESSION['status'] = "info";
+//             $_SESSION['message'] = "No changes were made";
+//             header("location: {$mainlink}admin/questionsManage?aid={$assessmentId}");
+//         }
+//     } else {
+//         // Handle the case where the query fails
+//         $_SESSION['status'] = "danger";
+//         $_SESSION['message'] = "Error fetching existing values: " . mysqli_error($con);
+//         header("location: {$mainlink}admin/questionsManage?aid={$assessmentId}");
+//     }
+// }
+
+
+
+
+// elseif (isset($_POST['deleteQuestions'])) {
+//     // Get the ID from the URL
+//     $id = $_POST['delete_id'];
+//     $sql1 = "UPDATE questions SET isActive= 0 WHERE id = $id";
+//     $query1 = mysqli_query($con, $sql1);
+//     if ($query1) {
+//         $fetchQuestions = mysqli_query($con,"SELECT * FROM questions WHERE id = '$id'");
+//         if($fetchQuestions){
+//             $questionsData = mysqli_fetch_array($fetchQuestions);
+//             $aId = $questionsData["assessmentId"];
+//             header("location: {$mainlink}admin/questionsManage?aid={$aId}");
+//         }
+//     } else {
+//         echo "Error: " . $sql . "<br>" . mysqli_error($con);
+//     }
+
+//     // mysqli_close($con);
+// }
 
 elseif (isset($_POST['deleteQuestions'])) {
     // Get the ID from the URL
     $id = $_POST['delete_id'];
-    $sql1 = "UPDATE questions SET isActive= 0 WHERE id = $id";
+    $sql1 = "UPDATE questions SET isActive=0 WHERE id = $id";
     $query1 = mysqli_query($con, $sql1);
-    if ($query1) {
-        $fetchQuestions = mysqli_query($con,"SELECT * FROM questions WHERE id = '$id'");
-        if($fetchQuestions){
+
+    // Check if any row was affected by the update
+    if (mysqli_affected_rows($con) > 0) {
+        // If affected, get the assessmentId and redirect with success message
+        $fetchQuestions = mysqli_query($con, "SELECT * FROM questions WHERE id = '$id'");
+        if ($fetchQuestions) {
             $questionsData = mysqli_fetch_array($fetchQuestions);
             $aId = $questionsData["assessmentId"];
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully deleted";
             header("location: {$mainlink}admin/questionsManage?aid={$aId}");
         }
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($con);
+        // If no row was affected, set a "danger" status with an error message
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Update failed: " . mysqli_error($con);
     }
-
-    // mysqli_close($con);
 }
+
 
 
 // Questions End
@@ -1660,6 +1758,9 @@ elseif (isset($_POST['assessment_creation'])) {
             $insertQuery = "INSERT INTO chaptersassessmentorders (topicId, subTopicId, courseId, serialNumber, type, typeId, isActive)
               VALUES " . implode(', ', $insertValues);
 
+            $_SESSION['status'] = "success";
+            $_SESSION['message'] = "Successfully updated";
+
         $insertResult = mysqli_query($con, $insertQuery);
         }
     }
@@ -1699,9 +1800,14 @@ if (isset($_POST['delete_user'])) {
     $query = mysqli_query($con, $sql);
     if ($query) {
         // If the delete operation is successful, you can redirect to a success page
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "Successfully Deleted";
         header("location: $mainlink" . "admin/manageUser");
         // exit();
     } else {
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Not Updated";
+        header("location: $mainlink" . "admin/manageUser");
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
@@ -1844,8 +1950,13 @@ if (isset($_POST['deleteAssesmentCreation'])) {
     $sql1 = "UPDATE chaptersassessmentorders SET isActive = 0 WHERE courseId = $id";
     $query1 = mysqli_query($con, $sql1);
     if ($query1) {
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "Successfully Deleted";
         header("location: $mainlink" . "admin/caoGrid");
     } else {
+        $_SESSION['status'] = "danger";
+        $_SESSION['message'] = "Not Deleted";
+        header("location: $mainlink" . "admin/caoGrid");
         echo "Error: " . $sql . "<br>" . mysqli_error($con);
     }
 
@@ -1910,8 +2021,12 @@ if (isset($_POST['questions_manage'])) {
         if($fetchQuestions){
             $questionsData = mysqli_fetch_array($fetchQuestions);
             $aId = $questionsData["assessmentId"];
+            $_SESSION['status'] = "danger";
+            $_SESSION['message'] = "Not Updated";
             header("location: {$mainlink}admin/questionsManage?aid={$aId}");
         }
+        $_SESSION['status'] = "success";
+        $_SESSION['message'] = "Successfully Updated";
         header("location: {$mainlink}admin/questionsManage?aid={$assessmentId}");
     }
 }

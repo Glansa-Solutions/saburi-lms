@@ -4,7 +4,7 @@ include('includes/sidebar.php');
 
 $assessmentId = $_GET['aid'];
 
-$assessmentQuery = mysqli_query($con,"SELECT courses.courseName, courses.id AS course_id, assessment.id AS assessment_id, assessment.assessmentName
+$assessmentQuery = mysqli_query($con, "SELECT courses.courseName, courses.id AS course_id, assessment.id AS assessment_id, assessment.assessmentName
 FROM courses
 JOIN assessment ON courses.id = assessment.courseId
 WHERE assessment.id = $assessmentId");
@@ -40,79 +40,87 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
 <div class="content-wrapper">
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card ">
-
             <div class="card">
-            <h4 class="card-title p-3">Manage Questions</h4>
+                <h4 class="card-title p-3">Manage Questions</h4>
                 <div class="card-body">
                     <form action="../core/admin_functions.php" class=" " method="POST" enctype="multipart/form-data">
-                        
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">                                    
-                                        <label for="courseName">Course Name</label>
-                                        <input type="text" class="form-control" name="courseName" 
-                                        value="<?= $assessmentData['courseName'] ?>" readonly/>
-                                    </div>
+                        <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+                            $status = $_SESSION['status'];
+                            $message = $_SESSION['message'];
+                        ?>
+                            <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+                                <strong>
+                                    <?= $message; ?>
+                                </strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php unset($_SESSION['message']);
+                        } ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="courseName">Course Name</label>
+                                    <input type="text" class="form-control" name="courseName" value="<?= $assessmentData['courseName'] ?>" readonly />
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="chapter">Assessment Name</label>
-                                        <input type="text" class="form-control" name="assessmentName" id="assessmentName" value="<?= $assessmentData['assessmentName'] ?>" readonly>
-                                        
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="chapter">Assessment Name</label>
+                                    <input type="text" class="form-control" name="assessmentName" id="assessmentName" value="<?= $assessmentData['assessmentName'] ?>" readonly>
+
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="questions">Write your question here</label>
-                                        <input type="text" class="form-control" name="question" id="question" required>
-                                        <input type="hidden" name="assessment_id" 
-                                        value="<?= $assessmentId; ?>" id="">
-                                    </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="questions">Write your question here</label>
+                                    <input type="text" class="form-control" name="question" id="question" required>
+                                    <input type="hidden" name="assessment_id" value="<?= $assessmentId; ?>" id="">
                                 </div>
-                                
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option A</label>
-                                        <input type="text" class="form-control" name="optionA" id="optionA" required>
-                                    </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option A</label>
+                                    <input type="text" class="form-control" name="optionA" id="optionA" required>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option B</label>
-                                        <input type="text" class="form-control" name="optionB" id="optionB" required>
-                                    </div>
-                                </div>    
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option C</label>
-                                        <input type="text" class="form-control" name="optionC" id="optionC" required>
-                                    </div>  
-                                </div>    
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Write Option D</label>
-                                        <input type="text" class="form-control" name="optionD" id="optionD" required>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option B</label>
+                                    <input type="text" class="form-control" name="optionB" id="optionB" required>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="questions">Select Correct Answer</label>
-                                        <select class="form-control" name="correctAns" required>
-                                            <option value="">Choose the correct Answer</option>
-                                            <option value="a">Option A</option>
-                                            <option value="b">Option B</option>
-                                            <option value="c">Option C</option>
-                                            <option value="d">Option D</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option C</label>
+                                    <input type="text" class="form-control" name="optionC" id="optionC" required>
                                 </div>
-                               <div class="col-md-6">                                
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary me-2" name="questions_manage">Submit</button>
-                                        <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Write Option D</label>
+                                    <input type="text" class="form-control" name="optionD" id="optionD" required>
                                 </div>
-                            </div>                        
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="questions">Select Correct Answer</label>
+                                    <select class="form-control" name="correctAns" required>
+                                        <option value="">Choose the correct Answer</option>
+                                        <option value="a">Option A</option>
+                                        <option value="b">Option B</option>
+                                        <option value="c">Option C</option>
+                                        <option value="d">Option D</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary me-2" name="questions_manage">Submit</button>
+                                    <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
+                                </div>
+                            </div>
+                        </div>
                         <!-- <div>
                             
                         </div> -->
@@ -158,8 +166,8 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
                                         $optionC = $row['c'];
                                         $optionD = $row['d'];
                                         $correctAns = $row['correctAnswer'];
-                                        
-                                        ?>
+
+                                ?>
                                         <tr>
                                             <td>
                                                 <?= $i; ?>
@@ -192,16 +200,14 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
                                                 <?= $correctAns; ?>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary p-2 edit-button"
-                                                    data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $id ?>">
+                                                <button type="button" class="btn btn-primary p-2 edit-button" data-bs-toggle="modal" data-bs-target="#editModal" data-id="<?= $id ?>">
                                                     edit
                                                 </button>
 
-                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal" data-id="<?= $id ?>">Delete</button>
+                                                <button class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $id ?>">Delete</button>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                         $i++;
                                     }
                                 } else {
@@ -218,8 +224,7 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
 
 
             <!-- Edit Modal -->
-            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editBlogModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -244,58 +249,50 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
 
                                                         <div class="form-group">
                                                             <label for="courseName">Course Name</label>
-                                                            <input type="text" class="form-control" id="course"
-                                                                name="courseName" placeholder="Enter Course Name" readonly>
-                                                                <input type="hidden" class="form-control" name="questionsId"
-                                                                placeholder="Enter Name" id="questionsId">
+                                                            <input type="text" class="form-control" id="course" name="courseName" placeholder="Enter Course Name" readonly>
+                                                            <input type="hidden" class="form-control" name="questionsId" placeholder="Enter Name" id="questionsId">
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label for="questions">Questions</label>
-                                                            <input type="text" class="form-control" id="questions"
-                                                                name="questions" >
+                                                            <input type="text" class="form-control" id="questions" name="questions">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="optionB">Option B</label>
-                                                            <input type="text" class="form-control" id="OptionB"
-                                                                name="optionB" >
+                                                            <input type="text" class="form-control" id="OptionB" name="optionB">
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="optionB">Option D</label>
-                                                            <input type="text" class="form-control" id="OptionD"
-                                                                name="optionD" >
+                                                            <input type="text" class="form-control" id="OptionD" name="optionD">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="assessment">Assessment Name</label>
-                                                            <input type="text" class="form-control" id="assessment_name"
-                                                                name="assessmentName" placeholder="Enter Assessment Name" readonly>
+                                                            <input type="text" class="form-control" id="assessment_name" name="assessmentName" placeholder="Enter Assessment Name" readonly>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Option A</label>
-                                                            <input type="text" class="form-control" id="OptionA"
-                                                                name="optionA">
-                                                           
+                                                            <input type="text" class="form-control" id="OptionA" name="optionA">
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Option C</label>
-                                                            <input type="text" class="form-control" id="OptionC"
-                                                                name="optionC">
-                                                            
+                                                            <input type="text" class="form-control" id="OptionC" name="optionC">
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="uploadfile">Correct Answer</label>
                                                             <!-- <input type="text" class="form-control" id="correctAns"
                                                                 name="correctAnswer"> -->
-                                                                <select class="form-control" name="correctAnswer" id="correctAns" >
-                                                                    <option>Choose the correct Answer</option>
-                                                                    <option data-option="" value="a">Option A</option>
-                                                                    <option value="b">Option B</option>
-                                                                    <option value="c">Option C</option>
-                                                                    <option value="d">Option D</option>
-                                                                </select>
-                                                            
+                                                            <select class="form-control" name="correctAnswer" id="correctAns">
+                                                                <option>Choose the correct Answer</option>
+                                                                <option data-option="" value="a">Option A</option>
+                                                                <option value="b">Option B</option>
+                                                                <option value="c">Option C</option>
+                                                                <option value="d">Option D</option>
+                                                            </select>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -323,8 +320,7 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
 </div>
 
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -350,8 +346,8 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.edit-button').on('click', function () {
+    $(document).ready(function() {
+        $('.edit-button').on('click', function() {
             // console.log('hii');
             var assessmentId = $(this).closest('tr').find('.edit_id').text();
             console.log(assessmentId);
@@ -363,9 +359,9 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
                     'assessmentId': assessmentId,
                 },
                 // dataType: 'json',
-                success: function (response) {
+                success: function(response) {
                     console.log(response);
-                    $.each(response, function (key, value) {
+                    $.each(response, function(key, value) {
                         $('#course').val(value['courseName']);
                         $('#assessment_name').val(value['assessmentName']);
                         $('#questionsId').val(value['questions_id']);
@@ -385,8 +381,8 @@ $assessmentData = mysqli_fetch_array($assessmentQuery);
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('.delete-button').on('click', function (e) {
+    $(document).ready(function() {
+        $('.delete-button').on('click', function(e) {
             e.preventDefault();
             var asses_id = $(this).closest('tr').find('.edit_id').text();
 
