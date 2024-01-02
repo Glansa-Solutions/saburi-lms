@@ -11,27 +11,27 @@ include('includes/sidebar.php');
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Corporate Governance Page</h4>
-                    <!-- <p class="card-description">
-                        You can Write the content for about page.
-                    </p> -->
-                   
-                    <form class="forms-sample" id="entry_form"action="functions/functions" method="POST" enctype="multipart/form-data">
-                    <div class="form-group">
+                    <div class="details d-flex justify-content-between mb-3">
+                        <h4 class="card-title">Courses List report</h4>
+                        <button class="btn btn-success" onclick="exportToExcel()">Export to Excel</button>
+                    </div>
+
+                    <form class="forms-sample" id="entry_form" action="functions/functions" method="POST"
+                        enctype="multipart/form-data">
+                        <div class="form-group">
                             <label for="title">Title</label>
-                            <input type="text" class="form-control" name="title"
-                                placeholder="Enter Title ">
+                            <input type="text" class="form-control" name="title" placeholder="Enter Title ">
                         </div> `
-                        <div class="form-group"> 
+                        <div class="form-group">
                             <label for="image">Image</label>
                             <input type="file" class="form-control" name="image" accept="image/*">
                         </div>
                         <div class="form-group">
                             <label for="neme">Name</label>
-                            <input type="text" class="form-control" name="name"
-                                placeholder="Enter Name">
+                            <input type="text" class="form-control" name="name" placeholder="Enter Name">
                         </div>
-                        <button type="submit" class="btn btn-primary me-2" name="corporateGovernance_manage">Submit</button>
+                        <button type="submit" class="btn btn-primary me-2"
+                            name="corporateGovernance_manage">Submit</button>
                         <button type="button" class="btn btn-light" id="cancel_btn" onclick="resetForm()">Reset</button>
                     </form>
                 </div>
@@ -40,44 +40,50 @@ include('includes/sidebar.php');
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                <h4 class="card-title">Corporate Governance List</h4>
+                    <h4 class="card-title">Corporate Governance List</h4>
                     <table id="example" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
                                 <th>S.no</th>
                                 <th> titlegit</th>
-                                <th> Name    </th>
+                                <th> Name </th>
                                 <th> Image </th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php
-                            if($fetch_list_corporategovernance_query)
-                            {
+                            <?php
+                            if ($fetch_list_corporategovernance_query) {
                                 $i = 1;
-                                while($row=mysqli_fetch_assoc($fetch_list_corporategovernance_query))
-                                {
-                                    $title=$row['title'];
-                                    $image=$row['image'];
-                                    $name=$row['name'];
+                                while ($row = mysqli_fetch_assoc($fetch_list_corporategovernance_query)) {
+                                    $title = $row['title'];
+                                    $image = $row['image'];
+                                    $name = $row['name'];
                                     ?>
                                     <tr>
-                                    <td><?= $i;?></td>
-                                    <td><?= $title; ?></td>
-                                    <td><?= $image; ?></td>
-                                    <td><?= $name; ?></td>
-                                    <td>
-                                        <button type="submit" class="btn btn-primary me-2 p-2">Edit</button>
-                                        <button class="btn btn-danger p-2">Delete</button>
-                                    </td>
+                                        <td>
+                                            <?= $i; ?>
+                                        </td>
+                                        <td>
+                                            <?= $title; ?>
+                                        </td>
+                                        <td>
+                                            <?= $image; ?>
+                                        </td>
+                                        <td>
+                                            <?= $name; ?>
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-primary me-2 p-2">Edit</button>
+                                            <button class="btn btn-danger p-2">Delete</button>
+                                        </td>
                                     </tr>
                                     <?php
-                            $i++;
+                                    $i++;
                                 }
-                                } else {
-                                    echo "Query failed!";
-                                }
+                            } else {
+                                echo "Query failed!";
+                            }
                             ?>
                         </tbody>
                     </table>

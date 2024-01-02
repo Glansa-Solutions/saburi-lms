@@ -18,14 +18,14 @@ if ($fetch_user_contact_details_query) {
         $contact_address = $fetch_user_contact_details_result["address"];
     }
 }
-if (!isset($_SESSION['role'])) {
-    // Set default role to "students"
-    $_SESSION['role'] = 'students';
+// if (!isset($_SESSION['role'])) {
+//     // Set default role to "students"
+//     $_SESSION['role'] = 'students';
 
-    // Redirect to the login page if not logged in
-    header("Location: $mainlink" . "log_reg");
-    exit();
-}
+//     // Redirect to the login page if not logged in
+//     header("Location: $mainlink" . "log_reg");
+//     exit();
+// }
 // Check if the session variables are set
 if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
     $role_id = $_SESSION['role_id'];
@@ -70,15 +70,17 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
         content="edutim,coaching, distant learning, education html, health coaching, kids education, language school, learning online html, live training, online courses, online training, remote training, school html theme, training, university html, virtual training  ">
 
     <meta name="author" content="themeturn.com">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Saburi LMS</title>
 
     <!-- Mobile Specific Meta-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- bootstrap.min css -->
     <link rel="stylesheet" href="assets/vendors/bootstrap/bootstrap.css">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <!-- Iconfont Css -->
     <link rel="stylesheet" href="assets/vendors/fontawesome/css/all.css">
     <link rel="stylesheet" href="assets/vendors/bicon/css/bicon.min.css">
@@ -254,7 +256,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
             <nav class="navbar navbar-expand-lg">
                 <div class="container">
                     <a class="navbar-brand" href="<?= $mainlink; ?>" style="width:20%;">
-                        <img src="assets/images/saburi.png" alt="Edutim" class="img-fluid w-50">
+                        <img src="assets/images/saburi.png" alt="Edutim" class="img-fluid" style="width:50%">
                     </a>
 
                     <!-- Toggler -->
@@ -267,16 +269,27 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                     <!-- Collapse -->
                     <div class="collapse navbar-collapse" id="navbarMenu">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item dropdown">
+                            <li class="nav-item">
                                 <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>">
                                     Home
                                 </a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link js-scroll-trigger" href="#">
+                            <!-- <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Company
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbar3">
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">About Company</a>
+                                    <a class="dropdown-item" href="#">Gallery</a>
+                                </div>
+                            </li> -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Company <i class="fa fa-caret-down"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item " href="<?= $mainlink ?>about">
                                         About
                                     </a>
@@ -289,7 +302,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                     </a>
                                 </div>
                             </li>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item">
                                 <?php if ($role == "companyusers") { ?>
                                     <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>myOrders">
                                         Courses
@@ -300,12 +313,12 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                     </a>
                                 <?php } ?>
                             </li>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item">
                                 <a class="nav-link js-scroll-trigger" href="<?= $mainlink ?>blogs">
                                     Blogs
                                 </a>
                             </li>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item">
                                 <a class="nav-link dropdown-toggle" href="#">
                                     Our Goals
                                 </a>
@@ -353,7 +366,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                             $wishlistcount = mysqli_fetch_array($wishlist);
                                             ?>
                                             <span id="wishlist-count">
-                                                
+
                                             </span>
                                         <?php } ?>
                                     </span>
@@ -412,7 +425,9 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Add Testimonial
                                         </a>
-                                        <a href="<?= $mainlink ?>companyCourseReport" style="display:<?= ($role=="company")?'':'none'; ?>"class="dropdown-item">
+                                        <a href="<?= $mainlink ?>companyCourseReport"
+                                            style="display:<?= ($role == "company") ? '' : 'none'; ?>"
+                                            class="dropdown-item">
                                             <i
                                                 class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                             Company Course Report
@@ -432,12 +447,10 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
     </header>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        // $(document).ready(function() {
-        //     if (window.location.hash === '#alert') {
-        //         // Hide the "pro" div
-        //         $('#pro').hide();
-        //     }
-        // });
+        // Initialize Bootstrap's dropdown
+        $(document).ready(function () {
+            $('.dropdown-toggle').dropdown();
+        });
     </script>
     <script>
         // <!-- This is your HTML for displaying the cart count -->

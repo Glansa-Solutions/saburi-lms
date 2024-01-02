@@ -11,11 +11,10 @@ $crole = "company";
                 </div>
             </div>
         </div>
-        <div class="row">
-
+        <div class="row p-3">
             <div class="container">
-                <div class="col-md-12 d-flex">
-                    <div class="col-md-6 text-center">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 text-center">
                         <div class="student_button">
                             <form id="studentForm" method="post" action="<?= $mainlink ?>core/sessions">
                                 <input type="hidden" name="role" value="<?= $srole ?>">
@@ -33,7 +32,7 @@ $crole = "company";
                         </div>
                     </div>
 
-                    <div class="col-md-6 text-center">
+                    <div class="col-md-6 col-sm-12 text-center">
                         <div class="company_button">
                             <form id="companyForm" method="post" action="<?= $mainlink ?>core/sessions">
                                 <input type="hidden" name="role" value="<?= $crole ?>">
@@ -52,6 +51,7 @@ $crole = "company";
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section>

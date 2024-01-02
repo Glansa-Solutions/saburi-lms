@@ -1,5 +1,5 @@
 <?php
- 
+
 include("includes/header.php");
 // include("./core/data_list_grid.php");
 
@@ -71,107 +71,111 @@ include("includes/header.php");
                                                 <th class="serial">S.No</th>
                                                 <th class="product-name">Course Name</th>
                                                 <th class="product-price">Description</th>
-                                                <!-- <th class="product-quantity">Quantity</th>
-                                                <th class="product-subtotal">Total</th> -->
                                                 <th class="product-subtotal">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- Place this script within your HTML file -->
                                             <?php
-                                                if($fetch_list_order_query)
-                                                {
-                                                    $i = 1;
-                                                    while($row=mysqli_fetch_assoc($fetch_list_order_query))
-                                                    {
-                                                        $id = $row['id'];
-                                                        $courseName=$row['courseName'];
-                                                        $courseDesc = $row['courseDesc'];
-                                                    
-                                                        ?>
+                                            if ($fetch_list_order_query && mysqli_num_rows($fetch_list_order_query) > 0) {
+                                                $i = 1;
+                                                while ($row = mysqli_fetch_assoc($fetch_list_order_query)) {
+                                                    $id = $row['id'];
+                                                    $courseName = $row['courseName'];
+                                                    $courseDesc = $row['courseDesc'];
+                                                    ?>
                                                     <tr>
-                                                        <td><?= $i;?></td>
-                                                        <td class="edit_id" hidden><?= $id; ?>
-                                                        <td><?= $courseName; ?></td>
-                                                        <td><?= strlen($courseDesc) > 100 ? substr($courseDesc, 0, 100) . '...' : $courseDesc; ?></td>
-                                                    
                                                         <td>
-                                                            <a href="course_single?order_id=<?= $id; ?>" class="btn btn-primary text-white me-2 p-2 add-to-cart-button">View Course</a>
+                                                            <?= $i; ?>
                                                         </td>
-
+                                                        <td class="edit_id" hidden>
+                                                            <?= $id; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?= $courseName; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?= strlen($courseDesc) > 100 ? substr($courseDesc, 0, 100) . '...' : $courseDesc; ?>
+                                                        </td>
+                                                        <td>
+                                                            <a href="course_single?order_id=<?= $id; ?>"
+                                                                class="btn btn-primary text-white me-2 p-2 add-to-cart-button">View
+                                                                Course</a>
+                                                        </td>
                                                     </tr>
-
-
                                                     <?php
-                                                $i++;
-                                                    }
-                                                    
-                                                }else {
-                                                    echo "Query failed!";
+                                                    $i++;
                                                 }
+                                            } else {
+                                                // Display a message when no orders are available
                                                 ?>
+                                                <tr>
+                                                    <td colspan="4">No orders available.</td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
                                         </tbody>
-
                                     </table>
+
                                 </form>
                             </div>
                         </div><!-- .entry-content -->
                     </article>
                 </div>
-                                </div>
-
-
             </div>
+
+
+        </div>
         </div>
     </section>
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// Update the DOM with the new totals
-// document.getElementById('total-quantity').textContent = totalQuantity; // Update total quantity
+    // Update the DOM with the new totals
+    // document.getElementById('total-quantity').textContent = totalQuantity; // Update total quantity
 
-// Function to update the cart totals
-// Function to update the cart totals
-// Function to update the cart totals
-// function updateTotals(cartData) {
-//     // Calculate the total quantity and price
-//     var totalQuantity = 0;
-//     var totalPrice = 0;
+    // Function to update the cart totals
+    // Function to update the cart totals
+    // Function to update the cart totals
+    // function updateTotals(cartData) {
+    //     // Calculate the total quantity and price
+    //     var totalQuantity = 0;
+    //     var totalPrice = 0;
 
-//     cartData.forEach(function(course) {
-//         totalQuantity += course.quantity;
-//         totalPrice += course.price * course.quantity;
-//     });
+    //     cartData.forEach(function(course) {
+    //         totalQuantity += course.quantity;
+    //         totalPrice += course.price * course.quantity;
+    //     });
 
-//     var totalPriceFormatted = totalPrice.toFixed(2);
+    //     var totalPriceFormatted = totalPrice.toFixed(2);
 
-//     // Update the DOM with the new totals
-//     document.getElementById('total-quantity').textContent = totalQuantity; // Update total quantity
-//     document.getElementById('total-price').textContent = totalPriceFormatted; // Update total price
-//     document.getElementById('total-price-subtotal').textContent = totalPriceFormatted; // Update subtotal as well
-// }
+    //     // Update the DOM with the new totals
+    //     document.getElementById('total-quantity').textContent = totalQuantity; // Update total quantity
+    //     document.getElementById('total-price').textContent = totalPriceFormatted; // Update total price
+    //     document.getElementById('total-price-subtotal').textContent = totalPriceFormatted; // Update subtotal as well
+    // }
 
-// // Initialize the cart totals when the page loads
-// updateTotals(cart);
-function calculateTotal() {
-    var total = 0;
+    // // Initialize the cart totals when the page loads
+    // updateTotals(cart);
+    function calculateTotal() {
+        var total = 0;
 
-    cart.forEach(function(course) {
-        var itemTotal = course.price * course.quantity;
-        total += itemTotal;
-    });
+        cart.forEach(function (course) {
+            var itemTotal = course.price * course.quantity;
+            total += itemTotal;
+        });
 
-    return total;
-}
+        return total;
+    }
 
-// Call the calculateTotal function to get the total
-function updateGrandTotal() {
-    var grandTotal = calculateTotal();
-    document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
-}
+    // Call the calculateTotal function to get the total
+    function updateGrandTotal() {
+        var grandTotal = calculateTotal();
+        document.getElementById('grand-total').textContent = grandTotal.toFixed(2);
+    }
 
-// Call the updateGrandTotal function to initially set the grand total
-updateGrandTotal();
+    // Call the updateGrandTotal function to initially set the grand total
+    updateGrandTotal();
 </script>
 
 <!--shop category end-->
