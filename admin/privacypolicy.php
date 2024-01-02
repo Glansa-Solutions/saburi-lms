@@ -34,8 +34,10 @@ include('../core/listgrid.php');
                                     $title = $row['Title'];
                                     $desc_content = $row['Description'];
                                     $desc_text = strip_tags($desc_content);
-                                    $desc = wordwrap($desc_text, 100, "</br>\n");
-                                    $small_desc = substr($desc, 0, 150);
+                                    $words = str_word_count($desc_text, 1);
+                                    $truncated_desc = implode(' ', array_slice($words, 0, 10));
+                                    // $desc = wordwrap($desc_text, 100, "</br>\n");
+                                    // $small_desc = substr($desc, 0, 150);
 
                                     ?>
                                     <tr>
@@ -45,18 +47,15 @@ include('../core/listgrid.php');
                                         <td class="edit_id" hidden>
                                             <?= $id; ?>
                                         </td>
-                                        <!-- <td>
-                                            <?= $heading; ?>
-                                        </td>
-                                        <td>
-                                            <?= $title; ?>
-                                        </td> -->
                                         <td id="desc" hidden>
-                                            <?= $desc_content; ?>...
+                                            <?= $desc_text; ?>...
                                         </td>
                                         <td>
-                                            <?= $small_desc; ?>...
+                                            <?= $truncated_desc; ?>...
                                         </td>
+                                        <!--<td>-->
+                                        <!--    <?= $small_desc; ?>...-->
+                                        <!--</td>-->
 
                                         <td>
                                             <button type="button" class="btn btn-primary me-2 p-2 edit-button"

@@ -45,7 +45,7 @@ include('../core/listgrid.php');
                                             <?= $title; ?>
                                         </td>
                                         <td>
-                                            <?= strip_tags($desc); ?>
+                                            <?= implode(' ', array_slice(str_word_count(strip_tags($desc), 1), 0, 10)); ?>
                                         </td>
                                         <td><img src="../assets/images/about/<?= $bannerImage; ?>" width="80" height="80"></td>
 
@@ -109,7 +109,7 @@ include('../core/listgrid.php');
                         <div class="images d-flex justify-content-between">
                             <div class="form-group">
                                 <label for="banner_image">Banner Image</label>
-                                <input type="file" name="bannerImage" class="form-control" id="banner_image"
+                                <input type="file" name="bannerImage" class="form-control-file" id="banner_image"
                                     accept="image/*" required>
                             </div>
                             <div class="form-group">

@@ -120,7 +120,7 @@ if (isset($_POST['registerCompany'])) {
                         Swal.fire({
                             icon: "success",
                             title: "Success!",
-                            text: "Successfully applied for job",
+                            text: "Successfully Sent Your Message",
                         }).then(function(){
                             window.location.href = "../contact";
                         });

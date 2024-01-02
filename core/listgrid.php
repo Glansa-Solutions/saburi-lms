@@ -32,6 +32,7 @@ students s ON w.userId = s.id AND w.role = 'students' WHERE w.userId = $roleId")
 $fetch_home_query = mysqli_query($con, "SELECT * FROM home where isActive =1");
 $fetch_about_query = mysqli_query($con, "SELECT * FROM about where isActive =1");
 $fetch_privacy_query = mysqli_query($con, "SELECT * FROM privacy where isActive =1");
+
 $fetch_terms_query = mysqli_query($con, "SELECT * FROM terms where isActive =1");
 // regarding Blog - Comment Data ( site & admin) start**
 $query_fetch_blog_comment = mysqli_query($con, "SELECT * FROM comments_blog where isactive=1");

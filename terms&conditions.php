@@ -1,5 +1,10 @@
 <?php
 include("includes/header.php");
+if ($fetch_terms_query) {
+    $row = mysqli_fetch_assoc($fetch_terms_query);
+    // $title = $row['Title'];
+    $desc_content = $row['Description'];
+}
 ?>
 <div class="search-wrap">
     <div class="overlay">
@@ -34,7 +39,7 @@ include("includes/header.php");
                     </h1>
                     <ul class="list-inline mb-0">
                         <li class="list-inline-item">
-                            
+
                             <a href="<?= $mainlink; ?>">Home</a>
                         </li>
                         <li class="list-inline-item">/</li>
@@ -43,6 +48,18 @@ include("includes/header.php");
                         </li>
                     </ul>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-3">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <!--<h1>PrivacyPolicy</h1>-->
+                <p class="mt-4 ">
+                    <?= $desc_content; ?>
+                </p>
             </div>
         </div>
     </div>

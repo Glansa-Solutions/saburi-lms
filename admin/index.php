@@ -16,7 +16,7 @@ include('includes/login_header.php');
             <form class="pt-3" action="../core/admin_functions.php" method="POST">
               <div class="form-group">
                 <input type="text" class="form-control form-control-lg" name="admin_name" id="exampleInputEmail1"
-                  placeholder="Enter u  sername">
+                  placeholder="Username">
               </div>
               <div class="form-group">
                 <input type="password" class="form-control form-control-lg" name="admin_password"
