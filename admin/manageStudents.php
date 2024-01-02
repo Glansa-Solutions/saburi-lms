@@ -4,6 +4,18 @@ include('includes/sidebar.php');
 ?>
 
 <div class="content-wrapper">
+    <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+        $status = $_SESSION['status'];
+        $message = $_SESSION['message'];
+    ?>
+        <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+            <strong>
+                <?= $message; ?>
+            </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php unset($_SESSION['message']);
+    } ?>
     <div class="row">
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
@@ -26,18 +38,16 @@ include('includes/sidebar.php');
                                     <th>Email</th>
                                     <th>Id Proof</th>
                                     <th>ID Proof Details</th>
-                                    <th>Action</th> 
+                                    <th>Action</th>
 
                                 </tr>
                             </thead>
                             <?php
-                            if($fetch_list_student_query)
-                            {
+                            if ($fetch_list_student_query) {
                                 $i = 1;
-                                while($row=mysqli_fetch_assoc($fetch_list_student_query))
-                                {
+                                while ($row = mysqli_fetch_assoc($fetch_list_student_query)) {
                                     $id = $row['id'];
-                                    $name=$row['name'];
+                                    $name = $row['name'];
                                     $dob = $row['DOB'];
                                     $address = $row['address'];
                                     $dist = $row['district'];
@@ -48,35 +58,34 @@ include('includes/sidebar.php');
                                     $email = $row['email'];
                                     $idProof = $row['idProof'];
                                     $idProofDetails = $row['idProofDetails'];
-                                    ?>
-                                <tr>
-                                    <td><?= $i;?></td>
-                                    <td class="edit_id" hidden><?= $id; ?>
-                                    <td><?= $name; ?></td>
-                                    <td><?= $address; ?></td>
-                                    <td><?= $dob; ?></td>
-                                    <td><?= $dist; ?></td>
-                                    <td><?= $state; ?></td>
-                                    <td><?= $pincode; ?></td>
-                                    <td><?= $gender; ?></td>
-                                    <td><?= $user_phone; ?></td>
-                                    <td><?= $email; ?></td>
-                                    <td><?= $idProof; ?></td>
-                                    <td><?= $idProofDetails; ?></td>
-                                    <td>
-                                        <!-- <button type="submit" class="btn btn-primary me-2 p-2 edit-button"  data-bs-toggle="modal" data-bs-target="#editmodal"
+                            ?>
+                                    <tr>
+                                        <td><?= $i; ?></td>
+                                        <td class="edit_id" hidden><?= $id; ?>
+                                        <td><?= $name; ?></td>
+                                        <td><?= $address; ?></td>
+                                        <td><?= $dob; ?></td>
+                                        <td><?= $dist; ?></td>
+                                        <td><?= $state; ?></td>
+                                        <td><?= $pincode; ?></td>
+                                        <td><?= $gender; ?></td>
+                                        <td><?= $user_phone; ?></td>
+                                        <td><?= $email; ?></td>
+                                        <td><?= $idProof; ?></td>
+                                        <td><?= $idProofDetails; ?></td>
+                                        <td>
+                                            <!-- <button type="submit" class="btn btn-primary me-2 p-2 edit-button"  data-bs-toggle="modal" data-bs-target="#editmodal"
                                         data-id="<?= $id; ?>">Edit</button> -->
-                                        <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal"  data-id="<?= $id; ?>">Delete</button>
+                                            <button type="submit" class="btn btn-danger p-2 delete-button" data-bs-toggle="modal" data-bs-target="#deleteModal" data-id="<?= $id; ?>">Delete</button>
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
 
-                                <?php
-                            $i++;
+                            <?php
+                                    $i++;
                                 }
-                                
-                            }else {
+                            } else {
                                 echo "Query failed!";
                             }
                             ?>
@@ -89,8 +98,7 @@ include('includes/sidebar.php');
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -116,8 +124,8 @@ include('includes/sidebar.php');
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('.delete-button').on('click', function (e) {
+    $(document).ready(function() {
+        $('.delete-button').on('click', function(e) {
             e.preventDefault();
             var asses_id = $(this).closest('tr').find('.edit_id').text();
 

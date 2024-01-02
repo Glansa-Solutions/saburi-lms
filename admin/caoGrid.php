@@ -40,6 +40,18 @@ include('includes/sidebar.php');
                 <div class="card-body ">
                     <div class="d-flex justify-content-between">
                         <h4 class="card-title">Manage Courses Creation Details</h4>
+                        <?php if (isset($_SESSION['status']) && isset($_SESSION['message'])) {
+                            $status = $_SESSION['status'];
+                            $message = $_SESSION['message'];
+                        ?>
+                            <div class="alert alert-<?= ($status == "success") ? 'success' : 'danger'; ?> w-50 alert-dismissible fade show" role="alert">
+                                <strong>
+                                    <?= $message; ?>
+                                </strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        <?php unset($_SESSION['message']);
+                        } ?>
                         <div class="form-group">
                             <!-- <button type="button" class="btn btn-primary me-2" id="addCreation" name="addCreation"> </button> -->
                             <a href="chapterAssessmentOrder" class="btn btn-primary me-2" id="addCreation" name="addCreation" style="color:white;text-decoration:none"> ADD </a>

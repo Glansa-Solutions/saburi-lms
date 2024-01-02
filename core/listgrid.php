@@ -148,7 +148,7 @@ JOIN `orders` AS o ON od.orderId = o.id
 JOIN courses AS c ON od.courseId = c.id
 JOIN students AS s ON o.subscriberid = s.id where s.id = '$roleId' and o.paymentstatus = 'paid' AND od.status=1");
 
-$fetch_list_student_query = mysqli_query($con, "SELECT students.*, awt_states.name as stateName FROM students INNER JOIN awt_states ON students.state = awt_states.id");
+$fetch_list_student_query = mysqli_query($con, "SELECT students.*, awt_states.name as stateName FROM students INNER JOIN awt_states ON students.state = awt_states.id WHERE students.isActive = 1");
 
 $fetch_list_topic_query = mysqli_query($con, "SELECT * FROM topics where isActive=1");
 $fetch_list_subtopic_query = mysqli_query($con, "SELECT * FROM subtopics where isActive=1");
