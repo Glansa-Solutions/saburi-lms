@@ -4,13 +4,17 @@ include("db_config.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+?>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php
 if (isset($_POST['woocommerce_checkout_place_order'])) {
     $orderdate = date('Y-m-d H:i:s');
-    $paymentstatus = 'notpaid';
+    $paymentstatus = 'paid';
     $paymentdetails = '';
-    $total = $_POST['total'];
-    $couponcode = $_POST['couponcode'];
+    $total = $_POST['cart_total'];
+    $couponcode = $_POST['couponcode1'];
     $discount = 0;
     $subscribedby = $_SESSION['role'];
     $subscriberid = $_SESSION['role_id'];
@@ -18,11 +22,11 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
     $cart = $_POST['cart'];
     $cartArray = json_decode($cart, true);
 
-    if (is_array($cartArray) && $subscribedby == 'company') {
+    if (is_array($cartArray)) {
         foreach ($cartArray as $item) {
             $user_id = $item['user_id'];
             $course_id = $item['id'];
-            $quantity = $item['quantity'];
+            $quantity = ($subscribedby == 'students') ? 1 : $item['quantity'];
 
             for ($i = 0; $i < $quantity; $i++) {
                 $usernamePrefix = 'SaburiLMS';
@@ -34,22 +38,26 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
                 $sql = "INSERT INTO companyusers (companyId, email, password, CourseId, IsActive) VALUES ('$user_id', '$username', '$password', '$course_id', 1)";
                 $insertQuery = mysqli_query($con, $sql);
 
+                if (!$insertQuery) {
+                    die("Error creating user: " . mysqli_error($con));
+                }
+
                 $courseNameQuery = "SELECT courseName FROM courses WHERE id = '$course_id'";
                 $courseNameResult = mysqli_query($con, $courseNameQuery);
-                $courseRow = mysqli_fetch_assoc($courseNameResult);
-                $courseName = $courseRow['courseName'];
 
-                $companyIdQuery = "SELECT email FROM company WHERE id = '$user_id'";
-                $result = mysqli_query($con, $companyIdQuery);
+                if ($courseRow = mysqli_fetch_assoc($courseNameResult)) {
+                    $courseName = $courseRow['courseName'];
 
-                if ($result) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $email = $row['email'];
+                    $companyIdQuery = "SELECT email FROM company WHERE id = '$user_id'";
+                    $result = mysqli_query($con, $companyIdQuery);
+
+                    if ($result && $emailRow = mysqli_fetch_assoc($result)) {
+                        $email = $emailRow['email'];
 
                         require_once "../assets/vendors/PHPMailer/PHPMailer.php";
                         require_once "../assets/vendors/PHPMailer/SMTP.php";
                         require_once "../assets/vendors/PHPMailer/Exception.php";
-                        
+
                         $mail = new PHPMailer(true);
 
                         $mail->isSMTP();
@@ -85,47 +93,79 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
 
                         try {
                             $mail->send();
-                            echo 'Message has been sent';
+                            echo '<script>
+                                Swal.fire({
+                                    title: "Message Sent",
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                });
+                            </script>';
                         } catch (Exception $e) {
-                            echo 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
+                            echo '<script>
+                                Swal.fire({
+                                    title: "Error",
+                                    text: "Message could not be sent. Mailer Error: ' . $mail->ErrorInfo . '",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            </script>';
                         }
-
-                        echo $sql . "<br>";
                     }
                 }
             }
         }
-    } else {
-        echo "Error decoding JSON string";
-    }
-    $grandtotal = $total - $discount;
 
-    $insertOrderQuery = "INSERT INTO Orders (orderdate, subscribedby, subscriberid, paymentstatus, paymentdetails, total, couponcode, discount, grandtotal,createdOn)
-            VALUES ('$orderdate', '$subscribedby', '$subscriberid', '$paymentstatus', '$paymentdetails', '$total', '$couponcode', '$discount', '$grandtotal',NOW())";
+        $grandtotal = $total - $discount;
 
-    if ($con->query($insertOrderQuery) === TRUE) {
-        $orderId = $con->insert_id;
+        $insertOrderQuery = "INSERT INTO Orders (orderdate, subscribedby, subscriberid, paymentstatus, paymentdetails, total, couponcode, discount, grandtotal,createdOn)
+            VALUES ('$orderdate', '$subscribedby', '$subscriberid', '$paymentstatus', '$paymentdetails', '$total', '$couponcode', '$discount', '$grandtotal', NOW())";
 
-        $cartData = json_decode($_POST['cart'], true);
+        if ($con->query($insertOrderQuery) === TRUE) {
+            $orderId = $con->insert_id;
 
-        foreach ($cartData as $item) {
-            $courseId = $item['id'];
-            $qty = $item['quantity'];
-            $rate = $item['price'];
-            $total_price =  $qty * $rate;
+            foreach ($cartArray as $item) {
+                $courseId = $item['id'];
+                $qty = $item['quantity'];
+                $rate = $item['price'];
+                $total_price =  $qty * $rate;
 
-            $insertOrderDetailsQuery = mysqli_query($con, "INSERT INTO Orderdetails (OrderId, CourseId, quantity, price,totalPrice, createdOn) VALUES ($orderId, $courseId, $qty, $rate,$total_price,NOW())");
+                $insertOrderDetailsQuery = mysqli_query($con, "INSERT INTO orderdetails (orderId, courseId, quantity, price,totalPrice, createdOn) VALUES ($orderId, $courseId, $qty, $rate,$total_price,NOW())");
 
-            if ($insertOrderDetailsQuery) {
-                header("Location: ../cart.php");
-            } else {
-                echo "failed";
+                if (!$insertOrderDetailsQuery) {
+                    die("Error inserting order details: " . mysqli_error($con));
+                }
             }
-        }
 
-        echo "Order placed successfully!";
+            echo '<script>
+                Swal.fire({
+                    title: "Order Placed Successfully!",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    window.location.href = "../cart.php";
+                });
+            </script>';
+        } else {
+            echo '<script>
+                Swal.fire({
+                    title: "Error",
+                    text: "Error placing order: ' . $con->error . '",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            </script>';
+        }
     } else {
-        echo "Error: " . $con->error;
+        echo '<script>
+            Swal.fire({
+                title: "Error",
+                text: "Invalid cart data",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        </script>';
     }
 
     $con->close();
