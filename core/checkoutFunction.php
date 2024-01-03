@@ -13,8 +13,8 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
     $orderdate = date('Y-m-d H:i:s');
     $paymentstatus = 'paid';
     $paymentdetails = '';
-    $total = $_POST['cart_total'];
-    $couponcode = $_POST['couponcode1'];
+    $total = $_POST['total'];
+    $couponcode = $_POST['couponcode'];
     $discount = 0;
     $subscribedby = $_SESSION['role'];
     $subscriberid = $_SESSION['role_id'];

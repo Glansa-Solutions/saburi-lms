@@ -36,7 +36,7 @@ if (isset($_GET['course_id'])) {
         $bannerImage = $n['bannerImage'];
         $courseDesc = $n['courseDesc'];
         $createdOn = $n['createdOn'];
-        $CourseSummary = $n['summary'];
+        // $CourseSummary = $n['summary'];
         $Coursewyl = $n['learn'];
         $tag = $n['tag'];
         $requirement = $n['requirements'];
@@ -62,7 +62,7 @@ if (isset($_GET['course_id'])) {
         $courseDesc = $n['courseDesc'];
         $createdOn = $n['createdOn'];
         $Coursewyl = $n['learn'];
-        $CourseSummary = $n['summary'];
+        // $CourseSummary = $n['summary'];
         $tag = $n['tag'];
         $requirement = $n['requirements'];
         $createdOn = $n['createdOn'];
@@ -156,7 +156,9 @@ if (isset($_GET['course_id'])) {
                     <h3 class="single-course-title">
                         <?= $courseName; ?>
                     </h3>
-                    <?= $CourseSummary ?>
+                    <!-- <?= 
+                    $CourseSummary
+                     ?> -->
 
                     <div class="single-course-meta ">
                         <ul>
