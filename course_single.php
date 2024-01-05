@@ -324,12 +324,15 @@ if (isset($_GET['course_id'])) {
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="text" name="name" class="form-control" value="<?= (!empty($fullName))? $fullName : ""?>" placeholder="Enter your name">
+                                        <input type="text" name="name" class="form-control"
+                                            value="<?= (!empty($fullName)) ? $fullName : "" ?>"
+                                            placeholder="Enter your name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control" value="<?= (!empty($email))? $email : ""?>" placeholder="Enter your email">
+                                        <input type="email" name="email" class="form-control"
+                                            value="<?= (!empty($email)) ? $email : "" ?>" placeholder="Enter your email">
                                     </div>
                                 </div>
                                 <input type="hidden" name="course_id" value="<?= $_GET['course_id'] ?>"
@@ -348,7 +351,7 @@ if (isset($_GET['course_id'])) {
                             </div>
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -367,13 +370,14 @@ if (isset($_GET['course_id'])) {
                                 $d = mysqli_fetch_array($chapters);
                                 // If an order ID is present, hide the course price and quantity input
                                 ?>
-                                <div class="buy-btn">
+                                <div <?php echo ($_SESSION['role'] == "company") ? 'style="display: none;"' : ''; ?>
+                                    class="buy-btn">
                                     <a href="core/sessions.php?start_id=<?= $courseId ?>&chapterId=<?= $d['id'] ?>&orderId=<?= $co_id ?>"
                                         class="btn btn-main btn-block">
                                         Start Course
                                     </a>
                                 </div>
-
+                                <!-- <?= $_SESSION['role'] ?> -->
                                 <?php
                             } else {
                                 // If not, show the course price and quantity input
@@ -645,7 +649,7 @@ if (isset($_GET['course_id'])) {
                 icon: 'success',
                 title: 'Course Added To Cart Successfully!',
                 showConfirmButton: false,
-                timer: 2000 
+                timer: 2000
             });
         }
     });
