@@ -26,7 +26,7 @@ include("includes/header.php");
                                         <p>If you have a coupon code, please apply it below.</p>
 
                                         <p class="form-row form-row-first">
-                                            <input type="text" name="couponcode" class="input-text"
+                                            <input type="text" name="couponcode1" class="input-text"
                                                 placeholder="Coupon code" id="coupon_code" value="">
                                         </p>
 
@@ -37,7 +37,6 @@ include("includes/header.php");
 
                                         <div class="clear"></div>
                                     </form>
-                                    <div class="woocommerce-notices-wrapper"></div>
                                     <form name="checkout" method="post" class="checkout woocommerce-checkout row"
                                         action="core/checkoutFunction.php" enctype="multipart/form-data"
                                         novalidate="novalidate">
@@ -68,8 +67,9 @@ include("includes/header.php");
                                                         <th>Total</th>
                                                         <td><strong><span class="woocommerce-Price-amount amount"><span
                                                                         class="woocommerce-Price-currencySymbol">&#8377;
-                                                                    </span><span
-                                                                        id="cart-total" name="cart_total">0.00</span></span></strong></td>
+                                                                    </span><span id="cart-total"
+                                                                        name="cart_total">0.00</span></span></strong>
+                                                        </td>
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -112,7 +112,8 @@ include("includes/header.php");
                                                         name="woocommerce_checkout_place_order" id="place_order"
                                                         value="Place order" data-value="Place order">Place
                                                         order</button>
-                                                        <input type="hidden" name="cart" id="cart" value=""> <!-- Leave the value empty in the HTML -->
+                                                    <input type="hidden" name="cart" id="cart" value="">
+                                                    <!-- Leave the value empty in the HTML -->
 
                                                     <input type="hidden" id="woocommerce-process-checkout-nonce"
                                                         name="insert_place_order" value="c75f934b1d"><input
@@ -122,98 +123,97 @@ include("includes/header.php");
                                             </div>
 
                                         </div>
+
+                                    </form>
+
                                 </div>
+                            </div><!-- .entry-content -->
 
-                                </form>
+                        </article><!-- #post-## -->
 
-                            </div>
-            </div><!-- .entry-content -->
-
-            </article><!-- #post-## -->
-
-</main><!-- #main -->
-</section>
-</div>
-</div>
-</section>
-<!--shop category end-->
+                    </main><!-- #main -->
+                </section>
+            </div>
+        </div>
+    </section>
+    <!--shop category end-->
 </main>
 
 <script>
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Retrieve cart data from localStorage
-//     var cart = JSON.parse(localStorage.getItem('cart')) || [];
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     // Retrieve cart data from localStorage
+    //     var cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-//     // Reference to the cart details table body and subtotal/total elements
-//     var cartDetailsBody = document.getElementById('cart-details');
-//     var cartSubtotal = document.getElementById('cart-subtotal');
-//     var cartTotal = document.getElementById('cart-total');
+    //     // Reference to the cart details table body and subtotal/total elements
+    //     var cartDetailsBody = document.getElementById('cart-details');
+    //     var cartSubtotal = document.getElementById('cart-subtotal');
+    //     var cartTotal = document.getElementById('cart-total');
 
-//     var subtotal = 0;
+    //     var subtotal = 0;
 
-//     // Iterate through the cart items and populate the cart details table
-//     cart.forEach(function(item) {
-//         var row = document.createElement('tr');
-//         var itemTotal = item.price * item.quantity;
-//         subtotal += itemTotal;
+    //     // Iterate through the cart items and populate the cart details table
+    //     cart.forEach(function(item) {
+    //         var row = document.createElement('tr');
+    //         var itemTotal = item.price * item.quantity;
+    //         subtotal += itemTotal;
 
-//         row.innerHTML = `
-//                     <td class="product-name">${item.name}<strong class="product-quantity">× ${item.quantity}</strong></td>
-//                     <td class="product-total"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>${itemTotal.toFixed(2)}</span></td>
-//                 `;
-//         cartDetailsBody.appendChild(row);
-//     });
-   
-//     // Update subtotal and total dynamically
-//     cartSubtotal.textContent = subtotal.toFixed(2);
-//     cartTotal.textContent = subtotal.toFixed(2);
+    //         row.innerHTML = `
+    //                     <td class="product-name">${item.name}<strong class="product-quantity">× ${item.quantity}</strong></td>
+    //                     <td class="product-total"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>${itemTotal.toFixed(2)}</span></td>
+    //                 `;
+    //         cartDetailsBody.appendChild(row);
+    //     });
 
-//     document.getElementById('cart').value = JSON.stringify(cart);
-   
+    //     // Update subtotal and total dynamically
+    //     cartSubtotal.textContent = subtotal.toFixed(2);
+    //     cartTotal.textContent = subtotal.toFixed(2);
 
-// });
-document.addEventListener("DOMContentLoaded", function() {
-    // Retrieve cart data from localStorage
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
+    //     document.getElementById('cart').value = JSON.stringify(cart);
 
-    // Reference to the cart details table body and subtotal/total elements
-    var cartDetailsBody = document.getElementById('cart-details');
-    var cartSubtotal = document.getElementById('cart-subtotal');
-    var cartTotal = document.getElementById('cart-total');
 
-    var subtotal = 0;
+    // });
+    document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve cart data from localStorage
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // Iterate through the cart items and populate the cart details table
-    cart.forEach(function(item) {
-        var row = document.createElement('tr');
-        var itemTotal = item.price * item.quantity;
-        subtotal += itemTotal;
+        // Reference to the cart details table body and subtotal/total elements
+        var cartDetailsBody = document.getElementById('cart-details');
+        var cartSubtotal = document.getElementById('cart-subtotal');
+        var cartTotal = document.getElementById('cart-total');
 
-        row.innerHTML = `
+        var subtotal = 0;
+
+        // Iterate through the cart items and populate the cart details table
+        cart.forEach(function (item) {
+            var row = document.createElement('tr');
+            var itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
+
+            row.innerHTML = `
             <td class="product-name">${item.name}<strong class="product-quantity">× ${item.quantity}</strong></td>
             <td class="product-total"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>${itemTotal.toFixed(2)}</span></td>
         `;
-        cartDetailsBody.appendChild(row);
+            cartDetailsBody.appendChild(row);
+        });
+
+        // Update subtotal and total dynamically
+        cartSubtotal.textContent = subtotal.toFixed(2);
+        cartTotal.textContent = subtotal.toFixed(2);
+
+        // Create an array to store courseIds
+        var courseIds = [];
+
+        // Iterate through the cart items to extract courseIds
+        cart.forEach(function (item) {
+            courseIds.push(item.id);
+        });
+
+        // Set the 'cart' input field value to the JSON representation of the cart items
+        document.getElementById('cart').value = JSON.stringify(cart);
+
+        // Set the 'courseIds' input field value to the JSON representation of courseIds
+        document.getElementById('courseIds').value = JSON.stringify(courseIds);
     });
-
-    // Update subtotal and total dynamically
-    cartSubtotal.textContent = subtotal.toFixed(2);
-    cartTotal.textContent = subtotal.toFixed(2);
-
-    // Create an array to store courseIds
-    var courseIds = [];
-
-    // Iterate through the cart items to extract courseIds
-    cart.forEach(function(item) {
-        courseIds.push(item.id);
-    });
-
-    // Set the 'cart' input field value to the JSON representation of the cart items
-    document.getElementById('cart').value = JSON.stringify(cart);
-
-    // Set the 'courseIds' input field value to the JSON representation of courseIds
-    document.getElementById('courseIds').value = JSON.stringify(courseIds);
-});
 </script>
 
 
