@@ -164,33 +164,33 @@ $allcourse = mysqli_query($con, $query);
                                 $bannerImage = $row["bannerImage"];
                                 // echo $bannerImage;
                                 ?>
-                        <li class="product" style="margin-right:2%;">
-                            <div class="product-wrap">
-                                <a href="course_single?course_id=<?= $id ?>">
-                                    <img src="uploads/images/<?= $bannerImage ?>" alt="">
-                                </a>
-                                <!-- <div class="product-btn-wrap">
+                                <li class="product" style="margin-right:2%;">
+                                    <div class="product-wrap">
+                                        <a href="course_single?course_id=<?= $id ?>">
+                                            <img src="uploads/images/<?= $bannerImage ?>" alt="">
+                                        </a>
+                                        <!-- <div class="product-btn-wrap">
                                     <div class="product-btn-wrap">
                                     </div>
                                 </div> -->
-                            </div>
-                            <div class="woocommerce-product-title-wrap">
-                                <h2 class="woocommerce-loop-product__title">
-                                    <a href="#">
-                                        <?= $coursename ?>
-                                    </a>
-                                </h2>
-                            </div>
-                            <span class="price">
-                                <ins>
-                                    <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">₹</span>
-                                        <?= $coursePrice ?>
+                                    </div>
+                                    <div class="woocommerce-product-title-wrap">
+                                        <h2 class="woocommerce-loop-product__title">
+                                            <a href="#">
+                                                <?= $coursename ?>
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <span class="price">
+                                        <ins>
+                                            <span class="woocommerce-Price-amount amount">
+                                                <span class="woocommerce-Price-currencySymbol">₹</span>
+                                                <?= $coursePrice ?>
+                                            </span>
+                                        </ins>
                                     </span>
-                                </ins>
-                            </span>
-                        </li>
-                        <?php
+                                </li>
+                                <?php
                             }
                         } else {
                             while ($row = mysqli_fetch_array($allcourse)) {
@@ -200,40 +200,40 @@ $allcourse = mysqli_query($con, $query);
                                 $courseDes = $row["courseDesc"];
                                 $bannerImage = $row["bannerImage"];
                                 ?>
-                        <li class="product" style="margin-right:2%;">
-                            <div class="product-wrap">
-                                <a href="course_single?course_id=<?= $id ?>">
-                                    <img src="uploads/images/<?= $bannerImage ?>" alt="">
-                                </a>
-                                <div class="product-btn-wrap">
-                                    <!-- <a href="#" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
+                                <li class="product" style="margin-right:2%;">
+                                    <div class="product-wrap">
+                                        <a href="course_single?course_id=<?= $id ?>">
+                                            <img src="uploads/images/<?= $bannerImage ?>" alt="">
+                                        </a>
+                                        <div class="product-btn-wrap">
+                                            <!-- <a href="#" class="button product_type_simple add_to_cart_button ajax_add_to_cart">
                                                 <i class="fa fa-shopping-basket"></i>
                                             </a> -->
-                                    <!-- <a href="#" class=""></a> -->
-                                    <a href="#" class="button add_to_wishlist_button" data-product-id="<?= $id ?>"
-                                        data-product-name="<?= $coursename ?>" data-product-price="<?= $coursePrice ?>"
-                                        data-product-image="<?= $bannerImage ?>">
-                                        <i class="fa fa-heart"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="woocommerce-product-title-wrap">
-                                <h2 class="woocommerce-loop-product__title">
-                                    <a href="#">
-                                        <?= $coursename ?>
-                                    </a>
-                                </h2>
-                            </div>
-                            <span class="price">
-                                <ins>
-                                    <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">₹</span>
-                                        <?= $coursePrice ?>
+                                            <!-- <a href="#" class=""></a> -->
+                                            <a href="#" class="button add_to_wishlist_button" data-product-id="<?= $id ?>"
+                                                data-product-name="<?= $coursename ?>" data-product-price="<?= $coursePrice ?>"
+                                                data-product-image="<?= $bannerImage ?>">
+                                                <i class="fa fa-heart"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="woocommerce-product-title-wrap">
+                                        <h2 class="woocommerce-loop-product__title">
+                                            <a href="#">
+                                                <?= $coursename ?>
+                                            </a>
+                                        </h2>
+                                    </div>
+                                    <span class="price">
+                                        <ins>
+                                            <span class="woocommerce-Price-amount amount">
+                                                <span class="woocommerce-Price-currencySymbol">₹</span>
+                                                <?= $coursePrice ?>
+                                            </span>
+                                        </ins>
                                     </span>
-                                </ins>
-                            </span>
-                        </li>
-                        <?php
+                                </li>
+                                <?php
                             }
                         }
                         ?>
@@ -242,12 +242,12 @@ $allcourse = mysqli_query($con, $query);
                     <nav class="woocommerce-pagination">
                         <ul class="page-numbers">
                             <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                            <li>
-                                <a class="page-numbers"
-                                    href="?page=<?php echo $i; ?><?php echo isset($_GET['subtopicId']) ? '&subtopicId=' . $_GET['subtopicId'] : ''; ?><?php echo isset($_GET['s']) ? '&s=' . $_GET['s'] : ''; ?><?php echo isset($_GET['orderby']) ? '&orderby=' . $_GET['orderby'] : ''; ?>">
-                                    <?php echo $i; ?>
-                                </a>
-                            </li>
+                                <li>
+                                    <a class="page-numbers"
+                                        href="?page=<?php echo $i; ?><?php echo isset($_GET['subtopicId']) ? '&subtopicId=' . $_GET['subtopicId'] : ''; ?><?php echo isset($_GET['s']) ? '&s=' . $_GET['s'] : ''; ?><?php echo isset($_GET['orderby']) ? '&orderby=' . $_GET['orderby'] : ''; ?>">
+                                        <?php echo $i; ?>
+                                    </a>
+                                </li>
                             <?php endfor; ?>
                         </ul>
                     </nav>
@@ -282,42 +282,42 @@ $allcourse = mysqli_query($con, $query);
                             <div class="accordion" id="accordionExample">
                                 <?php $index = 0; ?>
                                 <?php foreach ($fetch_list_topic_query as $row): ?>
-                                <div class="card">
-                                    <div class="card-header" id="heading<?= $index ?>">
-                                        <h2 class="mb-0">
-                                            <button class="btn-block text-left curriculmn-title-btn" type="button"
-                                                data-toggle="collapse" data-target="#collapse<?= $row['Id'] ?>">
-                                                <h4 class="curriculmn-title">
-                                                    <?= $row['topicName'] ?>
-                                                </h4>
-                                            </button>
-                                        </h2>
-                                    </div>
-                                    <div id="collapse<?= $row['Id'] ?>" class="collapse"
-                                        data-parent="#accordionExample">
-                                        <div class="course-lessons">
-                                            <?php foreach ($fetch_list_subtopic_query as $subtopic): ?>
-                                            <?php if ($subtopic['topicId'] == $row['Id']): ?>
-                                            <div class="single-course-lesson">
-                                                <div class="course-topic-lesson">
-                                                    <!-- <i class="fab fa-youtube"></i> -->
+                                    <div class="card">
+                                        <div class="card-header" id="heading<?= $index ?>">
+                                            <h2 class="mb-0">
+                                                <button class="btn-block text-left curriculmn-title-btn" type="button"
+                                                    data-toggle="collapse" data-target="#collapse<?= $row['Id'] ?>">
+                                                    <h4 class="curriculmn-title">
+                                                        <?= $row['topicName'] ?>
+                                                    </h4>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        <div id="collapse<?= $row['Id'] ?>" class="collapse"
+                                            data-parent="#accordionExample">
+                                            <div class="course-lessons">
+                                                <?php foreach ($fetch_list_subtopic_query as $subtopic): ?>
+                                                    <?php if ($subtopic['topicId'] == $row['Id']): ?>
+                                                        <div class="single-course-lesson">
+                                                            <div class="course-topic-lesson">
+                                                                <!-- <i class="fab fa-youtube"></i> -->
 
-                                                    <!-- <a href="<?= $subtopic['id']; ?>"><?= $subtopic['subTopicName'] . $subtopic['id'] ?></a> -->
-                                                    <!-- Change the subtopic link in your PHP code -->
-                                                    <a href="#" class="subtopic-link"
-                                                        data-subtopic-id="<?= $subtopic['id']; ?>">
-                                                        <?= $subtopic['subTopicName'] ?>
-                                                    </a>
+                                                                <!-- <a href="<?= $subtopic['id']; ?>"><?= $subtopic['subTopicName'] . $subtopic['id'] ?></a> -->
+                                                                <!-- Change the subtopic link in your PHP code -->
+                                                                <a href="#" class="subtopic-link"
+                                                                    data-subtopic-id="<?= $subtopic['id']; ?>">
+                                                                    <?= $subtopic['subTopicName'] ?>
+                                                                </a>
 
 
-                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>
                                             </div>
-                                            <?php endif; ?>
-                                            <?php endforeach; ?>
                                         </div>
                                     </div>
-                                </div>
-                                <?php $index++; ?>
+                                    <?php $index++; ?>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -340,68 +340,87 @@ $allcourse = mysqli_query($con, $query);
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-    // Add a click event to all elements with the class 'subtopic-link'
-    var subtopicLinks = $('.subtopic-link');
+    // Check if there is an order success session variable
+    <?php
+    // session_start();
+    if (isset($_SESSION['order_success']) && $_SESSION['order_success'] === true) {
+        echo 'Swal.fire({
+                title: "Order Placed Successfully!",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 5000
+            });
+               
+            ';
+        // Reset the session variable to avoid displaying the alert again on page refresh
+        unset($_SESSION['order_success']);
+        
+        echo 'localStorage.removeItem("cart");';
+        echo 'window.location.reload();';
+    }
+    ?>
+    $(document).ready(function () {
+        // Add a click event to all elements with the class 'subtopic-link'
+        var subtopicLinks = $('.subtopic-link');
 
-    subtopicLinks.on('click', function(event) {
-        event.preventDefault();
+        subtopicLinks.on('click', function (event) {
+            event.preventDefault();
 
-        // Get the subtopicId from the clicked element
-        var subtopicId = $(this).data('subtopicId');
+            // Get the subtopicId from the clicked element
+            var subtopicId = $(this).data('subtopicId');
 
-        // Update the URL and content
-        updateUrlAndContent(subtopicId);
-    });
+            // Update the URL and content
+            updateUrlAndContent(subtopicId);
+        });
 
-    var searchInput = $('.search-field');
-    searchInput.on('input', function() {
-        updateUrlAndContent();
-    });
+        var searchInput = $('.search-field');
+        searchInput.on('input', function () {
+            updateUrlAndContent();
+        });
 
-    var sortingSelect = $('.orderby');
-    sortingSelect.on('change', function() {
-        updateUrlAndContent();
-    });
+        var sortingSelect = $('.orderby');
+        sortingSelect.on('change', function () {
+            updateUrlAndContent();
+        });
 
-    function updateUrlAndContent(subtopicId) {
-        var searchTerm = searchInput.val().trim();
-        var selectedValue = sortingSelect.val();
+        function updateUrlAndContent(subtopicId) {
+            var searchTerm = searchInput.val().trim();
+            var selectedValue = sortingSelect.val();
 
-        // If subtopicId is provided, include it in the state object
-        var stateObj = {
-            s: searchTerm,
-            orderby: selectedValue
-        };
-        if (subtopicId) {
-            stateObj.subtopicId = subtopicId;
-        } else {
-            stateObj.subtopicId = '';
+            // If subtopicId is provided, include it in the state object
+            var stateObj = {
+                s: searchTerm,
+                orderby: selectedValue
+            };
+            if (subtopicId) {
+                stateObj.subtopicId = subtopicId;
+            } else {
+                stateObj.subtopicId = '';
+            }
+
+            // Update the URL with the new state
+            history.pushState(stateObj, '', '?' + $.param(stateObj));
+
+            // Update the content
+            updateContent();
         }
 
-        // Update the URL with the new state
-        history.pushState(stateObj, '', '?' + $.param(stateObj));
-
-        // Update the content
-        updateContent();
-    }
-
-    // Function to update the content without reloading
-    function updateContent() {
-        // Use AJAX to fetch and update the content based on the current URL
-        $.ajax({
-            url: window.location.href,
-            type: 'GET',
-            success: function(data) {
-                // Update the content of the relevant container (e.g., '.products')
-                $('.products').html($(data).find('.products').html());
-            },
-            error: function() {
-                alert('Error updating content');
-            }
-        });
-    }
-});
+        // Function to update the content without reloading
+        function updateContent() {
+            // Use AJAX to fetch and update the content based on the current URL
+            $.ajax({
+                url: window.location.href,
+                type: 'GET',
+                success: function (data) {
+                    // Update the content of the relevant container (e.g., '.products')
+                    $('.products').html($(data).find('.products').html());
+                },
+                error: function () {
+                    alert('Error updating content');
+                }
+            });
+        }
+    });
 </script>
 
 

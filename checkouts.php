@@ -69,6 +69,7 @@ include("includes/header.php");
                                                                         class="woocommerce-Price-currencySymbol">&#8377;
                                                                     </span><span id="cart-total"
                                                                         name="cart_total">0.00</span></span></strong>
+                                                                        <input type="hidden" name="ctotal" id="ctotal">
                                                         </td>
                                                     </tr>
                                                 </tfoot>
@@ -181,6 +182,7 @@ include("includes/header.php");
         var cartSubtotal = document.getElementById('cart-subtotal');
         var cartTotal = document.getElementById('cart-total');
 
+
         var subtotal = 0;
 
         // Iterate through the cart items and populate the cart details table
@@ -188,6 +190,7 @@ include("includes/header.php");
             var row = document.createElement('tr');
             var itemTotal = item.price * item.quantity;
             subtotal += itemTotal;
+            $('#ctotal').val(subtotal);
 
             row.innerHTML = `
             <td class="product-name">${item.name}<strong class="product-quantity">× ${item.quantity}</strong></td>

@@ -5,8 +5,8 @@ include("includes/header.php");
 $totalDurationInSeconds = 0;
 $fetch_chaepter_list = null;
 if (isset($_GET['course_id'])) {
-    $co_id = $_GET['course_id'];
-    $fetch_data = mysqli_query($con, "SELECT * FROM courses WHERE id = $co_id");
+    $course_id = $_GET['course_id'];
+    $fetch_data = mysqli_query($con, "SELECT * FROM courses WHERE id = $course_id");
     $fetch_chaepter_list = mysqli_query($con, "SELECT 
         topics.Id AS topic_id,
         topics.topicName,
@@ -27,7 +27,7 @@ if (isset($_GET['course_id'])) {
         JOIN
         chapters ON courses.id = chapters.courseId
         WHERE
-        chapters.courseId = $co_id AND
+        chapters.courseId = $course_id AND
         chapters.isActive = 1");
     if ($fetch_data && mysqli_num_rows($fetch_data) > 0) {
         $n = mysqli_fetch_array($fetch_data);
@@ -156,9 +156,9 @@ if (isset($_GET['course_id'])) {
                     <h3 class="single-course-title">
                         <?= $courseName; ?>
                     </h3>
-                    <!-- <?= 
-                    $CourseSummary
-                     ?> -->
+                    <!-- <?=
+                        $CourseSummary
+                        ?> -->
 
                     <div class="single-course-meta ">
                         <ul>
@@ -262,7 +262,7 @@ if (isset($_GET['course_id'])) {
                         // Loop through each row and fetch 'blog_id'
                         while ($row = mysqli_fetch_assoc($query_fetch_course_review)) {
                             $courseId = $row['courseId'];
-                            if ($courseId == $_GET['course_id']) {
+                            if ($courseId == $course_id) {
                                 // echo "Blog ID: $blog_id<br>";
                                 $review = $row['review'];
                                 $reviewer = $row['name'];
@@ -334,10 +334,11 @@ if (isset($_GET['course_id'])) {
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <input type="email" name="email" class="form-control"
-                                            value="<?= (!empty($email)) ? $email : "" ?>" placeholder="Enter your email">
+                                            value="<?= (!empty($email)) ? $email : "" ?>"
+                                            placeholder="Enter your email">
                                     </div>
                                 </div>
-                                <input type="hidden" name="course_id" value="<?= $_GET['course_id'] ?>"
+                                <input type="hidden" name="course_id" value="<?= $course_id; ?>"
                                     class="form-control">
                                 <input type="hidden" name="role"
                                     value="<?= (!empty($_SESSION['role'])) ? $_SESSION['role'] : "default studen"; ?>"
@@ -631,7 +632,9 @@ if (isset($_GET['course_id'])) {
     </div>
 </section>
 <script>
-    <!-- Add this script to your HTML -->
+
+    
+    
 
     document.addEventListener('DOMContentLoaded', function () {
         // Add click event listener to the "Add to Cart" button

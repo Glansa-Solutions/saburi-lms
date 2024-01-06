@@ -98,6 +98,7 @@ if (isset($_SESSION['role_id']) && isset($_SESSION['role'])) {
     <link rel="stylesheet" href="assets/css/ccr.css">
     <link rel="stylesheet" href="assets/css/responsive.css">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- <script src="./js/jquery-3.6.0.min.js"></script> -->
     <!-- Swal -->

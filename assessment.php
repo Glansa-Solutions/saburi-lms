@@ -16,7 +16,7 @@ $courseLogin = mysqli_fetch_array($fetch_course_login);
 $coursecontentId = $courseLogin['course_contentid'];
 $orderId = $courseLogin['orderid'];
 // print_r($coursecontentId);
-$fetch_order_wise_data = mysqli_query($con, "SELECT * FROM `chaptersassessmentorders` WHERE courseId =$courseId AND id >= $coursecontentId  LIMIT 2");
+$fetch_order_wise_data = mysqli_query($con, "SELECT * FROM chaptersassessmentorders WHERE courseId =$courseId AND id >= $coursecontentId  LIMIT 2");
 while ($data = mysqli_fetch_array($fetch_order_wise_data)) {
     $rows[] = $data;
 }
@@ -26,7 +26,7 @@ $typeId = $rows[0]['typeId'];
 $serialNumber = $rows[0]['serialNumber'];
 $nextId = isset($rows[1]['id']) ? $rows[1]['id'] : '';
 // ob_start();
-$fetch_assessment_data = mysqli_query($con,"SELECT * FROM assessment where id = $typeId");
+$fetch_assessment_data = mysqli_query($con, "SELECT * FROM assessment where id = $typeId");
 $fetch_assessment_number = mysqli_query($con, "SELECT count(*) AS count FROM assessment WHERE courseId = $courseId");
 $assessment_count = mysqli_fetch_array($fetch_assessment_number);
 // print_r($assessment_count);
@@ -111,14 +111,13 @@ if ($type === 'assessments') {
 </section> -->
 
 <section class="page-wrapper edutim-course-single">
-    <div class="row p-4">
+    <div class="row col-lg-10 p-4">
         <div class="container col-lg-8">
             <div class="course-single-header">
                 <span class="single-course-title">Course Name:
-                    <?= $course_list_data['courseName'] ?> 
+                    <?= $course_list_data['courseName'] ?>
                 </span>
-                <span class="single-course-title"
-                        id="courseName"></span><br /><br />
+                <span class="single-course-title" id="courseName"></span><br /><br />
                 <span class="course-title">Assessment Name:
                     <?= $assessment_data['assessmentName'] ?>
                 </span>
@@ -191,22 +190,26 @@ if ($type === 'assessments') {
                 ?>
                 <button type="submit" class="btn btn-warning" data-assessmentid="<?= $assessmentId ?>"
                     data-courseid="<?= $courseId ?>" data-userrole="<?= $userRole ?>" data-userid="<?= $user_id ?>"
-                    data-next-id="<?= $nextId ?>" data-orderid="<?= $orderId ?>" id="assessmentSubmit" >Submit</button>
+                    data-next-id="<?= $nextId ?>" data-orderid="<?= $orderId ?>" id="assessmentSubmit">Submit</button>
                 <button class="btn btn-danger">Cancel</button>
             </form>
             <div id="correctAnswersContainer" style="display: none;">
                 <h3>Correct Answers:</h3>
                 <ul id="correctAnswersList"></ul>
                 <?php
-                    if($nextId){
-                        
+                if ($nextId) {
+
                     ?>
-                    <button class="btn btn-saburi rounded-0" id="nextButton" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-next-id="<?= $nextId ?>">Next</button>
+                    <button class="btn btn-saburi rounded-0" id="nextButton" data-coursecontentid="<?= $coursecontentId ?>"
+                        data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password ?>"
+                        data-next-id="<?= $nextId ?>">Next</button>
                     <?php
-                    }else{?>
-                    <button class="btn btn-saburi rounded-0 finishClick" data-coursecontentid="<?= $coursecontentId ?>" data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password?>" data-orderid = "<?=$orderId ?>">Finish</button>
+                } else { ?>
+                    <button class="btn btn-saburi rounded-0 finishClick" data-coursecontentid="<?= $coursecontentId ?>"
+                        data-courseid="<?= $courseId ?>" data-username="<?= $userId ?>" data-password="<?= $password ?>"
+                        data-orderid="<?= $orderId ?>">Finish</button>
                     <?php
-                    }?>
+                } ?>
             </div>
         </div>
         <div class="col-lg-4">
@@ -218,7 +221,9 @@ if ($type === 'assessments') {
                         <li>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span><i class="bi bi-calendar"></i>Last Update :</span>
-                                <a href="#" class="d-inline-block date"><?= isset($course_list_data['modifiedOn']) ? $course_list_data['modifiedOn'] : $course_list_data['createdOn'] ?></a>
+                                <a href="#" class="d-inline-block date">
+                                    <?= isset($course_list_data['modifiedOn']) ? $course_list_data['modifiedOn'] : $course_list_data['createdOn'] ?>
+                                </a>
 
                             </div>
                         </li>
@@ -233,7 +238,9 @@ if ($type === 'assessments') {
                                 <span><i class="bi bi-paper"></i>Assessment :</span>
                                 <span>
                                     <span id="currentNoOfChapter"></span>/
-                                    <span id="noOfChapters"><?= $assessment_count['count']?></span>
+                                    <span id="noOfChapters">
+                                        <?= $assessment_count['count'] ?>
+                                    </span>
                                 </span>
                             </div>
                         </li>
@@ -284,12 +291,12 @@ if ($type === 'assessments') {
 
             if (Object.keys(selectedAnswers).length < totalQuestions) {
                 Swal.fire({
-                        icon: 'error',
-                        title: 'Please answer all questions before submitting.',
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                return; 
+                    icon: 'error',
+                    title: 'Please answer all questions before submitting.',
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                return;
             }
 
             $.each(selectedAnswers, function (questionNumber, selectedAnswer) {
@@ -312,7 +319,7 @@ if ($type === 'assessments') {
                     assessmentid: assessmentid,
                     totalScore: totalQuestions,
                     acquiredScore: score,
-                    orderId:orderId
+                    orderId: orderId
                 },
                 success: function (data) {
                     Swal.fire({
@@ -370,30 +377,30 @@ if ($type === 'assessments') {
             });
         })
 
-        $('.finishClick').on('click', function(){
-    var userName = $(this).data('username');
-    var pwd= $(this).data('password');
-    var courseId = $(this).data('courseid');
-    var orderId = $(this).data('orderid');
-    var courseContentId = $(this).data('coursecontentid');
-    console.log("ho");
-    $.ajax({
-        url:'./core/finishChapter.php',
-        type:'POST',
-        data:{
-            userName:userName,
-            pwd:pwd,
-            courseId:courseId,
-            courseContentId:courseContentId,
-            orderId:orderId,
-            'finishClick': true
-        },
-        success:function(data){
-            console.log(data);  
-            window.location.href = data;
-        }
-    });
-});
+        $('.finishClick').on('click', function () {
+            var userName = $(this).data('username');
+            var pwd = $(this).data('password');
+            var courseId = $(this).data('courseid');
+            var orderId = $(this).data('orderid');
+            var courseContentId = $(this).data('coursecontentid');
+            console.log("ho");
+            $.ajax({
+                url: './core/finishChapter.php',
+                type: 'POST',
+                data: {
+                    userName: userName,
+                    pwd: pwd,
+                    courseId: courseId,
+                    courseContentId: courseContentId,
+                    orderId: orderId,
+                    'finishClick': true
+                },
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = data;
+                }
+            });
+        });
 
     });
 </script>

@@ -55,7 +55,7 @@ if (isset($_SESSION['role_id'])) {
 
 <main class="site-main woocommerce single single-product page-wrapper">
     <!--shop category start-->
-    <section class="space-3">
+    <section class="space-3 w-100">
         <div class="container sm-center">
             <div class="row">
                 <div class="col-lg-12">
@@ -123,6 +123,12 @@ if (isset($_SESSION['role_id'])) {
                                                                     </div>
                                                                     <?php
                                                                 }
+                                                                ?>
+                                                                <div class="message">
+                                                                    <h3>No Courses are available</h3>
+                                                                    <p>Hurryup and Add products <a href="<?= $mainlink ?>courselist">Click Here</a> </p>
+                                                                </div>
+                                                                <?php
                                                             } else {
                                                                 echo "Query failed!";
                                                             }

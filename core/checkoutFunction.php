@@ -4,6 +4,7 @@ include("db_config.php");
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -13,11 +14,13 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
     $orderdate = date('Y-m-d H:i:s');
     $paymentstatus = 'paid';
     $paymentdetails = '';
-    $total = $_POST['total'];
-    $couponcode = $_POST['couponcode'];
+    $total = $_POST['ctotal'];
+    // $couponcode = $_POST['couponcode'];
     $discount = 0;
     $subscribedby = $_SESSION['role'];
     $subscriberid = $_SESSION['role_id'];
+    // echo $total;
+    // exit();
 
     $cart = $_POST['cart'];
     $cartArray = json_decode($cart, true);
@@ -118,8 +121,8 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
 
         $grandtotal = $total - $discount;
 
-        $insertOrderQuery = "INSERT INTO Orders (orderdate, subscribedby, subscriberid, paymentstatus, paymentdetails, total, couponcode, discount, grandtotal,createdOn)
-            VALUES ('$orderdate', '$subscribedby', '$subscriberid', '$paymentstatus', '$paymentdetails', '$total', '$couponcode', '$discount', '$grandtotal', NOW())";
+        $insertOrderQuery = "INSERT INTO Orders (orderdate, subscribedby, subscriberid, paymentstatus, paymentdetails, total, discount, grandtotal,createdOn)
+            VALUES ('$orderdate', '$subscribedby', '$subscriberid', '$paymentstatus', '$paymentdetails', '$total', '$discount', '$grandtotal', NOW())";
 
         if ($con->query($insertOrderQuery) === TRUE) {
             $orderId = $con->insert_id;
@@ -128,7 +131,7 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
                 $courseId = $item['id'];
                 $qty = $item['quantity'];
                 $rate = $item['price'];
-                $total_price =  $qty * $rate;
+                $total_price = $qty * $rate;
 
                 $insertOrderDetailsQuery = mysqli_query($con, "INSERT INTO orderdetails (orderId, courseId, quantity, price,totalPrice, createdOn) VALUES ($orderId, $courseId, $qty, $rate,$total_price,NOW())");
 
@@ -137,16 +140,9 @@ if (isset($_POST['woocommerce_checkout_place_order'])) {
                 }
             }
 
-            echo '<script>
-                Swal.fire({
-                    title: "Order Placed Successfully!",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 2000
-                }).then(() => {
-                    window.location.href = "../cart.php";
-                });
-            </script>';
+            $_SESSION['order_success'] = true;
+            header("location: $mainlink" . "courselist.php");
+            exit();
         } else {
             echo '<script>
                 Swal.fire({
